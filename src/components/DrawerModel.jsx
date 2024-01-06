@@ -6,7 +6,6 @@ import MuiAppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import List from "@mui/material/List";
 import CssBaseline from "@mui/material/CssBaseline";
-import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
@@ -14,44 +13,11 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import CategoryIcon from "@mui/icons-material/Category";
 import AccountBoxIcon from "@mui/icons-material/AccountBox";
-import ClientView from "../pages/Cliente";
 import Logo from "../image/logo.png";
 import LogoCom from "../image/logoCompleto.png";
-import { Avatar } from "@mui/material";
+import MenuAcordion from "../pages/MenuAcordion";
 
 const drawerWidth = 240;
-
-function stringToColor(string) {
-  let hash = 0;
-  let i;
-
-  /* eslint-disable no-bitwise */
-  for (i = 0; i < string.length; i += 1) {
-    hash = string.charCodeAt(i) + ((hash << 5) - hash);
-  }
-
-  let color = "#";
-
-  for (i = 0; i < 3; i += 1) {
-    const value = (hash >> (i * 8)) & 0xff;
-    color += `00${value.toString(16)}`.slice(-2);
-  }
-
-  return color;
-}
-
-function stringAvatar(name) {
-  return {
-    sx: {
-      bgcolor: stringToColor(name),
-      marginBottom: 2,
-      width: 35,
-      height: 35,
-      fontSize: "1em",
-    },
-    children: `${name.split(" ")[0][0]}${name.split(" ")[1][0]}`,
-  };
-}
 
 const openedMixin = (theme) => ({
   width: drawerWidth,
@@ -89,32 +55,6 @@ const LogoImage = styled("img")({
   marginRight: 5, // Ajusta el margen derecho según tus necesidades
 });
 
-const AppBar = styled(MuiAppBar, {
-  shouldForwardProp: (prop) => prop !== "open",
-})(({ theme, open }) => ({
-  height: 50,
-  marginBottom: 25,
-  zIndex: theme.zIndex.drawer,
-  transition: theme.transitions.create(["width"], {
-    easing: theme.transitions.easing.sharp,
-    duration: theme.transitions.duration.leavingScreen,
-  }),
-  ...(open && {
-    marginLeft: drawerWidth,
-    width: `calc(100% - ${drawerWidth}px)`,
-    transition: theme.transitions.create(["width"], {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-  }),
-}));
-
-const CenteredToolbar = styled(Toolbar)(({ theme }) => ({
-  justifyContent: "flex-end", // Alinea el contenido a la izquierda
-  width: "100%",
-  marginBottom: 55,
-}));
-
 const Drawer = styled(MuiDrawer, {
   shouldForwardProp: (prop) => prop !== "open",
 })(({ theme, open }) => ({
@@ -142,6 +82,12 @@ export default function DrawerModel() {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
   const [content, setContent] = useState("ClientView");
+
+  React.useEffect(() => {
+    // Establecer el contenido inicial al cargar la aplicación
+    setContent("MenuAcordion");
+  }, []); 
+
 
   const handleMouseEnter = () => {
     setOpen(true);
@@ -190,7 +136,7 @@ export default function DrawerModel() {
                 justifyContent: open ? "initial" : "center",
                 px: 2.5,
               }}
-              onClick={() => setContent("ClientView")}
+              onClick={() => setContent("MenuAcordion")}
             >
               <ListItemIcon
                 sx={{
@@ -201,7 +147,7 @@ export default function DrawerModel() {
               >
                 <AccountBoxIcon sx={{ color:"rgb(12,55,100)" }} />{" "}
               </ListItemIcon>
-              <ListItemText primary="Cliente" sx={{ opacity: open ? 1 : 0, color:"rgb(12,55,100)"}}  />
+              <ListItemText primary="MenuAcordion" sx={{ opacity: open ? 1 : 0, color:"rgb(12,55,100)"}}  />
             </ListItemButton>
 
             <ListItemButton
@@ -221,43 +167,15 @@ export default function DrawerModel() {
               >
                 <CategoryIcon sx={{ color:"rgb(12,55,100)" }} />{" "}
               </ListItemIcon>
-              <ListItemText primary="Items" sx={{ opacity: open ? 1 : 0 , color:"rgb(12,55,100)", fontStyle:"revert"}} />
+              <ListItemText primary="Items" sx={{ opacity: open ? 1 : 0 , color:"rgb(12,55,100)", fontStyle:""}} />
             </ListItemButton>
           </ListItem>
         </List>
       </Drawer>
 
-      <AppBar
-        position="fixed"
-        open={open}
-        style={{
-          backgroundColor: "rgb(255,255,255)",
-        }}
-      >
-        <Toolbar sx={{ justifyContent: "flex-end" }}>
-          <Avatar {...stringAvatar("Diego Delgado Quispe")} />
-          <div>
-            <Typography
-              fontSize={"1rem"}
-              marginBottom={4}
-              fontFamily={""}
-              sx={{
-                marginLeft: 1,
-                color: "rgb(12,55,100)",
-                marginTop: 2,
-                display: "block",
-              }}
-            >
-              Diego Delgado Quispe
-            </Typography>
-          </div>
-        </Toolbar>
-      </AppBar>
-
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
         <DrawerHeader />
-        {content === "ClientView" && <ClientView />}
-        {content === "Items" && <Items />}
+        {content === "MenuAcordion" && <MenuAcordion />}
       </Box>
     </Box>
   );

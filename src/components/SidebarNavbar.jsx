@@ -6,7 +6,6 @@ import Typography from "@mui/material/Typography";
 import { Avatar, Box } from "@mui/material";
 import { stringAvatar } from "../utils/utils"; // Import utility function
 import DrawerModel from "./DrawerModel";
-import Cliente from "../pages/Cliente";
 
 const AppBar = styled(MuiAppBar, {
   shouldForwardProp: (prop) => prop !== "open",
@@ -32,10 +31,30 @@ const AppBar = styled(MuiAppBar, {
 const SiderbarNavbar = ({ open }) => {
   return (
     <Box>
-      <AppBar position="fixed" open={open} style={{backgroundColor: "rgb(255,255,255)"}}>
+     <AppBar
+        position="fixed"
+        open={open}
+        style={{
+          backgroundColor: "rgb(255,255,255)",
+        }}
+      >
         <Toolbar sx={{ justifyContent: "flex-end" }}>
-          <Avatar {...stringAvatar("Kent Dodds")} />
-          <Typography fontSize={"1rem"} sx={{ marginLeft: 1, marginBottom:2, color: "rgb(12,55,100)"}} > Kent Dodds </Typography>
+          <Avatar {...stringAvatar("Diego Delgado Quispe")} />
+          <div>
+            <Typography
+              fontSize={"1rem"}
+              marginBottom={4}
+              fontFamily={""}
+              sx={{
+                marginLeft: 1,
+                color: "rgb(12,55,100)",
+                marginTop: 2,
+                display: "block",
+              }}
+            >
+              Diego Delgado Quispe
+            </Typography>
+          </div>
         </Toolbar>
       </AppBar>
       <DrawerModel />

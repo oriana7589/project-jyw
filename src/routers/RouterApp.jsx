@@ -1,7 +1,7 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
 import DrawerModel from "../components/DrawerModel";
-import ClientView from "../pages/Cliente";
+import ClientView from "../pages/MenuAcordion";
 import SidebarNavbar from "../components/SidebarNavbar";
 
 function RouterApp() {
