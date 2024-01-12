@@ -8,10 +8,35 @@ import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
+import TipoA from "./TipoA";
 
-const CustomTabsContainer = styled(Paper)({
-  height: "45px",
-});
+const CustomLeftTab = styled(Tab)(({ theme, selected }) => ({
+  color: selected
+    ? "rgb(255, 255, 255) !important"
+    : "rgb(255, 255, 255) !important",
+  backgroundColor: selected ? "rgba(12, 55, 100, 1)" : "rgb(12, 55, 100, 1)",
+}));
+
+const CustomClickableTab = styled(Tab)(({ theme, selected, clickable }) => ({
+  color: selected
+    ? "rgb(255, 255, 255) !important"
+    : clickable
+    ? "rgb(131, 131, 131) !important"
+    : "rgb(169, 169, 169) !important",
+  backgroundColor: selected
+    ? "rgba(255, 168, 0, 1)"
+    : clickable
+    ? "rgb(237, 237, 237)"
+    : "rgb(211, 211, 211)",
+  cursor: clickable ? "pointer" : "not-allowed",
+  "&:hover": {
+    backgroundColor: selected
+      ? "rgba(255, 168, 0, 1)"
+      : clickable
+      ? "rgb(237, 237, 237)"
+      : "rgb(211, 211, 211)",
+  },
+}));
 
 const CustomTabs = styled(Tabs)({
   "& .MuiTabs-indicator": {
@@ -19,16 +44,6 @@ const CustomTabs = styled(Tabs)({
   },
 });
 
-const CustomTab = styled(Tab)(({ theme, selected }) => ({
-  color: selected
-    ? "rgb(255, 255, 255) !important"
-    : "rgb(131, 131, 131) !important",
-  backgroundColor: selected ? "rgba(12, 55, 100, 1)" : "rgb(237, 237, 237)",
-  marginRight: "4px", // Establece la separación entre los tabs
-  "&:hover": {
-    backgroundColor: selected ? "rgba(12, 55, 100, 1)" : "rgb(237, 237, 237)",
-  },
-}));
 
 const Cliente = () => {
   const [tabValue, setTabValue] = useState(0);
@@ -42,17 +57,14 @@ const Cliente = () => {
       <CssBaseline />
       <Container
         maxWidth="false"
-        sx={{ bgcolor: "#ffffff", height: "78.67vh" }}
+        sx={{marginTop:"15px", bgcolor: "#ffffff", height: "13.5vh"}}
       >
         <Grid
-          container
-          spacing={1}
-          style={{ display: "flex", alignItems: "center" }}
-          // Alinea verticalmente al centro
+         container spacing={2} style={{  alignItems: 'center', marginBottom:1  }}
         >
           {/* Columna 1 */}
           <Grid item xs={5.2}>
-            <Paper elevation={0} sx={{ marginTop: 1 }}>
+            <Paper elevation={0} sx={{ marginBottom:20}}>
               <span style={{ fontSize: "0.7rem", color: "#000" }}>
                 <strong>RAZÓN SOCIAL:</strong>
               </span>{" "}
@@ -78,8 +90,8 @@ const Cliente = () => {
           </Grid>
 
           {/* Columna 2 */}
-          <Grid item xs={2.8}>
-            <Paper elevation={0} sx={{ marginTop: 1 }}>
+          <Grid item xs={2.8} >
+            <Paper elevation={0} sx={{ marginBottom:20}}>
               <span style={{ fontSize: "0.7rem", color: "#000" }}>
                 <strong>RUC:</strong>
               </span>{" "}
@@ -97,7 +109,7 @@ const Cliente = () => {
           </Grid>
 
           <Grid item xs={3}>
-            <Paper elevation={0} sx={{ overflow: "hidden" }}>
+            <Paper elevation={0} sx={{ overflow: "hidden", marginBottom:20}}>
               <strong style={{ fontSize: "0.7rem" }}>OBSERVACIONES:</strong>{" "}
               <p style={{ margin: 0, fontSize: "0.9rem" }}>
                 No se encontró distribuidora disponible para el despacho{" "}
@@ -107,13 +119,13 @@ const Cliente = () => {
           </Grid>
 
           {/* Botón de Validación */}
-          <Grid item xs={1}>
+          <Grid item xs={0}>
             <Paper elevation={0}>
               <IconButton
                 style={{
                   backgroundColor: "rgb(226, 52, 48)",
                   borderRadius: "0",
-                  marginTop: "23px",
+                  marginBottom:155,
                   width: "90px",
                   height: "40px",
                 }}
@@ -123,16 +135,18 @@ const Cliente = () => {
                 }}
               >
                 <Typography
-                  style={{ color: "rgb(255, 255, 255)", fontSize: "1.2rem" }}
+                  style={{ color: "rgb(255, 255, 255)", fontSize: "1rem" }}
                 >
-                  VALID
+                  VALIDAR
                 </Typography>
               </IconButton>
             </Paper>
           </Grid>
+        </Grid>
+      </Container>
 
-          <Grid item xs={12}>
-            <Paper elevation={0}>
+      <Grid item xs={12} sx={{}} >
+            <Paper elevation={0} >
               <CustomTabs
                 value={tabValue}
                 onChange={handleChangeTab}
@@ -140,21 +154,25 @@ const Cliente = () => {
                 textColor="primary"
                 variant="fullWidth"
               >
-                <CustomTab
+                <CustomLeftTab
                   label="TIPO A"
-                  style={{ minHeight: "25px", fontSize: "0.7rem" }}
+                  style={{ minHeight: "25px",marginRight:"4px", fontSize: "0.7rem" }}
                 />
-                <CustomTab
+
+                <CustomClickableTab
                   label="ULTIMAS COMPRAS"
-                  style={{ minHeight: "25px", fontSize: "0.7rem" }}
+                  style={{ minHeight: "25px",marginRight:"4px", fontSize: "0.7rem" }}
+                  clickable={true} // Puedes hacer clic en esta pestaña
                 />
-                <CustomTab
+                <CustomClickableTab
                   label="ITEMS MAS COMPRADOS"
-                  style={{ minHeight: "25px", fontSize: "0.7rem" }}
+                  style={{ minHeight: "25px",marginRight:"4px", fontSize: "0.7rem" }}
+                  clickable={true}
                 />
-                <CustomTab
+                <CustomClickableTab
                   label="CREDITOS Y COBRANZAS"
                   style={{ minHeight: "25px", fontSize: "0.7rem" }}
+                  clickable={true}
                 />
               </CustomTabs>
             </Paper>
@@ -165,35 +183,25 @@ const Cliente = () => {
             <Paper elevation={0} sx={{}}>
               {/* Vista 1 */}
               {tabValue === 0 && (
-                <Typography>
-                  Contenido de la Vista 1. Puedes colocar tu información aquí.
-                </Typography>
+                <TipoA/>
               )}
 
               {/* Vista 2 */}
               {tabValue === 1 && (
-                <Typography>
-                  Contenido de la Vista 2. Puedes colocar tu información aquí.
-                </Typography>
+                   <TipoA/>
               )}
 
               {/* Vista 3 */}
               {tabValue === 2 && (
-                <Typography>
-                  Contenido de la Vista 3. Puedes colocar tu información aquí.
-                </Typography>
+                   <TipoA/>
               )}
 
               {/* Vista 4 */}
               {tabValue === 3 && (
-                <Typography>
-                  Contenido de la Vista 4. Puedes colocar tu información aquí.
-                </Typography>
+                    <TipoA/>
               )}
             </Paper>
           </Grid>
-        </Grid>
-      </Container>
     </React.Fragment>
   );
 };

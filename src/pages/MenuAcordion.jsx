@@ -9,20 +9,24 @@ import IconButton from "@mui/material/IconButton";
 import SearchIcon from "@mui/icons-material/Search";
 import Items from "./items";
 import Cliente from "./Cliente";
+import DialogCliente from "../components/DialogCliente";
+import { useState, useEffect } from "react";
 
 const Accordion = styled((props) => (
   <MuiAccordion disableGutters elevation={0} square {...props} />
 ))(({ theme }) => ({
   backgroundColor:
     theme.palette.mode === "dark"
-      ? "rgba(255, 255, 255, .05)"
+      ? "rgba(12, 55, 100, 1)"
       : "rgba(12, 55, 100, 1)",
   flexDirection: "row-reverse",
   "& .MuiAccordionSummary-expandIconWrapper.Mui-expanded": {
     transform: "rotate(90deg)",
+    maxWidth: "100%",
+    
   },
   "& .MuiAccordionSummary-content": {
-    width: "100%"
+    maxWidth: "100%",
   },
 }));
 
@@ -30,15 +34,12 @@ const AccordionSummary = styled((props) => <MuiAccordionSummary {...props} />)(
   ({ theme }) => ({
     backgroundColor:
       theme.palette.mode === "dark"
-        ? "rgba(255, 255, 255, .05)"
+        ? "rgba(12, 55, 100, 1)"
         : "rgba(12, 55, 100, 1)",
     flexDirection: "row-reverse",
     borderBottom: "1px solid #65889D", // Agregar borde inferior
-    "& .MuiAccordionSummary-expandIconWrapper.Mui-expanded": {
-      transform: "rotate(90deg)",
-    },
     "& .MuiAccordionSummary-content": {
-      marginLeft: theme.spacing(1),
+      marginLeft: theme.spacing(1), 
     },
   })
 );
@@ -50,20 +51,42 @@ const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
 }));
 
 export default function MenuAcordion() {
-  const [expanded, setExpanded] = React.useState("panel1");
+  const [expanded, setExpanded] = useState("panel1");
+  const [dialogOpen, setDialogOpen] = useState(false);
+
+  useEffect(() => {
+    const handleOutsideClick = (event) => {
+      if (dialogOpen && event.target.closest(".MuiDialog-container") === null) {
+        setDialogOpen(false);
+      }
+    };
+
+    document.addEventListener("click", handleOutsideClick);
+
+    return () => {
+      document.removeEventListener("click", handleOutsideClick);
+    };
+  }, [dialogOpen]);
 
   const handleChange = (panel) => (event, newExpanded) => {
     setExpanded(newExpanded ? panel : null);
 
-    // Si se cierra un panel, expandir el otro
     if (!newExpanded) {
       setExpanded(panel === "panel1" ? "panel2" : "panel1");
     }
   };
 
+  const handleIconButtonClick = () => {
+    setDialogOpen(true);
+  };
+
+  const handleCloseDialog = () => {
+    setDialogOpen(false);
+  };
+  
   return (
-    <div style={{ marginTop: "-37px", marginLeft: "39.45px", width:"100%" }}>
-      <Accordion expanded={expanded === "panel1"} onChange={handleChange("panel1")}  >
+    <div style={{  width:"100%", marginLeft:"24.25px", marginTop:"-36.5px" }}>
+      <Accordion expanded={expanded === "panel1"} onChange={handleChange("panel1")} >
         <AccordionSummary aria-controls="panel1d-content" id="panel1d-header">
           <Typography style={{ color: "rgb(255,255,255)", fontSize: "1rem" , fontWeight: 'bold'}}> CLIENTE </Typography>
           <TextField
@@ -79,12 +102,12 @@ export default function MenuAcordion() {
               }, // Anula el radio de borde y ajusta el ancho a 35 unidades (caracteres)
             }}
             InputLabelProps={{ style: { color: "rgb(255,255,255)" } }}
-            style={{ marginLeft: "10px" }}
+            style={{ marginLeft: "10px"}}
             placeholder="Ruc o Razón"
           />
           <IconButton
             style={{
-              backgroundColor: "rgb(	255, 168, 0)",
+              backgroundColor: "rgb(255, 168, 0)",
               borderRadius: "0",
               marginLeft: "10px",
               width: "25px",
@@ -93,11 +116,13 @@ export default function MenuAcordion() {
             }}
             onClick={(event) => {
               event.stopPropagation(); // Evita la propagación del evento al acordeón
-              // Agrega aquí el código adicional que deseas ejecutar al hacer clic en el botón de búsqueda
+              handleIconButtonClick();
             }}
           >
             <SearchIcon style={{ color: "rgb(255, 255, 255)" }} />
+           
           </IconButton>
+       
         </AccordionSummary>
         <AccordionDetails>
            <Cliente />
@@ -188,6 +213,7 @@ export default function MenuAcordion() {
           <Items />
         </AccordionDetails>
       </Accordion>
+      <DialogCliente open={dialogOpen} handleClose={handleCloseDialog} onBackdropClick={handleCloseDialog} />
     </div>
   );
 }

@@ -8,7 +8,7 @@ export default function Items() {
     <React.Fragment>
       <CssBaseline />
       <Container maxWidth="false" sx={{ bgcolor: '#ffffff', width: '100%', height: '77.4vh' }}>
-        {/* Tu contenido iría aquí */}
+       
       </Container>
     </React.Fragment>
   );

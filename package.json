@@ -12,11 +12,20 @@
   "dependencies": {
     "@emotion/react": "^11.11.3",
     "@emotion/styled": "^11.11.0",
-    "@mui/icons-material": "^5.15.3",
-    "@mui/material": "^5.15.3",
+    "@mui/icons-material": "^5.15.4",
+    "@mui/material": "^5.15.4",
+    "@mui/x-date-pickers": "^6.19.0",
+    "add": "^2.0.6",
+    "chart.js": "3",
+    "faker": "^6.6.6",
+    "material-react-table": "^2.5.2",
     "react": "^18.2.0",
+    "react-chartjs-2": "^5.2.0",
+    "react-datepicker": "^4.25.0",
     "react-dom": "^18.2.0",
-    "react-router-dom": "^6.21.1"
+    "react-router-dom": "^6.21.1",
+    "recharts": "^2.10.4",
+    "yarn": "^1.22.21"
   },
   "devDependencies": {
     "@types/react": "^18.2.43",
