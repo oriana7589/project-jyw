@@ -85,7 +85,7 @@ export default function MenuAcordion() {
   };
   
   return (
-    <div style={{  width:"100%", marginLeft:"24.25px", marginTop:"-36.5px" }}>
+    <div style={{  width:"100%", marginLeft:"24.25px",height:"100%", marginTop:"-36.5px" }}>
       <Accordion expanded={expanded === "panel1"} onChange={handleChange("panel1")} >
         <AccordionSummary aria-controls="panel1d-content" id="panel1d-header">
           <Typography style={{ color: "rgb(255,255,255)", fontSize: "1rem" , fontWeight: 'bold'}}> CLIENTE </Typography>
