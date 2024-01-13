@@ -66,7 +66,7 @@ export default function TipoA() {
             display: "flex",
             justifyContent: "space-between",
             bgcolor: "#ffffff",
-            height: "59.9vh",
+            height: "calc(100vh - 20.rem)",
           }}
         >
           <div style={{ flex: 1.6 }}>

@@ -10,7 +10,7 @@ import DrawerModel from "./DrawerModel";
 const AppBar = styled(MuiAppBar, {
   shouldForwardProp: (prop) => prop !== "open",
 })(({ theme, open }) => ({
-  height: 50,
+  height: "3rem",
   marginBottom: 25,
   zIndex: theme.zIndex.drawer,
   transition: theme.transitions.create(["width"], {

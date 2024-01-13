@@ -35,6 +35,7 @@ const TuComponente = () => {
             backgroundColor: expandedPanels.includes(1)
               ? "rgb(12, 55, 100)"
               : "rgb(12, 55, 100)",
+            height: "3.5rem",
           }}
         >
           <IconButton aria-label="add to favorites">
@@ -57,7 +58,6 @@ const TuComponente = () => {
         sx={{
           marginLeft: "55px",
           borderRadius: 0,
-          marginTop: expandedPanels.includes(1) ? "0px" : 0, // Ajusta el margen superior si el primer card está expandido
         }}
       >
         <CardActions

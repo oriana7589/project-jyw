@@ -59,13 +59,14 @@ const Cliente = () => {
         sx={{
           bgcolor: "#ffffff",
           display: "flex",
+          height: "7rem",
         }}
       >
-       <Box
-      sx={{
-        display: "flex"
-      }}
-    >
+      <Box
+        sx={{
+          display: "flex"
+        }}
+      >
       <Paper elevation={0} style={{ flex: "1.5" }}>
         <div>
           <strong>RAZÓN SOCIAL:</strong> jyw repuestos sac
@@ -119,6 +120,7 @@ const Cliente = () => {
         </Paper>
         </Box>
       </Container>
+      <Container sx={{ height: '3.5rem'}}>
           <CustomTabs
             value={tabValue}
             onChange={handleChangeTab}
@@ -159,7 +161,7 @@ const Cliente = () => {
               clickable={true}
             />
           </CustomTabs>
-      
+      </Container>
       {/* Contenido de las vistas */}
     
         <Paper elevation={0} sx={{}}>

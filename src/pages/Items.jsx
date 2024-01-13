@@ -7,7 +7,7 @@ export default function Items() {
   return (
     <React.Fragment>
       <CssBaseline />
-      <Container maxWidth="false" sx={{ bgcolor: '#ffffff', width: '100%', height: '77.4vh' }}>
+      <Container maxWidth="false" sx={{ bgcolor: '#ffffff', width: '100%', height: '100vh' }}>
        
       </Container>
     </React.Fragment>
