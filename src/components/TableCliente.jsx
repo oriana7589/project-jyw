@@ -12,6 +12,14 @@ const data = [
   { fecha: '2024-01-01', monto: 100, factura: 'A001' },
   { fecha: '2024-01-01', monto: 100, factura: 'A001' },
   { fecha: '2024-01-01', monto: 100, factura: 'A001' },
+  { fecha: '2024-01-01', monto: 100, factura: 'A001' },
+  { fecha: '2024-01-01', monto: 100, factura: 'A001' },
+  { fecha: '2024-01-01', monto: 100, factura: 'A001' },
+  { fecha: '2024-01-01', monto: 100, factura: 'A001' },
+  { fecha: '2024-01-01', monto: 100, factura: 'A001' },
+  { fecha: '2024-01-01', monto: 100, factura: 'A001' },
+  { fecha: '2024-01-01', monto: 100, factura: 'A001' },
+  { fecha: '2024-01-01', monto: 100, factura: 'A001' },
 ];
 
 const TableComponent = () => {

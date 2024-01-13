@@ -63,7 +63,8 @@ const Cliente = () => {
       >
        <Box
       sx={{
-        display: "flex"
+        display: "flex",
+        marginTop:"10px"
       }}
     >
       <Paper elevation={0} style={{ flex: "1.5" }}>
