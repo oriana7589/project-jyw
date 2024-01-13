@@ -40,3 +40,8 @@
 .read-the-docs {
   color: #888;
 }
+
+.expandedContent {
+  height: 70vh; /* Establece la altura del 70% de la ventana gráfica */
+  overflow-y: auto; /* Añade un desplazamiento vertical si el contenido es más largo */
+}

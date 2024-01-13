@@ -24,6 +24,14 @@ const TuComponente = () => {
     });
   };
 
+  const calculateMarginTop = () => {
+    // Puedes ajustar el valor según tus necesidades
+    const cardHeight = 150; // Altura estimada del card
+    const screenHeight = window.innerHeight;
+    const marginTop = expandedPanels.includes(1) ? screenHeight - cardHeight : 0;
+    return marginTop + "px";
+  };
+
   return (
     <Paper elevation={0}>
       {/* Card Arriba */}
@@ -46,7 +54,7 @@ const TuComponente = () => {
         </CardActions>
         <Collapse in={expandedPanels.includes(1)} timeout="auto" unmountOnExit>
           {/* Contenido del primer card (Cliente) */}
-          <Cliente  />
+          <Cliente />
         </Collapse>
       </Card>
       <Divider />
@@ -57,7 +65,7 @@ const TuComponente = () => {
         sx={{
           marginLeft: "55px",
           borderRadius: 0,
-          marginTop:0
+         marginTop: expandedPanels.includes(1) ? "0.5px" : 0, // Ajusta el margen superior si el primer card está expandido
         }}
       >
         <CardActions
