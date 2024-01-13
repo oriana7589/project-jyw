@@ -8,6 +8,7 @@ import CircleIcon from "@mui/icons-material/Circle";
 import es from "date-fns/locale/es";
 import TableCliente from "../components/TableCliente";
 import ChartCliente from "../components/chartCliente";
+import { Box, Paper } from "@mui/material";
 
 export default function TipoA() {
     const [selectedDate1, setSelectedDate1] = useState(new Date());
@@ -61,7 +62,7 @@ export default function TipoA() {
       <React.Fragment>
         <CssBaseline />
         <Container
-          maxWidth="false"
+         maxWidth="xl"
           sx={{
             display: "flex",
             justifyContent: "space-between",
@@ -69,8 +70,7 @@ export default function TipoA() {
             height: "59.9vh",
           }}
         >
-          <div style={{ flex: 1.6 }}>
-            <div style={{ display: "flex", alignItems: "center" }}>
+          <Paper elevation={0}  style={{ flex: 6 }}>
               <CircleIcon style={{ marginRight: "2px", color: "rgb(12, 55, 100)" }} />
               <DatePicker
                 ref={datePickerRef}
@@ -87,12 +87,11 @@ export default function TipoA() {
                 onClick={openCalendar1}
                 style={{ cursor: "pointer", marginLeft: "8px" }}
               />
-            </div>
             <ChartCliente />
-          </div>
-          <div style={{ flex: 1 }}>
-            <TableCliente />
-          </div>
+          </Paper>
+          <Paper elevation={0} style={{ overflow: 'auto' }}>
+            <TableCliente/>
+          </Paper>
         </Container>
       </React.Fragment>
     );

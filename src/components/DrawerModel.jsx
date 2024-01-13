@@ -46,7 +46,6 @@ const DrawerHeader = styled("div")(({ theme, open }) => ({
   justifyContent: open ? "flex-start" : "flex-end", // Ajusta la alineación según si está abierto o cerrado
   padding: theme.spacing(0, 1),
   ...theme.mixins.toolbar,
-  width: "100%",
 }));
 
 const LogoImage = styled("img")({
@@ -173,7 +172,7 @@ export default function DrawerModel() {
         </List>
       </Drawer>
 
-      <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
+      <Box component="main" sx={{ flexGrow: 1, marginTop:"-12.5px" }}>
         <DrawerHeader />
         {content === "MenuAcordion" && <MenuAcordion />}
       </Box>
