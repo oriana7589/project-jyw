@@ -69,7 +69,7 @@ export default class ChartCliente extends PureComponent {
 
   render() {
     return (
-      <ResponsiveContainer width="100%" height="100%">
+      <ResponsiveContainer width="100%" height="100%" >
         <BarChart
           width={300}
           height={100}
@@ -82,16 +82,20 @@ export default class ChartCliente extends PureComponent {
           }}
         >
           <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="name" angle={-45} interval={0} textAnchor="end" />
-          <YAxis />
+          <XAxis dataKey="name" angle={-45} interval={0} textAnchor="end" fontSize={"0.8rem"} />
+          <YAxis fontSize={"0.8rem"}/>
           <Tooltip />
-          <Legend layout="horizontal" verticalAlign="top" align="center" />
-        
           <Bar
             dataKey="Monto"
             fill="rgb(12, 55, 100)"
             activeBar={<Rectangle fill="rgb(12, 55, 100)" stroke="rgb(12, 55, 100" />}
           />
+          <Bar
+          dataKey="Monto"
+          fill="rgb(255, 168, 0)"
+          activeBar={<Rectangle fill="rgb(255, 168, 0)" stroke="rgb(255, 168, 0" />}
+          />           
+          
         </BarChart>
       </ResponsiveContainer>
     );

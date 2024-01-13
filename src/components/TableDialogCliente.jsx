@@ -127,7 +127,7 @@ const data = [
 ];
 
 const TableComponent = () => {
-    const itemsPerPage = 25;
+    const itemsPerPage = 14;
     const [currentPage, setCurrentPage] = useState(1);
     const [selectedRow, setSelectedRow] = useState(null); // Nuevo estado
   

@@ -7,8 +7,8 @@ import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
-import TipoA from "./TipoA";
 import Box from "@mui/material/Box";
+import TipoA from "./TipoA";
 
 const CustomLeftTab = styled(Tab)(({ theme, selected }) => ({
   color: selected
@@ -38,6 +38,21 @@ const CustomClickableTab = styled(Tab)(({ theme, selected, clickable }) => ({
   },
 }));
 
+const PestañaContenido = ({ value }) => {
+  switch (value) {
+    case 0:
+      return <TipoA />;
+    case 1:
+      return <TipoA />;
+    case 2:
+      return <TipoA />;
+    case 3:
+      return <TipoA />;
+    default:
+      return null;
+  }
+};
+
 const CustomTabs = styled(Tabs)({
   "& .MuiTabs-indicator": {
     backgroundColor: "transparent",
@@ -59,124 +74,125 @@ const Cliente = () => {
         sx={{
           bgcolor: "#ffffff",
           display: "flex",
-          height: "7rem",
+          flexDirection: "column",
         }}
       >
-      <Box
-        sx={{
-          display: "flex"
-        }}
-      >
-      <Paper elevation={0} style={{ flex: "1.5" }}>
-        <div>
-          <strong>RAZÓN SOCIAL:</strong> jyw repuestos sac
-        </div>
-        <div>
-          <strong>DIRECCIÓN FISCAL:</strong> av nicolas arriola 1435, la
-          vistoria, lima, perú
-        </div>
-        <div>
-          <strong>EMAIL:</strong> jacostaloren@gmail.com
-        </div>
-      </Paper>
-      <Paper elevation={0} style={{ flex: "1", marginRight: "8px" }}>
-        <div>
-          <strong>RUC:</strong> 20203650729
-        </div>
-        <div>
-          <strong>WHATSSAP:</strong> 98113121
-        </div>
-        <div>
-          <strong>TELÉFONO:</strong> 014735966 - 014738822
-        </div>
-      </Paper>
-      <Paper elevation={0} style={{ flex: "1", marginRight: "8px" }}>
-        <div>
-          <strong>OBSERVACIONES:</strong> No se encontraron observaciones para
-          este RUC. Volver a preguntar en la siguiente.
-        </div>
-      </Paper>
-
-        <Paper elevation={0}>
-          <IconButton
-            style={{
-              backgroundColor: "rgb(226, 52, 48)",
-              borderRadius: "0",
-              marginBottom: 55,
-              width: "90px",
-              height: "40px",
-            }}
-            onClick={(event) => {
-              event.stopPropagation();
-              // Agrega aquí el código adicional que deseas ejecutar al hacer clic en el botón de búsqueda
+        <Container maxWidth="xl">
+          <Box
+            sx={{
+              display: "flex",
             }}
           >
-            <Typography
-              style={{ color: "rgb(255, 255, 255)", fontSize: "1rem" }}
+            <Paper elevation={0} style={{ flex: "1.5", marginTop: "5px" }}>
+              <div>
+                <strong>RAZÓN SOCIAL:</strong> jyw repuestos sac
+              </div>
+              <div>
+                <strong>DIRECCIÓN FISCAL:</strong> av nicolas arriola 1435, la
+                vistoria, lima, perú
+              </div>
+              <div>
+                <strong>EMAIL:</strong> jacostaloren@gmail.com
+              </div>
+            </Paper>
+            <Paper elevation={0} style={{ flex: "1", marginTop: "5px" }}>
+              <div>
+                <strong>RUC:</strong> 20203650729
+              </div>
+              <div>
+                <strong>WHATSSAP:</strong> 98113121
+              </div>
+              <div>
+                <strong>TELÉFONO:</strong> 014735966 - 014738822
+              </div>
+            </Paper>
+            <Paper
+              elevation={0}
+              style={{ flex: "1", marginRight: "8px", marginTop: "5px" }}
             >
-              VALIDAR
-            </Typography>
-          </IconButton>
-        </Paper>
-        </Box>
+              <div>
+                <strong>OBSERVACIONES:</strong> No se encontraron observaciones
+                para este RUC.
+              </div>
+            </Paper>
+
+            <Paper
+              elevation={0}
+              style={{ marginRight: "8px", marginTop: "15px" }}
+            >
+              <IconButton
+                style={{
+                  backgroundColor: "rgb(226, 52, 48)",
+                  borderRadius: "0",
+                  width: "90px",
+                  height: "40px",
+                }}
+                onClick={(event) => {
+                  event.stopPropagation();
+                  // Agrega aquí el código adicional que deseas ejecutar al hacer clic en el botón de búsqueda
+                }}
+              >
+                <Typography
+                  style={{ color: "rgb(255, 255, 255)", fontSize: "1rem" }}
+                >
+                  VALIDAR
+                </Typography>
+              </IconButton>
+            </Paper>
+          </Box>
+        </Container>
       </Container>
-      <Container sx={{ height: '3.5rem'}}>
-          <CustomTabs
-            value={tabValue}
-            onChange={handleChangeTab}
-            indicatorColor="primary"
-            textColor="primary"
-            variant="fullWidth"
+      <Box
+            sx={{
+              width: "100%",
+              display: "flex",
+              flexDirection: "column",
+              marginTop: "5px",
+            }}
           >
-            <CustomLeftTab
-              label="TIPO A"
-              style={{
-                minHeight: "25px",
-                marginRight: "4px",
-                fontSize: "0.7rem",
-              }}
-            />
+            <CustomTabs
+              value={tabValue}
+              onChange={handleChangeTab}
+              indicatorColor="primary"
+              textColor="primary"
+              variant="fullWidth"
+            >
+              <CustomLeftTab
+                label="TIPO A"
+                style={{
+                  minHeight: "25px",
+                  marginRight: "4px",
+                  fontSize: "0.7rem",
+                }}
+              />
 
-            <CustomClickableTab
-              label="ULTIMAS COMPRAS"
-              style={{
-                minHeight: "25px",
-                marginRight: "4px",
-                fontSize: "0.7rem",
-              }}
-              clickable={true} // Puedes hacer clic en esta pestaña
-            />
-            <CustomClickableTab
-              label="ITEMS MAS COMPRADOS"
-              style={{
-                minHeight: "25px",
-                marginRight: "4px",
-                fontSize: "0.7rem",
-              }}
-              clickable={true}
-            />
-            <CustomClickableTab
-              label="CREDITOS Y COBRANZAS"
-              style={{ minHeight: "25px", fontSize: "0.7rem" }}
-              clickable={true}
-            />
-          </CustomTabs>
-      </Container>
-      {/* Contenido de las vistas */}
-    
-        <Paper elevation={0} sx={{}}>
-          {/* Vista 1 */}
-          {tabValue === 0 && <TipoA />}
-
-          {/* Vista 2 */}
-          {tabValue === 1 && <TipoA />}
-
-          {/* Vista 3 */}
-          {tabValue === 2 && <TipoA />}
-
-          {/* Vista 4 */}
-          {tabValue === 3 && <TipoA />}
-        </Paper>
+              <CustomClickableTab
+                label="ULTIMAS COMPRAS"
+                style={{
+                  minHeight: "25px",
+                  marginRight: "4px",
+                  fontSize: "0.7rem",
+                }}
+                clickable="true" // Puedes hacer clic en esta pestaña
+              />
+              <CustomClickableTab
+                label="ITEMS MAS COMPRADOS"
+                style={{
+                  minHeight: "25px",
+                  marginRight: "4px",
+                  fontSize: "0.7rem",
+                }}
+                clickable="true"
+              />
+              <CustomClickableTab
+                label="CREDITOS Y COBRANZAS"
+                style={{ minHeight: "25px", fontSize: "0.7rem" }}
+                clickable="true"
+              />
+            </CustomTabs>
+            <PestañaContenido value={tabValue} />
+          </Box>
+     
     </React.Fragment>
   );
 };
