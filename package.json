@@ -16,6 +16,7 @@
     "@mui/material": "^5.15.4",
     "@mui/x-date-pickers": "^6.19.0",
     "add": "^2.0.6",
+    "axios": "^1.6.5",
     "chart.js": "3",
     "faker": "^6.6.6",
     "material-react-table": "^2.5.2",

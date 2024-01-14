@@ -1,146 +1,147 @@
 import { Button } from "@mui/material";
 import React, { useState } from "react";
 
-const data = [
-  {
-    tipoDocumento: "CI",
-    documento: "123456",
-    razonSocial: "Empresa ABC",
-    direccion: "Calle 123",
-  },
-  {
-    tipoDocumento: "RUC",
-    documento: "789012",
-    razonSocial: "Empresa XYZ",
-    direccion: "Avenida 456",
-  },
-  {
-    tipoDocumento: "CI",
-    documento: "123456",
-    razonSocial: "Empresa ABC",
-    direccion: "Calle 123",
-  },
-  {
-    tipoDocumento: "RUC",
-    documento: "789012",
-    razonSocial: "Empresa XYZ",
-    direccion: "Avenida 456",
-  },
-  {
-    tipoDocumento: "CI",
-    documento: "123456",
-    razonSocial: "Empresa ABC",
-    direccion: "Calle 123",
-  },
-  {
-    tipoDocumento: "RUC",
-    documento: "789012",
-    razonSocial: "Empresa XYZ",
-    direccion: "Avenida 456",
-  },
-  {
-    tipoDocumento: "CI",
-    documento: "123456",
-    razonSocial: "Empresa ABC",
-    direccion: "Calle 123",
-  },
-  {
-    tipoDocumento: "RUC",
-    documento: "789012",
-    razonSocial: "Empresa XYZ",
-    direccion: "Avenida 456",
-  },
-  {
-    tipoDocumento: "CI",
-    documento: "123456",
-    razonSocial: "Empresa ABC",
-    direccion: "Calle 123",
-  },
-  {
-    tipoDocumento: "RUC",
-    documento: "789012",
-    razonSocial: "Empresa XYZ",
-    direccion: "Avenida 456",
-  },
-  {
-    tipoDocumento: "CI",
-    documento: "123456",
-    razonSocial: "Empresa ABC",
-    direccion: "Calle 123",
-  },
-  {
-    tipoDocumento: "RUC",
-    documento: "789012",
-    razonSocial: "Empresa XYZ",
-    direccion: "Avenida 456",
-  },
-  {
-    tipoDocumento: "CI",
-    documento: "123456",
-    razonSocial: "Empresa ABC",
-    direccion: "Calle 123",
-  },
-  {
-    tipoDocumento: "RUC",
-    documento: "789012",
-    razonSocial: "Empresa XYZ",
-    direccion: "Avenida 456",
-  },
-  {
-    tipoDocumento: "CI",
-    documento: "123456",
-    razonSocial: "Empresa ABC",
-    direccion: "Calle 123",
-  },
-  {
-    tipoDocumento: "RUC",
-    documento: "789012",
-    razonSocial: "Empresa XYZ",
-    direccion: "Avenida 456",
-  },
-  {
-    tipoDocumento: "CI",
-    documento: "123456",
-    razonSocial: "Empresa ABC",
-    direccion: "Calle 123",
-  },
-  {
-    tipoDocumento: "RUC",
-    documento: "789012",
-    razonSocial: "Empresa XYZ",
-    direccion: "Avenida 456",
-  },
-  {
-    tipoDocumento: "CI",
-    documento: "123456",
-    razonSocial: "Empresa ABC",
-    direccion: "Calle 123",
-  },
-  {
-    tipoDocumento: "RUC",
-    documento: "789012",
-    razonSocial: "Empresa XYZ",
-    direccion: "Avenida 456",
-  },
+// const data = [
+//   {
+//     tipoDocumento: "CI",
+//     documento: "123456",
+//     razonSocial: "Empresa ABC",
+//     direccion: "Calle 123",
+//   },
+//   {
+//     tipoDocumento: "RUC",
+//     documento: "789012",
+//     razonSocial: "Empresa XYZ",
+//     direccion: "Avenida 456",
+//   },
+//   {
+//     tipoDocumento: "CI",
+//     documento: "123456",
+//     razonSocial: "Empresa ABC",
+//     direccion: "Calle 123",
+//   },
+//   {
+//     tipoDocumento: "RUC",
+//     documento: "789012",
+//     razonSocial: "Empresa XYZ",
+//     direccion: "Avenida 456",
+//   },
+//   {
+//     tipoDocumento: "CI",
+//     documento: "123456",
+//     razonSocial: "Empresa ABC",
+//     direccion: "Calle 123",
+//   },
+//   {
+//     tipoDocumento: "RUC",
+//     documento: "789012",
+//     razonSocial: "Empresa XYZ",
+//     direccion: "Avenida 456",
+//   },
+//   {
+//     tipoDocumento: "CI",
+//     documento: "123456",
+//     razonSocial: "Empresa ABC",
+//     direccion: "Calle 123",
+//   },
+//   {
+//     tipoDocumento: "RUC",
+//     documento: "789012",
+//     razonSocial: "Empresa XYZ",
+//     direccion: "Avenida 456",
+//   },
+//   {
+//     tipoDocumento: "CI",
+//     documento: "123456",
+//     razonSocial: "Empresa ABC",
+//     direccion: "Calle 123",
+//   },
+//   {
+//     tipoDocumento: "RUC",
+//     documento: "789012",
+//     razonSocial: "Empresa XYZ",
+//     direccion: "Avenida 456",
+//   },
+//   {
+//     tipoDocumento: "CI",
+//     documento: "123456",
+//     razonSocial: "Empresa ABC",
+//     direccion: "Calle 123",
+//   },
+//   {
+//     tipoDocumento: "RUC",
+//     documento: "789012",
+//     razonSocial: "Empresa XYZ",
+//     direccion: "Avenida 456",
+//   },
+//   {
+//     tipoDocumento: "CI",
+//     documento: "123456",
+//     razonSocial: "Empresa ABC",
+//     direccion: "Calle 123",
+//   },
+//   {
+//     tipoDocumento: "RUC",
+//     documento: "789012",
+//     razonSocial: "Empresa XYZ",
+//     direccion: "Avenida 456",
+//   },
+//   {
+//     tipoDocumento: "CI",
+//     documento: "123456",
+//     razonSocial: "Empresa ABC",
+//     direccion: "Calle 123",
+//   },
+//   {
+//     tipoDocumento: "RUC",
+//     documento: "789012",
+//     razonSocial: "Empresa XYZ",
+//     direccion: "Avenida 456",
+//   },
+//   {
+//     tipoDocumento: "CI",
+//     documento: "123456",
+//     razonSocial: "Empresa ABC",
+//     direccion: "Calle 123",
+//   },
+//   {
+//     tipoDocumento: "RUC",
+//     documento: "789012",
+//     razonSocial: "Empresa XYZ",
+//     direccion: "Avenida 456",
+//   },
+//   {
+//     tipoDocumento: "CI",
+//     documento: "123456",
+//     razonSocial: "Empresa ABC",
+//     direccion: "Calle 123",
+//   },
+//   {
+//     tipoDocumento: "RUC",
+//     documento: "789012",
+//     razonSocial: "Empresa XYZ",
+//     direccion: "Avenida 456",
+//   },
 
-  // ... (otros datos)
-];
+//   // ... (otros datos)
+// ];
 
-const TableComponent = () => {
+const TableComponent = ({clientes, onClientSelect}) => {
     const itemsPerPage = 14;
     const [currentPage, setCurrentPage] = useState(1);
     const [selectedRow, setSelectedRow] = useState(null); // Nuevo estado
   
-    const totalCount = data.length;
+    const totalCount = clientes.length;
   
     const startIndex = (currentPage - 1) * itemsPerPage;
     const endIndex = startIndex + itemsPerPage;
   
-    const currentData = data.slice(startIndex, endIndex);
-  
-    const handleRowClick = (index) => {
+    const currentData = clientes.slice(startIndex, endIndex);
+
+    const handleRowDoubleClick = (datosCliente) => {
       // Actualiza el estado con el índice de la fila clickeada
-      setSelectedRow(index);
+      //setSelectedRow(datosCliente);
+      onClientSelect(datosCliente);
     };
   
     return (
@@ -218,15 +219,15 @@ const TableComponent = () => {
             </tr>
             </thead>
             <tbody>
-              {currentData.map((item, index) => (
+              {clientes.map((item, index) => (
                 <tr
                   key={index}
                   style={{
                     cursor: "pointer",
                     backgroundColor:
                       selectedRow === startIndex + index + 1 ? "yellow" : "white", // Aplica el color de fondo condicional
-                  }}
-                  onClick={() => handleRowClick(startIndex + index + 1)}
+                  }}                  
+                  onDoubleClick={() => handleRowDoubleClick(item)}
                 >
                   <td style={{ textAlign: "left", border: "1px solid black" }}>
                     {startIndex + index + 1}
@@ -248,7 +249,7 @@ const TableComponent = () => {
                     fontSize: "0.9rem",
                   }}
                 >
-                  {item.documento}
+                  {item.numDocumento}
                 </td>
                 <td
                   style={{
@@ -315,12 +316,12 @@ const TableComponent = () => {
               setCurrentPage(
                 Math.min(
                   currentPage + 1,
-                  Math.ceil(data.length / itemsPerPage)
+                  Math.ceil(clientes.length / itemsPerPage)
                 )
               );
               setSelectedRow(null); // Limpiar la fila seleccionada al cambiar de página
             }}
-            disabled={currentPage === Math.ceil(data.length / itemsPerPage)}
+            disabled={currentPage === Math.ceil(clientes.length / itemsPerPage)}
           >
             Siguiente
           </Button>

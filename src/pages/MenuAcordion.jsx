@@ -11,10 +11,22 @@ import Typography from "@mui/material/Typography";
 import { Container, TextField } from "@mui/material";
 import DialogCliente from "../components/DialogCliente";
 import Box from "@mui/material/Box";
+import { getClientes } from "../Services/ApiService";
+
 
 const TuComponente = () => {
   const [expandedPanels, setExpandedPanels] = useState([1]);
   const [dialogOpen, setDialogOpen] = useState(false);
+  const [criterioBusqueda , setCriterioBusqueda] = useState("");
+  const [clientes, setClientes] = useState([]);
+  const [selectedClient, setSelectedClient] = useState(null);
+
+  const handleClientSelect = (cliente) => {
+    setSelectedClient(cliente);
+    console.log('cliente', cliente);
+    setDialogOpen(false);
+  };
+
 
   useEffect(() => {
     const handleOutsideClick = (event) => {
@@ -29,9 +41,15 @@ const TuComponente = () => {
       document.removeEventListener("click", handleOutsideClick);
     };
   }, [dialogOpen]);
+
   const handleIconButtonClick = () => {
     setDialogOpen(true);
-  };
+    getClientes(criterioBusqueda).then(tablaClientes => {
+      console.log('DATA EN ACORDION');
+      console.log(tablaClientes);
+      setClientes(tablaClientes);
+    });
+  };  
 
   const handleCloseDialog = () => {
     setDialogOpen(false);
@@ -63,55 +81,57 @@ const TuComponente = () => {
               ? "rgb(12, 55, 100)"
               : "rgb(12, 55, 100)",
             height: "3.5rem",
-            marginLeft: "5px",
+            marginLeft: "0px",
           }}
         >
-          <Typography
-            style={{
-              color: "rgb(255,255,255)",
-              fontSize: "1rem",
-              fontWeight: "bold",
-            }}
-          >
-            {" "}
-            CLIENTE{" "}
-          </Typography>
-          <TextField
-            size="small"
-            InputProps={{
-              style: {
-                backgroundColor: "white",
-                width: "35ch",
-                fontSize: "0.9rem",
+          <Container sx={{display: "flex", flexDirection: "row"}}>
+            <Typography
+              style={{
+                color: "rgb(255,255,255)",
+                fontSize: "1rem",
+                fontWeight: "bold",
+              }}
+            >            
+              CLIENTE
+            </Typography>
+            <TextField
+              size="small"
+              InputProps={{
+                style: {
+                  backgroundColor: "white",
+                  width: "35ch",
+                  fontSize: "0.9rem",
+                  height: "25px",
+                  marginTop: "-2px",
+                  borderRadius: 0,
+                }, // Anula el radio de borde y ajusta el ancho a 35 unidades (caracteres)
+              }}
+              InputLabelProps={{ style: { color: "rgb(255,255,255)" } }}
+              style={{ marginLeft: "10px" }}
+              placeholder="Ruc o Razón"
+              onChange={e => setCriterioBusqueda(e.target.value) }
+            />
+            <IconButton
+              style={{
+                backgroundColor: "rgb(255, 168, 0)",
+                borderRadius: "0",
+                marginLeft: "10px",
+                width: "25px",
                 height: "25px",
                 marginTop: "-2px",
-                borderRadius: 0,
-              }, // Anula el radio de borde y ajusta el ancho a 35 unidades (caracteres)
-            }}
-            InputLabelProps={{ style: { color: "rgb(255,255,255)" } }}
-            style={{ marginLeft: "10px" }}
-            placeholder="Ruc o Razón"
-          />
-          <IconButton
-            style={{
-              backgroundColor: "rgb(255, 168, 0)",
-              borderRadius: "0",
-              marginLeft: "10px",
-              width: "25px",
-              height: "25px",
-              marginTop: "-2px",
-            }}
-            onClick={(event) => {
-              event.stopPropagation(); // Evita la propagación del evento al acordeón
-              handleIconButtonClick();
-            }}
-          >
-            <SearchIcon style={{ color: "rgb(255, 255, 255)" }} />
-          </IconButton>
+              }}
+              onClick={(event) => {
+                event.stopPropagation(); // Evita la propagación del evento al acordeón
+                handleIconButtonClick();
+              }}
+            >
+              <SearchIcon style={{ color: "rgb(255, 255, 255)" }} />
+            </IconButton>
+          </Container>
         </CardActions>
         <Collapse in={expandedPanels.includes(1)} timeout="auto" unmountOnExit>
           {/* Contenido del primer card (Cliente) */}
-          <Cliente />
+          <Cliente cliente = {selectedClient}/>
         </Collapse>
       </Card>
       <Divider />
@@ -138,16 +158,15 @@ const TuComponente = () => {
           }}
         >
           
-          <Container maxWidth="sl"  sx={{ display: "flex", flexDirection: "row",justifyContent:"left", }} >
+          <Container maxWidth="sl"  sx={{ display: "flex", flexDirection: "row",justifyContent:"left" }} >
               <Typography
                 style={{
                   color: "rgb(255,255,255)",
                   fontSize: "1rem",
                   fontWeight: "bold",
                 }}
-              >
-                {" "}
-                ITEM{" "}
+              >                
+                ITEMS
               </Typography>
               <TextField
                 size="small"
@@ -255,6 +274,8 @@ const TuComponente = () => {
         </Collapse>
       </Card>
       <DialogCliente
+        clientes={clientes}
+        onClientSelect = {handleClientSelect}
         open={dialogOpen}
         handleClose={handleCloseDialog}
         onBackdropClick={handleCloseDialog}

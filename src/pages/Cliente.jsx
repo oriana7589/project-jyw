@@ -59,12 +59,14 @@ const CustomTabs = styled(Tabs)({
   },
 });
 
-const Cliente = () => {
+const Cliente = (datosCliente) => {
   const [tabValue, setTabValue] = useState(0);
 
   const handleChangeTab = (event, newValue) => {
     setTabValue(newValue);
   };
+
+  const cliente = datosCliente.cliente;
 
   return (
     <React.Fragment>
@@ -83,39 +85,30 @@ const Cliente = () => {
               display: "flex",
             }}
           >
-            <Paper elevation={0} style={{ flex: "1.5", marginTop: "5px" }}>
-              <div>
-                <strong>RAZÓN SOCIAL:</strong> jyw repuestos sac
-              </div>
-              <div>
-                <strong>DIRECCIÓN FISCAL:</strong> av nicolas arriola 1435, la
-                vistoria, lima, perú
-              </div>
-              <div>
-                <strong>EMAIL:</strong> jacostaloren@gmail.com
-              </div>
-            </Paper>
             <Paper elevation={0} style={{ flex: "1", marginTop: "5px" }}>
               <div>
-                <strong>RUC:</strong> 20203650729
+                <strong>RUC:</strong> {cliente ? cliente.numDocumento : ""}
               </div>
               <div>
-                <strong>WHATSSAP:</strong> 98113121
+                <strong>CELULAR:</strong> {cliente ? cliente.celular : ""}
               </div>
               <div>
-                <strong>TELÉFONO:</strong> 014735966 - 014738822
+                <strong>TELÉFONO:</strong> {cliente ? cliente.telefono1 : ""} - {cliente ? cliente.telefono2 : ""}
               </div>
-            </Paper>
-            <Paper
-              elevation={0}
-              style={{ flex: "1", marginRight: "8px", marginTop: "5px" }}
-            >
-              <div>
-                <strong>OBSERVACIONES:</strong> No se encontraron observaciones
-                para este RUC.
-              </div>
-            </Paper>
+            </Paper>  
 
+            <Paper elevation={0} style={{ flex: "2", marginTop: "5px" }}>
+              <div>
+                <strong>RAZÓN SOCIAL:</strong> {cliente ? cliente.razonSocial : ""}
+              </div>
+              <div>
+                <strong>DIRECCIÓN FISCAL:</strong> {cliente ? cliente.direccion : ""}
+              </div>
+              <div>
+                <strong>EMAIL:</strong> {cliente ? cliente.correo : ""}
+              </div>
+            </Paper>
+            
             <Paper
               elevation={0}
               style={{ marginRight: "8px", marginTop: "15px" }}
@@ -128,6 +121,7 @@ const Cliente = () => {
                   height: "40px",
                 }}
                 onClick={(event) => {
+                  console.log('datosCliente', datosCliente.cliente);
                   event.stopPropagation();
                   // Agrega aquí el código adicional que deseas ejecutar al hacer clic en el botón de búsqueda
                 }}

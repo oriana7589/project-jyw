@@ -2,24 +2,24 @@ import React, { useState } from 'react';
 import { Button } from "@mui/material";
 
 const data = [
-  { fecha: '2024-01-01', monto: 100, factura: 'A001' },
-  { fecha: '2024-01-01', monto: 100, factura: 'A001' },
-  { fecha: '2024-01-01', monto: 100, factura: 'A001' },
-  { fecha: '2024-01-01', monto: 100, factura: 'A001' },
-  { fecha: '2024-01-01', monto: 100, factura: 'A001' },
-  { fecha: '2024-01-01', monto: 100, factura: 'A001' },
-  { fecha: '2024-01-01', monto: 100, factura: 'A001' },
-  { fecha: '2024-01-01', monto: 100, factura: 'A001' },
-  { fecha: '2024-01-01', monto: 100, factura: 'A001' },
-  { fecha: '2024-01-01', monto: 100, factura: 'A001' },
-  { fecha: '2024-01-01', monto: 100, factura: 'A001' },
-  { fecha: '2024-01-01', monto: 100, factura: 'A001' },
-  { fecha: '2024-01-01', monto: 100, factura: 'A001' },
-  { fecha: '2024-01-01', monto: 100, factura: 'A001' },
-  { fecha: '2024-01-01', monto: 100, factura: 'A001' },
-  { fecha: '2024-01-01', monto: 100, factura: 'A001' },
-  { fecha: '2024-01-01', monto: 100, factura: 'A001' },
-  { fecha: '2024-01-01', monto: 100, factura: 'A001' },
+  { fecha: '2024-01-01', monto: "10000.00", factura: 'F002-45000' },
+  { fecha: '2024-01-01', monto: "10000.00", factura: 'F002-45000' },
+  { fecha: '2024-01-01', monto: "10000.00", factura: 'F002-45000' },
+  { fecha: '2024-01-01', monto: "10000.00", factura: 'F002-45000' },
+  { fecha: '2024-01-01', monto: "10000.00", factura: 'F002-45000' },
+  { fecha: '2024-01-01', monto: "10000.00", factura: 'F002-45000' },
+  { fecha: '2024-01-01', monto: "10000.00", factura: 'F002-45000' },
+  { fecha: '2024-01-01', monto: "10000.00", factura: 'F002-45000' },
+  { fecha: '2024-01-01', monto: "10000.00", factura: 'F002-45000' },
+  { fecha: '2024-01-01', monto: "10000.00", factura: 'F002-45000' },
+  { fecha: '2024-01-01', monto: "10000.00", factura: 'F002-45000' },
+  { fecha: '2024-01-01', monto: "10000.00", factura: 'F002-45000' },
+  { fecha: '2024-01-01', monto: "10000.00", factura: 'F002-45000' },
+  { fecha: '2024-01-01', monto: "10000.00", factura: 'F002-45000' },
+  { fecha: '2024-01-01', monto: "10000.00", factura: 'F002-45000' },
+  { fecha: '2024-01-01', monto: "10000.00", factura: 'F002-45000' },
+  { fecha: '2024-01-01', monto: "10000.00", factura: 'F002-45000' },
+  { fecha: '2024-01-01', monto: "10000.00", factura: 'F002-45000' },
 ];
 
 const TableComponent = () => {
@@ -37,30 +37,31 @@ const TableComponent = () => {
   const frequencyOfPurchase = data.length; // Necesitas calcular la frecuencia de compra
 
   return (
-    <div>
-      <table style={{ borderCollapse: 'collapse', width: '100%' }}>
+    <>    
+      <table style={{ borderCollapse: 'collapse', width: '80%' }}>
         <thead>
           <tr >
-            <th style={{ textAlign: 'left' }}>Fecha</th>
-            <th style={{ textAlign: 'left', padding: '10px' }}>Monto</th>
-            <th style={{ textAlign: 'left', padding: '10px' }}>N° de Factura</th>
+            <th style={{ textAlign: 'center' }}>Fecha</th>
+            <th style={{ textAlign: 'center',  }}>Monto</th>
+            <th style={{ textAlign: 'center',  }}>N° de Factura</th>
           </tr>
         </thead>
         <tbody>
           {currentData.map((item, index) => (
             <tr key={index}>
-              <td style={{ textAlign: 'left' }}>{item.fecha}</td>
-              <td style={{ textAlign: 'left', paddingLeft: '10px' }}>{item.monto}</td>
-              <td style={{ textAlign: 'left', paddingLeft: '10px' }}>{item.factura}</td>
+              <td style={{ textAlign: 'center' }}>{item.fecha}</td>
+              <td style={{ textAlign: 'center' }}>{item.monto}</td>
+              <td style={{ textAlign: 'center' }}>{item.factura}</td>
             </tr>
           ))}
         </tbody>
       </table>
       <table style={{ textAlign: 'left', padding: '10px' , fontSize:"0.9rem"}}>
          {/* Filas adicionales para la información resumen */}
-         <tr>
+         <tbody>
+          <tr>
             <td colSpan="1" >
-              TICKET PROMEDIO: {subtotal}
+              TICKET PROMEDIO: 
             </td>
           </tr>
           <tr>
@@ -73,10 +74,9 @@ const TableComponent = () => {
               FRECUENCIA DE COMPRA: {frequencyOfPurchase}
             </td>
           </tr>
-      </table>
-
-     
-    </div>
+        </tbody>
+      </table>   
+    </>
   );
 };
 export default TableComponent;

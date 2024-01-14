@@ -127,7 +127,9 @@ export default function TipoA() {
           </div>
           <ChartCliente />
         </div>
-        <div style={{ flex: 1 }}></div>
+        <div style={{ flex: 1}}>
+          <TableCliente />
+        </div>
       </Container>
     </React.Fragment>
   );
