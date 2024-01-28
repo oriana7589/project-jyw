@@ -119,7 +119,7 @@ export default function DrawerModel() {
               <img
                 src={LogoCom}
                 alt="LogoCompleto"
-                style={{ width: 180, height: 25, marginBottom: 5 }}
+                style={{ width: 160, height: 25, marginBottom: 5 }}
               />
             </>
           )}
@@ -144,7 +144,7 @@ export default function DrawerModel() {
               >
                 <AccountBoxIcon sx={{ color:"rgb(12,55,100)" }} />{" "}
               </ListItemIcon>
-              <ListItemText primary="MenuAcordion" sx={{ opacity: open ? 1 : 0, color:"rgb(12,55,100)"}}  />
+              <ListItemText primary="Ventas" sx={{ opacity: open ? 1 : 0, color:"rgb(12,55,100)"}}  />
             </ListItemButton>
 
             <ListItemButton

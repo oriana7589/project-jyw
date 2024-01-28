@@ -12,6 +12,7 @@ import { Container, TextField } from "@mui/material";
 import DialogCliente from "../components/DialogCliente";
 import Box from "@mui/material/Box";
 import { getClientes } from "../Services/ApiService";
+import Items from "./items";
 
 
 const TuComponente = () => {
@@ -81,10 +82,9 @@ const TuComponente = () => {
               ? "rgb(12, 55, 100)"
               : "rgb(12, 55, 100)",
             height: "3.5rem",
-            marginLeft: "0px",
           }}
         >
-          <Container sx={{display: "flex", flexDirection: "row"}}>
+          <Container sx={{display: "flex", marginLeft: 0 }}>
             <Typography
               style={{
                 color: "rgb(255,255,255)",
@@ -270,7 +270,7 @@ const TuComponente = () => {
         </CardActions>
         <Collapse in={expandedPanels.includes(2)} timeout="auto" unmountOnExit>
           {/* Contenido del segundo card (Items) */}
-          <Cliente />
+          <Items />
         </Collapse>
       </Card>
       <DialogCliente
