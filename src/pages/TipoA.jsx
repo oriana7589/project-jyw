@@ -7,9 +7,9 @@ import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
 import CircleIcon from "@mui/icons-material/Circle";
 import es from "date-fns/locale/es";
 import TableCliente from "../components/TableCliente";
-import ChartCliente from "../components/chartCliente";
+import ChartCliente from "../components/ChartCliente";
 
-export default function TipoA( {shouldRenderChart, dataGraficaActual, dataGraficaAnterior} ) {
+export default function TipoA( {dataGraficaActual, dataGraficaAnterior} ) {
   const [selectedDate1, setSelectedDate1] = useState(new Date());
   const [selectedDate2, setSelectedDate2] = useState(new Date());
   const [calendarOpen1, setCalendarOpen1] = useState(false);
@@ -126,7 +126,7 @@ export default function TipoA( {shouldRenderChart, dataGraficaActual, dataGrafic
               style={{ cursor: "pointer", marginLeft: "8px" }}
             />
           </div>
-          {<ChartCliente dataGraficaActual={dataGraficaActual} dataGraficaAnterior={dataGraficaAnterior} />}
+          <ChartCliente dataGraficaActual={dataGraficaActual} dataGraficaAnterior={dataGraficaAnterior} />
         </div>
         <div style={{ flex: 1}}>
           <TableCliente />

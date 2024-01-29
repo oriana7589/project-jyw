@@ -11,7 +11,7 @@ import Typography from "@mui/material/Typography";
 import { Container, TextField } from "@mui/material";
 import DialogCliente from "../components/DialogCliente";
 import Box from "@mui/material/Box";
-import { getClientes } from "../Services/ApiService";
+import { getClientes, getDatosVentasPorClientePorAño } from "../Services/ApiService";
 import Items from "./items";
 
 
@@ -21,13 +21,31 @@ const TuComponente = () => {
   const [criterioBusqueda , setCriterioBusqueda] = useState("");
   const [clientes, setClientes] = useState([]);
   const [selectedClient, setSelectedClient] = useState(null);
-
+  const [dataGraficaActual, setDataGraficaActual] = useState([]);
+  const [dataGraficaAnterior, setDataGraficaAnterior] = useState([]);
+  
   const handleClientSelect = (cliente) => {
     setSelectedClient(cliente);
-    console.log('cliente', cliente);
+    // console.log('cliente', cliente);
+    
     setDialogOpen(false);
   };
 
+  const handleValidarButtonClick = () => {
+    const añoActual = new Date().getFullYear() - 1;
+    const añoAnterior = añoActual - 1;
+
+    console.log('selectedClient', selectedClient);
+    getDatosVentasPorClientePorAño(selectedClient.codigoCliente, añoActual).then((dataActual) => {
+      setDataGraficaActual(dataActual);
+      // console.log("Datos del año actual:", dataActual);      
+    });
+
+    getDatosVentasPorClientePorAño(selectedClient.codigoCliente, añoAnterior).then((dataAnterior) => {
+      setDataGraficaAnterior(dataAnterior);
+      // console.log("Datos del año anterior:", dataAnterior);
+    });
+  }
 
   useEffect(() => {
     const handleOutsideClick = (event) => {
@@ -131,7 +149,12 @@ const TuComponente = () => {
         </CardActions>
         <Collapse in={expandedPanels.includes(1)} timeout="auto" unmountOnExit>
           {/* Contenido del primer card (Cliente) */}
-          <Cliente cliente = {selectedClient}/>
+          <Cliente 
+            cliente = {selectedClient}
+            dataGraficaActual = {dataGraficaActual}
+            dataGraficaAnterior = {dataGraficaAnterior}
+            onValidarButtonClick = {handleValidarButtonClick}
+          />
         </Collapse>
       </Card>
       <Divider />

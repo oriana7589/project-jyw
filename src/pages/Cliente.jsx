@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import CssBaseline from "@mui/material/CssBaseline";
 import Container from "@mui/material/Container";
 import { styled } from "@mui/material/styles";
@@ -39,11 +39,10 @@ const CustomClickableTab = styled(Tab)(({ theme, selected, clickable }) => ({
   },
 }));
 
-const PestañaContenido = ({ value, shouldRenderChart, dataGraficaActual, dataGraficaAnterior }) => {
+const PestañaContenido = ({ value, dataGraficaActual, dataGraficaAnterior }) => {
   switch (value) {
     case 0:
-      return <TipoA 
-              shouldRenderChart={shouldRenderChart}
+      return <TipoA               
               dataGraficaActual={dataGraficaActual}
               dataGraficaAnterior={dataGraficaAnterior}
               />;
@@ -64,36 +63,39 @@ const CustomTabs = styled(Tabs)({
   },
 });
 
-const Cliente = (datosCliente) => {
-  const [tabValue, setTabValue] = useState(0);
-  const [dataGraficaActual, setDataGraficaActual] = useState([]);
-  const [dataGraficaAnterior, setDataGraficaAnterior] = useState([]);
-  const [shouldRenderChart, setShouldRenderChart] = useState(false);
+const Cliente = ({cliente, dataGraficaActual, dataGraficaAnterior, onValidarButtonClick}) => {
+  const [tabValue, setTabValue] = useState(0);  
+
+  useEffect(() => { 
+    console.log('useEffect')
+    console.log("data en variable actual:", dataGraficaActual);
+    console.log("data en variable anterior:", dataGraficaAnterior);
+
+   }, [dataGraficaAnterior, dataGraficaActual]);
 
   const handleChangeTab = (event, newValue) => {
     setTabValue(newValue);
   }; 
 
-  const cliente = datosCliente.cliente;
+  // const cliente = datosCliente;
+  // console.log('datosCliente', cliente);
 
   const handleValidarButtonClick = () => {
-    const añoActual = new Date().getFullYear() - 1;
-    const añoAnterior = añoActual - 1;
+    
+    onValidarButtonClick();
+    // getDatosVentasPorClientePorAño(cliente.codigoCliente, añoActual).then((dataActual) => {
+    //   setDataGraficaActual(dataActual);
+    //   // console.log("Datos del año actual:", dataActual);      
+    // });
 
-    getDatosVentasPorClientePorAño(cliente.codigoCliente, añoActual).then((dataActual) => {
-      setDataGraficaActual(dataActual);
-      // console.log("Datos del año actual:", dataActual);      
-    });
-
-    getDatosVentasPorClientePorAño(cliente.codigoCliente, añoAnterior).then((dataAnterior) => {
-      setDataGraficaAnterior(dataAnterior);
-      // console.log("Datos del año anterior:", dataAnterior);
-    });
+    // getDatosVentasPorClientePorAño(cliente.codigoCliente, añoAnterior).then((dataAnterior) => {
+    //   setDataGraficaAnterior(dataAnterior);
+    //   // console.log("Datos del año anterior:", dataAnterior);
+    // });
 
     // console.log("data en variable actual:", dataGraficaActual);
-    // console.log("data en variable anterior:", dataGraficaAnterior);
-    setShouldRenderChart(true);
-  };
+    // console.log("data en variable anterior:", dataGraficaAnterior);    
+  };  
 
   return (
     <React.Fragment>
@@ -212,8 +214,7 @@ const Cliente = (datosCliente) => {
               />
             </CustomTabs>
         <PestañaContenido
-          value={tabValue}
-          shouldRenderChart={shouldRenderChart}
+          value={tabValue}          
           dataGraficaActual={dataGraficaActual}
           dataGraficaAnterior={dataGraficaAnterior}
         />

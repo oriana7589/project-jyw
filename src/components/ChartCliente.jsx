@@ -10,58 +10,6 @@ import {
   ResponsiveContainer,
 } from "recharts";
 
-const data = [
-  {
-    name: "Enero",
-    Monto: 4000,
-   
-  },
-  {
-    name: "Febrero",
-    Monto: 3000,
-  },
-  {
-    name: "Marzo",
-    Monto: 2000,
-  },
-  {
-    name: "Abril",
-    Monto: 2780,
-  },
-  {
-    name: "Mayo",
-    Monto: 1890,
-  },
-  {
-    name: "Junio",
-    Monto: 2390,
-  },
-  {
-    name: "Julio",
-    Monto: 3490,
-  },
-  {
-    name: "Agosto",
-    Monto: 2780,
-  },
-  {
-    name: "Setiembre",
-    Monto: 1890,
-  },
-  {
-    name: "Octubre",
-    Monto: 2390,
-  },
-  {
-    name: "Noviembre",
-    Monto: 3490,
-  },
-  {
-    name: "Diciembre",
-    Monto: 2390,
-  },
-  
-];
 
 export default class ChartCliente extends PureComponent {
   static demoUrl = "https://codesandbox.io/s/simple-bar-chart-tpz8r";
@@ -69,11 +17,13 @@ export default class ChartCliente extends PureComponent {
   render() {
     const { dataGraficaActual, dataGraficaAnterior } = this.props;
 
-    // if (!dataGraficaActual || !dataGraficaAnterior) {
-    //   return null;  // Si los datos aún no están disponibles, no renderiza nada
-    // }
-
+     if (!dataGraficaActual || !dataGraficaAnterior || dataGraficaActual.length === 0 || dataGraficaAnterior.length === 0) {
       console.log("IMPRIMIENDO DATOS DE GRAFICA ACTUAL", dataGraficaActual);
+      console.log("IMPRIMIENDO DATOS DE GRAFICA ANTERIOR", dataGraficaAnterior);
+       return null;  // Si los datos aún no están disponibles, no renderiza nada
+     }
+
+    console.log("IMPRIMIENDO DATOS DE GRAFICA ACTUAL", dataGraficaActual);
     console.log("IMPRIMIENDO DATOS DE GRAFICA ANTERIOR", dataGraficaAnterior);
    
     const dataCombinada = dataGraficaAnterior.map((itemAnterior, index) => {
@@ -115,12 +65,12 @@ export default class ChartCliente extends PureComponent {
           <YAxis fontSize={"0.8rem"} />
           <Tooltip />
           <Bar
-            dataKey={totalKeyAnterior}
+            dataKey={totalKeyAnterior}            
             fill="rgb(12, 55, 100)"
             activeBar={<Rectangle fill="rgb(12, 55, 100)" stroke="rgb(12, 55, 100)" />}            
           /> 
           <Bar
-            dataKey={totalKeyActual}
+            dataKey={totalKeyActual}            
             fill="rgb(255, 168, 0)"
             activeBar={<Rectangle fill="rgb(255, 168, 0)" stroke="rgb(255, 168, 0)" />}
             // Utiliza dataGraficaAnterior en lugar de data
