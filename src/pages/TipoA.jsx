@@ -9,11 +9,12 @@ import es from "date-fns/locale/es";
 import TableCliente from "../components/TableCliente";
 import ChartCliente from "../components/chartCliente";
 
-export default function TipoA() {
+export default function TipoA( {shouldRenderChart, dataGraficaActual, dataGraficaAnterior} ) {
   const [selectedDate1, setSelectedDate1] = useState(new Date());
   const [selectedDate2, setSelectedDate2] = useState(new Date());
   const [calendarOpen1, setCalendarOpen1] = useState(false);
   const [calendarOpen2, setCalendarOpen2] = useState(false);
+  
   const datePickerRef = useRef(null);
   const datePickerRef2 = useRef(null);
 
@@ -125,7 +126,7 @@ export default function TipoA() {
               style={{ cursor: "pointer", marginLeft: "8px" }}
             />
           </div>
-          <ChartCliente />
+          {<ChartCliente dataGraficaActual={dataGraficaActual} dataGraficaAnterior={dataGraficaAnterior} />}
         </div>
         <div style={{ flex: 1}}>
           <TableCliente />

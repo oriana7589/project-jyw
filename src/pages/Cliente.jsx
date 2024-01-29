@@ -9,6 +9,7 @@ import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Box from "@mui/material/Box";
 import TipoA from "./TipoA";
+import { getDatosVentasPorClientePorAño } from "../Services/ApiService";
 
 const CustomLeftTab = styled(Tab)(({ theme, selected }) => ({
   color: selected
@@ -38,16 +39,20 @@ const CustomClickableTab = styled(Tab)(({ theme, selected, clickable }) => ({
   },
 }));
 
-const PestañaContenido = ({ value }) => {
+const PestañaContenido = ({ value, shouldRenderChart, dataGraficaActual, dataGraficaAnterior }) => {
   switch (value) {
     case 0:
-      return <TipoA />;
+      return <TipoA 
+              shouldRenderChart={shouldRenderChart}
+              dataGraficaActual={dataGraficaActual}
+              dataGraficaAnterior={dataGraficaAnterior}
+              />;
     case 1:
-      return <TipoA />;
+      return "Hola";
     case 2:
-      return <TipoA />;
+      return "Hola";
     case 3:
-      return <TipoA />;
+      return "Hola";
     default:
       return null;
   }
@@ -61,12 +66,34 @@ const CustomTabs = styled(Tabs)({
 
 const Cliente = (datosCliente) => {
   const [tabValue, setTabValue] = useState(0);
+  const [dataGraficaActual, setDataGraficaActual] = useState([]);
+  const [dataGraficaAnterior, setDataGraficaAnterior] = useState([]);
+  const [shouldRenderChart, setShouldRenderChart] = useState(false);
 
   const handleChangeTab = (event, newValue) => {
     setTabValue(newValue);
-  };
+  }; 
 
   const cliente = datosCliente.cliente;
+
+  const handleValidarButtonClick = () => {
+    const añoActual = new Date().getFullYear() - 1;
+    const añoAnterior = añoActual - 1;
+
+    getDatosVentasPorClientePorAño(cliente.codigoCliente, añoActual).then((dataActual) => {
+      setDataGraficaActual(dataActual);
+      // console.log("Datos del año actual:", dataActual);      
+    });
+
+    getDatosVentasPorClientePorAño(cliente.codigoCliente, añoAnterior).then((dataAnterior) => {
+      setDataGraficaAnterior(dataAnterior);
+      // console.log("Datos del año anterior:", dataAnterior);
+    });
+
+    // console.log("data en variable actual:", dataGraficaActual);
+    // console.log("data en variable anterior:", dataGraficaAnterior);
+    setShouldRenderChart(true);
+  };
 
   return (
     <React.Fragment>
@@ -120,9 +147,9 @@ const Cliente = (datosCliente) => {
                   width: "90px",
                   height: "40px",
                 }}
-                onClick={(event) => {
-                  console.log('datosCliente', datosCliente.cliente);
-                  event.stopPropagation();
+                onClick={() => {                  
+                  handleValidarButtonClick();
+                  //event.stopPropagation();
                   // Agrega aquí el código adicional que deseas ejecutar al hacer clic en el botón de búsqueda
                 }}
               >
@@ -184,7 +211,12 @@ const Cliente = (datosCliente) => {
                 clickable="true"
               />
             </CustomTabs>
-            <PestañaContenido value={tabValue} />
+        <PestañaContenido
+          value={tabValue}
+          shouldRenderChart={shouldRenderChart}
+          dataGraficaActual={dataGraficaActual}
+          dataGraficaAnterior={dataGraficaAnterior}
+        />
           </Box>
      
     </React.Fragment>
