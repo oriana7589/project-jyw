@@ -18,13 +18,13 @@ export default class ChartCliente extends PureComponent {
     const { dataGraficaActual, dataGraficaAnterior } = this.props;
 
      if (!dataGraficaActual || !dataGraficaAnterior || dataGraficaActual.length === 0 || dataGraficaAnterior.length === 0) {
-      console.log("IMPRIMIENDO DATOS DE GRAFICA ACTUAL", dataGraficaActual);
-      console.log("IMPRIMIENDO DATOS DE GRAFICA ANTERIOR", dataGraficaAnterior);
+      // console.log("IMPRIMIENDO DATOS DE GRAFICA ACTUAL", dataGraficaActual);
+      // console.log("IMPRIMIENDO DATOS DE GRAFICA ANTERIOR", dataGraficaAnterior);
        return null;  // Si los datos aún no están disponibles, no renderiza nada
      }
 
-    console.log("IMPRIMIENDO DATOS DE GRAFICA ACTUAL", dataGraficaActual);
-    console.log("IMPRIMIENDO DATOS DE GRAFICA ANTERIOR", dataGraficaAnterior);
+    // console.log("IMPRIMIENDO DATOS DE GRAFICA ACTUAL", dataGraficaActual);
+    // console.log("IMPRIMIENDO DATOS DE GRAFICA ANTERIOR", dataGraficaAnterior);
    
     const dataCombinada = dataGraficaAnterior.map((itemAnterior, index) => {
       const itemActual = dataGraficaActual[index];
@@ -34,13 +34,13 @@ export default class ChartCliente extends PureComponent {
       };
     });
 
-    console.log("IMPRIMIENDO DATA COMBINADA", dataCombinada);
+    // console.log("IMPRIMIENDO DATA COMBINADA", dataCombinada);
 
     const obtenerNombrePropiedadTotal = (objeto) => {
       const nombresPropiedades = Object.keys(objeto);
-      console.log('nombresPropiedad', nombresPropiedades)
+      // console.log('nombresPropiedad', nombresPropiedades)
       const nombrePropiedadTotal = nombresPropiedades.find(nombre => nombre.startsWith('Total'));
-      console.log('nombresPropiedadTotal', nombrePropiedadTotal)
+      // console.log('nombresPropiedadTotal', nombrePropiedadTotal)
       return nombrePropiedadTotal;
     }
 

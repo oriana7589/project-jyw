@@ -1,41 +1,8 @@
 import React, { useState } from 'react';
 import { Button } from "@mui/material";
 
-const data = [
-  { fecha: '2024-01-01', monto: "10000.00", factura: 'F002-45000' },
-  { fecha: '2024-01-01', monto: "10000.00", factura: 'F002-45000' },
-  { fecha: '2024-01-01', monto: "10000.00", factura: 'F002-45000' },
-  { fecha: '2024-01-01', monto: "10000.00", factura: 'F002-45000' },
-  { fecha: '2024-01-01', monto: "10000.00", factura: 'F002-45000' },
-  { fecha: '2024-01-01', monto: "10000.00", factura: 'F002-45000' },
-  { fecha: '2024-01-01', monto: "10000.00", factura: 'F002-45000' },
-  { fecha: '2024-01-01', monto: "10000.00", factura: 'F002-45000' },
-  { fecha: '2024-01-01', monto: "10000.00", factura: 'F002-45000' },
-  { fecha: '2024-01-01', monto: "10000.00", factura: 'F002-45000' },
-  { fecha: '2024-01-01', monto: "10000.00", factura: 'F002-45000' },
-  { fecha: '2024-01-01', monto: "10000.00", factura: 'F002-45000' },
-  { fecha: '2024-01-01', monto: "10000.00", factura: 'F002-45000' },
-  { fecha: '2024-01-01', monto: "10000.00", factura: 'F002-45000' },
-  { fecha: '2024-01-01', monto: "10000.00", factura: 'F002-45000' },
-  { fecha: '2024-01-01', monto: "10000.00", factura: 'F002-45000' },
-  { fecha: '2024-01-01', monto: "10000.00", factura: 'F002-45000' },
-  { fecha: '2024-01-01', monto: "10000.00", factura: 'F002-45000' },
-];
-
-const TableComponent = () => {
-  const itemsPerPage = 10;
-  const [currentPage, setCurrentPage] = useState(1);
-  const totalCount = data.length;
-
-  const startIndex = (currentPage - 1) * itemsPerPage;
-  const endIndex = startIndex + itemsPerPage;
-
-  const currentData = data.slice(startIndex, endIndex);
-
-  const subtotal = currentData.reduce((acc, item) => acc + item.monto, 0);
-  const ticketCount = currentData.length;
-  const frequencyOfPurchase = data.length; // Necesitas calcular la frecuencia de compra
-
+const TableComponent = ({ dataDocumentos, promedioCompra, promedioItems, promedioComprasAlMes }) => {
+ 
   return (
     <>    
       <table style={{ borderCollapse: 'collapse', width: '80%' }}>
@@ -47,11 +14,11 @@ const TableComponent = () => {
           </tr>
         </thead>
         <tbody>
-          {currentData.map((item, index) => (
-            <tr key={index}>
-              <td style={{ textAlign: 'center' }}>{item.fecha}</td>
-              <td style={{ textAlign: 'center' }}>{item.monto}</td>
-              <td style={{ textAlign: 'center' }}>{item.factura}</td>
+          {dataDocumentos.map((item) => (
+            <tr key={item.numDocumento}>
+              <td style={{ textAlign: 'center' }}>{item.fechaEmision.split('T')[0]}</td>
+              <td style={{ textAlign: 'center' }}>{item.moneda + " " + item.montoTotal}</td>
+              <td style={{ textAlign: 'center' }}>{item.numDocumento}</td>
             </tr>
           ))}
         </tbody>
@@ -61,17 +28,17 @@ const TableComponent = () => {
          <tbody>
           <tr>
             <td colSpan="1" >
-              TICKET PROMEDIO: 
+              MONTO PROMEDIO DE COMPRA: {"$ "+promedioCompra}
             </td>
           </tr>
           <tr>
             <td colSpan="1" >
-              CANT. ITEMS X TICKET: {ticketCount}
+              ITEMS PROMEDIO POR COMPRA: {promedioItems}
             </td>
           </tr>
           <tr>
             <td colSpan="1" >
-              FRECUENCIA DE COMPRA: {frequencyOfPurchase}
+              COMPRAS PROMEDIO AL MES: {promedioComprasAlMes}
             </td>
           </tr>
         </tbody>

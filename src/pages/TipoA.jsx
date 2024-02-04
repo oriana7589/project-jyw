@@ -9,7 +9,7 @@ import es from "date-fns/locale/es";
 import TableCliente from "../components/TableCliente";
 import ChartCliente from "../components/ChartCliente";
 
-export default function TipoA( {dataGraficaActual, dataGraficaAnterior} ) {
+export default function TipoA({ dataGraficaActual, dataGraficaAnterior, dataDocumentos, promedioCompra, promedioItems, promedioComprasAlMes } ) {
   const [selectedDate1, setSelectedDate1] = useState(new Date());
   const [selectedDate2, setSelectedDate2] = useState(new Date());
   const [calendarOpen1, setCalendarOpen1] = useState(false);
@@ -129,9 +129,14 @@ export default function TipoA( {dataGraficaActual, dataGraficaAnterior} ) {
           <ChartCliente dataGraficaActual={dataGraficaActual} dataGraficaAnterior={dataGraficaAnterior} />
         </div>
         <div style={{ flex: 1}}>
-          <TableCliente />
+          <TableCliente
+            dataDocumentos = {dataDocumentos}
+            promedioCompra = {promedioCompra}
+            promedioItems = {promedioItems}
+            promedioComprasAlMes = {promedioComprasAlMes}
+          />
         </div>
       </Container>
-    </React.Fragment>
+    </React.Fragment>    
   );
 }

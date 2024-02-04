@@ -9,7 +9,6 @@ import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Box from "@mui/material/Box";
 import TipoA from "./TipoA";
-import { getDatosVentasPorClientePorAño } from "../Services/ApiService";
 
 const CustomLeftTab = styled(Tab)(({ theme, selected }) => ({
   color: selected
@@ -39,12 +38,16 @@ const CustomClickableTab = styled(Tab)(({ theme, selected, clickable }) => ({
   },
 }));
 
-const PestañaContenido = ({ value, dataGraficaActual, dataGraficaAnterior }) => {
+const PestañaContenido = ({ value, dataGraficaActual, dataGraficaAnterior, dataDocumentos, promedioCompra, promedioItems, promedioComprasAlMes }) => {
   switch (value) {
     case 0:
       return <TipoA               
-              dataGraficaActual={dataGraficaActual}
-              dataGraficaAnterior={dataGraficaAnterior}
+                dataGraficaActual={dataGraficaActual}
+                dataGraficaAnterior={dataGraficaAnterior}
+                dataDocumentos = {dataDocumentos}
+                promedioCompra={promedioCompra}
+                promedioItems={promedioItems}
+                promedioComprasAlMes={promedioComprasAlMes}
               />;
     case 1:
       return "Hola";
@@ -63,15 +66,15 @@ const CustomTabs = styled(Tabs)({
   },
 });
 
-const Cliente = ({cliente, dataGraficaActual, dataGraficaAnterior, onValidarButtonClick}) => {
+const Cliente = ({ cliente, dataGraficaActual, dataGraficaAnterior, dataDocumentos, promedioCompra, promedioItems, promedioComprasAlMes, ranking, onValidarButtonClick}) => {
   const [tabValue, setTabValue] = useState(0);  
 
-  useEffect(() => { 
-    console.log('useEffect')
-    console.log("data en variable actual:", dataGraficaActual);
-    console.log("data en variable anterior:", dataGraficaAnterior);
+  // useEffect(() => { 
+  //   console.log('useEffect')
+  //   console.log("data en variable actual:", dataGraficaActual);
+  //   console.log("data en variable anterior:", dataGraficaAnterior);
 
-   }, [dataGraficaAnterior, dataGraficaActual]);
+  //  }, [dataGraficaAnterior, dataGraficaActual]);
 
   const handleChangeTab = (event, newValue) => {
     setTabValue(newValue);
@@ -181,11 +184,11 @@ const Cliente = ({cliente, dataGraficaActual, dataGraficaAnterior, onValidarButt
               variant="fullWidth"
             >
               <CustomLeftTab
-                label="TIPO A"
+                label={"TIPO "+ ranking}
                 style={{
                   minHeight: "25px",
                   marginRight: "4px",
-                  fontSize: "0.7rem",
+                  fontSize: "1rem",
                 }}
               />
 
@@ -217,6 +220,10 @@ const Cliente = ({cliente, dataGraficaActual, dataGraficaAnterior, onValidarButt
           value={tabValue}          
           dataGraficaActual={dataGraficaActual}
           dataGraficaAnterior={dataGraficaAnterior}
+          dataDocumentos = {dataDocumentos}
+          promedioCompra={promedioCompra}
+          promedioItems={promedioItems}
+          promedioComprasAlMes={promedioComprasAlMes}
         />
           </Box>
      

@@ -11,7 +11,7 @@ import Typography from "@mui/material/Typography";
 import { Container, TextField } from "@mui/material";
 import DialogCliente from "../components/DialogCliente";
 import Box from "@mui/material/Box";
-import { getClientes, getDatosVentasPorClientePorAño } from "../Services/ApiService";
+import { getClientes, getDatosVentasPorClientePorAño, getUltimosDocumentosCliente, getPromedioCompraCliente, getPromedioItemsCliente, getPromedioComprasAlMesCliente, getRankingClientes } from "../Services/ApiService";
 import Items from "./items";
 
 
@@ -23,6 +23,12 @@ const TuComponente = () => {
   const [selectedClient, setSelectedClient] = useState(null);
   const [dataGraficaActual, setDataGraficaActual] = useState([]);
   const [dataGraficaAnterior, setDataGraficaAnterior] = useState([]);
+  const [dataDocumentos, setDataDocumentos] = useState([]);
+  const [promedioCompra, setPromedioCompra] = useState(0);
+  const [promedioItems, setPromedioItems] = useState(0);
+  const [promedioComprasAlMes, setPromedioComprasAlMes] = useState(0);
+  const [ranking, setRanking] = useState([]);
+  const [rankingClienteSeleccionado, setRankingClienteSeleccionado] = useState("S/R");
   
   const handleClientSelect = (cliente) => {
     setSelectedClient(cliente);
@@ -30,10 +36,26 @@ const TuComponente = () => {
     
     setDialogOpen(false);
   };
+  
+  getRankingClientes().then((ranking) => {
+    console.log("Ranking de clientes:", ranking);
+    setRanking(ranking);
+  });
+  
 
   const handleValidarButtonClick = () => {
     const añoActual = new Date().getFullYear() - 1;
     const añoAnterior = añoActual - 1;
+
+    const rankingFiltrado = ranking.filter((item) => item.CodCliente === selectedClient.codCliente);
+    const rankingFiltrado2 = ranking.find((item) => item.CodCliente === selectedClient.codCliente) || [];
+    console.log('rankingFiltrado', rankingFiltrado);
+    console.log('rankingFiltrado2', rankingFiltrado2);
+    const rankingClienteSeleccionado = rankingFiltrado.length > 0 ? rankingFiltrado[0].Ranking : "S/R";
+    setRankingClienteSeleccionado(rankingClienteSeleccionado);
+
+    console.log('selectedClientRanking', rankingClienteSeleccionado);
+    
 
     console.log('selectedClient', selectedClient);
     getDatosVentasPorClientePorAño(selectedClient.codigoCliente, añoActual).then((dataActual) => {
@@ -45,7 +67,27 @@ const TuComponente = () => {
       setDataGraficaAnterior(dataAnterior);
       // console.log("Datos del año anterior:", dataAnterior);
     });
-  }
+
+    getUltimosDocumentosCliente(selectedClient.codigoCliente).then((dataDocumentos) => {
+      setDataDocumentos(dataDocumentos);
+      console.log("Datos de documentos:", dataDocumentos);
+    });
+
+    getPromedioCompraCliente(selectedClient.codigoCliente).then((promedioCompra) => {
+      setPromedioCompra(promedioCompra);
+      console.log("Promedio de compra:", promedioCompra);
+    });
+
+    getPromedioItemsCliente(selectedClient.codigoCliente).then((promedioItems) => {
+      setPromedioItems(promedioItems);
+      console.log("Promedio de items:", promedioItems);
+    });
+
+    getPromedioComprasAlMesCliente(selectedClient.codigoCliente).then((promedioComprasAlMes) => {
+      setPromedioComprasAlMes(promedioComprasAlMes);
+      console.log("Promedio de compras al mes:", promedioComprasAlMes);
+    });
+  };  
 
   useEffect(() => {
     const handleOutsideClick = (event) => {
@@ -153,7 +195,12 @@ const TuComponente = () => {
             cliente = {selectedClient}
             dataGraficaActual = {dataGraficaActual}
             dataGraficaAnterior = {dataGraficaAnterior}
-            onValidarButtonClick = {handleValidarButtonClick}
+            dataDocumentos = {dataDocumentos}
+            promedioCompra={promedioCompra}
+            promedioItems={promedioItems}
+            promedioComprasAlMes={promedioComprasAlMes}
+            ranking={rankingClienteSeleccionado}
+            onValidarButtonClick = {handleValidarButtonClick}            
           />
         </Collapse>
       </Card>
