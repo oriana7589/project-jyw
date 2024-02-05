@@ -184,7 +184,7 @@ const Cliente = ({ cliente, dataGraficaActual, dataGraficaAnterior, dataDocument
               variant="fullWidth"
             >
               <CustomLeftTab
-                label={"TIPO "+ ranking}
+                label={"CLIENTE TIPO"+ ranking}
                 style={{
                   minHeight: "25px",
                   marginRight: "4px",

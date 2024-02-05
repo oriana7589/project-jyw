@@ -37,21 +37,28 @@ const TuComponente = () => {
     setDialogOpen(false);
   };
   
-  getRankingClientes().then((ranking) => {
-    console.log("Ranking de clientes:", ranking);
-    setRanking(ranking);
-  });
-  
+  useEffect(() => {
+    getRankingClientes().then((dataRanking) => {
+      console.log("Ranking de clientes:", dataRanking);
+      setRanking(dataRanking);
+    });
+  }, []);
+
+  useEffect(() => {
+    if ( ranking.length > 0 && selectedClient) {
+      const rankingFiltrado = ranking.find((item) => item.CodCliente === selectedClient.codigoCliente);
+      const rankingClienteSeleccionado = rankingFiltrado ? rankingFiltrado.Ranking : "S/R";
+      setRankingClienteSeleccionado(rankingClienteSeleccionado);
+    }
+  }, [ranking, selectedClient]);
 
   const handleValidarButtonClick = () => {
     const añoActual = new Date().getFullYear() - 1;
     const añoAnterior = añoActual - 1;
-
-    const rankingFiltrado = ranking.filter((item) => item.CodCliente === selectedClient.codCliente);
-    const rankingFiltrado2 = ranking.find((item) => item.CodCliente === selectedClient.codCliente) || [];
-    console.log('rankingFiltrado', rankingFiltrado);
-    console.log('rankingFiltrado2', rankingFiltrado2);
-    const rankingClienteSeleccionado = rankingFiltrado.length > 0 ? rankingFiltrado[0].Ranking : "S/R";
+    
+    const rankingFiltrado = ranking.find((item) => item.CodCliente === selectedClient.codigoCliente);    
+    
+    const rankingClienteSeleccionado = rankingFiltrado ? rankingFiltrado.Ranking : "S/R";
     setRankingClienteSeleccionado(rankingClienteSeleccionado);
 
     console.log('selectedClientRanking', rankingClienteSeleccionado);
