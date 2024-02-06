@@ -38,7 +38,7 @@ const CustomClickableTab = styled(Tab)(({ theme, selected, clickable }) => ({
   },
 }));
 
-const PestañaContenido = ({ value, dataGraficaActual, dataGraficaAnterior, dataDocumentos, promedioCompra, promedioItems, promedioComprasAlMes }) => {
+const PestañaContenido = ({ value, dataGraficaActual, dataGraficaAnterior, dataDocumentos, promedioCompra, promedioItems, promedioComprasAlMes, onCambiarFechaGrafica }) => {
   switch (value) {
     case 0:
       return <TipoA               
@@ -48,6 +48,7 @@ const PestañaContenido = ({ value, dataGraficaActual, dataGraficaAnterior, data
                 promedioCompra={promedioCompra}
                 promedioItems={promedioItems}
                 promedioComprasAlMes={promedioComprasAlMes}
+                onCambiarFechaGrafica={onCambiarFechaGrafica}
               />;
     case 1:
       return "Hola";
@@ -66,7 +67,7 @@ const CustomTabs = styled(Tabs)({
   },
 });
 
-const Cliente = ({ cliente, dataGraficaActual, dataGraficaAnterior, dataDocumentos, promedioCompra, promedioItems, promedioComprasAlMes, ranking, onValidarButtonClick}) => {
+const Cliente = ({ cliente, dataGraficaActual, dataGraficaAnterior, dataDocumentos, promedioCompra, promedioItems, promedioComprasAlMes, ranking, onValidarButtonClick, onCambiarFechaGrafica}) => {
   const [tabValue, setTabValue] = useState(0);  
 
   // useEffect(() => { 
@@ -184,7 +185,7 @@ const Cliente = ({ cliente, dataGraficaActual, dataGraficaAnterior, dataDocument
               variant="fullWidth"
             >
               <CustomLeftTab
-                label={"CLIENTE TIPO"+ ranking}
+                label={"CLIENTE TIPO: "+ ranking}
                 style={{
                   minHeight: "25px",
                   marginRight: "4px",
@@ -224,6 +225,7 @@ const Cliente = ({ cliente, dataGraficaActual, dataGraficaAnterior, dataDocument
           promedioCompra={promedioCompra}
           promedioItems={promedioItems}
           promedioComprasAlMes={promedioComprasAlMes}
+          onCambiarFechaGrafica={onCambiarFechaGrafica}
         />
           </Box>
      

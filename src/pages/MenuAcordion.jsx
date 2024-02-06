@@ -29,6 +29,7 @@ const TuComponente = () => {
   const [promedioComprasAlMes, setPromedioComprasAlMes] = useState(0);
   const [ranking, setRanking] = useState([]);
   const [rankingClienteSeleccionado, setRankingClienteSeleccionado] = useState("S/R");
+  const [fechasGrafica, setFechasGrafica] = useState([new Date().getFullYear(), new Date().getFullYear() - 1]);
   
   const handleClientSelect = (cliente) => {
     setSelectedClient(cliente);
@@ -52,9 +53,26 @@ const TuComponente = () => {
     }
   }, [ranking, selectedClient]);
 
+  const onCambiarFechaGrafica = (arregloFechas) => {
+    setFechasGrafica(arregloFechas);
+
+    // getDatosVentasPorClientePorAño(selectedClient.codigoCliente, fechasGrafica[0]).then((dataActual) => {
+    //   setDataGraficaActual(dataActual);
+    //   // console.log("Datos del año actual:", dataActual);      
+    // });
+
+    // getDatosVentasPorClientePorAño(selectedClient.codigoCliente, fechasGrafica[1]).then((dataAnterior) => {
+    //   setDataGraficaAnterior(dataAnterior);
+    //   // console.log("Datos del año anterior:", dataAnterior);
+    // });
+    console.log('Cambiando fecha: arreglo', fechasGrafica);
+    console.log('Cambiando fecha: fechasGrafica', fechasGrafica);
+  }; 
+
   const handleValidarButtonClick = () => {
-    const añoActual = new Date().getFullYear() - 1;
+    const añoActual = new Date().getFullYear();
     const añoAnterior = añoActual - 1;
+    setFechasGrafica([añoActual, añoAnterior]);
     
     const rankingFiltrado = ranking.find((item) => item.CodCliente === selectedClient.codigoCliente);    
     
@@ -65,12 +83,12 @@ const TuComponente = () => {
     
 
     console.log('selectedClient', selectedClient);
-    getDatosVentasPorClientePorAño(selectedClient.codigoCliente, añoActual).then((dataActual) => {
+    getDatosVentasPorClientePorAño(selectedClient.codigoCliente, fechasGrafica[0]).then((dataActual) => {
       setDataGraficaActual(dataActual);
       // console.log("Datos del año actual:", dataActual);      
     });
 
-    getDatosVentasPorClientePorAño(selectedClient.codigoCliente, añoAnterior).then((dataAnterior) => {
+    getDatosVentasPorClientePorAño(selectedClient.codigoCliente, fechasGrafica[1]).then((dataAnterior) => {
       setDataGraficaAnterior(dataAnterior);
       // console.log("Datos del año anterior:", dataAnterior);
     });
@@ -207,7 +225,8 @@ const TuComponente = () => {
             promedioItems={promedioItems}
             promedioComprasAlMes={promedioComprasAlMes}
             ranking={rankingClienteSeleccionado}
-            onValidarButtonClick = {handleValidarButtonClick}            
+            onValidarButtonClick = {handleValidarButtonClick} 
+            onCambiarFechaGrafica = {onCambiarFechaGrafica}           
           />
         </Collapse>
       </Card>
