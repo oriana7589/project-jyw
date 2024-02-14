@@ -9,7 +9,7 @@ import es from "date-fns/locale/es";
 import TableCliente from "../components/TableCliente";
 import ChartCliente from "../components/ChartCliente";
 
-export default function TipoA({ dataGraficaActual, dataGraficaAnterior, dataDocumentos, promedioCompra, promedioItems, promedioComprasAlMes, onCambiarFechaGrafica } ) {
+export default function DashboardCliente({ dataGraficaActual, dataGraficaAnterior, dataDocumentos, promedioCompra, promedioItems, promedioComprasAlMes, onCambiarFechaGrafica } ) {
   const [selectedDate1, setSelectedDate1] = useState(new Date(new Date().getFullYear() - 1, 0, 1));
   const [selectedDate2, setSelectedDate2] = useState(new Date());
   const [calendarOpen1, setCalendarOpen1] = useState(false);

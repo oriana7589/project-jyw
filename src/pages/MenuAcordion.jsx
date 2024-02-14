@@ -54,20 +54,24 @@ const TuComponente = () => {
   }, [ranking, selectedClient]);
 
   const onCambiarFechaGrafica = (arregloFechas) => {
-    setFechasGrafica(arregloFechas);
-
-    // getDatosVentasPorClientePorAño(selectedClient.codigoCliente, fechasGrafica[0]).then((dataActual) => {
-    //   setDataGraficaActual(dataActual);
-    //   // console.log("Datos del año actual:", dataActual);      
-    // });
-
-    // getDatosVentasPorClientePorAño(selectedClient.codigoCliente, fechasGrafica[1]).then((dataAnterior) => {
-    //   setDataGraficaAnterior(dataAnterior);
-    //   // console.log("Datos del año anterior:", dataAnterior);
-    // });
-    console.log('Cambiando fecha: arreglo', fechasGrafica);
-    console.log('Cambiando fecha: fechasGrafica', fechasGrafica);
+    setFechasGrafica(arregloFechas);    
   }; 
+
+  useEffect(() => {    
+    console.log('Cambiando fecha: fechasGrafica', fechasGrafica);
+    if (selectedClient) {
+    // Aquí puedes llamar a tus otros métodos que dependen de fechasGrafica
+      getDatosVentasPorClientePorAño(selectedClient.codigoCliente, fechasGrafica[0]).then((dataActual) => {
+        setDataGraficaActual(dataActual);
+        // console.log("Datos del año actual:", dataActual);      
+      });
+
+      getDatosVentasPorClientePorAño(selectedClient.codigoCliente, fechasGrafica[1]).then((dataAnterior) => {
+        setDataGraficaAnterior(dataAnterior);
+        // console.log("Datos del año anterior:", dataAnterior);
+      });
+    }    
+  }, [fechasGrafica]);
 
   const handleValidarButtonClick = () => {
     const añoActual = new Date().getFullYear();

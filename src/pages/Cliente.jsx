@@ -8,7 +8,7 @@ import Typography from "@mui/material/Typography";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Box from "@mui/material/Box";
-import TipoA from "./TipoA";
+import DashboardCliente from "./DashboardCliente";
 
 const CustomLeftTab = styled(Tab)(({ theme, selected }) => ({
   color: selected
@@ -41,7 +41,7 @@ const CustomClickableTab = styled(Tab)(({ theme, selected, clickable }) => ({
 const PestañaContenido = ({ value, dataGraficaActual, dataGraficaAnterior, dataDocumentos, promedioCompra, promedioItems, promedioComprasAlMes, onCambiarFechaGrafica }) => {
   switch (value) {
     case 0:
-      return <TipoA               
+      return <DashboardCliente               
                 dataGraficaActual={dataGraficaActual}
                 dataGraficaAnterior={dataGraficaAnterior}
                 dataDocumentos = {dataDocumentos}

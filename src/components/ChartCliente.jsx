@@ -16,25 +16,9 @@ export default class ChartCliente extends PureComponent {
 
   render() {
     const { dataGraficaActual, dataGraficaAnterior } = this.props;
-
-     if (!dataGraficaActual || !dataGraficaAnterior || dataGraficaActual.length === 0 || dataGraficaAnterior.length === 0) {
-      // console.log("IMPRIMIENDO DATOS DE GRAFICA ACTUAL", dataGraficaActual);
-      // console.log("IMPRIMIENDO DATOS DE GRAFICA ANTERIOR", dataGraficaAnterior);
-       return null;  // Si los datos aún no están disponibles, no renderiza nada
-     }
-
-    // console.log("IMPRIMIENDO DATOS DE GRAFICA ACTUAL", dataGraficaActual);
-    // console.log("IMPRIMIENDO DATOS DE GRAFICA ANTERIOR", dataGraficaAnterior);
-   
-    const dataCombinada = dataGraficaAnterior.map((itemAnterior, index) => {
-      const itemActual = dataGraficaActual[index];
-      return {
-        ...itemAnterior,
-        ...itemActual,
-      };
-    });
-
-    // console.log("IMPRIMIENDO DATA COMBINADA", dataCombinada);
+    var dataCombinada = [];
+    var totalKeyAnterior = "";
+    var totalKeyActual = "";
 
     const obtenerNombrePropiedadTotal = (objeto) => {
       const nombresPropiedades = Object.keys(objeto);
@@ -44,8 +28,39 @@ export default class ChartCliente extends PureComponent {
       return nombrePropiedadTotal;
     }
 
-    const totalKeyAnterior = obtenerNombrePropiedadTotal(dataGraficaAnterior[0]);
-    const totalKeyActual = obtenerNombrePropiedadTotal(dataGraficaActual[0]);
+    if (dataGraficaActual && dataGraficaAnterior && dataGraficaActual.length > 0 && dataGraficaAnterior.length > 0) {//if (!dataGraficaActual || !dataGraficaAnterior || dataGraficaActual.length === 0 || dataGraficaAnterior.length === 0) {
+      // console.log("IMPRIMIENDO DATOS DE GRAFICA ACTUAL", dataGraficaActual);
+      // console.log("IMPRIMIENDO DATOS DE GRAFICA ANTERIOR", dataGraficaAnterior);
+       //return null;  // Si los datos aún no están disponibles, no renderiza nada
+      console.log("IMPRIMIENDO DATOS DE GRAFICA ACTUAL", dataGraficaActual);
+      console.log("IMPRIMIENDO DATOS DE GRAFICA ANTERIOR", dataGraficaAnterior);
+
+      dataCombinada = dataGraficaAnterior.map((itemAnterior, index) => {
+        const itemActual = dataGraficaActual[index];
+        return {
+          ...itemAnterior,
+          ...itemActual,
+        };
+      });
+      console.log("IMPRIMIENDO DATA COMBINADA", dataCombinada);      
+      totalKeyAnterior = obtenerNombrePropiedadTotal(dataGraficaAnterior[0]);
+      totalKeyActual = obtenerNombrePropiedadTotal(dataGraficaActual[0]);
+     } else {
+      dataCombinada = [
+        { Mes: "Enero", Total: 0 },
+        { Mes: "Febrero", Total: 0 },
+        { Mes: "Marzo", Total: 0 },
+        { Mes: "Abril", Total: 0 },
+        { Mes: "Mayo", Total: 0 },
+        { Mes: "Junio", Total: 0 },
+        { Mes: "Julio", Total: 0 },
+        { Mes: "Agosto", Total: 0 },
+        { Mes: "Septiembre", Total: 0 },
+        { Mes: "Octubre", Total: 0 },
+        { Mes: "Noviembre", Total: 0 },
+        { Mes: "Diciembre", Total: 0 },
+      ];      
+     }         
 
     return (
       <ResponsiveContainer width="100%" height="100%">
@@ -62,7 +77,7 @@ export default class ChartCliente extends PureComponent {
         >
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis dataKey="Mes" angle={-45} interval={0} textAnchor="end" fontSize={"0.8rem"} />
-          <YAxis fontSize={"0.8rem"} />
+          <YAxis fontSize={"0.8rem"} tickCount={9}/>
           <Tooltip />
           <Bar
             dataKey={totalKeyAnterior}            
