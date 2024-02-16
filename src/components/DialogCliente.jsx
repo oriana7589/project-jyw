@@ -18,14 +18,13 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
 export default function DialogCliente({ open, handleClose, clientes, onClientSelect }) {
     return (
         <React.Fragment>
-
           <BootstrapDialog
             onClose={handleClose}
             aria-labelledby="customized-dialog-title"
             open={open}
             maxWidth="md" // Establecer el ancho máximo del diálogo
         
-            sx={{ maxHeight: '100%', overflow: 'auto' }}
+            sx={{ maxHeight: '100%', overflow: 'auto'}}
           >
             <DialogTitle sx={{ m: 0, p: 1.8 }} style={{backgroundColor: "rgb(12, 55, 100)", color:"rgb(255,255,255)"}} id="customized-dialog-title" >
              Busqueda de clientes

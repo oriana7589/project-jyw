@@ -10,7 +10,6 @@ import Cliente from "./Cliente";
 import Typography from "@mui/material/Typography";
 import { Container, TextField } from "@mui/material";
 import DialogCliente from "../components/DialogCliente";
-import Box from "@mui/material/Box";
 import { getClientes, getDatosVentasPorClientePorAño, getUltimosDocumentosCliente, getPromedioCompraCliente, getPromedioItemsCliente, getPromedioComprasAlMesCliente, getRankingClientes } from "../Services/ApiService";
 import Items from "./items";
 
@@ -31,10 +30,9 @@ const TuComponente = () => {
   const [rankingClienteSeleccionado, setRankingClienteSeleccionado] = useState("S/R");
   const [fechasGrafica, setFechasGrafica] = useState([new Date().getFullYear(), new Date().getFullYear() - 1]);
   
+  
   const handleClientSelect = (cliente) => {
     setSelectedClient(cliente);
-    // console.log('cliente', cliente);
-    
     setDialogOpen(false);
   };
   
@@ -134,12 +132,16 @@ const TuComponente = () => {
 
   const handleIconButtonClick = () => {
     setDialogOpen(true);
-    getClientes(criterioBusqueda).then(tablaClientes => {
-      console.log('DATA EN ACORDION');
-      console.log(tablaClientes);
-      setClientes(tablaClientes);
-    });
-  };  
+    if(criterioBusqueda !== "") {
+      getClientes(criterioBusqueda).then(tablaClientes => {
+        console.log('DATA EN ACORDION');
+        console.log(tablaClientes);
+        setClientes(tablaClientes);
+      });
+    } else {
+      setClientes([]);
+    }    
+  }; 
 
   const handleCloseDialog = () => {
     setDialogOpen(false);

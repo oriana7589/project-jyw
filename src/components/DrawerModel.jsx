@@ -48,7 +48,7 @@ const DrawerHeader = styled("div")(({ theme, open }) => ({
 
 const LogoImage = styled("img")({
   width: 40,
-  height: 18,
+  height: 13,
   marginRight: 5, // Ajusta el margen derecho según tus necesidades
 });
 
