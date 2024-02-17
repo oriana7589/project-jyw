@@ -91,36 +91,24 @@ const Cliente = ({
   ranking,
   onValidarButtonClick,
   onCambiarFechaGrafica,
+  hayDatosDisponibles
 }) => {
-  const [tabValue, setTabValue] = useState(0);
-  const [datosDisponibles, setDatosDisponibles] = useState(false);
+  const [tabValue, setTabValue] = useState(0);  
 
   const handleChangeTab = (event, newValue) => {
     setTabValue(newValue);
   };
 
   const handleValidarButtonClick = () => {
-    if (cliente !== null && cliente !== undefined) {
-      // Si el cliente no es nulo ni indefinido, se considera que hay datos disponibles
-      setDatosDisponibles(true);
-    } else {
-      // Si el cliente es nulo o indefinido, se considera que no hay datos disponibles
-      setDatosDisponibles(false);
-    }
-
+    // if (cliente) {
+    //   // Si el cliente no es nulo ni indefinido, se considera que hay datos disponibles
+    //   setDatosDisponibles(true);
+    // } else {
+    //   // Si el cliente es nulo o indefinido, se considera que no hay datos disponibles
+    //   setDatosDisponibles(false);
+    // }
     onValidarButtonClick();
-    // getDatosVentasPorClientePorAño(cliente.codigoCliente, añoActual).then((dataActual) => {
-    //   setDataGraficaActual(dataActual);
-    //   // console.log("Datos del año actual:", dataActual);
-    // });
-
-    // getDatosVentasPorClientePorAño(cliente.codigoCliente, añoAnterior).then((dataAnterior) => {
-    //   setDataGraficaAnterior(dataAnterior);
-    //   // console.log("Datos del año anterior:", dataAnterior);
-    // });
-
-    // console.log("data en variable actual:", dataGraficaActual);
-    // console.log("data en variable anterior:", dataGraficaAnterior);
+    
   };
 
   return (
@@ -242,7 +230,7 @@ const Cliente = ({
             clickable="true"
           />
         </CustomTabs>
-        {datosDisponibles ? (
+        {hayDatosDisponibles ? (
           <PestañaContenido
             value={tabValue}
             dataGraficaActual={dataGraficaActual}

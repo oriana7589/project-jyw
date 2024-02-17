@@ -29,6 +29,7 @@ const TuComponente = () => {
   const [ranking, setRanking] = useState([]);
   const [rankingClienteSeleccionado, setRankingClienteSeleccionado] = useState("S/R");
   const [fechasGrafica, setFechasGrafica] = useState([new Date().getFullYear(), new Date().getFullYear() - 1]);
+  const [hayDatosDisponibles, setHayDatosDisponibles] = useState(false);
   
   
   const handleClientSelect = (cliente) => {
@@ -114,6 +115,9 @@ const TuComponente = () => {
       setPromedioComprasAlMes(promedioComprasAlMes);
       console.log("Promedio de compras al mes:", promedioComprasAlMes);
     });
+
+    //Mantener al último
+    setHayDatosDisponibles(true);
   };  
 
   useEffect(() => {
@@ -232,7 +236,8 @@ const TuComponente = () => {
             promedioComprasAlMes={promedioComprasAlMes}
             ranking={rankingClienteSeleccionado}
             onValidarButtonClick = {handleValidarButtonClick} 
-            onCambiarFechaGrafica = {onCambiarFechaGrafica}           
+            onCambiarFechaGrafica = {onCambiarFechaGrafica}
+            hayDatosDisponibles={hayDatosDisponibles}           
           />
         </Collapse>
       </Card>
