@@ -11,6 +11,9 @@ import Box from "@mui/material/Box";
 import Logo from "../image/logo.png";
 import LogoCom from "../image/logoCompleto.png";
 import DashboardCliente from "./DashboardCliente";
+import UltimasCompras from "./UltimasCompras";
+import Items from "./items";
+import DashboardItems from "./DashboardItems";
 
 const CustomLeftTab = styled(Tab)(({ theme, selected }) => ({
   color: selected
@@ -49,6 +52,8 @@ const PestañaContenido = ({
   promedioItems,
   promedioComprasAlMes,
   onCambiarFechaGrafica,
+  ultimasCompras,
+  itemsComprados
 }) => {
   switch (value) {
     case 0:
@@ -64,9 +69,13 @@ const PestañaContenido = ({
         />
       );
     case 1:
-      return "Hola";
+      return (<UltimasCompras
+      ultimasCompras = {ultimasCompras}
+      />)
     case 2:
-      return "Hola";
+      return (<DashboardItems
+      itemsComprados = {itemsComprados}
+      />)
     case 3:
       return "Hola";
     default:
@@ -89,6 +98,8 @@ const Cliente = ({
   promedioItems,
   promedioComprasAlMes,
   ranking,
+  ultimasCompras,
+  itemsComprados,
   onValidarButtonClick,
   onCambiarFechaGrafica,
   hayDatosDisponibles
@@ -238,6 +249,8 @@ const Cliente = ({
             dataDocumentos={dataDocumentos}
             promedioCompra={promedioCompra}
             promedioItems={promedioItems}
+            ultimasCompras = {ultimasCompras}
+            itemsComprados = {itemsComprados}
             promedioComprasAlMes={promedioComprasAlMes}
             onCambiarFechaGrafica={onCambiarFechaGrafica}
           />

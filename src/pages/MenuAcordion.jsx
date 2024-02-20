@@ -10,7 +10,7 @@ import Cliente from "./Cliente";
 import Typography from "@mui/material/Typography";
 import { Container, TextField } from "@mui/material";
 import DialogCliente from "../components/DialogCliente";
-import { getClientes, getDatosVentasPorClientePorAño, getUltimosDocumentosCliente, getPromedioCompraCliente, getPromedioItemsCliente, getPromedioComprasAlMesCliente, getRankingClientes } from "../Services/ApiService";
+import { getClientes, getDatosVentasPorClientePorAño, getUltimosDocumentosCliente, getPromedioCompraCliente, getPromedioItemsCliente, getPromedioComprasAlMesCliente, getRankingClientes, getUltimasComprasCliente, getItemsMasComprados } from "../Services/ApiService";
 import Items from "./items";
 
 
@@ -23,6 +23,8 @@ const TuComponente = () => {
   const [dataGraficaActual, setDataGraficaActual] = useState([]);
   const [dataGraficaAnterior, setDataGraficaAnterior] = useState([]);
   const [dataDocumentos, setDataDocumentos] = useState([]);
+  const [ultimasCompras, setUltimasCompras] = useState([]);
+  const [itemsComprados, setItemsComprados] = useState([]);
   const [promedioCompra, setPromedioCompra] = useState(0);
   const [promedioItems, setPromedioItems] = useState(0);
   const [promedioComprasAlMes, setPromedioComprasAlMes] = useState(0);
@@ -39,7 +41,7 @@ const TuComponente = () => {
   
   useEffect(() => {
     getRankingClientes().then((dataRanking) => {
-      console.log("Ranking de clientes:", dataRanking);
+      //console.log("Ranking de clientes:", dataRanking);
       setRanking(dataRanking);
     });
   }, []);
@@ -57,7 +59,7 @@ const TuComponente = () => {
   }; 
 
   useEffect(() => {    
-    console.log('Cambiando fecha: fechasGrafica', fechasGrafica);
+    //console.log('Cambiando fecha: fechasGrafica', fechasGrafica);
     if (selectedClient) {
     // Aquí puedes llamar a tus otros métodos que dependen de fechasGrafica
       getDatosVentasPorClientePorAño(selectedClient.codigoCliente, fechasGrafica[0]).then((dataActual) => {
@@ -81,39 +83,37 @@ const TuComponente = () => {
     
     const rankingClienteSeleccionado = rankingFiltrado ? rankingFiltrado.Ranking : "S/R";
     setRankingClienteSeleccionado(rankingClienteSeleccionado);
-
-    console.log('selectedClientRanking', rankingClienteSeleccionado);
     
-
-    console.log('selectedClient', selectedClient);
     getDatosVentasPorClientePorAño(selectedClient.codigoCliente, fechasGrafica[0]).then((dataActual) => {
       setDataGraficaActual(dataActual);
-      // console.log("Datos del año actual:", dataActual);      
     });
 
     getDatosVentasPorClientePorAño(selectedClient.codigoCliente, fechasGrafica[1]).then((dataAnterior) => {
       setDataGraficaAnterior(dataAnterior);
-      // console.log("Datos del año anterior:", dataAnterior);
     });
 
     getUltimosDocumentosCliente(selectedClient.codigoCliente).then((dataDocumentos) => {
       setDataDocumentos(dataDocumentos);
-      console.log("Datos de documentos:", dataDocumentos);
     });
 
     getPromedioCompraCliente(selectedClient.codigoCliente).then((promedioCompra) => {
       setPromedioCompra(promedioCompra);
-      console.log("Promedio de compra:", promedioCompra);
     });
 
     getPromedioItemsCliente(selectedClient.codigoCliente).then((promedioItems) => {
       setPromedioItems(promedioItems);
-      console.log("Promedio de items:", promedioItems);
     });
 
     getPromedioComprasAlMesCliente(selectedClient.codigoCliente).then((promedioComprasAlMes) => {
       setPromedioComprasAlMes(promedioComprasAlMes);
-      console.log("Promedio de compras al mes:", promedioComprasAlMes);
+    });
+
+    getUltimasComprasCliente(selectedClient.codigoCliente).then((ultimasCompras) => {
+      setUltimasCompras(ultimasCompras);
+    });
+
+    getItemsMasComprados(selectedClient.codigoCliente).then((itemsComprados) => {
+      setItemsComprados(itemsComprados);
     });
 
     //Mantener al último
@@ -138,8 +138,8 @@ const TuComponente = () => {
     setDialogOpen(true);
     if(criterioBusqueda !== "") {
       getClientes(criterioBusqueda).then(tablaClientes => {
-        console.log('DATA EN ACORDION');
-        console.log(tablaClientes);
+       // console.log('DATA EN ACORDION');
+       // console.log(tablaClientes);
         setClientes(tablaClientes);
       });
     } else {
@@ -235,6 +235,8 @@ const TuComponente = () => {
             promedioItems={promedioItems}
             promedioComprasAlMes={promedioComprasAlMes}
             ranking={rankingClienteSeleccionado}
+            ultimasCompras = {ultimasCompras}
+            itemsComprados = {itemsComprados}
             onValidarButtonClick = {handleValidarButtonClick} 
             onCambiarFechaGrafica = {onCambiarFechaGrafica}
             hayDatosDisponibles={hayDatosDisponibles}           
