@@ -1,90 +1,40 @@
-import React, { PureComponent } from "react";
-import {
-  BarChart,
-  Bar,
-  Rectangle,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  ResponsiveContainer,
-} from "recharts";
+import React from 'react';
+import ReactApexChart from 'react-apexcharts';
 
-
-export default class ChartItemsCliente extends PureComponent {
-  static demoUrl = "https://codesandbox.io/s/simple-bar-chart-tpz8r";
-
-  render() {
-    const { dataGraficaActual, dataGraficaAnterior } = this.props;
-    var dataCombinada = [];
-    var totalKeyAnterior = "";
-    var totalKeyActual = "";
-
-    const obtenerNombrePropiedadTotal = (objeto) => {
-      const nombresPropiedades = Object.keys(objeto);
-      const nombrePropiedadTotal = nombresPropiedades.find(nombre => nombre.startsWith('Total'));
-      return nombrePropiedadTotal;
+const ChartItemsCliente = ({ itemsComprados }) => {
+  const arrayTransformado = Object.values(itemsComprados.reduce((acumulador, item) => {
+    if (!acumulador[item.codigoInterno]) {
+      acumulador[item.codigoInterno] = { 
+        codigoInterno: item.codigoInterno, 
+        codigoArticulo: item.codigoArticulo, 
+        cantidad: 0 
+      };
     }
-
-    if (dataGraficaActual && dataGraficaAnterior && dataGraficaActual.length > 0 && dataGraficaAnterior.length > 0) {
   
+    acumulador[item.codigoInterno].cantidad += item.cantidad;
+    return acumulador;
+  }, {}));
 
-      dataCombinada = dataGraficaAnterior.map((itemAnterior, index) => {
-        const itemActual = dataGraficaActual[index];
-        return {
-          ...itemAnterior,
-          ...itemActual,
-        };
-      });    
-      totalKeyAnterior = obtenerNombrePropiedadTotal(dataGraficaAnterior[0]);
-      totalKeyActual = obtenerNombrePropiedadTotal(dataGraficaActual[0]);
-     } else {
-      dataCombinada = [
-        { Mes: "Enero", Total: 0 },
-        { Mes: "Febrero", Total: 0 },
-        { Mes: "Marzo", Total: 0 },
-        { Mes: "Abril", Total: 0 },
-        { Mes: "Mayo", Total: 0 },
-        { Mes: "Junio", Total: 0 },
-        { Mes: "Julio", Total: 0 },
-        { Mes: "Agosto", Total: 0 },
-        { Mes: "Septiembre", Total: 0 },
-        { Mes: "Octubre", Total: 0 },
-        { Mes: "Noviembre", Total: 0 },
-        { Mes: "Diciembre", Total: 0 },
-      ];      
-     }         
+ const top50 = arrayTransformado.sort((a, b) => b.cantidad - a.cantidad).slice(0, 30);
+  // Convertir los items comprados a la estructura de datos requerida para ApexCharts
+  const options = {
+    chart: {
+      type: 'treemap'
+    },
+    title: {
+      text: ''
+    },
+    series: [{
+      data: top50.map(item => ({
+        x: item.codigoArticulo,
+        y: item.cantidad
+      }))
+    }]
+  };
 
-    return (
-      <ResponsiveContainer width="100%" height="100%">
-        <BarChart
-          width={300}
-          height={100} 
-          data={dataCombinada}          
-          margin={{
-            top: 8,
-            right: 40,
-            left: 10,
-            bottom: 80,
-          }}
-        >
-          <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="Mes" angle={-45} interval={0} textAnchor="end" fontSize={"0.8rem"} />
-          <YAxis fontSize={"0.8rem"} tickCount={9}/>
-          <Tooltip />
-          <Bar
-            dataKey={totalKeyAnterior}            
-            fill="rgb(12, 55, 100)"
-            activeBar={<Rectangle fill="rgb(12, 55, 100)" stroke="rgb(12, 55, 100)" />}            
-          /> 
-          <Bar
-            dataKey={totalKeyActual}            
-            fill="rgb(255, 168, 0)"
-            activeBar={<Rectangle fill="rgb(255, 168, 0)" stroke="rgb(255, 168, 0)" />}
-            // Utiliza dataGraficaAnterior en lugar de data
-          />
-        </BarChart>
-      </ResponsiveContainer>
-    );
-  }
-}
+  return (
+    <ReactApexChart options={options} series={options.series} type="treemap" height= "90%" />
+  );
+};
+
+export default ChartItemsCliente;

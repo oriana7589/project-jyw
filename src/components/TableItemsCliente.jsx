@@ -13,7 +13,7 @@ const TableItemsCliente = ({ itemsComprados, itemsPerPage }) => {
   const [highlightedRow, setHighlightedRow] = useState(null);
   const [isLoading, setIsLoading] = useState(true); // Estado de carga
   const [page, setPage] = useState(0);
-  itemsPerPage = 4;
+  itemsPerPage = 5;
   
   useEffect(() => {
     // Simular una carga de datos con un retraso de 1.5 segundos

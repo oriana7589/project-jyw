@@ -16,6 +16,13 @@ const CustomLeftTab = styled(Tab)(({ theme, selected }) => ({
   backgroundColor: selected ? "rgba(245, 19, 13,1	)" : "rgb(245, 19, 13	)",
 }));
 
+const CustomLeftTabItems = styled(Tab)(({ theme, selected }) => ({
+  color: selected
+    ? "rgb(255, 255, 255) !important"
+    : "rgb(255, 255, 255) !important",
+  backgroundColor: selected ? "rgba(12, 55, 100,1	)" : "rgb(12, 55, 100	)",
+})); 
+
 const CustomClickableTab = styled(Tab)(({ theme, selected, clickable }) => ({
   color: selected
     ? "rgb(255, 255, 255) !important"
@@ -23,14 +30,14 @@ const CustomClickableTab = styled(Tab)(({ theme, selected, clickable }) => ({
     ? "rgb(131, 131, 131) !important"
     : "rgb(169, 169, 169) !important",
   backgroundColor: selected
-    ? "rgba(12, 55, 100, 1)"
+    ? "rgba(255, 168, 0, 1)"
     : clickable
     ? "rgb(237, 237, 237)"
     : "rgb(211, 211, 211)",
   cursor: clickable ? "pointer" : "not-allowed",
   "&:hover": {
     backgroundColor: selected
-      ? "rgba(12, 55, 100, 1)"
+      ? "rgba(255, 168, 0, 1)"
       : clickable
       ? "rgb(237, 237, 237)"
       : "rgb(211, 211, 211)",
@@ -42,11 +49,13 @@ const PestañaContenido = ({ value }) => {
     case 0:
       return <TD />;
     case 1:
-      return <TipoA />;
+      return <TD />;
     case 2:
-      return <TipoA />;
+      return <TD />;
     case 3:
-      return <TipoA />;
+      return <TD />;
+    case 4:
+        return <TD />;
     default:
       return null;
   }
@@ -91,13 +100,33 @@ const Items = (datosCliente) => {
           textColor="primary"
           orientation="vertical"
         >
+          <CustomLeftTabItems
+          label="Items"
+            style={{
+              minHeight: "30px",
+              maxWidth: "30px",
+              marginTop: "2px",
+            }}
+            clickable="true"
+          >
+          </CustomLeftTabItems>
+          <CustomLeftTab
+          icon={<ShoppingCartOutlinedIcon/>}
+            style={{
+              minHeight: "30px",
+              maxWidth: "30px",
+              marginTop: "4px",
+            }}
+            clickable="true"
+          >
+          </CustomLeftTab>
           <CustomClickableTab
             label="TD"
             clickable="true"
             style={{
               minHeight: "30px",
               maxWidth: "30px",
-              marginTop: "2px",
+              marginTop: "4px",
             }}
           />
 
@@ -106,30 +135,20 @@ const Items = (datosCliente) => {
             style={{
               minHeight: "30px",
               maxWidth: "30px",
-              marginTop: "5px",
+              marginTop: "4px",
             }}
             clickable="true" // Puedes hacer clic en esta pestaña
           />
+          
           <CustomClickableTab
             label="PH"
             style={{
               minHeight: "30px",
               maxWidth: "30px",
-              marginTop: "5px",
+              marginTop: "4px",
             }}
             clickable="true"
           />
-          <CustomLeftTab
-          icon={<ShoppingCartOutlinedIcon/>}
-            style={{
-              minHeight: "30px",
-              maxWidth: "30px",
-              marginTop: "5px",
-            }}
-            clickable="true"
-          >
-
-          </CustomLeftTab>
         </CustomTabs>
         <PestañaContenido value={tabValue} />
       </Box>

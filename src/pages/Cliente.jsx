@@ -141,28 +141,31 @@ const Cliente = ({
           >
             <Paper elevation={0} style={{ flex: "1", marginTop: "5px" }}>
               <div>
-                <strong>RUC:</strong> {cliente ? cliente.numDocumento : ""}
+                <strong>RUC:</strong>
+                <input style={{marginLeft:58, fontSize:14, marginBottom:2, height:24, width:"72.5%"}} type="text" value={cliente ? cliente.numDocumento : ''} disabled/>
               </div>
               <div>
-                <strong>CELULAR:</strong> {cliente ? cliente.celular : ""}
+                <strong>CELULAR:</strong> 
+                <input style={{marginLeft:15, fontSize:14,marginBottom:2, width:"72.5%", height:24 }} type="text" value={cliente ? cliente.celular : ""} disabled/>
               </div>
               <div>
-                <strong>TELÉFONO:</strong> {cliente ? cliente.telefono1 : ""} -{" "}
-                {cliente ? cliente.telefono2 : ""}
+                <strong>TELÉFONO:</strong> 
+                <input style={{marginLeft:5, fontSize:14, width:"72.5%", height:24}} type="text" value= {cliente ? cliente.telefono1 + ' - ' + cliente.telefono2 : ''}  disabled/>
               </div>
             </Paper>
 
             <Paper elevation={0} style={{ flex: "2", marginTop: "5px" }}>
               <div>
                 <strong>RAZÓN SOCIAL:</strong>{" "}
-                {cliente ? cliente.razonSocial : ""}
+                <input style={{marginLeft:5, fontSize:14, marginBottom:2, height:24, width:"80%"}} type="text" value= {cliente ? cliente.razonSocial : ""} disabled/>
               </div>
               <div>
-                <strong>DIRECCIÓN FISCAL:</strong>{" "}
-                {cliente ? cliente.direccion : ""}
+                <strong>DIRECCIÓN:</strong>{" "}
+                <input style={{marginLeft:37, fontSize:14,height:24, marginBottom:2, width:"80%"}} type="text" value=   {cliente ? cliente.direccion : ""} disabled/>
               </div>
               <div>
-                <strong>EMAIL:</strong> {cliente ? cliente.correo : ""}
+                <strong>EMAIL:</strong> 
+                <input style={{marginLeft:82.5, fontSize:14, height:24, width:"80%"}} type="text" value= {cliente ? cliente.correo : ""} disabled/>
               </div>
             </Paper>
 
@@ -257,7 +260,7 @@ const Cliente = ({
         ) : (
           <div
             style={{
-              height: "calc(100vh - 17.78rem)",
+              height: "calc(100vh - 17.6rem)",
               display: "flex",
               flexDirection: "column",
               alignItems: "center",

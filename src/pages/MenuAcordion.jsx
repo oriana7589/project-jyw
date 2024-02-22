@@ -154,10 +154,9 @@ const TuComponente = () => {
   const handleExpandClick = (panel) => {
     setExpandedPanels((prevPanels) => {
       if (prevPanels.includes(panel)) {
-        // Si ya está expandido, lo colapsamos solo si no es el único panel abierto
-        return prevPanels.length > 1
-          ? prevPanels.filter((p) => p !== panel)
-          : prevPanels;
+        // Si ya está expandido, colapsamos el panel actual y expandimos el otro
+        const nextPanel = panel === 1 ? 2 : 1;
+        return [nextPanel];
       } else {
         // Si no está expandido, colapsamos todos los demás y expandimos el panel actual
         return [panel];
@@ -176,7 +175,7 @@ const TuComponente = () => {
             backgroundColor: expandedPanels.includes(1)
               ? "rgb(12, 55, 100)"
               : "rgb(12, 55, 100)",
-            height: "3.5rem",
+            height: "3rem",
           }}
         >
           <Container sx={{display: "flex", marginLeft: 0 }}>
@@ -205,6 +204,9 @@ const TuComponente = () => {
               style={{ marginLeft: "10px" }}
               placeholder="Ruc o Razón"
               onChange={e => setCriterioBusqueda(e.target.value) }
+              onClick={(event) => {
+                event.stopPropagation(); // Evita la propagación del evento al acordeón
+              }}
             />
             <IconButton
               style={{
@@ -291,6 +293,9 @@ const TuComponente = () => {
                 InputLabelProps={{ style: { color: "rgb(255,255,255)" } }}
                 style={{ marginLeft: "10px" }}
                 placeholder="Descripción"
+                onClick={(event) => {
+                  event.stopPropagation(); // Evita la propagación del evento al acordeón
+                }}
               />
               <TextField
                 size="small"
@@ -305,6 +310,9 @@ const TuComponente = () => {
                 InputLabelProps={{ style: { color: "rgb(255,255,255)" } }}
                 style={{ marginLeft: "10px" }}
                 placeholder="Código"
+                onClick={(event) => {
+                  event.stopPropagation(); // Evita la propagación del evento al acordeón
+                }}
               />
               <Typography
                 style={{
@@ -332,6 +340,9 @@ const TuComponente = () => {
                 InputLabelProps={{ style: { color: "rgb(255,255,255)" } }}
                 style={{ marginLeft: "10px" }}
                 placeholder="Marca"
+                onClick={(event) => {
+                  event.stopPropagation(); // Evita la propagación del evento al acordeón
+                }}
               />
               <IconButton
                 style={{

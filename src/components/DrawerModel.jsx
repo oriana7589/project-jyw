@@ -84,7 +84,10 @@ export default function DrawerModel() {
     // Establecer el contenido inicial al cargar la aplicación
     setContent("MenuAcordion");
   }, []); 
-
+  
+  const toggleDrawer = () => {
+    setOpen(!open);
+  };
 
   const handleMouseEnter = () => {
     setOpen(true);
@@ -100,8 +103,7 @@ export default function DrawerModel() {
       <Drawer
         variant="permanent"
         open={open}
-        onMouseEnter={handleMouseEnter}
-        onMouseLeave={handleMouseLeave}
+        onClick={toggleDrawer}
         style={{
           position: "absolute",
           zIndex: theme.zIndex.drawer + 2, // Asegura que Drawer esté por encima del AppBar

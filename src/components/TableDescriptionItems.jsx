@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button, IconButton, Typography } from "@mui/material";
+import { Button, IconButton, TextField, Typography } from "@mui/material";
 import TableShop from "./TableShop";
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 
@@ -36,7 +36,7 @@ const TableDescripcionItems = () => {
 
   const subtotal = currentData.reduce((acc, item) => acc + item.monto, 0);
 
-  const [ticketCount, setTicketCount] = useState(0);
+  const [ticketCount, setTicketCount] = useState(1);
 
   const handleIncrement = () => {
     setTicketCount(ticketCount + 1);
@@ -62,10 +62,10 @@ const TableDescripcionItems = () => {
       >
         <tbody>
           <tr>
-            <td colSpan="1" style={{fontSize:"1.1rem"}}>P. FINAL C/IGV: 25 DOL</td>
+            <td colSpan="1" style={{fontSize:"1.1rem", paddingLeft:120}}>P. FINAL C/IGV: 25 DOL</td>
           </tr>
           <tr>
-            <td style={{ display: "flex" }}>
+            <td style={{ display: "flex", justifyContent: "flex-end"}}>
               <IconButton
                 style={{
                     border: "1px solid rgb(226, 52, 48)", 
@@ -82,7 +82,7 @@ const TableDescripcionItems = () => {
                  -
                 </Typography>
               </IconButton>
-              <Typography paddingLeft={2} paddingRight={2}  paddingTop={1}>{ticketCount}</Typography>
+              <TextField variant="outlined" ali style={{margin:10, fontSize:14, width:"15%",  textAlign:"center" }}   value={ticketCount}/>
               <IconButton
                 style={{
                     border: "1px solid rgb(226, 52, 48)", 
