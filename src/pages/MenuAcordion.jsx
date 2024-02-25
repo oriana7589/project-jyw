@@ -10,16 +10,27 @@ import Cliente from "./Cliente";
 import Typography from "@mui/material/Typography";
 import { Container, TextField } from "@mui/material";
 import DialogCliente from "../components/DialogCliente";
-import { getClientes, getDatosVentasPorClientePorAño, getUltimosDocumentosCliente, getPromedioCompraCliente, getPromedioItemsCliente, getPromedioComprasAlMesCliente, getRankingClientes, getUltimasComprasCliente, getItemsMasComprados } from "../Services/ApiService";
+import { getClientes, getDatosVentasPorClientePorAño, getUltimosDocumentosCliente, getPromedioCompraCliente, getPromedioItemsCliente, getPromedioComprasAlMesCliente, getRankingClientes, getUltimasComprasCliente, getItemsMasComprados, getProdutosFiltrados } from "../Services/ApiService";
 import Items from "./items";
+import DialogProductos from "../components/DialogProductos";
+import Alert from '@mui/material/Alert';
+import { ToastContainer, toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 
 const TuComponente = () => {
   const [expandedPanels, setExpandedPanels] = useState([1]);
   const [dialogOpen, setDialogOpen] = useState(false);
+  const [toastOpen, setToastOpen] = useState(false);
+  const [dialogProductOpen, setDialogProductOpen] = useState(false);
   const [criterioBusqueda , setCriterioBusqueda] = useState("");
+  const[criterio1, setCriterio1] = useState("");
+  const[criterio2, setCriterio2] = useState("");
+  const[criterio3, setCriterio3] = useState("");
   const [clientes, setClientes] = useState([]);
+  const [items, setItems] = useState([]);
   const [selectedClient, setSelectedClient] = useState(null);
+  const [selectedItems, setSelectedItems] = useState(null);
   const [dataGraficaActual, setDataGraficaActual] = useState([]);
   const [dataGraficaAnterior, setDataGraficaAnterior] = useState([]);
   const [dataDocumentos, setDataDocumentos] = useState([]);
@@ -35,6 +46,11 @@ const TuComponente = () => {
   
   
   const handleClientSelect = (cliente) => {
+    setSelectedClient(cliente);
+    setDialogOpen(false);
+  };
+
+  const handleItemsSelect = (cliente) => {
     setSelectedClient(cliente);
     setDialogOpen(false);
   };
@@ -147,8 +163,29 @@ const TuComponente = () => {
     }    
   }; 
 
+  
   const handleCloseDialog = () => {
     setDialogOpen(false);
+  };
+
+  const handleIconButtonItemsClick = () => {
+    if (criterio1 === "") {
+      // Si el criterio1 está vacío, mostrar el toast
+      setToastOpen(true)
+      toast.warning("Por favor, ingrese el primer campo");
+    } else {
+      // Abrir el diálogo y obtener los productos filtrados
+      setDialogProductOpen(true);
+      getProdutosFiltrados(criterio1, criterio2, criterio3).then(tablaProductos => {
+         console.log('DATA EN ACORDION PRODUCTOS');
+       console.log(tablaProductos);
+        setItems(tablaProductos);
+      });
+    }
+  };
+
+  const handleCloseDialogProduct = () => {
+    setDialogProductOpen(false);
   };
 
   const handleExpandClick = (panel) => {
@@ -165,7 +202,7 @@ const TuComponente = () => {
   };
 
   return (
-    <Paper elevation={0}>
+    <Paper elevation={0} >
       {/* Card Arriba */}
       <Card sx={{ marginLeft: "55px", borderRadius: 0 }}>
         <CardActions
@@ -292,7 +329,8 @@ const TuComponente = () => {
                 }}
                 InputLabelProps={{ style: { color: "rgb(255,255,255)" } }}
                 style={{ marginLeft: "10px" }}
-                placeholder="Descripción"
+                placeholder="Código"
+                onChange={e => setCriterio1(e.target.value) }
                 onClick={(event) => {
                   event.stopPropagation(); // Evita la propagación del evento al acordeón
                 }}
@@ -309,7 +347,8 @@ const TuComponente = () => {
                 }}
                 InputLabelProps={{ style: { color: "rgb(255,255,255)" } }}
                 style={{ marginLeft: "10px" }}
-                placeholder="Código"
+                placeholder="Descripción"
+                onChange={e => setCriterio2(e.target.value) }
                 onClick={(event) => {
                   event.stopPropagation(); // Evita la propagación del evento al acordeón
                 }}
@@ -339,7 +378,8 @@ const TuComponente = () => {
                 }}
                 InputLabelProps={{ style: { color: "rgb(255,255,255)" } }}
                 style={{ marginLeft: "10px" }}
-                placeholder="Marca"
+                placeholder="Marca - País"
+                onChange={e => setCriterio3(e.target.value) }
                 onClick={(event) => {
                   event.stopPropagation(); // Evita la propagación del evento al acordeón
                 }}
@@ -354,10 +394,12 @@ const TuComponente = () => {
                 }}
                 onClick={(event) => {
                   event.stopPropagation();
+                 handleIconButtonItemsClick ();
                 }}
               >
                 <SearchIcon style={{ color: "rgb(255, 255, 255)" }} />
               </IconButton>
+             
               <Typography
                 style={{
                   color: "rgb(255,255,255)",
@@ -400,6 +442,27 @@ const TuComponente = () => {
         handleClose={handleCloseDialog}
         onBackdropClick={handleCloseDialog}
       />
+      <DialogProductos
+        items={items}
+        onProductSelect = {handleItemsSelect}
+        open={dialogProductOpen}
+        handleClose={handleCloseDialogProduct}
+        onBackdropClick={handleCloseDialogProduct}
+      />
+       <ToastContainer
+          position="top-right"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme= "light"
+          transition: Bounce
+/>
+      
     </Paper>
   );
 };

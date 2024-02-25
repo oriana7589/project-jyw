@@ -8,6 +8,7 @@ import Box from "@mui/material/Box";
 import TipoA from "./DashboardCliente";
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import TD from "./TD";
+import CarritoCompras from "../components/CarritoCompras";
 
 const CustomLeftTab = styled(Tab)(({ theme, selected }) => ({
   color: selected
@@ -49,7 +50,7 @@ const PestañaContenido = ({ value }) => {
     case 0:
       return <TD />;
     case 1:
-      return <TD />;
+      return <CarritoCompras />;
     case 2:
       return <TD />;
     case 3:

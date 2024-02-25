@@ -3,6 +3,10 @@ import axios from 'axios';
 const baseUrlCliente = () => {    
     return "http://10.10.0.25:9696/api/Cliente";
 };
+const baseUrlProductos = () => {    
+    return "http://10.10.0.25:9696/api/Producto";
+};
+
 
 const baseUrlDocumento = () => {
     return "http://10.10.0.25:9696/api/DocumentoCobrar";
@@ -97,3 +101,20 @@ export function getUltimasComprasCliente(codCliente) {
 
     return listaCompras;
  }
+
+ export function getProdutosFiltrados(criterio1, criterio2 = "", criterio3 = "") {
+    let queryString = `?Criterio1=${criterio1}`;
+    if (criterio2 !== "") {
+        queryString += `&Criterio2=${criterio2}`;
+    }
+    if (criterio3 !== "") {
+        queryString += `&Criterio3=${criterio3}`;
+    }
+
+    const ProductosFiltrados =
+        axios.get(`${baseUrlProductos()}/ProductosFiltrados${queryString}`)
+            .then((res) => {
+                return res.data;
+            });
+    return ProductosFiltrados;
+}
