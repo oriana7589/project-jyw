@@ -142,30 +142,30 @@ const Cliente = ({
             <Paper elevation={0} style={{ flex: "1", marginTop: "5px" }}>
               <div>
                 <strong>RUC:</strong>
-                <input style={{marginLeft:58, fontSize:14, marginBottom:2, height:24, width:"72.5%"}} type="text" value={cliente ? cliente.numDocumento : ''} disabled/>
+                <input style={{marginLeft:58, fontSize:14, marginBottom:2, height:24, width:"68%"}} type="text" value={cliente ? cliente.numDocumento : ''} disabled/>
               </div>
               <div>
                 <strong>CELULAR:</strong> 
-                <input style={{marginLeft:15, fontSize:14,marginBottom:2, width:"72.5%", height:24 }} type="text" value={cliente ? cliente.celular : ""} disabled/>
+                <input style={{marginLeft:15, fontSize:14,marginBottom:2, width:"68%", height:24 }} type="text" value={cliente ? cliente.celular : ""} disabled/>
               </div>
               <div>
                 <strong>TELÉFONO:</strong> 
-                <input style={{marginLeft:5, fontSize:14, width:"72.5%", height:24}} type="text" value= {cliente ? cliente.telefono1 + ' - ' + cliente.telefono2 : ''}  disabled/>
+                <input style={{marginLeft:5, fontSize:14, width:"68%", height:24}} type="text" value= {cliente ? cliente.telefono1 + ' - ' + cliente.telefono2 : ''}  disabled/>
               </div>
             </Paper>
 
             <Paper elevation={0} style={{ flex: "2", marginTop: "5px" }}>
               <div>
                 <strong>RAZÓN SOCIAL:</strong>{" "}
-                <input style={{marginLeft:5, fontSize:14, marginBottom:2, height:24, width:"80%"}} type="text" value= {cliente ? cliente.razonSocial : ""} disabled/>
+                <input style={{marginLeft:5, fontSize:14, marginBottom:2, height:24, width:"75%"}} type="text" value= {cliente ? cliente.razonSocial : ""} disabled/>
               </div>
               <div>
                 <strong>DIRECCIÓN:</strong>{" "}
-                <input style={{marginLeft:37, fontSize:14,height:24, marginBottom:2, width:"80%"}} type="text" value=   {cliente ? cliente.direccion : ""} disabled/>
+                <input style={{marginLeft:37, fontSize:14,height:24, marginBottom:2, width:"75%"}} type="text" value=   {cliente ? cliente.direccion : ""} disabled/>
               </div>
               <div>
                 <strong>EMAIL:</strong> 
-                <input style={{marginLeft:82.5, fontSize:14, height:24, width:"80%"}} type="text" value= {cliente ? cliente.correo : ""} disabled/>
+                <input style={{marginLeft:82.5, fontSize:14, height:24, width:"75%"}} type="text" value= {cliente ? cliente.correo : ""} disabled/>
               </div>
             </Paper>
 

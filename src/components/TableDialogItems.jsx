@@ -10,6 +10,7 @@ import TablePagination from "@mui/material/TablePagination";
 import Logo from "../image/logo.png";
 import Result from "../image/result.png";
 import { Typography } from "@mui/material";
+import SquareSharpIcon from '@mui/icons-material/SquareSharp';
 
 const TableComponent = ({ items, onProductSelect, itemsPerPage }) => {
   const [selectedClient, setSelectedClient] = useState(null);
@@ -32,7 +33,6 @@ const TableComponent = ({ items, onProductSelect, itemsPerPage }) => {
     setSelectedClient(datosItems);
     onProductSelect(datosItems);
   };
-  
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -45,6 +45,10 @@ const TableComponent = ({ items, onProductSelect, itemsPerPage }) => {
   const handleMouseLeave = () => {
     setHighlightedRow(null);
   };
+
+  const handleCellClick = (index) => {
+  setExpandedCell(index === expandedCell ? null : index);
+};
 
   return (
     <div
@@ -76,233 +80,52 @@ const TableComponent = ({ items, onProductSelect, itemsPerPage }) => {
           />
         </div>
       ) : items.length > 0 ? (
-        <div style={{ overflow: "auto" }}>
-          <TableContainer style={{ maxHeight: 515 }}>
-            <Table
-              stickyHeader
-              sx={{
-                borderCollapse: "collapse",
-                width: "100%",
-                height: "100%",
-                border: "1px solid gis",
-              }}
-            >
-              <TableHead>
-                <TableRow>
-                  <TableCell
-                    style={{
-                      textAlign: "left",
-                      backgroundColor: "rgb(255, 168, 0)",
-                      fontSize: "1rem",
-                      fontWeight: "bold",
-                    }}
-                  >
-                    {""}
-                  </TableCell>
-                  <TableCell
-                    style={{
-                      textAlign: "left",
-                      backgroundColor: "rgb(255, 168, 0)",
-                      fontSize: "1rem",
-                      fontWeight: "bold",
-                    }}
-                  >
-                    Linea
-                  </TableCell>
-                  <TableCell
-                    style={{
-                      textAlign: "left",
-                      backgroundColor: "rgb(255, 168, 0)",
-                      fontSize: "1rem",
-                      fontWeight: "bold",
-                    }}
-                  >
-                    Articulo
-                  </TableCell>
-                  <TableCell
-                    style={{
-                      textAlign: "left",
-                      backgroundColor: "rgb(255, 168, 0)",
-                      fontSize: "1rem",
-                      fontWeight: "bold",
-                    }}
-                  >
-                   Código Interno
-                  </TableCell>
-                  <TableCell
-                    style={{
-                      textAlign: "left",
-                      padding: "10px",
-                      backgroundColor: "rgb(255, 168, 0)",
-                      fontSize: "1rem",
-                      fontWeight: "bold",
-                    }}
-                  >
-                    Tipo Compra
-                  </TableCell>
-                  <TableCell
-                    style={{
-                      textAlign: "left",
-                      padding: "10px",
-                      backgroundColor: "rgb(255, 168, 0)",
-                      fontSize: "1rem",
-                      fontWeight: "bold",
-                    }}
-                  >
-                    Descripción
-                  </TableCell>
-                  <TableCell
-                    style={{
-                      textAlign: "left",
-                      padding: "10px",
-                      backgroundColor: "rgb(255, 168, 0)",
-                      fontSize: "1rem",
-                      fontWeight: "bold",
-                    }}
-                  >
-                    Pais
-                  </TableCell>
-                  <TableCell
-                    style={{
-                      textAlign: "left",
-                      padding: "10px",
-                      backgroundColor: "rgb(255, 168, 0)",
-                      fontSize: "1rem",
-                      fontWeight: "bold",
-                    }}
-                  >
-                    Marca
-                  </TableCell>
-                  <TableCell
-                    style={{
-                      textAlign: "left",
-                      padding: "10px",
-                      backgroundColor: "rgb(255, 168, 0)",
-                      fontSize: "1rem",
-                      fontWeight: "bold",
-                    }}
-                  >
-                    P.venta
-                  </TableCell>
-                  <TableCell
-                    style={{
-                      textAlign: "left",
-                      padding: "10px",
-                      backgroundColor: "rgb(255, 168, 0)",
-                      fontSize: "1rem",
-                      fontWeight: "bold",
-                    }}
-                  >
-                    P. Desc
-                  </TableCell>
-                  <TableCell
-                    style={{
-                      textAlign: "left",
-                      padding: "10px",
-                      backgroundColor: "rgb(255, 168, 0)",
-                      fontSize: "1rem",
-                      fontWeight: "bold",
-                    }}
-                  >
-                    P1
-                  </TableCell>
-                  <TableCell
-                    style={{
-                      textAlign: "left",
-                      padding: "10px",
-                      backgroundColor: "rgb(255, 168, 0)",
-                      fontSize: "1rem",
-                      fontWeight: "bold",
-                    }}
-                  >
-                    P3
-                  </TableCell>
-                  <TableCell
-                    style={{
-                      textAlign: "left",
-                      padding: "10px",
-                      backgroundColor: "rgb(255, 168, 0)",
-                      fontSize: "1rem",
-                      fontWeight: "bold",
-                    }}
-                  >
-                    P4
-                  </TableCell>
-                  <TableCell
-                    style={{
-                      textAlign: "left",
-                      padding: "10px",
-                      backgroundColor: "rgb(255, 168, 0)",
-                      fontSize: "1rem",
-                      fontWeight: "bold",
-                    }}
-                  >
-                    P1
-                  </TableCell>
-                  <TableCell
-                    style={{
-                      textAlign: "left",
-                      padding: "10px",
-                      backgroundColor: "rgb(255, 168, 0)",
-                      fontSize: "1rem",
-                      fontWeight: "bold",
-                    }}
-                  >
-                  P1
-                  </TableCell>
-                  <TableCell
-                    style={{
-                      textAlign: "left",
-                      padding: "10px",
-                      backgroundColor: "rgb(255, 168, 0)",
-                      fontSize: "1rem",
-                      fontWeight: "bold",
-                    }}
-                  >
-                   Total
-                  </TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {items
-                  .slice(page * itemsPerPage, (page + 1) * itemsPerPage)
-                  .map((item, index) => (
-                    <TableRow
-                      key={index}
-                      sx={{
-                        cursor: "pointer",
-                        backgroundColor:
-                          selectedClient === item
-                            ? "#B8B8B8"
-                            : highlightedRow === index
-                            ? "#F0F0F0"
-                            : "white",
-                      }}
-                      onDoubleClick={() => handleRowDoubleClick(item)}
-                      onMouseEnter={() => handleMouseEnter(index)}
-                      onMouseLeave={handleMouseLeave}
-                    >
-                      <TableCell style={{textAlign: "left",paddingLeft: "10px",fontSize: "0.9rem"}}>{item.OrdenCompra}</TableCell>
-                      <TableCell style={{textAlign: "left",paddingLeft: "10px",fontSize: "0.9rem"}}>{item.CodigoLinea}</TableCell>
-                      <TableCell style={{textAlign: "left", paddingLeft: "10px",fontSize: "0.9rem"}}>{item.CodigoArticulo}</TableCell>
-                      <TableCell style={{textAlign: "left",paddingLeft: "10px",fontSize: "0.9rem"}}>{item.CodigoInternoMarca}</TableCell>
-                      <TableCell style={{textAlign: "left",paddingLeft: "10px",fontSize: "0.9rem"}}>{item.TipoCompra}</TableCell>
-                      <TableCell className="tableCellCustomWidth">{item.DescripcionArticulo}</TableCell>
-                      <TableCell style={{textAlign: "left",paddingLeft: "10px",fontSize: "0.9rem"}}>{item.DescripcionPais}</TableCell>
-                      <TableCell style={{textAlign: "left",paddingLeft: "10px",fontSize: "0.9rem"}}>{item.DescripcionMarca}</TableCell>
-                      <TableCell style={{textAlign: "left", paddingLeft: "10px",fontSize: "0.9rem"}}>{item.PrecioVenta}</TableCell>
-                      <TableCell style={{textAlign: "left",paddingLeft: "10px",fontSize: "0.9rem"}}>{item.PrecioDescuento}</TableCell>
-                      <TableCell style={{textAlign: "left",paddingLeft: "10px",fontSize: "0.9rem"}}>{item.Stock01P1}</TableCell>
-                      <TableCell style={{textAlign: "left", paddingLeft: "10px",fontSize: "0.9rem"}}>{item.Stock01P3}</TableCell>
-                      <TableCell style={{textAlign: "left",paddingLeft: "10px",fontSize: "0.9rem"}}>{item.Stock01P4}</TableCell>
-                      <TableCell style={{textAlign: "left",paddingLeft: "10px",fontSize: "0.9rem"}}>{item.Stock02P1}</TableCell>
-                      <TableCell style={{textAlign: "left", paddingLeft: "10px",fontSize: "0.9rem"}}>{item.StockT1P1}</TableCell>
-                      <TableCell style={{textAlign: "left", paddingLeft: "10px",fontSize: "0.9rem"}}>{item.StockTotal}</TableCell>
-                    </TableRow>
-                  ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
+        <div style={{ overflow:"auto"}}>
+         <table style={{ borderCollapse: 'collapse', width: '100%', border: 1 }}>
+        <thead style={{ position: "sticky", top: 0, zIndex: 1, backgroundColor: "rgb(255, 168, 0)" }}>
+          <tr style={{ height: 50 }}>
+            <th style={{textAlign:"center", fontSize:"0.8rem", backgroundColor: "rgb(255, 168, 0)" , border: "1px solid black" }}>  </th>
+            <th style={{textAlign:"center", fontSize:"0.8rem" , backgroundColor: "rgb(255, 168, 0)" , border: "1px solid black"}}>Línea</th>
+            <th style={{textAlign:"center", fontSize:"0.8rem" , backgroundColor: "rgb(255, 168, 0)", border: "1px solid black" }}>Cod Articulo</th>
+            <th style={{textAlign:"center", fontSize:"0.8rem" , backgroundColor: "rgb(255, 168, 0)" ,  border: "1px solid black"  }}>Codint Marca</th>
+            <th style={{textAlign:"center", fontSize:"0.8rem", backgroundColor: "rgb(255, 168, 0)" ,  border: "1px solid black" }}>TC</th>
+            <th style={{textAlign:"center", fontSize:"0.8rem" , backgroundColor: "rgb(255, 168, 0)" , border: "1px solid black" }}>Des Articulo</th>
+            <th style={{textAlign:"center",  fontSize:"0.8rem" , backgroundColor: "rgb(255, 168, 0)" , border: "1px solid black"}}>Pais</th>
+            <th style={{textAlign:"center",  fontSize:"0.8rem" , backgroundColor: "rgb(255, 168, 0)", border: "1px solid black"  }}>Marca</th>
+            <th style={{textAlign:"center",  fontSize:"0.8rem" , backgroundColor: "rgb(255, 168, 0)" , border: "1px solid black" }}>P.V</th>
+            <th style={{textAlign:"center",  fontSize:"0.8rem" , backgroundColor: "rgb(255, 168, 0)", border: "1px solid black"  }}>P.D</th>
+            <th style={{textAlign:"center",  fontSize:"0.8rem" , backgroundColor: "rgb(255, 168, 0)", border: "1px solid black" }}>P1</th>
+            <th style={{textAlign:"center",  fontSize:"0.8rem", backgroundColor: "rgb(255, 168, 0)", border: "1px solid black"  }}>P3</th>
+            <th style={{textAlign:"center", fontSize:"0.8rem" , backgroundColor: "rgb(255, 168, 0)" , border: "1px solid black" }}>P4</th>
+            <th style={{textAlign:"center", fontSize:"0.8rem" , backgroundColor: "rgb(255, 168, 0)" , border: "1px solid black"  }}>P1</th>
+            <th style={{textAlign:"center", fontSize:"0.8rem" , backgroundColor: "rgb(255, 168, 0)" , border: "1px solid black" }}>P1</th>
+            <th style={{textAlign:"center", fontSize:"0.8rem" , backgroundColor: "rgb(255, 168, 0)" , border: "1px solid black" }}>Total</th>
+
+          </tr>
+        </thead>
+        <tbody>
+          {items.map((item) => (
+            <tr key={item.CodigoInterno}>
+              <td style={{ fontSize:"0.8rem", padding:0.5,border: "1px solid black",whiteSpace:"nowrap" , overflow:"hidden"  }}> <SquareSharpIcon style={{ color: item.OrdenCompra === -1 ? "rgb(179,180,177)" : item.OrdenCompra === 1 ? "rgb(128,247,60)" : "rgb(255,17,17)" }} /></td>
+              <td style={{ fontSize:"0.8rem", padding:0.5, border: "1px solid black",whiteSpace: "nowrap",overflow: "hidden",paddingLeft:5 }}>{item.CodigoLinea}</td>
+              <td style={{ fontSize:"0.8rem", padding:0.5 ,border: "1px solid black",whiteSpace: "nowrap", maxWidth:"80px",overflow: "hidden",paddingLeft:10 }}>{item.CodigoArticulo}</td>
+              <td style={{ fontSize:"0.8rem", padding:0.5, border: "1px solid black" ,whiteSpace: "nowrap",maxWidth:"80px",overflow: "hidden",paddingLeft:10 }}>{item.CodigoInternoMarca}</td>
+              <td style={{ fontSize:"0.8rem", padding:0.5, textAlign:"left",border: "1px solid black",paddingRight:3.5,whiteSpace: "nowrap",overflow: "hidden",paddingLeft:5 , background: item.TipoCompra === "ORI" ? "rgb(67,240,42)" : item.TipoCompra === "IMP" ? "rgb(227,216,249)" : item.TipoCompra === "LOC" ? "rgb(251,255,170)" : "rgb(255,255,255)" }}>{item.TipoCompra}</td>
+              <td style={{  fontSize: "0.8rem",  padding: 0.5,   border: "1px solid black",  maxWidth: "320px",whiteSpace: "nowrap",overflow: "hidden",paddingLeft:5,}} >{item.DescripcionArticulo}</td>
+              <td style={{  fontSize:"0.8rem", padding:0.5, border: "1px solid black",whiteSpace: "nowrap",maxWidth:"75px",overflow: "hidden",paddingLeft:5}}>{item.DescripcionPais}</td>
+              <td style={{ fontSize:"0.8rem" , padding:0.5, border: "1px solid black",maxWidth:"85px",whiteSpace: "nowrap",overflow: "hidden", paddingLeft:5 }}>{item.DescripcionMarca}</td>
+              <td style={{  fontSize:"0.8rem", padding:0.5 , border: "1px solid black",whiteSpace: "nowrap",overflow: "hidden",paddingLeft:5,  textAlign:"end" }}>{item.PrecioVenta}</td>
+              <td style={{  fontSize:"0.8rem", padding:0.5 , border: "1px solid black",maxWidth: "55px",whiteSpace: "nowrap",overflow: "hidden",paddingLeft:5,  textAlign:"end"  , background:"rgb(29,241,255)" }}>{item.PrecioDescuento}</td>
+              <td style={{  fontSize:"0.8rem", padding:0.5 , border: "1px solid black" ,maxWidth: "30px",whiteSpace: "nowrap",overflow: "hidden",textAlign:"end",paddingLeft:6.8  }}>{item.Stock01P1}</td>
+              <td style={{  fontSize:"0.8rem", padding:0.5 , border: "1px solid black",maxWidth:"30px",whiteSpace: "nowrap",overflow: "hidden", textAlign:"end",paddingLeft:6.8  }}>{item.Stock01P3}</td>
+              <td style={{  fontSize:"0.8rem", padding:0.5 , border: "1px solid black",maxWidth:"30px" ,whiteSpace: "nowrap",overflow: "hidden",  textAlign:"end" , paddingLeft:6.8  }}>{item.Stock01P4}</td>
+              <td style={{  fontSize:"0.8rem", padding:0.5 , border: "1px solid black",maxWidth:"30px",whiteSpace: "nowrap",overflow: "hidden",  textAlign:"end" }}>{item.Stock02P1}</td>
+              <td style={{ fontSize:"0.8rem" , padding:0.5 , border: "1px solid black" ,maxWidth:"30px",whiteSpace: "nowrap",overflow: "hidden", textAlign:"end", paddingLeft:6.8  }}>{item.StockT1P1}</td>
+              <td style={{  fontSize:"0.8rem", padding:0.5  ,border: "1px solid black",whiteSpace: "nowrap",overflow: "hidden",paddingLeft:5  , background:"rgb(29,241,255)",  textAlign:"end" }}>{item.StockTotal}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
           
         </div>
       ) : (

@@ -399,35 +399,6 @@ const TuComponente = () => {
               >
                 <SearchIcon style={{ color: "rgb(255, 255, 255)" }} />
               </IconButton>
-             
-              <Typography
-                style={{
-                  color: "rgb(255,255,255)",
-                  fontSize: "1rem",
-                  marginLeft: "20px",
-                  fontWeight: "bold",
-                  marginTop:"2px"
-                }}
-              >
-                {" "}
-                TOTAL{" "}
-              </Typography>
-              <TextField
-                size="small"
-                disabled
-                variant="filled"
-                InputProps={{
-                  style: {
-                    backgroundColor: "rgb(240, 239, 239)",
-                    width: "25ch",
-                    fontSize: "0.9rem",
-                    height: "25px",
-                    borderRadius: 0,
-                  },
-                }}
-                InputLabelProps={{ style: { color: "rgb(255, 255, 255)" } }}
-                style={{ marginLeft: "10px" }}
-              />
           </Container>
         </CardActions>
         <Collapse in={expandedPanels.includes(2)} timeout="auto" unmountOnExit>
