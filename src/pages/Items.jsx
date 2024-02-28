@@ -45,12 +45,12 @@ const CustomClickableTab = styled(Tab)(({ theme, selected, clickable }) => ({
   },
 }));
 
-const PestañaContenido = ({ value }) => {
+const PestañaContenido = ({ value, addToCart, cartItems }) => {
   switch (value) {
     case 0:
-      return <TD />;
+      return <TD addToCart= {addToCart} />;
     case 1:
-      return <CarritoCompras />;
+      return <CarritoCompras cartItems={cartItems}  />;
     case 2:
       return <TD />;
     case 3:
@@ -75,6 +75,19 @@ const Items = (datosCliente) => {
     setTabValue(newValue);
   };
   
+  const [cartItems, setCartItems] = useState([]); // Estado para el arreglo que quieres pasar a CardList
+  
+  const addToCart = () => {
+      const newItem = {
+        product: "Your Product", // Reemplaza "Your Product" con los datos reales del producto
+       // quantity: ticketCount,
+
+      };
+      console.log("Agregando al carrito de compras"+newItem);
+      setCartItems([...cartItems, newItem]);
+    //  setTicketCount(1); // Reinicia el contador de tickets después de agregar al carrito
+    };
+
 
   const cliente = datosCliente.cliente;
 
@@ -151,7 +164,7 @@ const Items = (datosCliente) => {
             clickable="true"
           />
         </CustomTabs>
-        <PestañaContenido value={tabValue} />
+        <PestañaContenido value={tabValue} addToCart = {addToCart} cartItems={cartItems}/>
       </Box>
     </React.Fragment>
   );

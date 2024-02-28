@@ -23,13 +23,12 @@ export default function DialogProductos({ open, handleClose, items, onProductSel
             aria-labelledby="customized-dialog-title"
             open={open}
             maxWidth="xl" // Establecer el ancho máximo del diálogo
-        
-            sx={{ maxHeight: '100%', }}
+            sx={{ maxHeight: '100%',maxWidth:'100%' }} // Estable
           >
             <DialogTitle sx={{ m: 0, p: 1.8 }} style={{backgroundColor: "rgb(12, 55, 100)", color:"rgb(255,255,255)"}} id="customized-dialog-title" >
              Busqueda de Productos
             </DialogTitle>
-        <TableDialogItems  items={items} onProductSelect = {onProductSelect}  />
+           <TableDialogItems  items={items} onProductSelect = {onProductSelect}  />
           </BootstrapDialog>
         </React.Fragment>
       );

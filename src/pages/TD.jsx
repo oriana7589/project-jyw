@@ -6,7 +6,7 @@ import repuest from "../image/repuest.png";
 import TableItems from "../components/TableItems";
 import TableDescripcionItems from "../components/TableDescriptionItems";
 
-export default function TD() {
+export default function TD({addToCart}) {
 
   const [chartData, setChartData] = useState({
     labels: [],
@@ -47,7 +47,7 @@ export default function TD() {
           <TableItems />
         </div>
         <div style={{ flex: 1.5 }}>
-          <TableDescripcionItems />
+          <TableDescripcionItems addToCart={addToCart} />
         </div>
       </Container>
     </React.Fragment>

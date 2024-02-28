@@ -67,7 +67,7 @@ const TableComponent = ({ items, onProductSelect, itemsPerPage }) => {
             justifyContent: "center",
             alignItems: "center",
             height: "300px",
-            width: "800px",
+            width: "900px",
           }}
         >
           <img src={Logo} alt="Logo" style={{ width: 120, height: 30, marginBottom:20 }} />
@@ -80,7 +80,7 @@ const TableComponent = ({ items, onProductSelect, itemsPerPage }) => {
           />
         </div>
       ) : items.length > 0 ? (
-        <div style={{ overflow:"auto"}}>
+        <div style={{ overflow:"auto" , width:"1090px"}}>
          <table style={{ borderCollapse: 'collapse', width: '100%', border: 1 }}>
         <thead style={{ position: "sticky", top: 0, zIndex: 1, backgroundColor: "rgb(255, 168, 0)" }}>
           <tr style={{ height: 50 }}>
@@ -94,34 +94,34 @@ const TableComponent = ({ items, onProductSelect, itemsPerPage }) => {
             <th style={{textAlign:"center",  fontSize:"0.8rem" , backgroundColor: "rgb(255, 168, 0)", border: "1px solid black"  }}>Marca</th>
             <th style={{textAlign:"center",  fontSize:"0.8rem" , backgroundColor: "rgb(255, 168, 0)" , border: "1px solid black" }}>P.V</th>
             <th style={{textAlign:"center",  fontSize:"0.8rem" , backgroundColor: "rgb(255, 168, 0)", border: "1px solid black"  }}>P.D</th>
-            <th style={{textAlign:"center",  fontSize:"0.8rem" , backgroundColor: "rgb(255, 168, 0)", border: "1px solid black" }}>P1</th>
-            <th style={{textAlign:"center",  fontSize:"0.8rem", backgroundColor: "rgb(255, 168, 0)", border: "1px solid black"  }}>P3</th>
-            <th style={{textAlign:"center", fontSize:"0.8rem" , backgroundColor: "rgb(255, 168, 0)" , border: "1px solid black" }}>P4</th>
-            <th style={{textAlign:"center", fontSize:"0.8rem" , backgroundColor: "rgb(255, 168, 0)" , border: "1px solid black"  }}>P1</th>
-            <th style={{textAlign:"center", fontSize:"0.8rem" , backgroundColor: "rgb(255, 168, 0)" , border: "1px solid black" }}>P1</th>
+            <th style={{textAlign:"center",  fontSize:"0.8rem" , backgroundColor: "rgb(255, 168, 0)", border: "1px solid black", paddingLeft:7 , paddingRight:7 }}> P1 </th>
+            <th style={{textAlign:"center",  fontSize:"0.8rem", backgroundColor: "rgb(255, 168, 0)", border: "1px solid black" ,paddingLeft:7 , paddingRight:7  }}> P3 </th>
+            <th style={{textAlign:"center", fontSize:"0.8rem" , backgroundColor: "rgb(255, 168, 0)" , border: "1px solid black", paddingLeft:7 , paddingRight:7  }}> P4 </th>
+            <th style={{textAlign:"center", fontSize:"0.8rem" , backgroundColor: "rgb(255, 168, 0)" , border: "1px solid black", paddingLeft:7 , paddingRight:7  }}> P1 </th>
+            <th style={{textAlign:"center", fontSize:"0.8rem" , backgroundColor: "rgb(255, 168, 0)" , border: "1px solid black", paddingLeft:7 , paddingRight:7 }}> P1 </th>
             <th style={{textAlign:"center", fontSize:"0.8rem" , backgroundColor: "rgb(255, 168, 0)" , border: "1px solid black" }}>Total</th>
 
           </tr>
         </thead>
-        <tbody>
+        <tbody >
           {items.map((item) => (
             <tr key={item.CodigoInterno}>
-              <td style={{ fontSize:"0.8rem", padding:0.5,border: "1px solid black",whiteSpace:"nowrap" , overflow:"hidden"  }}> <SquareSharpIcon style={{ color: item.OrdenCompra === -1 ? "rgb(179,180,177)" : item.OrdenCompra === 1 ? "rgb(128,247,60)" : "rgb(255,17,17)" }} /></td>
-              <td style={{ fontSize:"0.8rem", padding:0.5, border: "1px solid black",whiteSpace: "nowrap",overflow: "hidden",paddingLeft:5 }}>{item.CodigoLinea}</td>
-              <td style={{ fontSize:"0.8rem", padding:0.5 ,border: "1px solid black",whiteSpace: "nowrap", maxWidth:"80px",overflow: "hidden",paddingLeft:10 }}>{item.CodigoArticulo}</td>
-              <td style={{ fontSize:"0.8rem", padding:0.5, border: "1px solid black" ,whiteSpace: "nowrap",maxWidth:"80px",overflow: "hidden",paddingLeft:10 }}>{item.CodigoInternoMarca}</td>
-              <td style={{ fontSize:"0.8rem", padding:0.5, textAlign:"left",border: "1px solid black",paddingRight:3.5,whiteSpace: "nowrap",overflow: "hidden",paddingLeft:5 , background: item.TipoCompra === "ORI" ? "rgb(67,240,42)" : item.TipoCompra === "IMP" ? "rgb(227,216,249)" : item.TipoCompra === "LOC" ? "rgb(251,255,170)" : "rgb(255,255,255)" }}>{item.TipoCompra}</td>
-              <td style={{  fontSize: "0.8rem",  padding: 0.5,   border: "1px solid black",  maxWidth: "320px",whiteSpace: "nowrap",overflow: "hidden",paddingLeft:5,}} >{item.DescripcionArticulo}</td>
-              <td style={{  fontSize:"0.8rem", padding:0.5, border: "1px solid black",whiteSpace: "nowrap",maxWidth:"75px",overflow: "hidden",paddingLeft:5}}>{item.DescripcionPais}</td>
-              <td style={{ fontSize:"0.8rem" , padding:0.5, border: "1px solid black",maxWidth:"85px",whiteSpace: "nowrap",overflow: "hidden", paddingLeft:5 }}>{item.DescripcionMarca}</td>
-              <td style={{  fontSize:"0.8rem", padding:0.5 , border: "1px solid black",whiteSpace: "nowrap",overflow: "hidden",paddingLeft:5,  textAlign:"end" }}>{item.PrecioVenta}</td>
-              <td style={{  fontSize:"0.8rem", padding:0.5 , border: "1px solid black",maxWidth: "55px",whiteSpace: "nowrap",overflow: "hidden",paddingLeft:5,  textAlign:"end"  , background:"rgb(29,241,255)" }}>{item.PrecioDescuento}</td>
-              <td style={{  fontSize:"0.8rem", padding:0.5 , border: "1px solid black" ,maxWidth: "30px",whiteSpace: "nowrap",overflow: "hidden",textAlign:"end",paddingLeft:6.8  }}>{item.Stock01P1}</td>
-              <td style={{  fontSize:"0.8rem", padding:0.5 , border: "1px solid black",maxWidth:"30px",whiteSpace: "nowrap",overflow: "hidden", textAlign:"end",paddingLeft:6.8  }}>{item.Stock01P3}</td>
-              <td style={{  fontSize:"0.8rem", padding:0.5 , border: "1px solid black",maxWidth:"30px" ,whiteSpace: "nowrap",overflow: "hidden",  textAlign:"end" , paddingLeft:6.8  }}>{item.Stock01P4}</td>
-              <td style={{  fontSize:"0.8rem", padding:0.5 , border: "1px solid black",maxWidth:"30px",whiteSpace: "nowrap",overflow: "hidden",  textAlign:"end" }}>{item.Stock02P1}</td>
-              <td style={{ fontSize:"0.8rem" , padding:0.5 , border: "1px solid black" ,maxWidth:"30px",whiteSpace: "nowrap",overflow: "hidden", textAlign:"end", paddingLeft:6.8  }}>{item.StockT1P1}</td>
-              <td style={{  fontSize:"0.8rem", padding:0.5  ,border: "1px solid black",whiteSpace: "nowrap",overflow: "hidden",paddingLeft:5  , background:"rgb(29,241,255)",  textAlign:"end" }}>{item.StockTotal}</td>
+              <td style={{ fontSize:"0.7rem", padding:0.5,border: "1px solid black",whiteSpace:"nowrap" , overflow:"hidden"  }}> <SquareSharpIcon style={{ color: item.OrdenCompra === -1 ? "rgb(179,180,177)" : item.OrdenCompra === 1 ? "rgb(128,247,60)" : "rgb(255,17,17)" }} /></td>
+              <td style={{ fontSize:"0.7rem", padding:0.5, border: "1px solid black",whiteSpace: "nowrap",overflow: "hidden",paddingLeft:5 }}>{item.CodigoLinea}</td>
+              <td style={{ fontSize:"0.7rem", padding:0.5 ,border: "1px solid black",whiteSpace: "nowrap",overflow: "hidden",maxWidth: "75px"}}>{item.CodigoArticulo}</td>
+              <td style={{ fontSize:"0.7rem", padding:0.5, border: "1px solid black" ,whiteSpace: "nowrap",overflow: "hidden",maxWidth: "75px"}}>{item.CodigoInternoMarca}</td>
+              <td style={{ fontSize:"0.7rem", padding:0.5, textAlign:"left",border: "1px solid black",paddingRight:3.5,whiteSpace: "nowrap",overflow: "hidden",paddingLeft:5 , background: item.TipoCompra === "ORI" ? "rgb(67,240,42)" : item.TipoCompra === "IMP" ? "rgb(227,216,249)" : item.TipoCompra === "LOC" ? "rgb(251,255,170)" : "rgb(255,255,255)" }}>{item.TipoCompra}</td>
+              <td style={{  fontSize: "0.7rem",  padding: 0.5,   border: "1px solid black",  maxWidth: "315px",whiteSpace: "nowrap",overflow: "hidden",paddingLeft:5,}} >{item.DescripcionArticulo}</td>
+              <td style={{  fontSize:"0.7rem", padding:0.5, border: "1px solid black",whiteSpace: "nowrap",maxWidth:"75px",overflow: "hidden",paddingLeft:5}}>{item.DescripcionPais}</td>
+              <td style={{ fontSize:"0.7rem" , padding:0.5, border: "1px solid black",maxWidth:"85px",whiteSpace: "nowrap",overflow: "hidden", paddingLeft:5 }}>{item.DescripcionMarca}</td>
+              <td style={{  fontSize:"0.7rem", padding:0.5 , border: "1px solid black",whiteSpace: "nowrap",overflow: "hidden",paddingLeft:5,  textAlign:"end" }}>{item.PrecioVenta}</td>
+              <td style={{  fontSize:"0.7rem", padding:0.5 , border: "1px solid black",maxWidth: "55px",whiteSpace: "nowrap",overflow: "hidden",paddingLeft:5,  textAlign:"end"  , background:"rgb(29,241,255)" }}>{item.PrecioDescuento}</td>
+              <td style={{  fontSize:"0.7rem", padding:0.5 , border: "1px solid black" ,maxWidth: "30px",whiteSpace: "nowrap",overflow: "hidden",textAlign:"end",paddingLeft:6.8  }}>{item.Stock01P1}</td>
+              <td style={{  fontSize:"0.7rem", padding:0.5 , border: "1px solid black",maxWidth:"30px",whiteSpace: "nowrap",overflow: "hidden", textAlign:"end",paddingLeft:6.8  }}>{item.Stock01P3}</td>
+              <td style={{  fontSize:"0.7rem", padding:0.5 , border: "1px solid black",maxWidth:"30px" ,whiteSpace: "nowrap",overflow: "hidden",  textAlign:"end" , paddingLeft:6.8  }}>{item.Stock01P4}</td>
+              <td style={{  fontSize:"0.7rem", padding:0.5 , border: "1px solid black",maxWidth:"30px",whiteSpace: "nowrap",overflow: "hidden",  textAlign:"end" }}>{item.Stock02P1}</td>
+              <td style={{ fontSize:"0.7rem" , padding:0.5 , border: "1px solid black" ,maxWidth:"30px",whiteSpace: "nowrap",overflow: "hidden", textAlign:"end", paddingLeft:6.8  }}>{item.StockT1P1}</td>
+              <td style={{  fontSize:"0.7rem", padding:0.5  ,border: "1px solid black",whiteSpace: "nowrap",overflow: "hidden",paddingLeft:5  , background:"rgb(29,241,255)",  textAlign:"end" }}>{item.StockTotal}</td>
             </tr>
           ))}
         </tbody>

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Button, IconButton, TextField, Typography } from "@mui/material";
 import TableShop from "./TableShop";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
+import CarritoCompras from "../components/CarritoCompras";
 
 const data = [
   { fecha: "2024-01-01", monto: "10000.00", factura: "F002-45000" },
@@ -24,9 +25,10 @@ const data = [
   { fecha: "2024-01-01", monto: "10000.00", factura: "F002-45000" },
 ];
 
-const TableDescripcionItems = () => {
+const TableDescripcionItems = ({ addToCart }) => {
   const itemsPerPage = 10;
   const [currentPage, setCurrentPage] = useState(1);
+  const [cartItems, setCartItems] = useState([]);
   const totalCount = data.length;
 
   const startIndex = (currentPage - 1) * itemsPerPage;
@@ -134,6 +136,7 @@ const TableDescripcionItems = () => {
                   marginLeft: "10px",
                   height: "40px",
                 }}
+                onClick={addToCart}
               >
                 <Typography
                   style={{ color: "rgb(255, 255, 255)", fontSize: "0.7rem" }}
