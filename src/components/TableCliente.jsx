@@ -27,18 +27,18 @@ const TableComponent = ({ dataDocumentos, promedioCompra, promedioItems, promedi
          {/* Filas adicionales para la información resumen */}
          <tbody>
           <tr>
-            <td colSpan="1" >
-              MONTO PROMEDIO DE COMPRA POR FACTURA: {"$ "+promedioCompra}
+            <td colSpan="1" style={{fontWeight:"bold",fontSize:16}} >
+              MONTO PROMEDIO DE COMPRA POR FACTURA: <span style={{fontSize:22}} > {"$ "+promedioCompra}</span> 
             </td>
           </tr>
           <tr>
-            <td colSpan="1" >
-              ITEMS PROMEDIO POR COMPRA POR FACTURA: {promedioItems}
+            <td colSpan="1" style={{fontWeight:"bold",fontSize:16}} >
+              ITEMS PROMEDIO POR COMPRA POR FACTURA:<span style={{fontSize:22}} > {promedioItems}</span> 
             </td>
           </tr>
           <tr>
-            <td colSpan="1" >
-              CANTIDAD DE COMPRAS PROMEDIO AL MES: {promedioComprasAlMes}
+            <td colSpan="1" style={{fontWeight:"bold", fontSize:16  }} >
+              CANTIDAD DE COMPRAS PROMEDIO AL MES: <span style={{fontSize:22}} >{promedioComprasAlMes}</span> 
             </td>
           </tr>
         </tbody>

@@ -6,7 +6,6 @@ import TableDescripcionItems from './TableDescriptionItems';
 import PrecioProductos from './PrecioProductos';
 
 export default function CarritoCompras({cartItems}) {
-console.log(cartItems+"Carrito");
   return (
     <React.Fragment>
       <CssBaseline />
