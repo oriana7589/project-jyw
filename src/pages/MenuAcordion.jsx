@@ -45,7 +45,7 @@ const TuComponente = () => {
   const [fechasGrafica, setFechasGrafica] = useState([new Date().getFullYear(), new Date().getFullYear() - 1]);
   const [hayDatosDisponibles, setHayDatosDisponibles] = useState(false);
   const [datosDisponibles, setDatosDisponibles] = useState(false);
-
+  const [cartItems, setCartItems] = useState([]); // Estado para el arreglo que quieres pasar a CardList
   
   
   const handleClientSelect = (cliente) => {
@@ -67,9 +67,21 @@ const TuComponente = () => {
       setfechaLlegada(fechaLlegada);
     });
 
+  
+   
     setDatosDisponibles(true)
   };
-  
+  const addToCart = () => {
+    const newItem = {
+      product: "FILTRO AIRE PRIM", // Reemplaza "Your Product" con los datos reales del producto
+     // quantity: ticketCount,
+
+    };
+    console.log("Agregando al carrito de compras"+newItem);
+    setCartItems([...cartItems, newItem]);
+  //  setTicketCount(1); // Reinicia el contador de tickets después de agregar al carrito
+  };
+
   useEffect(() => {
     getRankingClientes().then((dataRanking) => {
       //console.log("Ranking de clientes:", dataRanking);
@@ -90,7 +102,6 @@ const TuComponente = () => {
   }; 
 
  
-
   useEffect(() => {    
     //console.log('Cambiando fecha: fechasGrafica', fechasGrafica);
     if (selectedClient) {
@@ -440,6 +451,8 @@ const TuComponente = () => {
           detalleProducto = {detalleProducto}
           fechaLlegada ={fechaLlegada}
           datosDisponibles={datosDisponibles}   
+          addToCart = {addToCart}
+          cartItems = {cartItems}
           />
         </Collapse>
       </Card>

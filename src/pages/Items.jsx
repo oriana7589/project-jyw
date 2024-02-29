@@ -70,7 +70,7 @@ const CustomTabs = styled(Tabs)({
   },
 });
 
-const  Items = ({detalleProducto, fechaLlegada, datosDisponibles}) => {
+const  Items = ({detalleProducto, fechaLlegada, datosDisponibles, addToCart, cartItems}) => {
 
   const [tabValue, setTabValue] = useState(0);
 
@@ -78,21 +78,6 @@ const  Items = ({detalleProducto, fechaLlegada, datosDisponibles}) => {
     setTabValue(newValue);
   };
   
-  const [cartItems, setCartItems] = useState([]); // Estado para el arreglo que quieres pasar a CardList
-  
-  const addToCart = () => {
-      const newItem = {
-        product: "FILTRO AIRE PRIM", // Reemplaza "Your Product" con los datos reales del producto
-       // quantity: ticketCount,
-
-      };
-      console.log("Agregando al carrito de compras"+newItem);
-      setCartItems([...cartItems, newItem]);
-    //  setTicketCount(1); // Reinicia el contador de tickets después de agregar al carrito
-    };
-
-
- 
 
   return (
     <React.Fragment>
