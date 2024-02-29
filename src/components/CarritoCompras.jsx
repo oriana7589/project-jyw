@@ -1,14 +1,31 @@
+import { Button, Card, CardContent, CardMedia, Container, CssBaseline, Typography } from '@mui/material';
 import React, { useState } from 'react';
+import repuest from "../image/repuest1.png";
+import ItemsProductos from './ItemsProductos';
+import TableDescripcionItems from './TableDescriptionItems';
+import PrecioProductos from './PrecioProductos';
 
-function CarritoCompras({ cartItems }) {
- console.log("itemsCompras"+ cartItems)
+export default function CarritoCompras({cartItems}) {
+console.log(cartItems+"Carrito");
   return (
-    <ul>
-      {cartItems.map((item, index) => (
-        <li key={index}>{item.product} - Cantidad: </li>
-      ))}
-    </ul>
-  );
+    <React.Fragment>
+      <CssBaseline />
+      <Container
+        maxWidth="false"
+        sx={{
+          display: "flex",
+          justifyContent: "space-between",
+          bgcolor: "#ffffff",
+          height: "calc(100vh - 9.65rem)",
+        }}
+      >
+        <div style={{ flex: 1 }}>
+        <PrecioProductos/>
+        </div>
+        <div style={{ flex: 0.5 }}>
+        <ItemsProductos cartItems= {cartItems} />
+        </div>
+      </Container>
+    </React.Fragment>
+ );
 }
-
-export default CarritoCompras;

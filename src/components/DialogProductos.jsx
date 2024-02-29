@@ -15,13 +15,13 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
 
   }));
 
-export default function DialogProductos({ open, handleClose, items, onProductSelect }) {
+export default function DialogProductos({ openProduct, handleProductClose, items, onProductSelect }) {
     return (
         <React.Fragment>
           <BootstrapDialog
-            onClose={handleClose}
+            onClose={handleProductClose}
             aria-labelledby="customized-dialog-title"
-            open={open}
+            open={openProduct}
             maxWidth="xl" // Establecer el ancho máximo del diálogo
             sx={{ maxHeight: '100%',maxWidth:'100%' }} // Estable
           >

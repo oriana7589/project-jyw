@@ -12,13 +12,12 @@ import Result from "../image/result.png";
 import { Typography } from "@mui/material";
 import SquareSharpIcon from '@mui/icons-material/SquareSharp';
 
-const TableComponent = ({ items, onProductSelect, itemsPerPage }) => {
-  const [selectedClient, setSelectedClient] = useState(null);
+const TableComponent = ({ items, onProductSelect }) => {
+  const [selectProductos, setSelectedProductos] = useState(null);
   const [highlightedRow, setHighlightedRow] = useState(null);
   const [isLoading, setIsLoading] = useState(true); // Estado de carga
-  const [page, setPage] = useState(0);
-  itemsPerPage = items.length;
-  
+ 
+   
   useEffect(() => {
     // Simular una carga de datos con un retraso de 1.5 segundos
     const timer = setTimeout(() => {
@@ -30,12 +29,8 @@ const TableComponent = ({ items, onProductSelect, itemsPerPage }) => {
   }, []);
 
   const handleRowDoubleClick = (datosItems) => {
-    setSelectedClient(datosItems);
+    setSelectedProductos(datosItems);
     onProductSelect(datosItems);
-  };
-
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage);
   };
 
   const handleMouseEnter = (index) => {
@@ -104,8 +99,21 @@ const TableComponent = ({ items, onProductSelect, itemsPerPage }) => {
           </tr>
         </thead>
         <tbody >
-          {items.map((item) => (
-            <tr key={item.CodigoInterno}>
+          {items.map((item, index) => (
+            <tr key={index}
+            onMouseEnter={() => handleMouseEnter(index)}
+            onMouseLeave={handleMouseLeave}
+            style={{
+              backgroundColor:
+                          selectProductos === item
+                            ? "#B8B8B8"
+                            : highlightedRow === index
+                            ? "#F0F0F0"
+                            : "white",
+              cursor: "pointer"
+            }}
+            onDoubleClick={() => handleRowDoubleClick(item)}
+          >
               <td style={{ fontSize:"0.7rem", padding:0.5,border: "1px solid black",whiteSpace:"nowrap" , overflow:"hidden"  }}> <SquareSharpIcon style={{ color: item.OrdenCompra === -1 ? "rgb(179,180,177)" : item.OrdenCompra === 1 ? "rgb(128,247,60)" : "rgb(255,17,17)" }} /></td>
               <td style={{ fontSize:"0.7rem", padding:0.5, border: "1px solid black",whiteSpace: "nowrap",overflow: "hidden",paddingLeft:5 }}>{item.CodigoLinea}</td>
               <td style={{ fontSize:"0.7rem", padding:0.5 ,border: "1px solid black",whiteSpace: "nowrap",overflow: "hidden",maxWidth: "75px"}}>{item.CodigoArticulo}</td>

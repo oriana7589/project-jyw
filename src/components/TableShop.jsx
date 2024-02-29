@@ -6,56 +6,53 @@ const data = [
     { fecha: '2024-01-01', monto: "10000.00", factura: 'F002-45000',aplicacion: "vt2515 /2514" },
   ];
 // Primera tabla
-const FirstTable = () => {
+const FirstTable = ({detalleProducto}) => {
     
-  const currentData = data;
   return (
     <table style={{ borderCollapse: 'collapse', width: '100%' }}>
     <thead>
       <tr >
-        <th style={{ textAlign: 'center' }}>LINEAS</th>
-        <th style={{ textAlign: 'center',  }}>CODIGO</th>
-        <th style={{ textAlign: 'center',  }}>DESCRIPCIÓN</th>
-        <th style={{ textAlign: 'center',  }}>APLICAION</th>
+        <th style={{ textAlign: 'center' , width:"5%"}}>LINEAS</th>
+        <th style={{ textAlign: 'center',  width:"20%" }}>CODIGO</th>
+        <th style={{ textAlign: 'center',  width:"75%" }}>DESCRIPCIÓN</th>
       </tr>
     </thead>
     <tbody>
-      {currentData.map((item, index) => (
-        <tr key={index}>
-          <td style={{ textAlign: 'center' }}>{item.fecha}</td>
-          <td style={{ textAlign: 'center' }}>{item.monto}</td>
-          <td style={{ textAlign: 'center' }}>{item.factura}</td>
-          <td style={{ textAlign: 'center' }}>{item.aplicacion}</td>
+      
+        <tr >
+          <td style={{ textAlign: 'center' }}>{detalleProducto.codigoLinea}</td>
+          <td style={{ textAlign: 'center' }}>{detalleProducto.codigoArticulo}</td>
+          <td style={{ textAlign: 'center' }}>{detalleProducto.descripcionArticulo}</td>
         </tr>
-      ))}
+     
     </tbody>
   </table>
   );
 };
 
 // Segunda tabla
-const SecondTable = () => {
+const SecondTable = ({detalleProducto, fechaLlegada}) => {
     
   const currentData = data;
   return (
-    <table style={{ borderCollapse: 'collapse', width: '100%', margin:15}} >
+    <table style={{ borderCollapse: 'collapse', width: '100%',marginTop:10}} >
     <thead>
       <tr >
-        <th style={{ textAlign: 'center' }}>STOCK</th>
-        <th style={{ textAlign: 'center',  }}>MARCA</th>
+        <th style={{ textAlign: 'center', width:"5%" }}>STOCK</th>
+        <th style={{ textAlign: 'center', width:"20%" }}>MARCA</th>
         <th style={{ textAlign: 'center',  }}>ÚLT.LLEGADA</th>
         <th style={{ textAlign: 'center',  }}>PRÓX.LLEGADA</th>
       </tr>
     </thead>
     <tbody>
-      {currentData.map((item, index) => (
-        <tr key={index}>
-          <td style={{ textAlign: 'center' }}>{item.fecha}</td>
-          <td style={{ textAlign: 'center' }}>{item.monto}</td>
-          <td style={{ textAlign: 'center' }}>{item.factura}</td>
-          <td style={{ textAlign: 'center' }}>{item.factura}</td>
+ 
+        <tr >
+          <td style={{ textAlign: 'center' }}>{detalleProducto.stockArticulo}</td>
+          <td style={{ textAlign: 'center' }}>{detalleProducto.descripcionMarca}</td>
+          <td style={{ textAlign: 'center' }}>{fechaLlegada.FechaUltimaLlegada}</td>
+          <td style={{ textAlign: 'center' }}>{fechaLlegada.FechaLlegada}</td>
         </tr>
-      ))}
+
     </tbody>
   </table>
   );
@@ -111,15 +108,15 @@ const ThirdTable = () => {
 };
 
 // Componente principal
-const TableShop = () => {
+const TableShop = ({detalleProducto, fechaLlegada}) => {
   return (
     <div style={{paddingLeft:20, paddingTop:15}}>
-     <Typography style={{fontWeight:"bold", fontSize:"1.2rem", marginBottom:"10px"}}  >SKU:AC10120</Typography>
-      <FirstTable />
+     <Typography style={{fontWeight:"bold", fontSize:"1.2rem", marginBottom:"10px"}} >SKU: {detalleProducto.codigoInterno}</Typography>
+      <FirstTable detalleProducto={detalleProducto} />
       <Divider/>
-      <SecondTable />
+      <SecondTable detalleProducto={detalleProducto} fechaLlegada= {fechaLlegada} />
       <Divider/>
-      <ThirdTable />
+      <ThirdTable detalleProducto={detalleProducto} />
     </div>
   );
 };

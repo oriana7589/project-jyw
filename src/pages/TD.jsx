@@ -6,8 +6,7 @@ import repuest from "../image/repuest.png";
 import TableItems from "../components/TableItems";
 import TableDescripcionItems from "../components/TableDescriptionItems";
 
-export default function TD({addToCart}) {
-
+export default function TD({addToCart, detalleProducto, fechaLlegada}) {
   const [chartData, setChartData] = useState({
     labels: [],
     datasets: [
@@ -44,10 +43,10 @@ export default function TD({addToCart}) {
               style={{ width: "40%", height: "40%"}}
             />
           </div>
-          <TableItems />
+          <TableItems  />
         </div>
         <div style={{ flex: 1.5 }}>
-          <TableDescripcionItems addToCart={addToCart} />
+          <TableDescripcionItems addToCart={addToCart} detalleProducto={detalleProducto} fechaLlegada={fechaLlegada}/>
         </div>
       </Container>
     </React.Fragment>

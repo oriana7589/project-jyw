@@ -10,10 +10,9 @@ import Cliente from "./Cliente";
 import Typography from "@mui/material/Typography";
 import { Container, TextField } from "@mui/material";
 import DialogCliente from "../components/DialogCliente";
-import { getClientes, getDatosVentasPorClientePorAño, getUltimosDocumentosCliente, getPromedioCompraCliente, getPromedioItemsCliente, getPromedioComprasAlMesCliente, getRankingClientes, getUltimasComprasCliente, getItemsMasComprados, getProdutosFiltrados } from "../Services/ApiService";
+import { getClientes, getDatosVentasPorClientePorAño, getUltimosDocumentosCliente, getPromedioCompraCliente, getPromedioItemsCliente, getPromedioComprasAlMesCliente, getRankingClientes, getUltimasComprasCliente, getItemsMasComprados, getProdutosFiltrados, getProductoSeleccionado, getFechaLlegadaProductoSeleccionado } from "../Services/ApiService";
 import Items from "./items";
 import DialogProductos from "../components/DialogProductos";
-import Alert from '@mui/material/Alert';
 import { ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -37,6 +36,8 @@ const TuComponente = () => {
   const [ultimasCompras, setUltimasCompras] = useState([]);
   const [itemsComprados, setItemsComprados] = useState([]);
   const [promedioCompra, setPromedioCompra] = useState(0);
+  const [detalleProducto, setDetalleProducto] = useState({});
+  const [fechaLlegada, setfechaLlegada] = useState({});
   const [promedioItems, setPromedioItems] = useState(0);
   const [promedioComprasAlMes, setPromedioComprasAlMes] = useState(0);
   const [ranking, setRanking] = useState([]);
@@ -47,12 +48,22 @@ const TuComponente = () => {
   
   const handleClientSelect = (cliente) => {
     setSelectedClient(cliente);
+    
     setDialogOpen(false);
   };
 
-  const handleItemsSelect = (cliente) => {
-    setSelectedClient(cliente);
-    setDialogOpen(false);
+  const handleItemsSelect = (productos) => {
+    setSelectedItems(productos);
+    setDialogProductOpen(false);
+    
+    getProductoSeleccionado(productos.CodigoInterno).then((detalleProducto) => {
+      console.log("detalle produt"+detalleProducto)
+      setDetalleProducto(detalleProducto);
+    });
+    getFechaLlegadaProductoSeleccionado(productos.CodigoInterno).then((fechaLlegada) => {
+      console.log("dfechaLlegada"+fechaLlegada)
+      setfechaLlegada(fechaLlegada);
+    });
   };
   
   useEffect(() => {
@@ -73,6 +84,8 @@ const TuComponente = () => {
   const onCambiarFechaGrafica = (arregloFechas) => {
     setFechasGrafica(arregloFechas);    
   }; 
+
+ 
 
   useEffect(() => {    
     //console.log('Cambiando fecha: fechasGrafica', fechasGrafica);
@@ -134,7 +147,9 @@ const TuComponente = () => {
 
     //Mantener al último
     setHayDatosDisponibles(true);
-  };  
+  }; 
+  
+  
 
   useEffect(() => {
     const handleOutsideClick = (event) => {
@@ -150,6 +165,20 @@ const TuComponente = () => {
     };
   }, [dialogOpen]);
 
+  useEffect(() => {
+    const handleOutsideClick = (event) => {
+      if (dialogProductOpen && event.target.closest(".MuiDialog-container") === null) {
+        setDialogProductOpen(false);
+      }
+    };
+
+    document.addEventListener("click", handleOutsideClick);
+
+    return () => {
+      document.removeEventListener("click", handleOutsideClick);
+    };
+  }, [dialogProductOpen]);
+
   const handleIconButtonClick = () => {
     setDialogOpen(true);
     if(criterioBusqueda !== "") {
@@ -163,7 +192,6 @@ const TuComponente = () => {
     }    
   }; 
 
-  
   const handleCloseDialog = () => {
     setDialogOpen(false);
   };
@@ -177,11 +205,12 @@ const TuComponente = () => {
       // Abrir el diálogo y obtener los productos filtrados
       setDialogProductOpen(true);
       getProdutosFiltrados(criterio1, criterio2, criterio3).then(tablaProductos => {
-         console.log('DATA EN ACORDION PRODUCTOS');
-       console.log(tablaProductos);
         setItems(tablaProductos);
       });
     }
+  
+      setItems([]);
+    
   };
 
   const handleCloseDialogProduct = () => {
@@ -403,7 +432,10 @@ const TuComponente = () => {
         </CardActions>
         <Collapse in={expandedPanels.includes(2)} timeout="auto" unmountOnExit>
           {/* Contenido del segundo card (Items) */}
-          <Items />
+          <Items 
+          detalleProducto = {detalleProducto}
+          fechaLlegada ={fechaLlegada}
+          />
         </Collapse>
       </Card>
       <DialogCliente
@@ -416,8 +448,8 @@ const TuComponente = () => {
       <DialogProductos
         items={items}
         onProductSelect = {handleItemsSelect}
-        open={dialogProductOpen}
-        handleClose={handleCloseDialogProduct}
+        openProduct={dialogProductOpen}
+        handleProductClose={handleCloseDialogProduct}
         onBackdropClick={handleCloseDialogProduct}
       />
        <ToastContainer

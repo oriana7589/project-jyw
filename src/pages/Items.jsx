@@ -45,12 +45,12 @@ const CustomClickableTab = styled(Tab)(({ theme, selected, clickable }) => ({
   },
 }));
 
-const PestañaContenido = ({ value, addToCart, cartItems }) => {
+const PestañaContenido = ({ value, addToCart, cartItems, detalleProducto, fechaLlegada }) => {
   switch (value) {
     case 0:
-      return <TD addToCart= {addToCart} />;
+      return <TD addToCart= {addToCart} detalleProducto={detalleProducto} fechaLlegada={fechaLlegada}/>;
     case 1:
-      return <CarritoCompras cartItems={cartItems}  />;
+      return <CarritoCompras cartItems={cartItems} detalleProducto={detalleProducto}   />;
     case 2:
       return <TD />;
     case 3:
@@ -68,7 +68,8 @@ const CustomTabs = styled(Tabs)({
   },
 });
 
-const Items = (datosCliente) => {
+const  Items = ({detalleProducto, fechaLlegada}) => {
+
   const [tabValue, setTabValue] = useState(0);
 
   const handleChangeTab = (event, newValue) => {
@@ -79,7 +80,7 @@ const Items = (datosCliente) => {
   
   const addToCart = () => {
       const newItem = {
-        product: "Your Product", // Reemplaza "Your Product" con los datos reales del producto
+        product: "FILTRO AIRE PRIM", // Reemplaza "Your Product" con los datos reales del producto
        // quantity: ticketCount,
 
       };
@@ -89,7 +90,7 @@ const Items = (datosCliente) => {
     };
 
 
-  const cliente = datosCliente.cliente;
+ 
 
   return (
     <React.Fragment>
@@ -164,7 +165,7 @@ const Items = (datosCliente) => {
             clickable="true"
           />
         </CustomTabs>
-        <PestañaContenido value={tabValue} addToCart = {addToCart} cartItems={cartItems}/>
+        <PestañaContenido value={tabValue} addToCart = {addToCart} cartItems={cartItems} detalleProducto={detalleProducto} fechaLlegada={fechaLlegada}/>
       </Box>
     </React.Fragment>
   );

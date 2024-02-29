@@ -118,3 +118,24 @@ export function getUltimasComprasCliente(codCliente) {
             });
     return ProductosFiltrados;
 }
+
+export function getProductoSeleccionado(codInterno) {
+    const productos =
+        axios.get(`${baseUrlProductos()}/ProductoSeleccionado/${codInterno}`)
+            .then((res) => {
+                console.log("producto seleccionado: ", res.data);
+                return res.data
+            });
+
+    return productos;
+ }
+ export function getFechaLlegadaProductoSeleccionado(codInterno) {
+    const FechaLlegada =
+        axios.get(`${baseUrlProductos()}/FechaLlegadaProductoSeleccionado/${codInterno}`)
+            .then((res) => {
+                console.log("producto llegada ", res.data);
+                return res.data
+            });
+
+    return FechaLlegada;
+ }

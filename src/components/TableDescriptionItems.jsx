@@ -25,7 +25,8 @@ const data = [
   { fecha: "2024-01-01", monto: "10000.00", factura: "F002-45000" },
 ];
 
-const TableDescripcionItems = ({ addToCart }) => {
+const TableDescripcionItems = ({ addToCart, detalleProducto ,fechaLlegada}) => {
+  console.log(detalleProducto+"detalle")
   const itemsPerPage = 10;
   const [currentPage, setCurrentPage] = useState(1);
   const [cartItems, setCartItems] = useState([]);
@@ -63,7 +64,7 @@ const TableDescripcionItems = ({ addToCart }) => {
 
   return (
     <>
-      <TableShop />
+      <TableShop detalleProducto={detalleProducto} fechaLlegada={fechaLlegada} />
       <table
         style={{
           textAlign: "left",
