@@ -44,6 +44,8 @@ const TuComponente = () => {
   const [rankingClienteSeleccionado, setRankingClienteSeleccionado] = useState("S/R");
   const [fechasGrafica, setFechasGrafica] = useState([new Date().getFullYear(), new Date().getFullYear() - 1]);
   const [hayDatosDisponibles, setHayDatosDisponibles] = useState(false);
+  const [datosDisponibles, setDatosDisponibles] = useState(false);
+
   
   
   const handleClientSelect = (cliente) => {
@@ -64,6 +66,8 @@ const TuComponente = () => {
       console.log("dfechaLlegada"+fechaLlegada)
       setfechaLlegada(fechaLlegada);
     });
+
+    setDatosDisponibles(true)
   };
   
   useEffect(() => {
@@ -435,6 +439,7 @@ const TuComponente = () => {
           <Items 
           detalleProducto = {detalleProducto}
           fechaLlegada ={fechaLlegada}
+          datosDisponibles={datosDisponibles}   
           />
         </Collapse>
       </Card>

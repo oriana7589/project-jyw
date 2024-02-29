@@ -28,17 +28,17 @@ const TableComponent = ({ dataDocumentos, promedioCompra, promedioItems, promedi
          <tbody>
           <tr>
             <td colSpan="1" >
-              MONTO PROMEDIO DE COMPRA: {"$ "+promedioCompra}
+              MONTO PROMEDIO DE COMPRA POR FACTURA: {"$ "+promedioCompra}
             </td>
           </tr>
           <tr>
             <td colSpan="1" >
-              ITEMS PROMEDIO POR COMPRA: {promedioItems}
+              ITEMS PROMEDIO POR COMPRA POR FACTURA: {promedioItems}
             </td>
           </tr>
           <tr>
             <td colSpan="1" >
-              COMPRAS PROMEDIO AL MES: {promedioComprasAlMes}
+              CANTIDAD DE COMPRAS PROMEDIO AL MES: {promedioComprasAlMes}
             </td>
           </tr>
         </tbody>

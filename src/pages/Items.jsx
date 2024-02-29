@@ -8,6 +8,8 @@ import Box from "@mui/material/Box";
 import TipoA from "./DashboardCliente";
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import TD from "./TD";
+import Logo from "../image/logo.png";
+import LogoCom from "../image/logoCompleto.png";
 import CarritoCompras from "../components/CarritoCompras";
 
 const CustomLeftTab = styled(Tab)(({ theme, selected }) => ({
@@ -68,7 +70,7 @@ const CustomTabs = styled(Tabs)({
   },
 });
 
-const  Items = ({detalleProducto, fechaLlegada}) => {
+const  Items = ({detalleProducto, fechaLlegada, datosDisponibles}) => {
 
   const [tabValue, setTabValue] = useState(0);
 
@@ -165,8 +167,32 @@ const  Items = ({detalleProducto, fechaLlegada}) => {
             clickable="true"
           />
         </CustomTabs>
+        {datosDisponibles ? (
         <PestañaContenido value={tabValue} addToCart = {addToCart} cartItems={cartItems} detalleProducto={detalleProducto} fechaLlegada={fechaLlegada}/>
-      </Box>
+        ) : (
+          <div
+            style={{
+              height: "calc(100vh - 15rem)",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              width:"100%",
+              justifyContent: "center",
+            }}
+          >
+             <img
+              src={Logo}
+              alt="Logo"
+              style={{ width: 650, height: 175, marginTop: 5, opacity: 0.8  }}
+            />
+            <img
+              src={LogoCom}
+              alt="LogoCompleto"
+              style={{ width: 360, height: 75, opacity: 0.5 }}
+            />
+          </div>
+        )}
+        </Box>
     </React.Fragment>
   );
 };
