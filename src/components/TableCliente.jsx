@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button } from "@mui/material";
+import { Button, Typography } from "@mui/material";
 
 const TableComponent = ({ dataDocumentos, promedioCompra, promedioItems, promedioComprasAlMes }) => {
  
@@ -23,12 +23,13 @@ const TableComponent = ({ dataDocumentos, promedioCompra, promedioItems, promedi
           ))}
         </tbody>
       </table>
+      <Typography style={{fontWeight: "bold", paddingTop: "20px", alignContent: "center" }}>ULTIMOS 12 MESES:</Typography>
       <table style={{ textAlign: 'left', padding: '10px' , fontSize:"0.9rem"}}>
          {/* Filas adicionales para la información resumen */}
          <tbody>
           <tr>
             <td colSpan="1" style={{fontWeight:"bold",fontSize:16}} >
-              MONTO PROMEDIO DE COMPRA POR FACTURA: <span style={{fontSize:22}} > {"$ "+promedioCompra}</span> 
+            PROMEDIO COMPRA ÚLTIMOS 12 MESES (POR FACTURA): <span style={{fontSize:22}} > {"$ "+promedioCompra}</span> 
             </td>
           </tr>
           <tr>
@@ -38,7 +39,7 @@ const TableComponent = ({ dataDocumentos, promedioCompra, promedioItems, promedi
           </tr>
           <tr>
             <td colSpan="1" style={{fontWeight:"bold", fontSize:16  }} >
-              CANTIDAD DE COMPRAS PROMEDIO AL MES: <span style={{fontSize:22}} >{promedioComprasAlMes}</span> 
+            CANTIDAD DE FACTURAS POR MES: <span style={{fontSize:22}} >{promedioComprasAlMes}</span> 
             </td>
           </tr>
         </tbody>

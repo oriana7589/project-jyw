@@ -13,7 +13,7 @@ const TableItemsCliente = ({ itemsComprados, itemsPerPage }) => {
   const [highlightedRow, setHighlightedRow] = useState(null);
   const [isLoading, setIsLoading] = useState(true); // Estado de carga
   const [page, setPage] = useState(0);
-  itemsPerPage = 5;
+  itemsPerPage = 12;
   
   useEffect(() => {
     // Simular una carga de datos con un retraso de 1.5 segundos
@@ -77,7 +77,7 @@ const TableItemsCliente = ({ itemsComprados, itemsPerPage }) => {
                   <TableCell
                     style={{
                       textAlign: "left",
-                      padding: "10px",
+                      padding: "8px",
                       fontSize: "0.9rem",
                       fontWeight: "bold",
                     }}
@@ -87,7 +87,7 @@ const TableItemsCliente = ({ itemsComprados, itemsPerPage }) => {
                   <TableCell
                     style={{
                       textAlign: "left",
-                      padding: "10px",
+                      padding: "8px",
                       fontSize: "0.9rem",
                       fontWeight: "bold",
                     }}
@@ -97,7 +97,7 @@ const TableItemsCliente = ({ itemsComprados, itemsPerPage }) => {
                   <TableCell
                     style={{
                       textAlign: "left",
-                      padding: "10px",
+                      padding: "8px",
                       fontSize: "0.9rem",
                       fontWeight: "bold",
                     }}
@@ -107,7 +107,7 @@ const TableItemsCliente = ({ itemsComprados, itemsPerPage }) => {
                   <TableCell
                     style={{
                       textAlign: "left",
-                      padding: "10px",
+                      padding: "8px",
                       fontSize: "0.9rem",
                       fontWeight: "bold",
                     }}
@@ -117,7 +117,7 @@ const TableItemsCliente = ({ itemsComprados, itemsPerPage }) => {
                   <TableCell
                     style={{
                       textAlign: "left",
-                      padding: "10px",
+                      padding: "8px",
                       fontSize: "0.9rem",
                       fontWeight: "bold",
                     }}
@@ -127,7 +127,7 @@ const TableItemsCliente = ({ itemsComprados, itemsPerPage }) => {
                   <TableCell
                     style={{
                       textAlign: "left",
-                      padding: "10px",
+                      padding: "8px",
                       fontSize: "0.9rem",
                       fontWeight: "bold",
                     }}
@@ -137,7 +137,7 @@ const TableItemsCliente = ({ itemsComprados, itemsPerPage }) => {
                   <TableCell
                     style={{
                       textAlign: "left",
-                      padding: "10px",
+                      padding: "8px",
                       fontSize: "0.9rem",
                       fontWeight: "bold",
                     }}
@@ -147,7 +147,7 @@ const TableItemsCliente = ({ itemsComprados, itemsPerPage }) => {
                   <TableCell
                     style={{
                       textAlign: "left",
-                      padding: "10px",
+                      padding: "8px",
                       fontSize: "0.9rem",
                       fontWeight: "bold",
                     }}
@@ -176,14 +176,14 @@ const TableItemsCliente = ({ itemsComprados, itemsPerPage }) => {
                       onMouseLeave={handleMouseLeave}
                     >
                       <TableCell style={{textAlign: "left",fontSize: "0.8rem"}}>{item.codigoArticulo}</TableCell>
-                      <TableCell style={{textAlign: "left",paddingLeft: "10px",fontSize: "0.8rem"}}>{item.descripcionArticulo}</TableCell>
-                      <TableCell style={{textAlign: "left",paddingLeft: "10px",fontSize: "0.8rem"}}>{item.descripcionMarca}</TableCell>
-                      <TableCell style={{textAlign: "left", paddingLeft: "10px",fontSize: "0.8rem"}}>{item.codigoLinea}</TableCell>
-                      <TableCell style={{textAlign: "left",paddingLeft: "10px",fontSize: "0.8rem"}}>{item.cantidad}</TableCell>
-                      <TableCell style={{textAlign: "left",paddingLeft: "10px",fontSize: "0.8rem"}}>{item.descuentoUno}</TableCell>
-                      <TableCell style={{textAlign: "left", paddingLeft: "10px",fontSize: "0.8rem"}}>{item.descuentoDos}</TableCell>
-                      <TableCell style={{textAlign: "left",paddingLeft: "10px",fontSize: "0.8rem"}}>{item.precioUnitarioIncIGV}</TableCell>
-                      <TableCell style={{textAlign: "left",paddingLeft: "10px",fontSize: "0.8rem"}}>{item.codigoMoneda}</TableCell>
+                      <TableCell style={{textAlign: "left",padding: "8px",fontSize: "0.8rem"}}>{item.descripcionArticulo}</TableCell>
+                      <TableCell style={{textAlign: "left",padding: "8px",fontSize: "0.8rem"}}>{item.descripcionMarca}</TableCell>
+                      <TableCell style={{textAlign: "left",padding: "8px",fontSize: "0.8rem"}}>{item.codigoLinea}</TableCell>
+                      <TableCell style={{textAlign: "left",padding: "8px",fontSize: "0.8rem"}}>{item.cantidad}</TableCell>
+                      <TableCell style={{textAlign: "left",padding: "8px",fontSize: "0.8rem"}}>{item.descuentoUno}</TableCell>
+                      <TableCell style={{textAlign: "left",padding: "8px",fontSize: "0.8rem"}}>{item.descuentoDos}</TableCell>
+                      <TableCell style={{textAlign: "left",padding: "8px",fontSize: "0.8rem"}}>{item.precioUnitarioIncIGV}</TableCell>
+                      <TableCell style={{textAlign: "left",padding: "8px",fontSize: "0.8rem"}}>{item.codigoMoneda}</TableCell>
                     </TableRow>
                   ))}
               </TableBody>
