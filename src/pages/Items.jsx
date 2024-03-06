@@ -47,10 +47,10 @@ const CustomClickableTab = styled(Tab)(({ theme, selected, clickable }) => ({
   },
 }));
 
-const PestañaContenido = ({ value, addToCart, cartItems, detalleProducto, fechaLlegada }) => {
+const PestañaContenido = ({ value, addToCart, cartItems, detalleProducto, fechaLlegada, historialPrecios }) => {
   switch (value) {
     case 0:
-      return <TD addToCart= {addToCart} detalleProducto={detalleProducto} fechaLlegada={fechaLlegada}/>;
+      return <TD addToCart= {addToCart} detalleProducto={detalleProducto} fechaLlegada={fechaLlegada} historialPrecios={historialPrecios}/>;
     case 1:
       return <CarritoCompras cartItems={cartItems} detalleProducto={detalleProducto}   />;
     case 2:
@@ -70,7 +70,7 @@ const CustomTabs = styled(Tabs)({
   },
 });
 
-const  Items = ({detalleProducto, fechaLlegada, datosDisponibles, addToCart, cartItems}) => {
+const  Items = ({detalleProducto, fechaLlegada, datosDisponibles, addToCart, cartItems, historialPrecios}) => {
 
   const [tabValue, setTabValue] = useState(0);
 
@@ -153,7 +153,7 @@ const  Items = ({detalleProducto, fechaLlegada, datosDisponibles, addToCart, car
           />
         </CustomTabs>
         {datosDisponibles ? (
-        <PestañaContenido value={tabValue} addToCart = {addToCart} cartItems={cartItems} detalleProducto={detalleProducto} fechaLlegada={fechaLlegada}/>
+        <PestañaContenido value={tabValue} addToCart = {addToCart} cartItems={cartItems} detalleProducto={detalleProducto} fechaLlegada={fechaLlegada} historialPrecios={historialPrecios}/>
         ) : (
           <div
             style={{

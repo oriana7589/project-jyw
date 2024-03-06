@@ -122,8 +122,7 @@ export function getUltimasComprasCliente(codCliente) {
 export function getProductoSeleccionado(codInterno) {
     const productos =
         axios.get(`${baseUrlProductos()}/ProductoSeleccionado/${codInterno}`)
-            .then((res) => {
-                console.log("producto seleccionado: ", res.data);
+            .then((res) => {                
                 return res.data
             });
 
@@ -132,8 +131,18 @@ export function getProductoSeleccionado(codInterno) {
  export function getFechaLlegadaProductoSeleccionado(codInterno) {
     const FechaLlegada =
         axios.get(`${baseUrlProductos()}/FechaLlegadaProductoSeleccionado/${codInterno}`)
+            .then((res) => {                
+                return res.data
+            });
+
+    return FechaLlegada;
+ }
+
+ export function getHistorialPrecios(codigoInterno, codigoCliente) {
+    const FechaLlegada =
+        axios.get(`${baseUrlProductos()}/ListadoUltimasComprasProductoResumen?CodigoInterno=${codigoInterno}&CodCliente=${codigoCliente}`)
             .then((res) => {
-                console.log("producto llegada ", res.data);
+                console.log("producto historial precios", res.data);
                 return res.data
             });
 

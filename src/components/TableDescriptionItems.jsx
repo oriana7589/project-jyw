@@ -25,7 +25,7 @@ const data = [
   { fecha: "2024-01-01", monto: "10000.00", factura: "F002-45000" },
 ];
 
-const TableDescripcionItems = ({ addToCart, detalleProducto ,fechaLlegada}) => {
+const TableDescripcionItems = ({ addToCart, detalleProducto ,fechaLlegada, historialPrecios}) => {
   console.log(detalleProducto+"detalle")
   const itemsPerPage = 10;
   const [currentPage, setCurrentPage] = useState(1);
@@ -64,7 +64,11 @@ const TableDescripcionItems = ({ addToCart, detalleProducto ,fechaLlegada}) => {
 
   return (
     <>
-      <TableShop detalleProducto={detalleProducto} fechaLlegada={fechaLlegada} />
+      <TableShop 
+        detalleProducto={detalleProducto}
+        fechaLlegada={fechaLlegada}
+        historialPrecios={historialPrecios}
+      />
       <table
         style={{
           textAlign: "left",

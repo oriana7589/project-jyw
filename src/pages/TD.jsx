@@ -6,7 +6,7 @@ import repuest from "../image/repuest.png";
 import TableItems from "../components/TableItems";
 import TableDescripcionItems from "../components/TableDescriptionItems";
 
-export default function TD({addToCart, detalleProducto, fechaLlegada}) {
+export default function TD({addToCart, detalleProducto, fechaLlegada, historialPrecios}) {
   const [chartData, setChartData] = useState({
     labels: [],
     datasets: [
@@ -40,13 +40,18 @@ export default function TD({addToCart, detalleProducto, fechaLlegada}) {
             <img
             src={repuest}
               alt="Imagen de carrito de compras"
-              style={{ width: "40%", height: "40%"}}
+              style={{ width: "70%", height: "70%"}}
             />
           </div>
           <TableItems  />
         </div>
         <div style={{ flex: 1.5 }}>
-          <TableDescripcionItems addToCart={addToCart} detalleProducto={detalleProducto} fechaLlegada={fechaLlegada}/>
+          <TableDescripcionItems 
+            addToCart={addToCart}
+            detalleProducto={detalleProducto}
+            fechaLlegada={fechaLlegada}
+            historialPrecios={historialPrecios}
+          />
         </div>
       </Container>
     </React.Fragment>

@@ -59,64 +59,68 @@ const SecondTable = ({detalleProducto, fechaLlegada}) => {
 };
 
 // Tercera tabla
-const ThirdTable = () => {
-    const currentData = data;
-    return (
-        <div style={{ display: 'flex', justifyContent:"flex-start" }}>
-        <table style={{ borderCollapse: 'collapse', margin: 25 }}>
-          <thead>
-            <tr>
-              <th style={{}}>HISTORIAL DE PRECIOS</th>
-            </tr>
-          </thead>
+const ThirdTable = ({historialPrecios}) => {
+  const currentData = historialPrecios;
+  return (
+    <>
+      <Typography style={{fontWeight:"bold", fontSize:"1.1rem", marginTop: "15px"}}>HISTORIAL DE PRECIOS</Typography>
+      <div style={{ display: 'flex', justifyContent:"flex-start" }}>      
+        <table style={{ borderCollapse: 'collapse', margin: "10px 15px" }}>          
           <tbody>
             {currentData.map((item, index) => (
               <tr key={index}>
                 <td style={{}}>{item.fecha}</td>
+                <td style={{}}>{item.cantidad}</td>
+                <td style={{}}>{item.precioVenta}</td>
+                <td style={{}}>{item.descuentoUno}</td>
+                <td style={{}}>{item.descuentoDos}</td>
+                <td style={{}}>{item.codigoMoneda}</td>
+                <td style={{}}>{item.precioFinalIncIGV}</td>
               </tr>
             ))}
           </tbody>
         </table>
 
         <table style={{  padding: '20px' }}>
-         {/* Filas adicionales para la información resumen */}
-         <tbody>
-          <tr>
-            <td colSpan="1" >
-              P. DE LISTA: 30DOL
-            </td>
-          </tr>
-          <tr>
-            <td colSpan="1" >
-              OFERTAT: 25 DOL
-            </td>
-          </tr>
-          <tr>
-            <td colSpan="1" >
-              DESC. A: NO VALID
-            </td>
-          </tr>
-          <tr>
-            <td colSpan="1" >
-              DESC. B: NO VALID
-            </td>
-          </tr>
-        </tbody>
-      </table>   
+        {/* Filas adicionales para la información resumen */}
+          <tbody>
+            <tr>
+              <td colSpan="1" >
+                P. DE LISTA: 30DOL
+              </td>
+            </tr>
+            <tr>
+              <td colSpan="1" >
+                OFERTAT: 25 DOL
+              </td>
+            </tr>
+            <tr>
+              <td colSpan="1" >
+                DESC. A: NO VALID
+              </td>
+            </tr>
+            <tr>
+              <td colSpan="1" >
+                DESC. B: NO VALID
+              </td>
+            </tr>
+          </tbody>
+        </table>   
       </div>
+    </>
   );
 };
 
 // Componente principal
-const TableShop = ({detalleProducto, fechaLlegada}) => {
+const TableShop = ({detalleProducto, fechaLlegada, historialPrecios}) => {
   return (
     <div style={{paddingLeft:20, paddingTop:15}}>
-     <Typography style={{fontWeight:"bold", fontSize:"1.2rem", marginBottom:"10px"}} >SKU: {detalleProducto.codigoInterno}</Typography>
+      <Typography style={{fontWeight:"bold", fontSize:"1.2rem", marginBottom:"10px"}} >SKU: {detalleProducto.codigoInterno}</Typography>
       <FirstTable detalleProducto={detalleProducto} />
       <Divider/>
       <SecondTable detalleProducto={detalleProducto} fechaLlegada= {fechaLlegada} />
       <Divider/>
-      <ThirdTable detalleProducto={detalleProducto} />
+      <ThirdTable historialPrecios={historialPrecios} />
     </div>
   );
 };

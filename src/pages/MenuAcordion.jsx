@@ -23,6 +23,7 @@ import {
   getProdutosFiltrados,
   getProductoSeleccionado,
   getFechaLlegadaProductoSeleccionado,
+  getHistorialPrecios,
 } from "../Services/ApiService";
 import Items from "./items";
 import DialogProductos from "../components/DialogProductos";
@@ -53,16 +54,13 @@ const TuComponente = () => {
   const [promedioItems, setPromedioItems] = useState(0);
   const [promedioComprasAlMes, setPromedioComprasAlMes] = useState(0);
   const [ranking, setRanking] = useState([]);
-  const [rankingClienteSeleccionado, setRankingClienteSeleccionado] =
-    useState("S/R");
-  const [fechasGrafica, setFechasGrafica] = useState([
-    new Date().getFullYear(),
-    new Date().getFullYear() - 1,
-  ]);
+  const [rankingClienteSeleccionado, setRankingClienteSeleccionado] = useState("S/R");
+  const [fechasGrafica, setFechasGrafica] = useState([ new Date().getFullYear(), new Date().getFullYear() - 1 ]);
   const [hayDatosDisponibles, setHayDatosDisponibles] = useState(false);
   const [datosDisponibles, setDatosDisponibles] = useState(false);
   const [cartItems, setCartItems] = useState([]); // Estado para el arreglo que quieres pasar a CardList
-
+  const [historialPrecios, setHistorialPrecios] = useState([]); 
+  
   const handleClientSelect = (cliente) => {
     setSelectedClient(cliente);
 
@@ -83,6 +81,19 @@ const TuComponente = () => {
         setfechaLlegada(fechaLlegada);
       }
     );
+
+    if (!selectedClient) {
+      // Si no hay cliente seleccionado entonces se mostrará el toast
+      setToastOpen(true);
+      toast.warning("No se mostrará historial de precios hasta seleccionar a un cliente");
+    } else {
+      getHistorialPrecios(productos.CodigoInterno, selectedClient.codigoCliente).then(
+        (historialPrecios) => {
+          console.log("historialPrecios " + historialPrecios);
+          setHistorialPrecios(historialPrecios);
+        }
+      );
+    }    
 
     setDatosDisponibles(true);
   };
@@ -523,6 +534,7 @@ const TuComponente = () => {
             datosDisponibles={datosDisponibles}
             addToCart={addToCart}
             cartItems={cartItems}
+            historialPrecios={historialPrecios}
           />
         </Collapse>
       </Card>
