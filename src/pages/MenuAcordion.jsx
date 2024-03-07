@@ -60,7 +60,11 @@ const TuComponente = () => {
   const [datosDisponibles, setDatosDisponibles] = useState(false);
   const [cartItems, setCartItems] = useState([]); // Estado para el arreglo que quieres pasar a CardList
   const [historialPrecios, setHistorialPrecios] = useState([]); 
+  const [descuentoA, setDescuentoA] = useState(0.0);
+  const [descuentoB, setDescuentoB] = useState(0.0);
+  const [monto,setMonto]= useState(0.0);
   
+
   const handleClientSelect = (cliente) => {
     setSelectedClient(cliente);
 
@@ -72,8 +76,11 @@ const TuComponente = () => {
     setDialogProductOpen(false);
 
     getProductoSeleccionado(productos.CodigoInterno).then((detalleProducto) => {
-      console.log("detalle produt" + detalleProducto);
       setDetalleProducto(detalleProducto);
+      const precio = (detalleProducto.precioVenta / 1.18);      
+      setDescuentoA(parseInt(descuentoA, 10));
+      setDescuentoB(parseInt(descuentoB, 10));
+      setMonto(precio); 
     });
     getFechaLlegadaProductoSeleccionado(productos.CodigoInterno).then(
       (fechaLlegada) => {
@@ -94,13 +101,53 @@ const TuComponente = () => {
         }
       );
     }    
-
+   
     setDatosDisponibles(true);
   };
-  const addToCart = () => {
+
+  const handleDescuentoAChange = (event) => {
+    const value = event.target.value.trim(); // Eliminar espacios en blanco al principio y al final
+    if (value === "") {
+      setDescuentoA(0.0); // Si el campo está vacío, establecer el valor predeterminado en 1
+    } else {
+      const parsedValue = parseFloat(value); // Intentar convertir el valor a un número entero
+      if (!isNaN(parsedValue) && parsedValue >= 0) {
+        setDescuentoA(parsedValue); // Establecer el nuevo valor del contador si es un número válido y mayor o igual a 1
+      }
+    }
+};
+  const handleDescuentoBChange = (event) => {
+    const value = event.target.value.trim(); // Eliminar espacios en blanco al principio y al final
+    if (value === "") {
+      setDescuentoB(0.0); // Si el campo está vacío, establecer el valor predeterminado en 1
+    } else {
+      const parsedValue = parseFloat(value); // Intentar convertir el valor a un número entero
+      if (!isNaN(parsedValue) && parsedValue >= 0) {
+        setDescuentoB(parsedValue); // Establecer el nuevo valor del contador si es un número válido y mayor o igual a 1
+      }
+    }
+  };
+  const handleMontoChange = (event) => {
+    const value = event.target.value; // Eliminar espacios en blanco al principio y al final
+    setMonto(value); // Establecer el nuevo valor del contador si es un número válido y mayor o igual a 1
+     
+};
+  
+  
+  const addToCart = (ticketCount, detalleProducto, descuentoA,descuentoB, monto) => {
+    setToastOpen(true)
+    setDescuentoA(0.0)
+    setDescuentoB(0.0)
+    toast.success("Se ha guardado el producto con éxito");
     const newItem = {
-      product: "FILTRO AIRE PRIM", // Reemplaza "Your Product" con los datos reales del producto
-      // quantity: ticketCount,
+      product: detalleProducto.descripcionArticulo,
+      linea:detalleProducto.codigoLinea,
+      codigoArticulo: detalleProducto.codigoArticulo,
+      marca:detalleProducto.descripcionMarca,
+      descuentoA: descuentoA,
+      descuentoB:descuentoB,
+      monto:monto,
+      ticketCount:ticketCount// quantity: ticketCount,
     };
     console.log("Agregando al carrito de compras" + newItem);
     setCartItems([...cartItems, newItem]);
@@ -534,6 +581,12 @@ const TuComponente = () => {
             datosDisponibles={datosDisponibles}
             addToCart={addToCart}
             cartItems={cartItems}
+            descuentoA = {descuentoA}
+            handleDescuentoAChange = {handleDescuentoAChange}
+            descuentoB = {descuentoB}
+            handleDescuentoBChange = {handleDescuentoBChange}
+            monto = {monto}
+            handleMontoChange = {handleMontoChange}
             historialPrecios={historialPrecios}
           />
         </Collapse>
@@ -565,6 +618,7 @@ const TuComponente = () => {
         theme="light"
         transition:Bounce
       />
+      
     </Paper>
   );
 };

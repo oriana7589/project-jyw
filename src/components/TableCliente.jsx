@@ -14,7 +14,7 @@ const TableComponent = ({ dataDocumentos, promedioCompra, promedioItems, promedi
           </tr>
         </thead>
         <tbody>
-          {dataDocumentos.map((item) => (
+          {dataDocumentos.slice(0, 10).map((item) => (
             <tr key={item.numDocumento}>
               <td style={{ textAlign: 'center' }}>{item.fechaEmision.split('T')[0]}</td>
               <td style={{ textAlign: 'center' }}>{item.moneda + " " + item.montoTotal}</td>
@@ -23,27 +23,36 @@ const TableComponent = ({ dataDocumentos, promedioCompra, promedioItems, promedi
           ))}
         </tbody>
       </table>
-      <Typography style={{fontWeight: "bold", paddingTop: "20px", alignContent: "center" }}>ULTIMOS 12 MESES:</Typography>
-      <table style={{ textAlign: 'left', padding: '10px' , fontSize:"0.9rem"}}>
-         {/* Filas adicionales para la información resumen */}
-         <tbody>
-          <tr>
-            <td colSpan="1" style={{fontWeight:"bold",fontSize:16}} >
-            PROMEDIO COMPRA ÚLTIMOS 12 MESES (POR FACTURA): <span style={{fontSize:22}} > {"$ "+promedioCompra}</span> 
-            </td>
-          </tr>
-          <tr>
-            <td colSpan="1" style={{fontWeight:"bold",fontSize:16}} >
-              ITEMS PROMEDIO POR COMPRA POR FACTURA:<span style={{fontSize:22}} > {promedioItems}</span> 
-            </td>
-          </tr>
-          <tr>
-            <td colSpan="1" style={{fontWeight:"bold", fontSize:16  }} >
-            CANTIDAD DE FACTURAS POR MES: <span style={{fontSize:22}} >{promedioComprasAlMes}</span> 
-            </td>
-          </tr>
-        </tbody>
-      </table>   
+      <Typography style={{fontWeight: "bold", paddingTop: "10px", alignContent: "center" }}>ULTIMOS 12 MESES:</Typography>
+      <table style={{ textAlign: 'left' , fontSize:"0.9rem", marginLeft:10}}>
+  <tbody>
+    <tr>
+      <td colSpan="1" style={{fontSize:15}}>PROMEDIO DE COMPRA POR FACTURA:</td>
+      <td style={{fontSize:19, fontWeight:"bold",padding:2}}>
+        <div style={{ background:"rgb(12,55,100)",color:"rgb(255,255,255)", padding:5, textAlign:"center"}}>
+        {"$ "+ promedioCompra}
+        </div>
+      </td>
+    </tr>
+
+    <tr >
+      <td colSpan="1" style={{fontSize:15 }} >ITEMS PROMEDIO POR COMPRA POR FACTURA:</td>
+      <td style={{fontSize:19, fontWeight:"bold", padding:2}}>
+        <div style={{ background:"rgb(12,55,100)",color:"rgb(255,255,255)", padding:5, textAlign: "center" }}>
+        {promedioItems}
+      </div>
+      </td>
+    </tr>
+    <tr >
+      <td colSpan="1" style={{fontSize:15 }} >CANTIDAD DE FACTURAS POR MES:</td>
+      <td style={{fontSize:19, fontWeight:"bold", padding:2}}>
+        <div style={{ background:"rgb(12,55,100)",color:"rgb(255,255,255)", padding:5, textAlign:"center"}}>
+        {promedioComprasAlMes}
+      </div>
+      </td>
+    </tr>
+  </tbody>
+</table>
     </>
   );
 };

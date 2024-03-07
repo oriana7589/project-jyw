@@ -122,7 +122,8 @@ export function getUltimasComprasCliente(codCliente) {
 export function getProductoSeleccionado(codInterno) {
     const productos =
         axios.get(`${baseUrlProductos()}/ProductoSeleccionado/${codInterno}`)
-            .then((res) => {                
+            .then((res) => {   
+                console.log("producto seleccionado: ", res);                
                 return res.data
             });
 

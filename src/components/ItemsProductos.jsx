@@ -12,7 +12,6 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 
 function ItemsProductos({ cartItems }) {
-  console.log("itemsCompras" + cartItems);
   const [hoveredCard, setHoveredCard] = useState(null);
 
   const handleMouseEnter = (index) => {
@@ -67,28 +66,26 @@ function ItemsProductos({ cartItems }) {
                   color="text.secondary"
                   paddingRight={2}
                 >
-                  Linea: VOLVO
+                  Linea:{item.linea}
                 </Typography>
                 <Typography
                   variant="body2"
                   color="text.secondary"
                   paddingRight={2}
                 >
-                  Código: 1259874
+                  Código: {item.codigoArticulo}
                 </Typography>
                 <Typography
                   variant="body2"
                   color="text.secondary"
                   paddingRight={2}
                 >
-                  Marca: DFG
+                  Marca: {item.marca}
                 </Typography>
               </CardContent>
+            
               <Typography variant="body2" color="text.secondary">
-                Origen: Brazil
-              </Typography>
-              <Typography variant="body2" color="text.secondary">
-                Cantidad: {item.origin}
+                Cantidad: {item.ticketCount}
               </Typography>
               <CardContent sx={{ display: "flex", padding: 0 }}>
                 <Typography
@@ -96,21 +93,21 @@ function ItemsProductos({ cartItems }) {
                   color="text.secondary"
                   paddingRight={2}
                 >
-                  Desc. 1 : 30%
+                  Desc.1 : {item.descuentoA}
                 </Typography>
                 <Typography
                   variant="body2"
                   color="text.secondary"
                   paddingRight={2}
                 >
-                  Desc. 2: 10%
+                  Desc.2 : {item.descuentoB}
                 </Typography>
                 <Typography
                   variant="body2"
                   color="text.secondary"
                   paddingRight={2}
                 >
-                  Monto desc.: $30
+                  Monto desc.: {item.monto}
                 </Typography>
               </CardContent>
             </CardContent>

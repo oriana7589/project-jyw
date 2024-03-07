@@ -6,7 +6,20 @@ import repuest from "../image/repuest.png";
 import TableItems from "../components/TableItems";
 import TableDescripcionItems from "../components/TableDescriptionItems";
 
-export default function TD({addToCart, detalleProducto, fechaLlegada, historialPrecios}) {
+export default function TD({
+  addToCart,
+  detalleProducto,
+  fechaLlegada,
+  historialPrecios,
+  descuentoA,
+  handleDescuentoAChange,
+  descuentoB,
+  handleDescuentoBChange,
+  monto,
+  handleMontoChange,
+}) {
+  
+  console.log(monto+"monto tds")
   const [chartData, setChartData] = useState({
     labels: [],
     datasets: [
@@ -22,7 +35,6 @@ export default function TD({addToCart, detalleProducto, fechaLlegada, historialP
     ],
   });
 
-
   return (
     <React.Fragment>
       <CssBaseline />
@@ -36,21 +48,29 @@ export default function TD({addToCart, detalleProducto, fechaLlegada, historialP
         }}
       >
         <div style={{ flex: 1 }}>
-          <div style={{ display: "flex",  margin: "5px", justifyContent: "center"  }}>
+          <div
+            style={{ display: "flex", margin: "5px", justifyContent: "center" }}
+          >
             <img
-            src={repuest}
+              src={repuest}
               alt="Imagen de carrito de compras"
-              style={{ width: "70%", height: "70%"}}
+              style={{ width: "70%", height: "70%" }}
             />
           </div>
-          <TableItems  />
+          <TableItems />
         </div>
         <div style={{ flex: 1.5 }}>
-          <TableDescripcionItems 
+          <TableDescripcionItems
             addToCart={addToCart}
             detalleProducto={detalleProducto}
             fechaLlegada={fechaLlegada}
             historialPrecios={historialPrecios}
+             descuentoA = {descuentoA}
+            handleDescuentoAChange = {handleDescuentoAChange}
+            descuentoB = {descuentoB}
+            handleDescuentoBChange = {handleDescuentoBChange}
+            monto = {monto}
+            handleMontoChange = {handleMontoChange}
           />
         </div>
       </Container>

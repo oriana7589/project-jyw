@@ -3,6 +3,8 @@ import { Button, IconButton, TextField, Typography } from "@mui/material";
 import TableShop from "./TableShop";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import CarritoCompras from "../components/CarritoCompras";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const data = [
   { fecha: "2024-01-01", monto: "10000.00", factura: "F002-45000" },
@@ -25,8 +27,19 @@ const data = [
   { fecha: "2024-01-01", monto: "10000.00", factura: "F002-45000" },
 ];
 
-const TableDescripcionItems = ({ addToCart, detalleProducto ,fechaLlegada, historialPrecios}) => {
-  console.log(detalleProducto+"detalle")
+const TableDescripcionItems = ({
+  addToCart,
+  detalleProducto,
+  fechaLlegada,
+  historialPrecios,
+  descuentoA,
+  handleDescuentoAChange,
+  descuentoB,
+  handleDescuentoBChange,
+  monto,
+  handleMontoChange,
+}) => {
+
   const itemsPerPage = 10;
   const [currentPage, setCurrentPage] = useState(1);
   const [cartItems, setCartItems] = useState([]);
@@ -44,6 +57,25 @@ const TableDescripcionItems = ({ addToCart, detalleProducto ,fechaLlegada, histo
   const handleIncrement = () => {
     setTicketCount(ticketCount + 1);
   };
+  console.log(monto+"monto td")
+
+  const handleAddToCart = () => {
+ 
+    addToCart(ticketCount, detalleProducto, descuentoA, descuentoB, monto);
+    setTicketCount(1);
+     // Reinicia ticketCount después de agregar al carrito
+  };
+  const calcularPrecioFinal = ()=>{
+    const precioSinIGV = monto;    
+    const desc1 = (1 - (descuentoA / 100)) ;
+    console.log("descuentosA"+descuentoA)
+  
+    console.log(desc1+"primer desceunto")
+    const desc2 = 1 - (descuentoB / 100);
+    const cantidad = ticketCount;
+    const precioFinal = precioSinIGV*desc1*desc2*cantidad*1.18;
+    return precioFinal
+  }
 
   const handleDecrement = () => {
     if (ticketCount > 1) {
@@ -64,10 +96,16 @@ const TableDescripcionItems = ({ addToCart, detalleProducto ,fechaLlegada, histo
 
   return (
     <>
-      <TableShop 
+      <TableShop
         detalleProducto={detalleProducto}
         fechaLlegada={fechaLlegada}
         historialPrecios={historialPrecios}
+        descuentoA = {descuentoA}
+        handleDescuentoAChange = {handleDescuentoAChange}
+        descuentoB = {descuentoB}
+        handleDescuentoBChange = {handleDescuentoBChange}
+        monto = {monto}
+        handleMontoChange = {handleMontoChange}
       />
       <table
         style={{
@@ -80,7 +118,7 @@ const TableDescripcionItems = ({ addToCart, detalleProducto ,fechaLlegada, histo
         <tbody>
           <tr>
             <td colSpan="1" style={{ fontSize: "1.1rem" }}>
-              P. FINAL C/IGV: 25 DOL
+              P. FINAL C/IGV: {calcularPrecioFinal()}
             </td>
           </tr>
           <tr>
@@ -105,7 +143,7 @@ const TableDescripcionItems = ({ addToCart, detalleProducto ,fechaLlegada, histo
                 variant="outlined"
                 style={{
                   margin: 10,
-                  marginTop:"5px"
+                  marginTop: "5px",
                 }}
                 value={ticketCount}
                 onChange={handleChange}
@@ -113,9 +151,9 @@ const TableDescripcionItems = ({ addToCart, detalleProducto ,fechaLlegada, histo
                   style: {
                     fontSize: "14px",
                     width: "80px",
-                    height:"35px",
+                    height: "35px",
                     textAlign: "center",
-                  }, // Establece el tamaño específico aquí
+                  }, 
                 }}
               />
               <IconButton
@@ -141,7 +179,7 @@ const TableDescripcionItems = ({ addToCart, detalleProducto ,fechaLlegada, histo
                   marginLeft: "10px",
                   height: "40px",
                 }}
-                onClick={addToCart}
+                onClick={handleAddToCart}
               >
                 <Typography
                   style={{ color: "rgb(255, 255, 255)", fontSize: "0.7rem" }}
@@ -156,6 +194,10 @@ const TableDescripcionItems = ({ addToCart, detalleProducto ,fechaLlegada, histo
           </tr>
         </tbody>
       </table>
+      <div>
+ 
+      </div>
+     
     </>
   );
 };
