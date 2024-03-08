@@ -5,6 +5,8 @@ import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import CarritoCompras from "../components/CarritoCompras";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Decimal from "decimal.js";
+Decimal.set({ precision: 10 });
 
 const data = [
   { fecha: "2024-01-01", monto: "10000.00", factura: "F002-45000" },
@@ -62,19 +64,28 @@ const TableDescripcionItems = ({
   const handleAddToCart = () => {
  
     addToCart(ticketCount, detalleProducto, descuentoA, descuentoB, monto);
-    setTicketCount(1);
+ 
      // Reinicia ticketCount después de agregar al carrito
   };
   const calcularPrecioFinal = ()=>{
-    const precioSinIGV = monto;    
-    const desc1 = (1 - (descuentoA / 100)) ;
-    console.log("descuentosA"+descuentoA)
+    // const precioSinIGV = isNaN(monto) ? 0 : monto;    
+    // const desc1 = (1 - (descuentoA / 100)) ;
+    // console.log("descuentosA"+descuentoA)
   
-    console.log(desc1+"primer desceunto")
-    const desc2 = 1 - (descuentoB / 100);
+    // console.log(desc1+"primer desceunto")
+    // const desc2 = 1 - (descuentoB / 100);
     const cantidad = ticketCount;
-    const precioFinal = precioSinIGV*desc1*desc2*cantidad*1.18;
-    return precioFinal
+    // const precioFinal = precioSinIGV*desc1*desc2*cantidad*1.18;
+
+    let preciosinigv = new Decimal(isNaN(monto) ? 0 : monto === "" ? 0 : monto);
+    let desc1n = new Decimal(descuentoA);
+    desc1n = 1 - desc1n.dividedBy(100);
+    let desc2n = new Decimal(descuentoB);
+    desc2n = 1 - desc2n.dividedBy(100);    
+    let precioFinaln = preciosinigv.times(desc1n).times(desc2n).times(cantidad).times(1.18).toDecimalPlaces(2);
+
+
+    return precioFinaln
   }
 
   const handleDecrement = () => {
@@ -105,7 +116,7 @@ const TableDescripcionItems = ({
         descuentoB = {descuentoB}
         handleDescuentoBChange = {handleDescuentoBChange}
         monto = {monto}
-        handleMontoChange = {handleMontoChange}
+        handleMontoChange = {handleMontoChange}        
       />
       <table
         style={{
@@ -118,7 +129,7 @@ const TableDescripcionItems = ({
         <tbody>
           <tr>
             <td colSpan="1" style={{ fontSize: "1.1rem" }}>
-              P. FINAL C/IGV: {calcularPrecioFinal()}
+              P. FINAL C/IGV: {calcularPrecioFinal().toString()}
             </td>
           </tr>
           <tr>

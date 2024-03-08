@@ -94,7 +94,8 @@ const ThirdTable = ({
   monto,
   handleMontoChange,
 }) => {
-  const currentData = historialPrecios;
+  const currentData = historialPrecios;   
+  //const montoCambiado = monto + 0;
   console.log( monto +"monto seleccionada")
   return (
     <>
@@ -141,7 +142,7 @@ const ThirdTable = ({
               <td>
                 <TextField                  
                   variant="outlined"
-                  value={parseFloat(descuentoA).toFixed(2)} // Valor del estado
+                  value={descuentoA} // Valor del estado
                   inputProps={{ type: 'text', inputMode: 'numeric'}}
                   onChange={handleDescuentoAChange}
                   InputProps={{
@@ -160,7 +161,7 @@ const ThirdTable = ({
               <td>
                 <TextField
                   variant="outlined"
-                  value={parseFloat(descuentoB).toFixed(2)} // Valor del estado
+                  value={descuentoB} // Valor del estado
                   onChange={handleDescuentoBChange}
                   InputProps={{
                     style: {
@@ -179,7 +180,7 @@ const ThirdTable = ({
                 <TextField
                 type=""
                   variant="outlined"
-                  value={parseFloat(monto).toFixed(2)} // Valor del estado
+                  value={monto} // Valor del estado
                   onChange={handleMontoChange}
                   InputProps={{
                     style: {

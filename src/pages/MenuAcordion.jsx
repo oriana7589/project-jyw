@@ -29,6 +29,7 @@ import Items from "./items";
 import DialogProductos from "../components/DialogProductos";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Decimal from "decimal.js";
 
 const TuComponente = () => {
   const [expandedPanels, setExpandedPanels] = useState([1]);
@@ -60,8 +61,8 @@ const TuComponente = () => {
   const [datosDisponibles, setDatosDisponibles] = useState(false);
   const [cartItems, setCartItems] = useState([]); // Estado para el arreglo que quieres pasar a CardList
   const [historialPrecios, setHistorialPrecios] = useState([]); 
-  const [descuentoA, setDescuentoA] = useState(0.0);
-  const [descuentoB, setDescuentoB] = useState(0.0);
+  const [descuentoA, setDescuentoA] = useState(0);
+  const [descuentoB, setDescuentoB] = useState(0);
   const [monto,setMonto]= useState(0.0);
   
 
@@ -77,9 +78,13 @@ const TuComponente = () => {
 
     getProductoSeleccionado(productos.CodigoInterno).then((detalleProducto) => {
       setDetalleProducto(detalleProducto);
-      const precio = (detalleProducto.precioVenta / 1.18);      
-      setDescuentoA(parseInt(descuentoA, 10));
-      setDescuentoB(parseInt(descuentoB, 10));
+      const precioVenta = new Decimal(detalleProducto.precioVenta);
+      const impuesto = new Decimal(1.18);
+      const precioVentaSinIGV = precioVenta.dividedBy(impuesto);
+      const precio = Math.round(precioVentaSinIGV.times(100)) / 100;      
+      //const precio = precioVentaSinIGV.toDecimalPlaces(2);
+      setDescuentoA(0);
+      setDescuentoB(0);
       setMonto(precio); 
     });
     getFechaLlegadaProductoSeleccionado(productos.CodigoInterno).then(
@@ -108,9 +113,9 @@ const TuComponente = () => {
   const handleDescuentoAChange = (event) => {
     const value = event.target.value.trim(); // Eliminar espacios en blanco al principio y al final
     if (value === "") {
-      setDescuentoA(0.0); // Si el campo está vacío, establecer el valor predeterminado en 1
+      setDescuentoA(0); // Si el campo está vacío, establecer el valor predeterminado en 1
     } else {
-      const parsedValue = parseFloat(value); // Intentar convertir el valor a un número entero
+      const parsedValue = parseInt(value); // Intentar convertir el valor a un número entero
       if (!isNaN(parsedValue) && parsedValue >= 0) {
         setDescuentoA(parsedValue); // Establecer el nuevo valor del contador si es un número válido y mayor o igual a 1
       }
@@ -119,9 +124,9 @@ const TuComponente = () => {
   const handleDescuentoBChange = (event) => {
     const value = event.target.value.trim(); // Eliminar espacios en blanco al principio y al final
     if (value === "") {
-      setDescuentoB(0.0); // Si el campo está vacío, establecer el valor predeterminado en 1
+      setDescuentoB(0); // Si el campo está vacío, establecer el valor predeterminado en 1
     } else {
-      const parsedValue = parseFloat(value); // Intentar convertir el valor a un número entero
+      const parsedValue = parseInt(value); // Intentar convertir el valor a un número entero
       if (!isNaN(parsedValue) && parsedValue >= 0) {
         setDescuentoB(parsedValue); // Establecer el nuevo valor del contador si es un número válido y mayor o igual a 1
       }
@@ -131,13 +136,10 @@ const TuComponente = () => {
     const value = event.target.value; // Eliminar espacios en blanco al principio y al final
     setMonto(value); // Establecer el nuevo valor del contador si es un número válido y mayor o igual a 1
      
-};
-  
+  }; 
   
   const addToCart = (ticketCount, detalleProducto, descuentoA,descuentoB, monto) => {
     setToastOpen(true)
-    setDescuentoA(0.0)
-    setDescuentoB(0.0)
     toast.success("Se ha guardado el producto con éxito");
     const newItem = {
       product: detalleProducto.descripcionArticulo,
