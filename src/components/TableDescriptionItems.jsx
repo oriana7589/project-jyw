@@ -62,29 +62,19 @@ const TableDescripcionItems = ({
   console.log(monto+"monto td")
 
   const handleAddToCart = () => {
- 
-    addToCart(ticketCount, detalleProducto, descuentoA, descuentoB, monto);
+    const precioFinal = calcularPrecioFinal();
+    addToCart(ticketCount, detalleProducto, descuentoA, descuentoB, monto, precioFinal);
  
      // Reinicia ticketCount después de agregar al carrito
   };
   const calcularPrecioFinal = ()=>{
-    // const precioSinIGV = isNaN(monto) ? 0 : monto;    
-    // const desc1 = (1 - (descuentoA / 100)) ;
-    // console.log("descuentosA"+descuentoA)
-  
-    // console.log(desc1+"primer desceunto")
-    // const desc2 = 1 - (descuentoB / 100);
     const cantidad = ticketCount;
-    // const precioFinal = precioSinIGV*desc1*desc2*cantidad*1.18;
-
     let preciosinigv = new Decimal(isNaN(monto) ? 0 : monto === "" ? 0 : monto);
     let desc1n = new Decimal(descuentoA);
     desc1n = 1 - desc1n.dividedBy(100);
     let desc2n = new Decimal(descuentoB);
     desc2n = 1 - desc2n.dividedBy(100);    
     let precioFinaln = preciosinigv.times(desc1n).times(desc2n).times(cantidad).times(1.18).toDecimalPlaces(2);
-
-
     return precioFinaln
   }
 
@@ -120,8 +110,9 @@ const TableDescripcionItems = ({
       />
       <table
         style={{
+          width:450,
+          padding:10,
           textAlign: "left",
-          padding: "10px",
           fontSize: "0.9rem",
           float: "right",
         }}
@@ -129,11 +120,14 @@ const TableDescripcionItems = ({
         <tbody>
           <tr>
             <td colSpan="1" style={{ fontSize: "1.1rem" }}>
-              P. FINAL C/IGV: {calcularPrecioFinal().toString()}
+              PRECIO TOTAL INC. IGV($):
+            </td>
+            <td style={{textAlign:"right", paddingRight:21, fontWeight: "bold", fontSize:"1.6rem"}}>
+               {calcularPrecioFinal().toString()}
             </td>
           </tr>
           <tr>
-            <td style={{ display: "flex", justifyContent: "flex-end" }}>
+            <td colSpan="2" style={{ display: "flex", justifyContent: "flex-end", textAlign: "right" }}>
               <IconButton
                 style={{
                   border: "1px solid rgb(226, 52, 48)",
@@ -183,11 +177,15 @@ const TableDescripcionItems = ({
                   +
                 </Typography>
               </IconButton>
-              <IconButton
+            </td>
+            <td style={{textAlign: "right" , width:"150px"}}>
+            <IconButton
                 style={{
                   backgroundColor: "rgb(226, 52, 48)",
                   borderRadius: "0",
                   marginLeft: "10px",
+                  marginRight:"21px",
+                  width:100,
                   height: "40px",
                 }}
                 onClick={handleAddToCart}
@@ -195,7 +193,7 @@ const TableDescripcionItems = ({
                 <Typography
                   style={{ color: "rgb(255, 255, 255)", fontSize: "0.7rem" }}
                 >
-                  AÑADIR AL CARRITO
+                  AÑADIR
                 </Typography>
                 <ShoppingCartOutlinedIcon
                   style={{ color: "rgb(255, 255, 255)" }}

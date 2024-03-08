@@ -28,6 +28,12 @@ const TableComponent = ({ clientes, onClientSelect, itemsPerPage }) => {
     return () => clearTimeout(timer);
   }, []);
 
+  useEffect(() => {
+    if (clientes.length > 0) {
+      setIsLoading(false);
+    }
+  }, [clientes]);
+
   const handleRowDoubleClick = (datosCliente) => {
     setSelectedClient(datosCliente);
     onClientSelect(datosCliente);

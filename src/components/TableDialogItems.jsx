@@ -28,6 +28,12 @@ const TableComponent = ({ items, onProductSelect }) => {
     return () => clearTimeout(timer);
   }, []);
 
+  useEffect(() => {
+    if (items.length > 0) {
+      setIsLoading(false);
+    }
+  }, [items]);
+
   const handleRowDoubleClick = (datosItems) => {
     setSelectedProductos(datosItems);
     onProductSelect(datosItems);

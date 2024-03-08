@@ -74,6 +74,7 @@ function PrecioProductos() {
       />
       
     <table style={{ marginTop: 25, justifyContent:"flex-end", width:"100%" }}>
+      <tbody>
       <tr>
         <td style={{ textAlign: "right" }}>
           <Typography fontSize={25}>Sub. total:</Typography>
@@ -91,11 +92,11 @@ function PrecioProductos() {
         </td>
       </tr>
       <tr>
-        <td style={{ textAlign: "right", color: "rgb(245,19,13)" }}>
-          <Typography fontSize={25}>Importe Total:</Typography>
+        <td style={{ textAlign: "right", color: "rgb(255,168,0)" }}>
+          <Typography fontSize={25} fontWeight='bold' >Importe Total:</Typography>
         </td>
-        <td style={{ color: "rgb(245,19,13)" , textAlign: "end",width: "150px" }}>
-          <Typography fontSize={25}>$50.00</Typography>
+        <td style={{ color: "rgb(255,168,0)" , textAlign: "end",width: "150px", }}>
+          <Typography fontSize={25} fontWeight='bold'>$50.00</Typography>
         </td>
       </tr>
       <tr>
@@ -106,6 +107,7 @@ function PrecioProductos() {
           <Typography fontSize={25}> S/50000.00</Typography>
         </td>
       </tr>
+      </tbody>
     </table>
     </div>
   );

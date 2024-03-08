@@ -104,102 +104,166 @@ const ThirdTable = ({
       >
         HISTORIAL DE PRECIOS
       </Typography>
-      <div style={{ display: "flex", justifyContent: "flex-start" }}>
-        <table style={{ borderCollapse: "collapse", margin: "10px 15px" }}>
-          <tbody>
-            {currentData.slice(0, 8).map((item, index) => (
-              <tr key={index}>
-                <td style={{}}>{item.fecha}</td>
-                <td style={{}}>{item.cantidad}</td>
-                <td style={{}}>{item.precioVenta}</td>
-                <td style={{}}>{item.descuentoUno}</td>
-                <td style={{}}>{item.descuentoDos}</td>
-                <td style={{}}>{item.codigoMoneda}</td>
-                <td style={{}}>{item.precioFinalIncIGV}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-
-        <table style={{ padding: "20px" }}>
-          {/* Filas adicionales para la información resumen */}
-          <tbody style={{ width: 35 }}>
-            <tr>
-              <td colSpan="1">P. DE LISTA:</td>
-              <td style={{ paddingLeft: 10 }}>{detalleProducto.precioVenta}</td>
-            </tr>
-            <tr>
-              <td colSpan="1">OFERTA:</td>
-              <td style={{ paddingLeft: 10 }}>
-                {detalleProducto.porcentajeDescuento
-                  ? ((1 - detalleProducto.porcentajeDescuento) *
-                    detalleProducto.precioVenta).toFixed(2)
-                  : "No hay descuento"}
-              </td>
-            </tr>
-            <tr>
-              <td colSpan="1">DESC. A:</td>
-              <td>
-                <TextField                  
-                  variant="outlined"
-                  value={descuentoA} // Valor del estado
-                  inputProps={{ type: 'text', inputMode: 'numeric'}}
-                  onChange={handleDescuentoAChange}
-                  InputProps={{
-                    style: {
-                      fontSize: "14px",
-                      width: "80px",
-                      height: "35px",
-                      textAlign: "center",
-                    },
-                  }}
-                />
-              </td>
-            </tr>
-            <tr>
-              <td colSpan="1">DESC. B:</td>
-              <td>
-                <TextField
-                  variant="outlined"
-                  value={descuentoB} // Valor del estado
-                  onChange={handleDescuentoBChange}
-                  InputProps={{
-                    style: {
-                      fontSize: "14px",
-                      width: "80px",
-                      height: "35px",
-                      textAlign: "center",
-                    },
-                  }}
-                />
-              </td>
-            </tr>
-            <tr>
-              <td colSpan="1">PRECIO($):</td>
-              <td>
-                <TextField
-                type=""
-                  variant="outlined"
-                  value={monto} // Valor del estado
-                  onChange={handleMontoChange}
-                  InputProps={{
-                    style: {
-                      fontSize: "14px",
-                      width: "150px",
-                      height: "35px",
-                      textAlign: "center",
-                    },
-                  }}
-                />
-              </td>
-            </tr>
-          </tbody>
-        </table>
+      <div style={{ display: "flex", justifyContent: "flex-start" , width: "100%"}}>
+        <div style={{ flex: "0 0 50%", marginRight: "20px" }}>
+          <TableContainer >
+            <Table sx={{ minWidth: 350 }} aria-label="simple table">
+              <TableHead>
+                <TableRow>
+                  <TableCell align="center" style={{padding:0, width:10}}>Fecha</TableCell>
+                  <TableCell align="center" style={{padding:0}}>Cant </TableCell>
+                  <TableCell align="center" style={{padding:0}}>PV</TableCell>
+                  <TableCell align="center" style={{padding:0}}>D1</TableCell>
+                  <TableCell align="center"style={{padding:0}}>D2</TableCell>
+                  <TableCell align="center"style={{padding:0}}>Mon</TableCell>
+                  <TableCell align="center"style={{padding:0}}>PF</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {currentData.slice(0, 10).map((item, index) => (
+                  <TableRow key={index}>
+                    <TableCell style={{ padding: 0 }}>{item.fecha}</TableCell>
+                    <TableCell
+                      style={{ fontSize: "0.8rem", padding: 0 }} align="center">
+                      {item.cantidad}
+                    </TableCell>
+                    <TableCell style={{ fontSize: "0.8rem", padding: 0  }} align="center">
+                      {item.precioVenta}
+                    </TableCell>
+                    <TableCell style={{ fontSize: "0.8rem" , padding: 0 }} align="center">
+                      {item.descuentoUno}
+                    </TableCell>
+                    <TableCell style={{ fontSize: "0.8rem" , padding: 0 }} align="center">
+                      {item.descuentoDos}
+                    </TableCell>
+                    <TableCell style={{ fontSize: "0.8rem", padding: 0  }} align="center">
+                      {item.codigoMoneda}
+                    </TableCell>
+                    <TableCell style={{ fontSize: "0.8rem" , padding: 0 }} align="center">
+                      {item.precioFinalIncIGV}
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </div>
+  
+        <div style={{ flex: "0 0 50%"}}>
+          <TableContainer >
+            <table style={{ padding:10 }} align="center">
+              {/* Filas adicionales para la información resumen */}
+              <tbody style={{ width: 0 }}>
+                <tr >
+                  <td colSpan="1" style={{ fontWeight:"bold"}}>PRECIO LISTA:</td>
+                  <td>
+                    <TextField
+                      variant="outlined"
+                      style={{paddingLeft:20}}
+                      value= {detalleProducto.precioVenta} // Valor del estado
+                      inputProps={{ type: 'text', inputMode: 'numeric'}}
+                      InputProps={{
+                        style: {
+                          fontSize: "14px",
+                          width: "105px",
+                          height: "35px",
+                          textAlign: "center",
+                        },
+                      }}
+                    />
+                    </td>
+                </tr>
+                <tr>
+                  <td colSpan="1" style={{ fontWeight:"bold"}}>PRECIO OFERTA:</td>
+                  <td >
+                  <TextField
+                      variant="outlined"
+                      style={{paddingLeft:20}}
+                      value= {detalleProducto.porcentajeDescuento
+                        ? (
+                            (1 - detalleProducto.porcentajeDescuento) *
+                            detalleProducto.precioVenta
+                          ).toFixed(2)
+                        : "No hay descuento"} // Valor del estado
+                      inputProps={{ type: 'text', inputMode: 'numeric'}}
+                      InputProps={{
+                        style: {
+                          fontSize: "14px",
+                          width: "105px",
+                          height: "35px",
+                          textAlign: "center",
+                        },
+                      }}
+                    />
+                  </td>
+                </tr>
+                <tr>
+                  <td colSpan="1" style={{ fontWeight:"bold"}}>DESCUENTO A:</td>
+                  <td>
+                    <TextField
+                      variant="outlined"
+                      style={{paddingLeft:20}}
+                      value={descuentoA} // Valor del estado
+                      inputProps={{ type: 'text', inputMode: 'numeric'}}
+                      onChange={handleDescuentoAChange}
+                      InputProps={{
+                        style: {
+                          fontSize: "14px",
+                          width: "105px",
+                          height: "35px",
+                          textAlign: "center",
+                        },
+                      }}
+                    />
+                  </td>
+                </tr>
+                <tr>
+                  <td colSpan="1" style={{ fontWeight:"bold"}}>DESCUENTO B:</td>
+                  <td>
+                    <TextField
+                      variant="outlined"
+                      value={descuentoB} // Valor del estado
+                      style={{paddingLeft:20}}
+                      onChange={handleDescuentoBChange}
+                      InputProps={{
+                        style: {
+                          fontSize: "14px",
+                          width: "105px",
+                          height: "35px",
+                          textAlign: "center",
+                        },
+                      }}
+                    />
+                  </td>
+                </tr>
+                <tr>
+                  <td colSpan="1" style={{ fontWeight:"bold"}}>SUBTOTAL($):</td>
+                  <td>
+                    <TextField
+                      type=""
+                      variant="outlined"
+                      style={{paddingLeft:20}}
+                      value={monto} // Valor del estado
+                      onChange={handleMontoChange}
+                      InputProps={{
+                        style: {
+                          fontSize: "14px",
+                          width: "105px",
+                          height: "35px",
+                          textAlign: "center",
+                        },
+                      }}
+                    />
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </TableContainer>
+        </div>
       </div>
     </>
   );
-};
-
+                    }
 // Componente principal
 const TableShop = ({
   detalleProducto,
@@ -225,7 +289,7 @@ const TableShop = ({
         detalleProducto={detalleProducto}
         fechaLlegada={fechaLlegada}
       />
-      <Divider />
+      <Divider /> 
       <ThirdTable
         historialPrecios={historialPrecios}
         detalleProducto={detalleProducto}

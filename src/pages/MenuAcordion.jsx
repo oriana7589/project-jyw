@@ -81,7 +81,7 @@ const TuComponente = () => {
       const precioVenta = new Decimal(detalleProducto.precioVenta);
       const impuesto = new Decimal(1.18);
       const precioVentaSinIGV = precioVenta.dividedBy(impuesto);
-      const precio = Math.round(precioVentaSinIGV.times(100)) / 100;      
+      const precio = Math.round(precioVentaSinIGV.times(100)) / 100;  
       //const precio = precioVentaSinIGV.toDecimalPlaces(2);
       setDescuentoA(0);
       setDescuentoB(0);
@@ -138,7 +138,7 @@ const TuComponente = () => {
      
   }; 
   
-  const addToCart = (ticketCount, detalleProducto, descuentoA,descuentoB, monto) => {
+  const addToCart = (ticketCount, detalleProducto, descuentoA,descuentoB, monto,precioFinal ) => {
     setToastOpen(true)
     toast.success("Se ha guardado el producto con éxito");
     const newItem = {
@@ -149,6 +149,7 @@ const TuComponente = () => {
       descuentoA: descuentoA,
       descuentoB:descuentoB,
       monto:monto,
+     
       ticketCount:ticketCount// quantity: ticketCount,
     };
     console.log("Agregando al carrito de compras" + newItem);

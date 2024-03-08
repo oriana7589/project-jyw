@@ -33,7 +33,7 @@ function ItemsProductos({ cartItems }) {
             height: 150,
             width: 600,
             marginBottom: 15,
-            boxShadow:  hoveredCard === index ? '0 4px 8px 0 rgba(6, 120, 129, 0.7)':'0 4px 8px 0 rgba(6, 120, 129, 0.1)',
+            boxShadow:  hoveredCard === index ? '0 4px 8px 0 rgba(12, 55, 100, 0.7)':'0 4px 8px 0 rgba(12, 55, 100, 0.1)',
             transition: 'background-color 0.3s, box-shadow 0.3s'
           }}
         >
@@ -43,7 +43,9 @@ function ItemsProductos({ cartItems }) {
             component="div"
             paddingTop={2}
             paddingLeft={2}
-            style={{ fontWeight: "bold" }}
+            marginRight={2}
+            style={{ fontWeight: "bold" , whiteSpace: "nowrap",overflow: "hidden"}}
+
           >
             {item.product}
           </Typography>
@@ -60,7 +62,7 @@ function ItemsProductos({ cartItems }) {
               alt={item.product}
             />
             <CardContent sx={{ padding: 0 }}>
-              <CardContent sx={{ display: "flex", padding: 0 }}>
+              <CardContent sx={{ display: "flex", padding: 0 , marginTop:2}}>
                 <Typography
                   variant="body2"
                   color="text.secondary"
@@ -124,7 +126,7 @@ function ItemsProductos({ cartItems }) {
               <div style={{ display: "flex", flexDirection: "column" }}>
                 <IconButton
                   style={{
-                    backgroundColor: "rgb(255, 223, 222)",
+                    backgroundColor: "rgb(237, 237, 237)",
                     borderRadius: "25px",
                     marginLeft: "10px",
                     marginBottom: "5px",
@@ -133,12 +135,12 @@ function ItemsProductos({ cartItems }) {
                   }}
                   onClick={() => onDelete(index)}
                 >
-                  <DeleteIcon style={{ color: "rgb(245,19,13)" }} />
+                  <DeleteIcon style={{ color: "rgb(131,131,131)" }} />
                 </IconButton>
 
                 <IconButton
                   style={{
-                    backgroundColor: "rgb(228, 255, 226)",
+                    backgroundColor: "rgb(182, 205, 229)",
                     borderRadius: "25px",
                     marginLeft: "10px",
                     width: "40px",
@@ -146,7 +148,7 @@ function ItemsProductos({ cartItems }) {
                   }}
                   onClick={() => handleEdit(index)}
                 >
-                  <EditIcon style={{ color: "rgb(30,146,49)" }} />
+                  <EditIcon style={{ color: "rgb(12, 55, 100)" }} />
                 </IconButton>
               </div>
             </CardContent>
