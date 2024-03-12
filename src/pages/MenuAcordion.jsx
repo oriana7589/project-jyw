@@ -149,7 +149,7 @@ const TuComponente = () => {
       descuentoA: descuentoA,
       descuentoB:descuentoB,
       monto:monto,
-     
+     precioFinal: precioFinal,
       ticketCount:ticketCount// quantity: ticketCount,
     };
     console.log("Agregando al carrito de compras" + newItem);

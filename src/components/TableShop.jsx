@@ -173,30 +173,7 @@ const ThirdTable = ({
                     />
                     </td>
                 </tr>
-                <tr>
-                  <td colSpan="1" style={{ fontWeight:"bold"}}>PRECIO OFERTA:</td>
-                  <td >
-                  <TextField
-                      variant="outlined"
-                      style={{paddingLeft:20}}
-                      value= {detalleProducto.porcentajeDescuento
-                        ? (
-                            (1 - detalleProducto.porcentajeDescuento) *
-                            detalleProducto.precioVenta
-                          ).toFixed(2)
-                        : "No hay descuento"} // Valor del estado
-                      inputProps={{ type: 'text', inputMode: 'numeric'}}
-                      InputProps={{
-                        style: {
-                          fontSize: "14px",
-                          width: "105px",
-                          height: "35px",
-                          textAlign: "center",
-                        },
-                      }}
-                    />
-                  </td>
-                </tr>
+               
                 <tr>
                   <td colSpan="1" style={{ fontWeight:"bold"}}>DESCUENTO A:</td>
                   <td>

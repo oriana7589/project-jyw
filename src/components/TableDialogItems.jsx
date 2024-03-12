@@ -81,9 +81,74 @@ const TableComponent = ({ items, onProductSelect }) => {
           />
         </div>
       ) : items.length > 0 ? (
-        <div style={{ overflow:"auto" , width:"1090px"}}>
-         <table style={{ borderCollapse: 'collapse', width: '100%', border: 1 }}>
-        <thead style={{ position: "sticky", top: 0, zIndex: 1, backgroundColor: "rgb(255, 168, 0)" }}>
+        <div style={{ width:"1090px"}}>
+         <div style={{ position: "sticky", top: 0, zIndex: 1 }}>
+           <table style={{ borderCollapse: 'collapse', border: 1, borderSpacing:"25px" , marginBottom:10}}>
+            <thead style={{ position: "sticky", top: 0, zIndex: 1}} >
+              <tr style={{ height: 20 }}>
+                <th style={{  fontSize: "0.8rem", paddingBottom:5,backgroundColor: "rgb(255,17,17)"}}></th>
+                <th style={{  fontSize: "0.8rem", paddingLeft:5}}>En travesia</th>
+                <th style={{ }}></th>
+                <th style={{ fontSize: "0.8rem", paddingBottom:5,backgroundColor: "rgb(251,255,170)",width:55}}></th>
+                <th style={{ fontSize: "0.8rem", paddingLeft:5 }}>Local</th>
+                <th style={{ width:50}}></th>
+                <th style={{  fontSize: "0.8rem", paddingBottom:5,backgroundColor: "rgb(128,247,60)",width:55}}></th>
+                <th style={{ fontSize: "0.8rem", paddingLeft:5, textAlign:"left"}}>Original</th>
+                <th style={{ width:50}}></th>
+                <th style={{ fontSize: "0.8rem", paddingBottom:5,backgroundColor: "rgb(255, 168, 0)",width:55}}></th>
+                <th style={{  fontSize: "0.8rem", paddingLeft:5}}>Stock Total</th>
+                <th style={{ }}></th>
+             </tr>
+             <tr style={{ height: 8 }}>
+                <th style={{  fontSize: "0.8rem"}}></th>
+                <th style={{  fontSize: "0.8rem", paddingLeft:5}}></th>
+                <th style={{ }}></th>
+                <th style={{  fontSize: "0.8rem"}}></th>
+                <th style={{  fontSize: "0.8rem", paddingLeft:5}}></th>
+                <th style={{ }}></th>
+                <th style={{  fontSize: "0.8rem"}}></th>
+                <th style={{  fontSize: "0.8rem", paddingLeft:5}}></th>
+                <th style={{ }}></th>
+                <th style={{  fontSize: "0.8rem"}}></th>
+                <th style={{  fontSize: "0.8rem", paddingLeft:5}}></th>
+                <th style={{ }}></th>
+             </tr>
+           </thead>
+          <tbody  style={{ height: 20}}>
+             <td style={{ fontSize: "0.8rem", paddingBottom:5,backgroundColor: "rgb(179,180,177)",width:55}}></td>
+             <td style={{ fontSize: "0.8rem", paddingLeft:5, fontWeight:"bold"}}>Importado</td>
+             <td style={{ width:50}}></td>
+             <td style={{ fontSize: "0.8rem", paddingBottom:5,backgroundColor: "rgb(227,216,249)",width:55}}></td>
+             <td style={{  fontSize: "0.8rem", paddingLeft:5,fontWeight:"bold"}}>Importado</td>
+             <td style={{ }}></td>
+             <td style={{ fontSize: "0.8rem", paddingBottom:5,backgroundColor: "rgb(29,241,255)",width:55}}></td>
+             <td style={{  fontSize: "0.8rem", paddingLeft:5,fontWeight:"bold"}}>Precio Descuento</td>
+             <td style={{ }}></td>
+      </tbody>
+    </table>
+  </div>
+
+  <div style={{ overflow: "auto", width: "1090px",  maxHeight: "600px" , height:600 }}>
+  <table style={{ borderCollapse: 'collapse', width: '100%'}}>
+        <thead style={{ position: "sticky", top: 0, zIndex: 1, borderBottom: '1px solid black'}}>
+        <tr style={{ height: 20 }}>
+            <th style={{textAlign:"center", fontSize:"0.8rem", backgroundColor: "rgb(255, 255, 255)",  }}>  </th>
+            <th style={{textAlign:"center", fontSize:"0.8rem" , backgroundColor: "rgb(255, 255, 255)" }}></th>
+            <th style={{textAlign:"center", fontSize:"0.8rem" , backgroundColor: "rgb(255, 255, 0255)"}}></th>
+            <th style={{textAlign:"center", fontSize:"0.8rem" , backgroundColor: "rgb(255, 255, 255)"  }}></th>
+            <th style={{textAlign:"center", fontSize:"0.8rem", backgroundColor: "rgb(255, 255, 255)"  }}></th>
+            <th style={{textAlign:"center", fontSize:"0.8rem" , backgroundColor: "rgb(255, 255, 255)"  }}></th>
+            <th style={{textAlign:"center",  fontSize:"0.8rem" , backgroundColor: "rgb(255, 255, 255)"}}></th>
+            <th style={{textAlign:"center",  fontSize:"0.8rem" , backgroundColor: "rgb(255, 255, 255)" }}></th>
+            <th style={{textAlign:"center",  fontSize:"0.8rem" , backgroundColor: "rgb(255, 255, 255)" }}></th>
+            <th style={{textAlign:"center",  fontSize:"0.8rem" , backgroundColor: "rgb(255, 255, 255)"}}></th>
+            <th style={{textAlign:"center",  fontSize:"0.8rem" , backgroundColor: "rgb(255, 168, 0)",  borderTop: "1px solid black", borderLeft:"1px solid black", paddingLeft:7 , paddingRight:7 }}> </th>
+            <th style={{textAlign:"center",  fontSize:"0.8rem", backgroundColor: "rgb(255, 168, 0)", borderTop: "1px solid black" ,paddingLeft:7 , paddingRight:7  }}> 01 </th>
+            <th style={{textAlign:"center", fontSize:"0.8rem" , backgroundColor: "rgb(255, 168, 0)" ,  borderTop: "1px solid black", paddingLeft:7 , paddingRight:7  }}>  </th>
+            <th style={{textAlign:"center", fontSize:"0.8rem" , backgroundColor: "rgb(255, 168, 0)" , border: "1px solid black", paddingLeft:7 , paddingRight:7  }}> 02 </th>
+            <th style={{textAlign:"center", fontSize:"0.8rem" , backgroundColor: "rgb(255, 168, 0)" , border: "1px solid black", paddingLeft:7 , paddingRight:7 }}> T1 </th>
+            <th style={{textAlign:"center", fontSize:"0.8rem" , backgroundColor: "rgb(255, 255, 255)" }}></th>
+          </tr>
           <tr style={{ height: 50 }}>
             <th style={{textAlign:"center", fontSize:"0.8rem", backgroundColor: "rgb(255, 168, 0)" , border: "1px solid black" }}>  </th>
             <th style={{textAlign:"center", fontSize:"0.8rem" , backgroundColor: "rgb(255, 168, 0)" , border: "1px solid black"}}>Línea</th>
@@ -140,8 +205,8 @@ const TableComponent = ({ items, onProductSelect }) => {
           ))}
         </tbody>
       </table>
-          
-        </div>
+     </div>  
+  </div>
       ) : (
         // Si no está cargando y no hay datos de clientes
         <div

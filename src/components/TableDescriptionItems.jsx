@@ -60,6 +60,7 @@ const TableDescripcionItems = ({
     setTicketCount(ticketCount + 1);
   };
   console.log(monto+"monto td")
+  console.log("cantidad"+ticketCount)
 
   const handleAddToCart = () => {
     const precioFinal = calcularPrecioFinal();
@@ -68,6 +69,9 @@ const TableDescripcionItems = ({
      // Reinicia ticketCount después de agregar al carrito
   };
   const calcularPrecioFinal = ()=>{
+    if(ticketCount === ""){
+      ticketCount ===1
+    }
     const cantidad = ticketCount;
     let preciosinigv = new Decimal(isNaN(monto) ? 0 : monto === "" ? 0 : monto);
     let desc1n = new Decimal(descuentoA);
@@ -85,13 +89,13 @@ const TableDescripcionItems = ({
   };
   const handleChange = (event) => {
     const value = event.target.value.trim(); // Eliminar espacios en blanco al principio y al final
-    if (value === "") {
-      setTicketCount(""); // Si el campo está vacío, establecer el valor predeterminado en 1
+    const parsedValue = parseInt(value, 10); // Intentar convertir el valor a un número entero
+    if (!isNaN(parsedValue) && parsedValue >= 1) {
+      // Si es un número válido y mayor o igual a 1, establecer el nuevo valor del contador
+      setTicketCount(parsedValue);
     } else {
-      const parsedValue = parseInt(value, 10); // Intentar convertir el valor a un número entero
-      if (!isNaN(parsedValue) && parsedValue >= 1) {
-        setTicketCount(parsedValue); // Establecer el nuevo valor del contador si es un número válido y mayor o igual a 1
-      }
+      // Si el valor no es válido, establecer el valor predeterminado en 1
+      setTicketCount(1);
     }
   };
 
