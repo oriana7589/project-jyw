@@ -24,6 +24,8 @@ import {
   getProductoSeleccionado,
   getFechaLlegadaProductoSeleccionado,
   getHistorialPrecios,
+  getListVendedores,
+  getCambioDeMoneda
 } from "../Services/ApiService";
 import Items from "./items";
 import DialogProductos from "../components/DialogProductos";
@@ -61,6 +63,8 @@ const TuComponente = () => {
   const [datosDisponibles, setDatosDisponibles] = useState(false);
   const [cartItems, setCartItems] = useState([]); // Estado para el arreglo que quieres pasar a CardList
   const [historialPrecios, setHistorialPrecios] = useState([]); 
+  const [vendedores, setVendedores] = useState([]);
+  const [moneda, setMoneda] = useState(0.0);
   const [descuentoA, setDescuentoA] = useState(0);
   const [descuentoB, setDescuentoB] = useState(0);
   const [monto,setMonto]= useState(0.0);
@@ -68,7 +72,6 @@ const TuComponente = () => {
 
   const handleClientSelect = (cliente) => {
     setSelectedClient(cliente);
-
     setDialogOpen(false);
   };
 
@@ -93,6 +96,20 @@ const TuComponente = () => {
         setfechaLlegada(fechaLlegada);
       }
     );
+
+    getListVendedores().then(
+      (vendedores) => {
+        setVendedores(vendedores);
+      }
+    );
+
+    getCambioDeMoneda().then(
+      (moneda) => {
+        setMoneda(moneda);
+      }
+    );
+
+
 
     if (!selectedClient) {
       // Si no hay cliente seleccionado entonces se mostrará el toast
@@ -591,6 +608,8 @@ const TuComponente = () => {
             monto = {monto}
             handleMontoChange = {handleMontoChange}
             historialPrecios={historialPrecios}
+            vendedores ={vendedores}
+            moneda ={moneda}
           />
         </Collapse>
       </Card>

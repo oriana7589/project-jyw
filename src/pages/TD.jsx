@@ -17,6 +17,7 @@ export default function TD({
   handleDescuentoBChange,
   monto,
   handleMontoChange,
+  moneda
 }) {
   
   console.log(monto+"monto tds")
@@ -71,6 +72,7 @@ export default function TD({
             handleDescuentoBChange = {handleDescuentoBChange}
             monto = {monto}
             handleMontoChange = {handleMontoChange}
+            moneda = {moneda}
           />
         </div>
       </Container>

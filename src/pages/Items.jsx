@@ -60,6 +60,8 @@ const PestañaContenido = ({
   handleDescuentoBChange,
   monto,
   handleMontoChange,
+  vendedores,
+  moneda
 }) => {
   console.log(monto+"holsi monto")
   switch (value) {
@@ -76,6 +78,7 @@ const PestañaContenido = ({
           handleDescuentoBChange = {handleDescuentoBChange}
           monto={monto}
           handleMontoChange = {handleMontoChange}
+          moneda = {moneda}
         />
       );
     case 1:
@@ -83,6 +86,7 @@ const PestañaContenido = ({
         <CarritoCompras
           cartItems={cartItems}
           detalleProducto={detalleProducto}
+          vendedores={vendedores}
         />
       );
     case 2:
@@ -115,6 +119,8 @@ const Items = ({
   handleDescuentoBChange,
   monto,
   handleMontoChange,
+  vendedores, 
+  moneda
 }) => {
   console.log(monto+"monto fire")
   const [tabValue, setTabValue] = useState(0);
@@ -208,6 +214,8 @@ const Items = ({
             handleDescuentoBChange={handleDescuentoBChange}
             monto={monto}
             handleMontoChange={handleMontoChange}
+            vendedores ={vendedores}
+            moneda = {moneda}
           />
         ) : (
           <div

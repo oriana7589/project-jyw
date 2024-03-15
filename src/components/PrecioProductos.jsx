@@ -2,7 +2,7 @@ import React from 'react';
 import { Select, TextField, MenuItem, Box, Typography, Grid } from '@mui/material';
 import { red } from '@mui/material/colors';
 
-function PrecioProductos() {
+function PrecioProductos({vendedores}) {
   const [vendedor, setVendedor] = React.useState('');
   const [formaPago, setFormaPago] = React.useState('');
   const [moneda, setMoneda] = React.useState('soles');
@@ -20,10 +20,15 @@ function PrecioProductos() {
           variant="outlined"
           displayEmpty
         >
-          <MenuItem value="" disabled >
+          <MenuItem value="" disabled>
             Seleccione un vendedor
           </MenuItem>
-          {/* Opciones de vendedores */}
+          {/* Mapeo sobre los vendedores */}
+          {vendedores.map((vendedorItem, index) => (
+            <MenuItem key={index} value={vendedorItem.nombreVendedor}>
+              {vendedorItem.nombreVendedor}
+            </MenuItem>
+          ))}
         </Select>
       </Box>
       <Grid container spacing={2}>

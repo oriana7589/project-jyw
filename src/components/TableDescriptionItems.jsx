@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button, IconButton, TextField, Typography } from "@mui/material";
+import { Box, Button, IconButton, MenuItem, Select, TextField, Typography } from "@mui/material";
 import TableShop from "./TableShop";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import CarritoCompras from "../components/CarritoCompras";
@@ -40,11 +40,13 @@ const TableDescripcionItems = ({
   handleDescuentoBChange,
   monto,
   handleMontoChange,
+  moneda
 }) => {
 
   const itemsPerPage = 10;
   const [currentPage, setCurrentPage] = useState(1);
   const [cartItems, setCartItems] = useState([]);
+  const [monedaValue, setMonedaValue] = React.useState('soles');
   const totalCount = data.length;
 
   const startIndex = (currentPage - 1) * itemsPerPage;
@@ -79,6 +81,11 @@ const TableDescripcionItems = ({
     let desc2n = new Decimal(descuentoB);
     desc2n = 1 - desc2n.dividedBy(100);    
     let precioFinaln = preciosinigv.times(desc1n).times(desc2n).times(cantidad).times(1.18).toDecimalPlaces(2);
+
+    if (monedaValue !== "soles") {
+      // Si la moneda es diferente de soles, aplica la conversión
+      precioFinaln = (precioFinaln * moneda)
+    }
     return precioFinaln
   }
 
@@ -110,7 +117,10 @@ const TableDescripcionItems = ({
         descuentoB = {descuentoB}
         handleDescuentoBChange = {handleDescuentoBChange}
         monto = {monto}
-        handleMontoChange = {handleMontoChange}        
+        handleMontoChange = {handleMontoChange}   
+        moneda = {moneda}  
+        monedaValue = {monedaValue}   
+        setMonedaValue = {setMonedaValue}  
       />
       <table
         style={{
@@ -124,7 +134,7 @@ const TableDescripcionItems = ({
         <tbody>
           <tr>
             <td colSpan="1" style={{ fontSize: "1.1rem" }}>
-              PRECIO TOTAL INC. IGV($):
+              PRECIO TOTAL INC. IGV({monedaValue ? "soles" : "S"}):
             </td>
             <td style={{textAlign:"right", paddingRight:21, fontWeight: "bold", fontSize:"1.6rem"}}>
                {calcularPrecioFinal().toString()}

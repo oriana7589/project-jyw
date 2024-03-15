@@ -12,6 +12,11 @@ const baseUrlDocumento = () => {
     return "http://10.10.0.25:9696/api/DocumentoCobrar";
 };
 
+
+const baseUrlGeneral = () => {
+    return "http://10.10.0.25:9696/api/General";
+};
+
 export function getClientes(criterioBusqueda) {
     const listaClientesFiltrados = 
         axios.get(`${baseUrlCliente()}/filtrados/${criterioBusqueda}`)
@@ -143,9 +148,30 @@ export function getProductoSeleccionado(codInterno) {
     const FechaLlegada =
         axios.get(`${baseUrlProductos()}/ListadoUltimasComprasProductoResumen?CodigoInterno=${codigoInterno}&CodCliente=${codigoCliente}`)
             .then((res) => {
-                console.log("producto historial precios", res.data);
                 return res.data
             });
 
     return FechaLlegada;
+ }
+
+ export function getListVendedores() {
+    const listaVendedores =
+        axios.get(`${baseUrlGeneral()}/Vendedores`)
+            .then((res) => {
+                console.log("vendedores"+res.data)
+                return res.data
+            });
+
+    return listaVendedores;
+ }
+
+ export function getCambioDeMoneda() {
+    const cambioMoneda =
+        axios.get(`${baseUrlGeneral()}/UltimoTipoCambio`)
+            .then((res) => {
+                console.log("UltimoTipoCambio"+res.data)
+                return res.data
+            });
+
+    return cambioMoneda;
  }

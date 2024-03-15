@@ -10,6 +10,9 @@ import {
   Divider,
   Typography,
   TextField,
+  MenuItem,
+  Select,
+  Box,
 } from "@mui/material";
 
 const data = [
@@ -94,9 +97,10 @@ const ThirdTable = ({
   monto,
   handleMontoChange,
 }) => {
-  const currentData = historialPrecios;   
+  const currentData = historialPrecios;
+
   //const montoCambiado = monto + 0;
-  console.log( monto +"monto seleccionada")
+  console.log(monto + "monto seleccionada");
   return (
     <>
       <Typography
@@ -104,19 +108,35 @@ const ThirdTable = ({
       >
         HISTORIAL DE PRECIOS
       </Typography>
-      <div style={{ display: "flex", justifyContent: "flex-start" , width: "100%"}}>
+      <div
+        style={{ display: "flex", justifyContent: "flex-start", width: "100%" }}
+      >
         <div style={{ flex: "0 0 50%", marginRight: "20px" }}>
-          <TableContainer >
+          <TableContainer>
             <Table sx={{ minWidth: 350 }} aria-label="simple table">
               <TableHead>
                 <TableRow>
-                  <TableCell align="center" style={{padding:0, width:10}}>Fecha</TableCell>
-                  <TableCell align="center" style={{padding:0}}>Cant </TableCell>
-                  <TableCell align="center" style={{padding:0}}>PV</TableCell>
-                  <TableCell align="center" style={{padding:0}}>D1</TableCell>
-                  <TableCell align="center"style={{padding:0}}>D2</TableCell>
-                  <TableCell align="center"style={{padding:0}}>Mon</TableCell>
-                  <TableCell align="center"style={{padding:0}}>PF</TableCell>
+                  <TableCell align="center" style={{ padding: 0, width: 10 }}>
+                    Fecha
+                  </TableCell>
+                  <TableCell align="center" style={{ padding: 0 }}>
+                    Cant{" "}
+                  </TableCell>
+                  <TableCell align="center" style={{ padding: 0 }}>
+                    PV
+                  </TableCell>
+                  <TableCell align="center" style={{ padding: 0 }}>
+                    D1
+                  </TableCell>
+                  <TableCell align="center" style={{ padding: 0 }}>
+                    D2
+                  </TableCell>
+                  <TableCell align="center" style={{ padding: 0 }}>
+                    Mon
+                  </TableCell>
+                  <TableCell align="center" style={{ padding: 0 }}>
+                    PF
+                  </TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -124,22 +144,39 @@ const ThirdTable = ({
                   <TableRow key={index}>
                     <TableCell style={{ padding: 0 }}>{item.fecha}</TableCell>
                     <TableCell
-                      style={{ fontSize: "0.8rem", padding: 0 }} align="center">
+                      style={{ fontSize: "0.8rem", padding: 0 }}
+                      align="center"
+                    >
                       {item.cantidad}
                     </TableCell>
-                    <TableCell style={{ fontSize: "0.8rem", padding: 0  }} align="center">
+                    <TableCell
+                      style={{ fontSize: "0.8rem", padding: 0 }}
+                      align="center"
+                    >
                       {item.precioVenta}
                     </TableCell>
-                    <TableCell style={{ fontSize: "0.8rem" , padding: 0 }} align="center">
+                    <TableCell
+                      style={{ fontSize: "0.8rem", padding: 0 }}
+                      align="center"
+                    >
                       {item.descuentoUno}
                     </TableCell>
-                    <TableCell style={{ fontSize: "0.8rem" , padding: 0 }} align="center">
+                    <TableCell
+                      style={{ fontSize: "0.8rem", padding: 0 }}
+                      align="center"
+                    >
                       {item.descuentoDos}
                     </TableCell>
-                    <TableCell style={{ fontSize: "0.8rem", padding: 0  }} align="center">
+                    <TableCell
+                      style={{ fontSize: "0.8rem", padding: 0 }}
+                      align="center"
+                    >
                       {item.codigoMoneda}
                     </TableCell>
-                    <TableCell style={{ fontSize: "0.8rem" , padding: 0 }} align="center">
+                    <TableCell
+                      style={{ fontSize: "0.8rem", padding: 0 }}
+                      align="center"
+                    >
                       {item.precioFinalIncIGV}
                     </TableCell>
                   </TableRow>
@@ -148,20 +185,22 @@ const ThirdTable = ({
             </Table>
           </TableContainer>
         </div>
-  
-        <div style={{ flex: "0 0 50%"}}>
-          <TableContainer >
-            <table style={{ padding:10 }} align="center">
+
+        <div style={{ flex: "0 0 50%" }}>
+          <TableContainer>
+            <table style={{ padding: 10 }} align="center">
               {/* Filas adicionales para la información resumen */}
               <tbody style={{ width: 0 }}>
-                <tr >
-                  <td colSpan="1" style={{ fontWeight:"bold"}}>PRECIO LISTA:</td>
+                <tr>
+                  <td colSpan="1" style={{ fontWeight: "bold" }}>
+                    PRECIO LISTA:
+                  </td>
                   <td>
                     <TextField
                       variant="outlined"
-                      style={{paddingLeft:20}}
-                      value= {detalleProducto.precioVenta} // Valor del estado
-                      inputProps={{ type: 'text', inputMode: 'numeric'}}
+                      style={{ paddingLeft: 20 }}
+                      value={detalleProducto.precioVenta} // Valor del estado
+                      inputProps={{ type: "text", inputMode: "numeric" }}
                       InputProps={{
                         style: {
                           fontSize: "14px",
@@ -171,17 +210,19 @@ const ThirdTable = ({
                         },
                       }}
                     />
-                    </td>
+                  </td>
                 </tr>
-               
+
                 <tr>
-                  <td colSpan="1" style={{ fontWeight:"bold"}}>DESCUENTO A:</td>
+                  <td colSpan="1" style={{ fontWeight: "bold" }}>
+                    DESCUENTO A:
+                  </td>
                   <td>
                     <TextField
                       variant="outlined"
-                      style={{paddingLeft:20}}
+                      style={{ paddingLeft: 20 }}
                       value={descuentoA} // Valor del estado
-                      inputProps={{ type: 'text', inputMode: 'numeric'}}
+                      inputProps={{ type: "text", inputMode: "numeric" }}
                       onChange={handleDescuentoAChange}
                       InputProps={{
                         style: {
@@ -195,12 +236,14 @@ const ThirdTable = ({
                   </td>
                 </tr>
                 <tr>
-                  <td colSpan="1" style={{ fontWeight:"bold"}}>DESCUENTO B:</td>
+                  <td colSpan="1" style={{ fontWeight: "bold" }}>
+                    DESCUENTO B:
+                  </td>
                   <td>
                     <TextField
                       variant="outlined"
                       value={descuentoB} // Valor del estado
-                      style={{paddingLeft:20}}
+                      style={{ paddingLeft: 20 }}
                       onChange={handleDescuentoBChange}
                       InputProps={{
                         style: {
@@ -214,12 +257,14 @@ const ThirdTable = ({
                   </td>
                 </tr>
                 <tr>
-                  <td colSpan="1" style={{ fontWeight:"bold"}}>SUBTOTAL($):</td>
+                  <td colSpan="1" style={{ fontWeight: "bold" }}>
+                    SUBTOTAL($):
+                  </td>
                   <td>
                     <TextField
                       type=""
                       variant="outlined"
-                      style={{paddingLeft:20}}
+                      style={{ paddingLeft: 20 }}
                       value={monto} // Valor del estado
                       onChange={handleMontoChange}
                       InputProps={{
@@ -240,7 +285,7 @@ const ThirdTable = ({
       </div>
     </>
   );
-                    }
+};
 // Componente principal
 const TableShop = ({
   detalleProducto,
@@ -252,21 +297,49 @@ const TableShop = ({
   handleDescuentoBChange,
   monto,
   handleMontoChange,
+  monedaValue,
+  setMonedaValue
 }) => {
   return (
     <div style={{ paddingLeft: 20, paddingTop: 15 }}>
-      <Typography
-        style={{ fontWeight: "bold", fontSize: "1.2rem", marginBottom: "10px" }}
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          marginBottom: "10px",
+          width: "100%",
+        }}
       >
-        SKU: {detalleProducto.codigoInterno}
-      </Typography>
+        <Typography style={{ fontWeight: "bold", fontSize: "1.2rem" }}>
+          SKU: {detalleProducto.codigoInterno}
+        </Typography>
+        <Box
+          sx={{
+            marginRight: 1,
+            marginLeft: "auto",
+            width: 200,
+            marginBottom: 1,
+          }}
+        >
+          <Select
+            value={monedaValue}
+            onChange={(e) => setMonedaValue(e.target.value)}
+            fullWidth
+            style={{ height: 35 }}
+            variant="outlined"
+          >
+            <MenuItem value="soles">Soles</MenuItem>
+            <MenuItem value="dolares">Dólares</MenuItem>
+          </Select>
+        </Box>
+      </div>
       <FirstTable detalleProducto={detalleProducto} />
       <Divider />
       <SecondTable
         detalleProducto={detalleProducto}
         fechaLlegada={fechaLlegada}
       />
-      <Divider /> 
+      <Divider />
       <ThirdTable
         historialPrecios={historialPrecios}
         detalleProducto={detalleProducto}

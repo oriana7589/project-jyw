@@ -5,7 +5,7 @@ import ItemsProductos from './ItemsProductos';
 import TableDescripcionItems from './TableDescriptionItems';
 import PrecioProductos from './PrecioProductos';
 
-export default function CarritoCompras({cartItems}) {
+export default function CarritoCompras({cartItems, vendedores}) {
   return (
     <React.Fragment>
       <CssBaseline />
@@ -19,7 +19,7 @@ export default function CarritoCompras({cartItems}) {
         }}
       >
         <div style={{ flex: 1 }}>
-        <PrecioProductos/>
+        <PrecioProductos vendedores = {vendedores}/>
         </div>
         <div style={{ flex: 0.5 }}>
         <ItemsProductos cartItems= {cartItems} />
