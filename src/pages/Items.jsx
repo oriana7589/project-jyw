@@ -61,7 +61,9 @@ const PestañaContenido = ({
   monto,
   handleMontoChange,
   vendedores,
-  moneda
+  moneda,
+  ticketCount, 
+  setTicketCount
 }) => {
   console.log(monto+"holsi monto")
   switch (value) {
@@ -79,6 +81,8 @@ const PestañaContenido = ({
           monto={monto}
           handleMontoChange = {handleMontoChange}
           moneda = {moneda}
+          ticketCount = {ticketCount}
+          setTicketCount = {setTicketCount}
         />
       );
     case 1:
@@ -120,7 +124,9 @@ const Items = ({
   monto,
   handleMontoChange,
   vendedores, 
-  moneda
+  moneda,
+  ticketCount,
+  setTicketCount
 }) => {
   console.log(monto+"monto fire")
   const [tabValue, setTabValue] = useState(0);
@@ -216,6 +222,8 @@ const Items = ({
             handleMontoChange={handleMontoChange}
             vendedores ={vendedores}
             moneda = {moneda}
+            ticketCount= {ticketCount}
+            setTicketCount =  {setTicketCount} 
           />
         ) : (
           <div

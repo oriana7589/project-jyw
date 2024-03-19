@@ -40,7 +40,9 @@ const TableDescripcionItems = ({
   handleDescuentoBChange,
   monto,
   handleMontoChange,
-  moneda
+  moneda,
+  ticketCount,
+  setTicketCount
 }) => {
 
   const itemsPerPage = 10;
@@ -56,7 +58,6 @@ const TableDescripcionItems = ({
 
   const subtotal = currentData.reduce((acc, item) => acc + item.monto, 0);
 
-  const [ticketCount, setTicketCount] = useState(1);
 
   const handleIncrement = () => {
     setTicketCount(ticketCount + 1);
@@ -119,104 +120,12 @@ const TableDescripcionItems = ({
         monto = {monto}
         handleMontoChange = {handleMontoChange}   
         moneda = {moneda}  
-        monedaValue = {monedaValue}   
+        monedaValue = {monedaValue} 
+        addToCart = {addToCart} 
         setMonedaValue = {setMonedaValue}  
+        ticketCount = {ticketCount}
+        setTicketCount = {setTicketCount}
       />
-      <table
-        style={{
-          width:450,
-          padding:10,
-          textAlign: "left",
-          fontSize: "0.9rem",
-          float: "right",
-        }}
-      >
-        <tbody>
-          <tr>
-            <td colSpan="1" style={{ fontSize: "1.1rem" }}>
-              PRECIO TOTAL INC. IGV({monedaValue ? "soles" : "S"}):
-            </td>
-            <td style={{textAlign:"right", paddingRight:21, fontWeight: "bold", fontSize:"1.6rem"}}>
-               {calcularPrecioFinal().toString()}
-            </td>
-          </tr>
-          <tr>
-            <td colSpan="2" style={{ display: "flex", justifyContent: "flex-end", textAlign: "right" }}>
-              <IconButton
-                style={{
-                  border: "1px solid rgb(226, 52, 48)",
-                  borderRadius: "50px",
-                  marginTop: "7px",
-                  width: "30px",
-                  height: "30px",
-                }}
-                onClick={handleDecrement}
-              >
-                <Typography
-                  style={{ color: "rgb(226, 52, 48)", fontSize: "1rem" }}
-                >
-                  -
-                </Typography>
-              </IconButton>
-              <TextField
-                variant="outlined"
-                style={{
-                  margin: 10,
-                  marginTop: "5px",
-                }}
-                value={ticketCount}
-                onChange={handleChange}
-                InputProps={{
-                  style: {
-                    fontSize: "14px",
-                    width: "80px",
-                    height: "35px",
-                    textAlign: "center",
-                  }, 
-                }}
-              />
-              <IconButton
-                style={{
-                  border: "1px solid rgb(226, 52, 48)",
-                  borderRadius: "50px",
-                  width: "30px",
-                  marginTop: "7px",
-                  height: "30px",
-                }}
-                onClick={handleIncrement}
-              >
-                <Typography
-                  style={{ color: "rgb(226, 52, 48)", fontSize: "1rem" }}
-                >
-                  +
-                </Typography>
-              </IconButton>
-            </td>
-            <td style={{textAlign: "right" , width:"150px"}}>
-            <IconButton
-                style={{
-                  backgroundColor: "rgb(226, 52, 48)",
-                  borderRadius: "0",
-                  marginLeft: "10px",
-                  marginRight:"21px",
-                  width:100,
-                  height: "40px",
-                }}
-                onClick={handleAddToCart}
-              >
-                <Typography
-                  style={{ color: "rgb(255, 255, 255)", fontSize: "0.7rem" }}
-                >
-                  AÑADIR
-                </Typography>
-                <ShoppingCartOutlinedIcon
-                  style={{ color: "rgb(255, 255, 255)" }}
-                />
-              </IconButton>
-            </td>
-          </tr>
-        </tbody>
-      </table>
       <div>
  
       </div>

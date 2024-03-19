@@ -17,7 +17,9 @@ export default function TD({
   handleDescuentoBChange,
   monto,
   handleMontoChange,
-  moneda
+  moneda,
+  ticketCount,
+  setTicketCount
 }) {
   
   console.log(monto+"monto tds")
@@ -48,7 +50,7 @@ export default function TD({
           height: "calc(100vh - 9.65rem)",
         }}
       >
-        <div style={{ flex: 1 }}>
+        <div style={{ flex: 2}}>
           <div
             style={{ display: "flex", margin: "5px", justifyContent: "center" }}
           >
@@ -60,7 +62,7 @@ export default function TD({
           </div>
           <TableItems />
         </div>
-        <div style={{ flex: 1.5 }}>
+        <div style={{ flex: 1 }}>
           <TableDescripcionItems
             addToCart={addToCart}
             detalleProducto={detalleProducto}
@@ -73,6 +75,8 @@ export default function TD({
             monto = {monto}
             handleMontoChange = {handleMontoChange}
             moneda = {moneda}
+            ticketCount = {ticketCount}
+            setTicketCount ={setTicketCount}
           />
         </div>
       </Container>

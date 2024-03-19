@@ -68,6 +68,7 @@ const TuComponente = () => {
   const [descuentoA, setDescuentoA] = useState(0);
   const [descuentoB, setDescuentoB] = useState(0);
   const [monto,setMonto]= useState(0.0);
+  const [ticketCount, setTicketCount] = useState(1);
   
 
   const handleClientSelect = (cliente) => {
@@ -88,6 +89,7 @@ const TuComponente = () => {
       //const precio = precioVentaSinIGV.toDecimalPlaces(2);
       setDescuentoA(0);
       setDescuentoB(0);
+      setTicketCount(1)
       setMonto(precio); 
     });
     getFechaLlegadaProductoSeleccionado(productos.CodigoInterno).then(
@@ -610,6 +612,8 @@ const TuComponente = () => {
             historialPrecios={historialPrecios}
             vendedores ={vendedores}
             moneda ={moneda}
+            ticketCount ={ticketCount}
+            setTicketCount = {setTicketCount}
           />
         </Collapse>
       </Card>
