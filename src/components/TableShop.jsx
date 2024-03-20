@@ -118,7 +118,6 @@ const ThirdTable = ({
   };
 
   const handleAddToCart = () => {
-    setTicketCount(1)
     const precioFinal = calcularPrecioFinal();
     addToCart(
       ticketCount,

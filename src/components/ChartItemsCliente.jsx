@@ -6,16 +6,18 @@ const ChartItemsCliente = ({ itemsComprados }) => {
     if (!acumulador[item.codigoInterno]) {
       acumulador[item.codigoInterno] = { 
         codigoInterno: item.codigoInterno, 
-        codigoArticulo: item.codigoArticulo, 
-        cantidad: 0 
+        codigoArticulo: item.codigoArticulo,
+        descripcionArticulo: item.descripcionArticulo,
+        cantidad: 0,
+        total: 0
       };
     }
   
     acumulador[item.codigoInterno].cantidad += item.cantidad;
     return acumulador;
   }, {}));
-
- const top50 = arrayTransformado.sort((a, b) => b.cantidad - a.cantidad).slice(0, 30);
+ 
+ const top20 = itemsComprados.slice(0, 20);
   // Convertir los items comprados a la estructura de datos requerida para ApexCharts
   const options = {
     chart: {
@@ -25,9 +27,9 @@ const ChartItemsCliente = ({ itemsComprados }) => {
       text: ''
     },
     series: [{
-      data: top50.map(item => ({
+      data: top20.map(item => ({
         x: item.codigoArticulo,
-        y: item.cantidad
+        y: item.total
       }))
     }]
   };

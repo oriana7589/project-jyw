@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from "react";
 import CircularProgress from "@mui/material/CircularProgress";
 import TableContainer from "@mui/material/TableContainer";
@@ -14,6 +15,8 @@ const TableItemsCliente = ({ itemsComprados, itemsPerPage }) => {
   const [isLoading, setIsLoading] = useState(true); // Estado de carga
   const [page, setPage] = useState(0);
   itemsPerPage = 12;
+
+  const itemsOrdenadosPorCantidad = itemsComprados.sort((a, b) => b.cantidad - a.cantidad);
   
   useEffect(() => {
     // Simular una carga de datos con un retraso de 1.5 segundos
@@ -112,7 +115,7 @@ const TableItemsCliente = ({ itemsComprados, itemsPerPage }) => {
                       fontWeight: "bold",
                     }}
                   >
-                  Cant.
+                  Cantidad
                   </TableCell>
                   <TableCell
                     style={{
@@ -122,42 +125,12 @@ const TableItemsCliente = ({ itemsComprados, itemsPerPage }) => {
                       fontWeight: "bold",
                     }}
                   >
-                   Desc1
-                  </TableCell>
-                  <TableCell
-                    style={{
-                      textAlign: "left",
-                      padding: "8px",
-                      fontSize: "0.9rem",
-                      fontWeight: "bold",
-                    }}
-                  >
-                    Desc2
-                  </TableCell>
-                  <TableCell
-                    style={{
-                      textAlign: "left",
-                      padding: "8px",
-                      fontSize: "0.9rem",
-                      fontWeight: "bold",
-                    }}
-                  >
-                  P.Unit(IGV)
-                  </TableCell>
-                  <TableCell
-                    style={{
-                      textAlign: "left",
-                      padding: "8px",
-                      fontSize: "0.9rem",
-                      fontWeight: "bold",
-                    }}
-                  >
-                    Moneda
-                  </TableCell>
+                   Total
+                  </TableCell>                  
                 </TableRow>
               </TableHead>
               <TableBody>
-                {itemsComprados
+                {itemsOrdenadosPorCantidad
                   .slice(page * itemsPerPage, (page + 1) * itemsPerPage)
                   .map((item, index) => (
                     <TableRow
@@ -180,10 +153,7 @@ const TableItemsCliente = ({ itemsComprados, itemsPerPage }) => {
                       <TableCell style={{textAlign: "left",padding: "8px",fontSize: "0.8rem"}}>{item.descripcionMarca}</TableCell>
                       <TableCell style={{textAlign: "left",padding: "8px",fontSize: "0.8rem"}}>{item.codigoLinea}</TableCell>
                       <TableCell style={{textAlign: "left",padding: "8px",fontSize: "0.8rem"}}>{item.cantidad}</TableCell>
-                      <TableCell style={{textAlign: "left",padding: "8px",fontSize: "0.8rem"}}>{item.descuentoUno}</TableCell>
-                      <TableCell style={{textAlign: "left",padding: "8px",fontSize: "0.8rem"}}>{item.descuentoDos}</TableCell>
-                      <TableCell style={{textAlign: "left",padding: "8px",fontSize: "0.8rem"}}>{item.precioUnitarioIncIGV}</TableCell>
-                      <TableCell style={{textAlign: "left",padding: "8px",fontSize: "0.8rem"}}>{item.codigoMoneda}</TableCell>
+                      <TableCell style={{textAlign: "left",padding: "8px",fontSize: "0.8rem"}}>{item.total}</TableCell>
                     </TableRow>
                   ))}
               </TableBody>
