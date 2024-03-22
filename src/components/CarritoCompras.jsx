@@ -4,8 +4,7 @@ import repuest from "../image/repuest1.png";
 import ItemsProductos from './ItemsProductos';
 import TableDescripcionItems from './TableDescriptionItems';
 import PrecioProductos from './PrecioProductos';
-
-export default function CarritoCompras({cartItems, vendedores}) {
+  export default function CarritoCompras({cartItems,removeFromCart, vendedores, formaPago, tipoMoneda,transportistas, monedaValue, setMonedaValue, moneda, setCartItems, articuloSugerido, setArticuloSugerido}) {
   return (
     <React.Fragment>
       <CssBaseline />
@@ -19,10 +18,10 @@ export default function CarritoCompras({cartItems, vendedores}) {
         }}
       >
         <div style={{ flex: 1 }}>
-        <PrecioProductos vendedores = {vendedores}/>
+        <PrecioProductos vendedores = {vendedores} formaPago = {formaPago} tipoMoneda = {tipoMoneda} transportistas= {transportistas} monedaValue ={monedaValue} setMonedaValue= {setMonedaValue}  />
         </div>
         <div style={{ flex: 0.5 }}>
-        <ItemsProductos cartItems= {cartItems} />
+        <ItemsProductos cartItems= {cartItems} monedaValue = {monedaValue} moneda = {moneda}  setCartItems = {setCartItems} removeFromCart = {removeFromCart} articuloSugerido  = {articuloSugerido}  setArticuloSugerido = {setArticuloSugerido}/>
         </div>
       </Container>
     </React.Fragment>

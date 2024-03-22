@@ -6,14 +6,19 @@ import {
   IconButton,
   Typography,
 } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import repuest from "../image/repuest1.png";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import DialogEditProducto from "./DialogEditProducto";
 
-function ItemsProductos({ cartItems }) {
+function ItemsProductos({ cartItems, monedaValue, cartItemsSoles, moneda, setCartItems, removeFromCart, setArticuloSugerido, articuloSugerido }) {
   const [hoveredCard, setHoveredCard] = useState(null);
 
+
+  
   const handleMouseEnter = (index) => {
     setHoveredCard(index);
   };
@@ -30,7 +35,7 @@ function ItemsProductos({ cartItems }) {
           onMouseEnter={() => handleMouseEnter(index)}
           onMouseLeave={handleMouseLeave}
           style={{
-            height: 150,
+            height: 160,
             width: 650,
             marginBottom: 15,
             boxShadow:
@@ -67,7 +72,7 @@ function ItemsProductos({ cartItems }) {
               image={repuest}
               alt={item.product}
             />
-            <CardContent sx={{ padding: 0, width: "48%" }}>
+            <CardContent sx={{ padding: 0, width: "38%" }}>
               <CardContent sx={{ display: "flex", padding: 0 }}>
                 <Typography
                   variant="body2"
@@ -87,8 +92,19 @@ function ItemsProductos({ cartItems }) {
                 </Typography>
               </CardContent>
 
-              <CardContent sx={{ display: "flex", padding: 0, marginBottom:1,marginTop:1 }}>
-                <Typography variant="body2" color="text.secondary" paddingRight={2}>
+              <CardContent
+                sx={{
+                  display: "flex",
+                  padding: 0,
+                  marginBottom: 1,
+                  marginTop: 1,
+                }}
+              >
+                <Typography
+                  variant="body2"
+                  color="text.secondary"
+                  paddingRight={2}
+                >
                   <span style={{ fontWeight: "bold" }}> Cantidad: </span>{" "}
                   {item.ticketCount}
                 </Typography>
@@ -98,11 +114,18 @@ function ItemsProductos({ cartItems }) {
                   paddingRight={2}
                 >
                   <span style={{ fontWeight: "bold" }}> Marca:</span>{" "}
-                  {item.marca}
+                  {item.marca.substring(0, 7)}
                 </Typography>
               </CardContent>
 
-              <CardContent sx={{ display: "flex", padding: 0 }}>
+              <CardContent
+                sx={{
+                  display: "flex",
+                  padding: 0,
+                  marginBottom: 1,
+                  marginTop: 1,
+                }}
+              >
                 <Typography
                   variant="body2"
                   color="text.secondary"
@@ -119,18 +142,22 @@ function ItemsProductos({ cartItems }) {
                   <span style={{ fontWeight: "bold" }}> Desc.2: </span>{" "}
                   {item.descuentoB}
                 </Typography>
+              </CardContent>
+
+              <CardContent sx={{ display: "flex", padding: 0 }}>
                 <Typography
                   variant="body2"
                   color="text.secondary"
                   paddingRight={2}
                 >
-                  <span style={{ fontWeight: "bold" }}> Monto desc.: </span>{" "}
-                  {item.monto}
+                  <span style={{ fontWeight: "bold" }}> Sub total.: </span>{" "}
+                     {monedaValue === "SOLES" ? "S/ " +(item.monto*item.ticketCount)*moneda: "$"}{(item.monto*item.ticketCount)}
                 </Typography>
               </CardContent>
             </CardContent>
+
             <CardContent
-              style={{ textAlign: "center", paddingTop: 30, width: 85 }}
+              style={{ textAlign:"center", paddingTop: 30, width: 175 }}
             >
               <Typography
                 variant="body2"
@@ -138,7 +165,17 @@ function ItemsProductos({ cartItems }) {
                 fontSize="1.1rem"
                 style={{ fontWeight: "bold" }}
               >
-                ${item.precioFinal.toString()}
+                {monedaValue === "SOLES"
+                  ? "S/" +
+                    (item.monedaType === "SOLES"
+                      ? item.precioFinal.toString()
+                      : item.precioFinal * moneda)
+                  : "$" +
+                    (monedaValue === "DOLARES AMERICANOS"
+                      ? item.monedaType === "DOLARES AMERICANOS"
+                        ? item.precioFinal.toString()
+                        : item.precioFinal / moneda
+                      : "")}
               </Typography>
             </CardContent>
             <CardContent sx={{ padding: 0, width: 100 }}>
@@ -158,7 +195,7 @@ function ItemsProductos({ cartItems }) {
                     width: "40px",
                     height: "40px",
                   }}
-                  onClick={() => onDelete(index)}
+                  onClick={() => removeFromCart(item.codigoInterno)}
                 >
                   <DeleteIcon style={{ color: "rgb(131,131,131)" }} />
                 </IconButton>
@@ -171,7 +208,6 @@ function ItemsProductos({ cartItems }) {
                     width: "40px",
                     height: "40px",
                   }}
-                  onClick={() => handleEdit(index)}
                 >
                   <EditIcon style={{ color: "rgb(12, 55, 100)" }} />
                 </IconButton>

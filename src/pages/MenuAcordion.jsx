@@ -25,7 +25,13 @@ import {
   getFechaLlegadaProductoSeleccionado,
   getHistorialPrecios,
   getListVendedores,
-  getCambioDeMoneda
+  getCambioDeMoneda,
+  getFormaDePago,
+  getTipoMonedas,
+  getTransportistas,
+  getArticulosSugeridosCliente,
+  getArticulosSugeridos 
+  
 } from "../Services/ApiService";
 import Items from "./items";
 import DialogProductos from "../components/DialogProductos";
@@ -57,18 +63,27 @@ const TuComponente = () => {
   const [promedioItems, setPromedioItems] = useState(0);
   const [promedioComprasAlMes, setPromedioComprasAlMes] = useState(0);
   const [ranking, setRanking] = useState([]);
+  const [articuloSugerido, setArticuloSugerido] = useState([]);
+  const [articuloSugeridoCliente, setArticuloSugeridoCliente] = useState([]);
   const [rankingClienteSeleccionado, setRankingClienteSeleccionado] = useState("S/R");
   const [fechasGrafica, setFechasGrafica] = useState([ new Date().getFullYear(), new Date().getFullYear() - 1 ]);
   const [hayDatosDisponibles, setHayDatosDisponibles] = useState(false);
   const [datosDisponibles, setDatosDisponibles] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [cartItems, setCartItems] = useState([]); // Estado para el arreglo que quieres pasar a CardList
+  const [cartItemsSoles, setCartItemsSoles] = useState([]);
   const [historialPrecios, setHistorialPrecios] = useState([]); 
+  const [formaPago, setFormaPago] = useState([]);
+  const [tipoMoneda, setTipoMoneda] = useState([]);
+  const [transportistas, setTransportistas] = useState([]);
   const [vendedores, setVendedores] = useState([]);
   const [moneda, setMoneda] = useState(0.0);
   const [descuentoA, setDescuentoA] = useState(0);
   const [descuentoB, setDescuentoB] = useState(0);
   const [monto,setMonto]= useState(0.0);
   const [ticketCount, setTicketCount] = useState(1);
+  const [monedaValue, setMonedaValue] = React.useState('DOLARES AMERICANOS');
+  
   
 
   const handleClientSelect = (cliente) => {
@@ -92,6 +107,7 @@ const TuComponente = () => {
       setTicketCount(1)
       setMonto(precio); 
     });
+
     getFechaLlegadaProductoSeleccionado(productos.CodigoInterno).then(
       (fechaLlegada) => {
         console.log("dfechaLlegada" + fechaLlegada);
@@ -111,17 +127,43 @@ const TuComponente = () => {
       }
     );
 
-
+    getFormaDePago().then(
+      (formaPago) => {
+        setFormaPago(formaPago);
+      }
+    );
+    getTipoMonedas().then(
+      (tipoMoneda) => {
+        setTipoMoneda(tipoMoneda);
+      }
+    );
+    getTransportistas().then(
+      (transportistas) => {
+        setTransportistas(transportistas);
+      }
+    );
 
     if (!selectedClient) {
       // Si no hay cliente seleccionado entonces se mostrará el toast
       setToastOpen(true);
-      toast.warning("No se mostrará historial de precios hasta seleccionar a un cliente");
+      toast.warning("No se mostrará historial de precios ni produtos sujeridos hasta seleccionar a un cliente");
     } else {
       getHistorialPrecios(productos.CodigoInterno, selectedClient.codigoCliente).then(
         (historialPrecios) => {
-          console.log("historialPrecios " + historialPrecios);
           setHistorialPrecios(historialPrecios);
+        }
+      );
+
+      getArticulosSugeridosCliente(selectedClient.codigoCliente).then(
+        (articuloSugeridoCliente) => {
+          console.log("selectedClient.codigoCliente"+ articuloSugeridoCliente)
+          setArticuloSugeridoCliente(articuloSugeridoCliente);
+        }
+      );
+  
+      getArticulosSugeridos().then(
+        (articuloSugerido) => {
+          setArticuloSugerido(articuloSugerido);
         }
       );
     }    
@@ -130,50 +172,101 @@ const TuComponente = () => {
   };
 
   const handleDescuentoAChange = (event) => {
-    const value = event.target.value.trim(); // Eliminar espacios en blanco al principio y al final
+    const value = event.target.value.trim(); 
     if (value === "") {
-      setDescuentoA(0); // Si el campo está vacío, establecer el valor predeterminado en 1
+      setDescuentoA(0); 
     } else {
-      const parsedValue = parseInt(value); // Intentar convertir el valor a un número entero
+      const parsedValue = parseInt(value); 
       if (!isNaN(parsedValue) && parsedValue >= 0) {
-        setDescuentoA(parsedValue); // Establecer el nuevo valor del contador si es un número válido y mayor o igual a 1
+        setDescuentoA(parsedValue); 
       }
     }
 };
   const handleDescuentoBChange = (event) => {
-    const value = event.target.value.trim(); // Eliminar espacios en blanco al principio y al final
+    const value = event.target.value.trim(); 
     if (value === "") {
-      setDescuentoB(0); // Si el campo está vacío, establecer el valor predeterminado en 1
+      setDescuentoB(0); 
     } else {
-      const parsedValue = parseInt(value); // Intentar convertir el valor a un número entero
+      const parsedValue = parseInt(value); 
       if (!isNaN(parsedValue) && parsedValue >= 0) {
-        setDescuentoB(parsedValue); // Establecer el nuevo valor del contador si es un número válido y mayor o igual a 1
+        setDescuentoB(parsedValue); 
       }
     }
   };
   const handleMontoChange = (event) => {
-    const value = event.target.value; // Eliminar espacios en blanco al principio y al final
-    setMonto(value); // Establecer el nuevo valor del contador si es un número válido y mayor o igual a 1
-     
+    const value = event.target.value; 
+    setMonto(value); 
   }; 
+
+  useEffect(() => {
+    const filtrarArticulosSugeridos = () => {
+      const nuevosArticulosSugeridos = articuloSugerido.filter(articulo => {
+        return !cartItems.some(item => item.codigoInterno === articulo.codigoInterno);
+      });
+      setArticuloSugerido(nuevosArticulosSugeridos);
+    };
+
+    filtrarArticulosSugeridos();
+  }, [cartItems, articuloSugerido]);
+
+  useEffect(() => {
+    const filtrarArticulosSugeridoCliente = () => {
+      const nuevosArticulosSugeridosCliente = articuloSugeridoCliente.filter(articulo => {
+        return !cartItems.some(item => item.codigoInterno === articulo.codigoInterno);
+      });
+      setArticuloSugeridoCliente(nuevosArticulosSugeridosCliente);
+    };
+
+    filtrarArticulosSugeridoCliente();
+  }, [cartItems, articuloSugeridoCliente]);
   
   const addToCart = (ticketCount, detalleProducto, descuentoA,descuentoB, monto,precioFinal ) => {
+    
+  const alreadyInCart = cartItems.some(item => item.codigoInterno === detalleProducto.codigoInterno);
+  if (alreadyInCart) {
+    setToastOpen(true);
+    toast.error("Este producto ya se encuentra en el carrito");
+    return; 
+  }
+
     setToastOpen(true)
     toast.success("Se ha guardado el producto con éxito");
+    const monedaType = monedaValue
     const newItem = {
       product: detalleProducto.descripcionArticulo,
+      codigoInterno: detalleProducto.codigoInterno,
       linea:detalleProducto.codigoLinea,
       codigoArticulo: detalleProducto.codigoArticulo,
       marca:detalleProducto.descripcionMarca,
       descuentoA: descuentoA,
       descuentoB:descuentoB,
       monto:monto,
-     precioFinal: precioFinal,
-      ticketCount:ticketCount// quantity: ticketCount,
+      monedaType : monedaType,
+      precioFinal: precioFinal,
+      ticketCount:ticketCount
     };
-    console.log("Agregando al carrito de compras" + newItem);
     setCartItems([...cartItems, newItem]);
-    //  setTicketCount(1); // Reinicia el contador de tickets después de agregar al carrito
+  };
+  const removeFromCart = (codigoInterno) => {
+    const updatedCartItems = cartItems.filter(item => item.codigoInterno !== codigoInterno);
+    setCartItems(updatedCartItems);
+    toast.success("Se ha eliminado el producto con éxito");
+  
+    const newCardItems = cartItems.filter(item => item.codigoInterno !== codigoInterno);
+    setCartItems(newCardItems);
+
+    getArticulosSugeridosCliente(selectedClient.codigoCliente).then(
+      (articuloSugeridoCliente) => {
+        console.log("selectedClient.codigoCliente"+ articuloSugeridoCliente)
+        setArticuloSugeridoCliente(articuloSugeridoCliente);
+      }
+    );
+
+    getArticulosSugeridos().then(
+      (articuloSugerido) => {
+        setArticuloSugerido(articuloSugerido);
+      }
+    );
   };
 
   useEffect(() => {
@@ -285,6 +378,8 @@ const TuComponente = () => {
       }
     );
 
+   
+
     //Mantener al último
     setHayDatosDisponibles(true);
   };
@@ -362,9 +457,10 @@ const TuComponente = () => {
   const handleExpandClick = (panel) => {
     setExpandedPanels((prevPanels) => {
       if (prevPanels.includes(panel)) {
-        // Si ya está expandido, colapsamos el panel actual y expandimos el otro
-        const nextPanel = panel === 1 ? 2 : 1;
-        return [nextPanel];
+        // Si ya está expandido, lo colapsamos solo si no es el único panel abierto
+        return prevPanels.length > 1
+          ? prevPanels.filter((p) => p !== panel)
+          : prevPanels;
       } else {
         // Si no está expandido, colapsamos todos los demás y expandimos el panel actual
         return [panel];
@@ -411,6 +507,7 @@ const TuComponente = () => {
               InputLabelProps={{ style: { color: "rgb(255,255,255)" } }}
               style={{ marginLeft: "10px" }}
               placeholder="Ruc o Razón"
+              autoComplete="off"
               onChange={(e) => setCriterioBusqueda(e.target.value)}
               onClick={(event) => {
                 event.stopPropagation(); // Evita la propagación del evento al acordeón
@@ -512,6 +609,7 @@ const TuComponente = () => {
                   height: "25px",
                 },
               }}
+              autoComplete="off"
               InputLabelProps={{ style: { color: "rgb(255,255,255)" } }}
               style={{ marginLeft: "10px" }}
               placeholder="Código"
@@ -522,6 +620,7 @@ const TuComponente = () => {
             />
             <TextField
               size="small"
+               autoComplete="off"
               InputProps={{
                 style: {
                   backgroundColor: "white",
@@ -551,6 +650,7 @@ const TuComponente = () => {
             </Typography>
             <TextField
               size="small"
+              autoComplete="off"
               InputProps={{
                 style: {
                   backgroundColor: "white",
@@ -603,6 +703,7 @@ const TuComponente = () => {
             datosDisponibles={datosDisponibles}
             addToCart={addToCart}
             cartItems={cartItems}
+            cartItemsSoles={cartItemsSoles}
             descuentoA = {descuentoA}
             handleDescuentoAChange = {handleDescuentoAChange}
             descuentoB = {descuentoB}
@@ -611,9 +712,19 @@ const TuComponente = () => {
             handleMontoChange = {handleMontoChange}
             historialPrecios={historialPrecios}
             vendedores ={vendedores}
+            tipoMoneda = {tipoMoneda}
+            transportistas = {transportistas}
             moneda ={moneda}
+            formaPago = {formaPago}
             ticketCount ={ticketCount}
             setTicketCount = {setTicketCount}
+            monedaValue = {monedaValue} 
+            setMonedaValue = {setMonedaValue}  
+            setCartItems ={setCartItems}
+            articuloSugeridoCliente = {articuloSugeridoCliente}
+            articuloSugerido = {articuloSugerido}
+            removeFromCart = {removeFromCart}
+            setArticuloSugerido = {setArticuloSugerido}
           />
         </Collapse>
       </Card>

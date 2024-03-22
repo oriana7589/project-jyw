@@ -51,6 +51,7 @@ const PestañaContenido = ({
   value,
   addToCart,
   cartItems,
+  cartItemsSoles,
   detalleProducto,
   fechaLlegada,
   historialPrecios,
@@ -63,9 +64,20 @@ const PestañaContenido = ({
   vendedores,
   moneda,
   ticketCount, 
-  setTicketCount
+  setTicketCount,
+  formaPago,
+  tipoMoneda,
+  transportistas,
+  monedaValue,
+  setMonedaValue,
+  setCartItems,
+  articuloSugeridoCliente,
+  articuloSugerido,
+  removeFromCart,
+  loading,
+  setArticuloSugerido
 }) => {
-  console.log(monto+"holsi monto")
+
   switch (value) {
     case 0:
       return (
@@ -83,14 +95,32 @@ const PestañaContenido = ({
           moneda = {moneda}
           ticketCount = {ticketCount}
           setTicketCount = {setTicketCount}
+          tipoMoneda = {tipoMoneda}
+          monedaValue = {monedaValue} 
+          setMonedaValue = {setMonedaValue} 
+          articuloSugeridoCliente = {articuloSugeridoCliente} 
+          articuloSugerido  = {articuloSugerido}
+          loading = {loading}
+          
         />
       );
     case 1:
       return (
         <CarritoCompras
           cartItems={cartItems}
+          cartItemsSoles={cartItemsSoles}
           detalleProducto={detalleProducto}
           vendedores={vendedores}
+          formaPago = {formaPago}
+          tipoMoneda = {tipoMoneda}
+          moneda = {moneda}
+          transportistas = {transportistas}
+          monedaValue = {monedaValue} 
+          setMonedaValue = {setMonedaValue}  
+          setCartItems = {setCartItems}
+          removeFromCart = {removeFromCart}
+          articuloSugerido  = {articuloSugerido}
+          setArticuloSugerido = {setArticuloSugerido}
         />
       );
     case 2:
@@ -116,6 +146,7 @@ const Items = ({
   datosDisponibles,
   addToCart,
   cartItems,
+  cartItemsSoles,
   historialPrecios,
   descuentoA,
   handleDescuentoAChange,
@@ -125,11 +156,24 @@ const Items = ({
   handleMontoChange,
   vendedores, 
   moneda,
+  formaPago,
   ticketCount,
-  setTicketCount
+  setTicketCount,
+  tipoMoneda,
+  transportistas,
+  monedaValue,
+  setMonedaValue,
+  setCartItems,
+  articuloSugeridoCliente,
+  articuloSugerido,
+  removeFromCart,
+  loading,
+  setArticuloSugerido
+  
 }) => {
-  console.log(monto+"monto fire")
+
   const [tabValue, setTabValue] = useState(0);
+ 
 
   const handleChangeTab = (event, newValue) => {
     setTabValue(newValue);
@@ -211,6 +255,7 @@ const Items = ({
             value={tabValue}
             addToCart={addToCart}
             cartItems={cartItems}
+            cartItemsSoles={cartItemsSoles}
             detalleProducto={detalleProducto}
             fechaLlegada={fechaLlegada}
             historialPrecios={historialPrecios}
@@ -221,9 +266,20 @@ const Items = ({
             monto={monto}
             handleMontoChange={handleMontoChange}
             vendedores ={vendedores}
+            formaPago = {formaPago}
             moneda = {moneda}
             ticketCount= {ticketCount}
             setTicketCount =  {setTicketCount} 
+            tipoMoneda = {tipoMoneda}
+            transportistas = {transportistas}
+            monedaValue = {monedaValue} 
+            setMonedaValue = {setMonedaValue}  
+            setCartItems= {setCartItems}
+            articuloSugeridoCliente = {articuloSugeridoCliente} 
+            articuloSugerido  = {articuloSugerido}
+            removeFromCart =  {removeFromCart}
+            loading = {loading}
+            setArticuloSugerido= {setArticuloSugerido}
           />
         ) : (
           <div

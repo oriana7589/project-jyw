@@ -103,16 +103,16 @@ const ThirdTable = ({
   handleDescuentoBChange,
   monto,
   moneda,
-  monedaValue,
   addToCart,
   handleMontoChange,
   setTicketCount,
-  ticketCount
+  ticketCount,
+  tipoMoneda,
+  monedaValue,
+  setMonedaValue
 }) => {
   const currentData = historialPrecios;
   
-
-
   const handleIncrement = () => {
     setTicketCount(ticketCount + 1);
   };
@@ -125,7 +125,8 @@ const ThirdTable = ({
       descuentoA,
       descuentoB,
       monto,
-      precioFinal
+      precioFinal,
+      monedaValue
     );
   };
 
@@ -164,7 +165,7 @@ const ThirdTable = ({
       .times(1.18)
       .toDecimalPlaces(2);
 
-    if (monedaValue == "soles") {
+    if (monedaValue == "SOLES") {
       // Si la moneda es diferente de soles, aplica la conversión
       precioFinaln = precioFinaln * moneda;
     }
@@ -283,6 +284,7 @@ const ThirdTable = ({
                   <td>
                     <TextField
                       variant="outlined"
+                      autoComplete="off"
                       style={{ paddingLeft: 20 }}
                       value={detalleProducto.precioVenta} // Valor del estado
                       inputProps={{ type: "text", inputMode: "numeric" }}
@@ -328,6 +330,7 @@ const ThirdTable = ({
                     </IconButton>
                     <TextField
                       variant="outlined"
+                      autoComplete="off"
                       style={{
                         margin: 10,
                         marginTop: "5px",
@@ -369,6 +372,7 @@ const ThirdTable = ({
                   <td>
                     <TextField
                       variant="outlined"
+                      autoComplete="off"
                       style={{ paddingLeft: 20 }}
                       value={descuentoA} // Valor del estado
                       inputProps={{ type: "text", inputMode: "numeric" }}
@@ -391,6 +395,7 @@ const ThirdTable = ({
                   <td>
                     <TextField
                       variant="outlined"
+                      autoComplete="off"
                       value={descuentoB} // Valor del estado
                       style={{ paddingLeft: 20 }}
                       onChange={handleDescuentoBChange}
@@ -409,7 +414,7 @@ const ThirdTable = ({
                   <td
                     style={{ fontSize: "1.1rem", fontWeight: "bold" }}
                   >
-                    TOTAL INC. IGV({monedaValue === "soles" ? "S" : "$"}):
+                    TOTAL INC. IGV({monedaValue === "SOLES" ? "S/" : "$"}):
                   </td>
                   <td
                     style={{
@@ -421,6 +426,7 @@ const ThirdTable = ({
                   >
                     <TextField
                       variant="outlined"
+                      autoComplete="off"
                       value={total} // Valor del estado
                       style={{ paddingLeft: 20 }}
                       onChange={handlPrecioFinalChange}
@@ -484,9 +490,12 @@ const TableShop = ({
   handleMontoChange,
   addToCart,
   ticketCount,
-  setTicketCount
+  setTicketCount,
+  tipoMoneda ,
+  monedaValue,
+  setMonedaValue
 }) => {
-  const [monedaValue, setMonedaValue] = React.useState("soles");
+  
 
   return (
     <div style={{ paddingLeft: 20, paddingTop: 15 }}>
@@ -505,7 +514,7 @@ const TableShop = ({
           sx={{
             marginRight: 1,
             marginLeft: "auto",
-            width: 200,
+            width: 250,
             marginBottom: 1,
           }}
         >
@@ -516,8 +525,11 @@ const TableShop = ({
             style={{ height: 35 }}
             variant="outlined"
           >
-            <MenuItem value="soles">Soles</MenuItem>
-            <MenuItem value="dolares">Dólares</MenuItem>
+           {tipoMoneda.map((tipoMonedaItem, index) => (
+                <MenuItem key={index} value={tipoMonedaItem.descripcionMoneda}>
+                  {tipoMonedaItem.descripcionMoneda}
+                </MenuItem>
+              ))}
           </Select>
         </Box>
       </div>
@@ -540,8 +552,10 @@ const TableShop = ({
         addToCart={addToCart}
         moneda={moneda}
         monedaValue={monedaValue}
+        setMonedaValue = {setMonedaValue} 
         ticketCount ={ticketCount}
         setTicketCount = {setTicketCount}
+        tipoMoneda = {tipoMoneda}
       />
     </div>
   );

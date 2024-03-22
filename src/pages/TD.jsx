@@ -19,10 +19,17 @@ export default function TD({
   handleMontoChange,
   moneda,
   ticketCount,
-  setTicketCount
+  setTicketCount,
+  tipoMoneda,
+  monedaValue,
+  setMonedaValue,
+  articuloSugeridoCliente,
+  articuloSugerido,
+  loading
 }) {
-  
-  console.log(monto+"monto tds")
+
+  console.log("articulosugerido"+articuloSugerido)
+  console.log("articulosugeridoCliente"+articuloSugeridoCliente)
   const [chartData, setChartData] = useState({
     labels: [],
     datasets: [
@@ -60,7 +67,7 @@ export default function TD({
               style={{ width: "70%", height: "70%" }}
             />
           </div>
-          <TableItems />
+          <TableItems loading = {loading}  articuloSugeridoCliente = {articuloSugeridoCliente} articuloSugerido = {articuloSugerido} />
         </div>
         <div style={{ flex: 1 }}>
           <TableDescripcionItems
@@ -68,7 +75,7 @@ export default function TD({
             detalleProducto={detalleProducto}
             fechaLlegada={fechaLlegada}
             historialPrecios={historialPrecios}
-             descuentoA = {descuentoA}
+            descuentoA = {descuentoA}
             handleDescuentoAChange = {handleDescuentoAChange}
             descuentoB = {descuentoB}
             handleDescuentoBChange = {handleDescuentoBChange}
@@ -77,6 +84,9 @@ export default function TD({
             moneda = {moneda}
             ticketCount = {ticketCount}
             setTicketCount ={setTicketCount}
+            tipoMoneda = {tipoMoneda}
+            monedaValue = {monedaValue} 
+            setMonedaValue = {setMonedaValue}  
           />
         </div>
       </Container>

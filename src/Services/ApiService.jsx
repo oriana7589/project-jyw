@@ -127,8 +127,7 @@ export function getUltimasComprasCliente(codCliente) {
 export function getProductoSeleccionado(codInterno) {
     const productos =
         axios.get(`${baseUrlProductos()}/ProductoSeleccionado/${codInterno}`)
-            .then((res) => {   
-                console.log("producto seleccionado: ", res);                
+            .then((res) => {                  
                 return res.data
             });
 
@@ -154,11 +153,29 @@ export function getProductoSeleccionado(codInterno) {
     return FechaLlegada;
  }
 
+ export function getArticulosSugeridosCliente(codigoCliente) {
+    const ArticuloSugeridoCliente =
+        axios.get(`${baseUrlCliente()}/RankingArticulo/${codigoCliente}`)
+            .then((res) => {
+                
+                return res.data
+            });
+    return ArticuloSugeridoCliente;
+ }
+
+ export function getArticulosSugeridos() {
+    const ArticuloSugerido =
+        axios.get(`${baseUrlCliente()}/ArticulosSugeridos`)
+            .then((res) => {
+                return res.data
+            });
+    return ArticuloSugerido;
+ }
+
  export function getListVendedores() {
     const listaVendedores =
         axios.get(`${baseUrlGeneral()}/Vendedores`)
             .then((res) => {
-                console.log("vendedores"+res.data)
                 return res.data
             });
 
@@ -169,9 +186,35 @@ export function getProductoSeleccionado(codInterno) {
     const cambioMoneda =
         axios.get(`${baseUrlGeneral()}/UltimoTipoCambio`)
             .then((res) => {
-                console.log("UltimoTipoCambio"+res.data)
                 return res.data
             });
 
     return cambioMoneda;
+ }
+
+ export function getFormaDePago() {
+    const formaDePago =
+        axios.get(`${baseUrlGeneral()}/FormaDePago`)
+            .then((res) => {
+                return res.data
+            });
+    return formaDePago;
+ }
+
+ export function getTipoMonedas() {
+    const monedas =
+        axios.get(`${baseUrlGeneral()}/Monedas`)
+            .then((res) => {
+                return res.data
+            });
+    return monedas;
+ }
+
+ export function getTransportistas() {
+    const transportistas =
+        axios.get(`${baseUrlGeneral()}/Transportistas`)
+            .then((res) => {
+                return res.data
+            });
+    return transportistas;
  }
