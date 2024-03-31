@@ -25,11 +25,11 @@ export default function TD({
   setMonedaValue,
   articuloSugeridoCliente,
   articuloSugerido,
-  loading
+  loading,
+  codigoSeleccionado,
+  setCodigoSeleccionado,
+  handleItemClick
 }) {
-
-  console.log("articulosugerido"+articuloSugerido)
-  console.log("articulosugeridoCliente"+articuloSugeridoCliente)
   const [chartData, setChartData] = useState({
     labels: [],
     datasets: [
@@ -57,7 +57,7 @@ export default function TD({
           height: "calc(100vh - 9.65rem)",
         }}
       >
-        <div style={{ flex: 2}}>
+        <div style={{ flex: 2 }}>
           <div
             style={{ display: "flex", margin: "5px", justifyContent: "center" }}
           >
@@ -67,7 +67,14 @@ export default function TD({
               style={{ width: "70%", height: "70%" }}
             />
           </div>
-          <TableItems loading = {loading}  articuloSugeridoCliente = {articuloSugeridoCliente} articuloSugerido = {articuloSugerido} />
+          <TableItems
+            loading={loading}
+            articuloSugeridoCliente={articuloSugeridoCliente}
+            articuloSugerido={articuloSugerido}
+            codigoSeleccionado={codigoSeleccionado}
+            setCodigoSeleccionado={setCodigoSeleccionado}
+            handleItemClick = {handleItemClick}
+          />
         </div>
         <div style={{ flex: 1 }}>
           <TableDescripcionItems
@@ -75,18 +82,18 @@ export default function TD({
             detalleProducto={detalleProducto}
             fechaLlegada={fechaLlegada}
             historialPrecios={historialPrecios}
-            descuentoA = {descuentoA}
-            handleDescuentoAChange = {handleDescuentoAChange}
-            descuentoB = {descuentoB}
-            handleDescuentoBChange = {handleDescuentoBChange}
-            monto = {monto}
-            handleMontoChange = {handleMontoChange}
-            moneda = {moneda}
-            ticketCount = {ticketCount}
-            setTicketCount ={setTicketCount}
-            tipoMoneda = {tipoMoneda}
-            monedaValue = {monedaValue} 
-            setMonedaValue = {setMonedaValue}  
+            descuentoA={descuentoA}
+            handleDescuentoAChange={handleDescuentoAChange}
+            descuentoB={descuentoB}
+            handleDescuentoBChange={handleDescuentoBChange}
+            monto={monto}
+            handleMontoChange={handleMontoChange}
+            moneda={moneda}
+            ticketCount={ticketCount}
+            setTicketCount={setTicketCount}
+            tipoMoneda={tipoMoneda}
+            monedaValue={monedaValue}
+            setMonedaValue={setMonedaValue}
           />
         </div>
       </Container>

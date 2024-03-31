@@ -75,7 +75,10 @@ const PestañaContenido = ({
   articuloSugerido,
   removeFromCart,
   loading,
-  setArticuloSugerido
+  setArticuloSugerido,
+  codigoSeleccionado,
+  setCodigoSeleccionado,
+  handleItemClick
 }) => {
 
   switch (value) {
@@ -101,6 +104,9 @@ const PestañaContenido = ({
           articuloSugeridoCliente = {articuloSugeridoCliente} 
           articuloSugerido  = {articuloSugerido}
           loading = {loading}
+          codigoSeleccionado = {codigoSeleccionado}
+          setCodigoSeleccionado = {setCodigoSeleccionado}
+          handleItemClick = {handleItemClick}
           
         />
       );
@@ -168,7 +174,10 @@ const Items = ({
   articuloSugerido,
   removeFromCart,
   loading,
-  setArticuloSugerido
+  setArticuloSugerido,
+  codigoSeleccionado,
+  setCodigoSeleccionado,
+  handleItemClick
   
 }) => {
 
@@ -280,6 +289,9 @@ const Items = ({
             removeFromCart =  {removeFromCart}
             loading = {loading}
             setArticuloSugerido= {setArticuloSugerido}
+            codigoSeleccionado = {codigoSeleccionado}
+            setCodigoSeleccionado = {setCodigoSeleccionado}
+            handleItemClick = {handleItemClick}
           />
         ) : (
           <div

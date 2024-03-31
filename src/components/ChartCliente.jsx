@@ -22,19 +22,12 @@ export default class ChartCliente extends PureComponent {
 
     const obtenerNombrePropiedadTotal = (objeto) => {
       const nombresPropiedades = Object.keys(objeto);
-      // console.log('nombresPropiedad', nombresPropiedades)
       const nombrePropiedadTotal = nombresPropiedades.find(nombre => nombre.startsWith('Total'));
-      // console.log('nombresPropiedadTotal', nombrePropiedadTotal)
+  
       return nombrePropiedadTotal;
     }
 
-    if (dataGraficaActual && dataGraficaAnterior && dataGraficaActual.length > 0 && dataGraficaAnterior.length > 0) {//if (!dataGraficaActual || !dataGraficaAnterior || dataGraficaActual.length === 0 || dataGraficaAnterior.length === 0) {
-      // console.log("IMPRIMIENDO DATOS DE GRAFICA ACTUAL", dataGraficaActual);
-      // console.log("IMPRIMIENDO DATOS DE GRAFICA ANTERIOR", dataGraficaAnterior);
-       //return null;  // Si los datos aún no están disponibles, no renderiza nada
-      console.log("IMPRIMIENDO DATOS DE GRAFICA ACTUAL", dataGraficaActual);
-      console.log("IMPRIMIENDO DATOS DE GRAFICA ANTERIOR", dataGraficaAnterior);
-
+    if (dataGraficaActual && dataGraficaAnterior && dataGraficaActual.length > 0 && dataGraficaAnterior.length > 0) {
       dataCombinada = dataGraficaAnterior.map((itemAnterior, index) => {
         const itemActual = dataGraficaActual[index];
         return {
@@ -42,7 +35,7 @@ export default class ChartCliente extends PureComponent {
           ...itemActual,
         };
       });
-      console.log("IMPRIMIENDO DATA COMBINADA", dataCombinada);      
+        
       totalKeyAnterior = obtenerNombrePropiedadTotal(dataGraficaAnterior[0]);
       totalKeyActual = obtenerNombrePropiedadTotal(dataGraficaActual[0]);
      } else {

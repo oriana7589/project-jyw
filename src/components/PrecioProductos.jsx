@@ -8,6 +8,10 @@ import {
   Grid,
 } from "@mui/material";
 import { red } from "@mui/material/colors";
+import Decimal from "decimal.js";
+Decimal.set({ precision: 10 });
+
+
 
 function PrecioProductos({
   vendedores,
@@ -15,7 +19,10 @@ function PrecioProductos({
   tipoMoneda,
   transportistas,
   monedaValue,
-  setMonedaValue
+  moneda,
+  setMonedaValue,
+  totalSubtotal, 
+  total
 }) {
   const [vendedor, setVendedor] = React.useState("");
   const [formaPagos, setFormaPagos] = React.useState("");
@@ -23,6 +30,15 @@ function PrecioProductos({
   const [cantidad, setCantidad] = React.useState(0);
   const [dias, setDias] = React.useState("");
   const [observaciones, setObservaciones] = React.useState("");
+
+
+  const totalFinal = new Decimal ( parseFloat(total.toString().replace("$", "").replace("S/", "")));
+  const subTotal = new Decimal (parseFloat(totalSubtotal.toString().replace("$", "").replace("S/", ""))) ;
+  const resultado = monedaValue === "SOLES" ? "S/" +(totalFinal.minus(subTotal)).toString(): "$"+(totalFinal.minus(subTotal)).toString();
+
+  
+  console.log(totalFinal)
+  console.log(subTotal)
 
   useEffect(() => {
     // Calcula la fecha de vencimiento basada en la fecha actual y la cantidad de días
@@ -235,15 +251,15 @@ function PrecioProductos({
               <Typography fontSize={25}>Sub. total:</Typography>
             </td>
             <td style={{ textAlign: "end", width: "150px" }}>
-              <Typography fontSize={25}>150.00</Typography>
+              <Typography fontSize={25}>{totalSubtotal}</Typography>
             </td>
           </tr>
           <tr>
             <td style={{ textAlign: "right" }}>
-              <Typography fontSize={25}>Total IGV 0.18:</Typography>
+              <Typography fontSize={25}>Total IGV 18%:</Typography>
             </td>
             <td style={{ textAlign: "end", width: "150px" }}>
-              <Typography fontSize={25}>45.00</Typography>
+              <Typography fontSize={25}>{resultado}</Typography>
             </td>
           </tr>
           <tr>
@@ -260,16 +276,16 @@ function PrecioProductos({
               }}
             >
               <Typography fontSize={25} fontWeight="bold">
-                $50.00
+                {total}
               </Typography>
             </td>
           </tr>
           <tr>
             <td style={{ textAlign: "right" }}>
-              <Typography fontSize={25}>T/C Total en soles 3.65:</Typography>
+              <Typography fontSize={25}>T/C Total en {monedaValue === "SOLES" ? "(S/)": "($)"} {moneda}:</Typography>
             </td>
             <td style={{ textAlign: "end", width: "150px" }}>
-              <Typography fontSize={25}> S/50000.00</Typography>
+              <Typography fontSize={25}> {monedaValue === "SOLES"? "$"+(totalFinal/moneda): "S/ "+totalFinal*moneda }</Typography>
             </td>
           </tr>
         </tbody>

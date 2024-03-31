@@ -3,6 +3,7 @@ import {
   Card,
   CardContent,
   CardMedia,
+  Checkbox,
   IconButton,
   Typography,
 } from "@mui/material";
@@ -14,11 +15,63 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import DialogEditProducto from "./DialogEditProducto";
 
-function ItemsProductos({ cartItems, monedaValue, cartItemsSoles, moneda, setCartItems, removeFromCart, setArticuloSugerido, articuloSugerido }) {
+function ItemsProductos({
+  cartItems,
+  monedaValue,
+  cartItemsSoles,
+  moneda,
+  setCartItems,
+  removeFromCart,
+  setArticuloSugerido,
+  articuloSugerido,
+  setTotalSubtotal,
+  setTotal,
+}) {
   const [hoveredCard, setHoveredCard] = useState(null);
 
+  const [isChecked1, setIsChecked1] = useState(false);
+  const [isChecked2, setIsChecked2] = useState(false);
 
-  
+  const handleCheckboxChange = (checkboxNumber) => {
+    if (checkboxNumber === 1) {
+      setIsChecked1(true);
+      setIsChecked2(false);
+    } else if (checkboxNumber === 2) {
+      setIsChecked1(false);
+      setIsChecked2(true);
+    }
+  };
+
+  useEffect(() => {
+    let sum = 0;
+    cartItems.forEach((item) => {
+      if (monedaValue === "SOLES") {
+        sum += item.monto * item.ticketCount * moneda;
+        setTotalSubtotal("S/" + sum);
+      } else {
+        sum += item.monto * item.ticketCount;
+        setTotalSubtotal("$" + sum);
+      }
+    });
+  }, [cartItems, monedaValue, moneda]);
+
+  const calcularTotalPrecioFinal = () => {
+    const total = cartItems.reduce((total, item) => {
+      return total + parseFloat(item.precioFinal);
+    }, 0);
+
+    if (monedaValue === "SOLES") {
+      setTotal("S/" + total * moneda);
+    } else if (monedaValue === "DOLARES AMERICANOS") {
+      setTotal("$" + total);
+    }
+  };
+
+  // Llamar a la función para calcular el total al renderizar el componente
+  useEffect(() => {
+    calcularTotalPrecioFinal();
+  }, [cartItems, monedaValue]);
+
   const handleMouseEnter = (index) => {
     setHoveredCard(index);
   };
@@ -28,7 +81,54 @@ function ItemsProductos({ cartItems, monedaValue, cartItemsSoles, moneda, setCar
   };
 
   return (
-    <div style={{ padding: 5, maxHeight: "600px", overflowY: "auto" }}>
+    <div >
+      <div style={{ display: "flex", alignItems: "center", marginBottom: 10 }}>
+      <Checkbox
+          id="checkbox1"
+          checked={isChecked1}
+          sx={{
+            color: "rgb(226, 52, 48)",
+            '&.Mui-checked': {
+              color: "rgb(226, 52, 48)",
+            },
+          }}
+          onChange={() => handleCheckboxChange(1)}
+        />
+        <label htmlFor="checkbox1">Por facturar</label>
+        <Checkbox
+          id="checkbox2"
+          checked={isChecked2}
+          sx={{
+            color: "rgb(226, 52, 48)",
+            '&.Mui-checked': {
+              color: "rgb(226, 52, 48)",
+            },
+          }}
+          onChange={() => handleCheckboxChange(2)}
+          style={{ marginLeft: 10 }}
+        />
+        <label htmlFor="checkbox2">Emitido</label>
+        <IconButton
+          style={{
+            backgroundColor: "rgb(226, 52, 48)",
+            borderRadius: "0",
+            marginLeft: "10px",
+            height: "35px",
+            width: "180px",
+            marginLeft: "auto",
+          }}
+        >
+          <Typography
+            style={{
+              color: "rgb(255, 255, 255)",
+              borderRadius: "0",
+            }}
+          >
+           Guardar proforma
+          </Typography>
+        </IconButton>
+      </div>
+      <div style={{ padding: 5, maxHeight: "550px", overflowY: "auto" }}  >
       {cartItems.map((item, index) => (
         <Card
           key={index}
@@ -143,7 +243,7 @@ function ItemsProductos({ cartItems, monedaValue, cartItemsSoles, moneda, setCar
                   {item.descuentoB}
                 </Typography>
               </CardContent>
-
+             {/**   */}
               <CardContent sx={{ display: "flex", padding: 0 }}>
                 <Typography
                   variant="body2"
@@ -151,13 +251,16 @@ function ItemsProductos({ cartItems, monedaValue, cartItemsSoles, moneda, setCar
                   paddingRight={2}
                 >
                   <span style={{ fontWeight: "bold" }}> Sub total.: </span>{" "}
-                     {monedaValue === "SOLES" ? "S/ " +(item.monto*item.ticketCount)*moneda: "$"}{(item.monto*item.ticketCount)}
+                  {monedaValue === "SOLES"
+                    ? "S/ " + item.monto * item.ticketCount * moneda
+                    : "$"}
+                  {item.monto * item.ticketCount}
                 </Typography>
               </CardContent>
             </CardContent>
 
             <CardContent
-              style={{ textAlign:"center", paddingTop: 30, width: 175 }}
+              style={{ textAlign: "center", paddingTop: 30, width: 175 }}
             >
               <Typography
                 variant="body2"
@@ -215,7 +318,11 @@ function ItemsProductos({ cartItems, monedaValue, cartItemsSoles, moneda, setCar
             </CardContent>
           </CardContent>
         </Card>
-      ))}
+          ))}
+
+      </div>
+   
+    
     </div>
   );
 }

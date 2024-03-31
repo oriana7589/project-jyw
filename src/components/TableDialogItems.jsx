@@ -81,7 +81,7 @@ const TableComponent = ({ items, onProductSelect }) => {
           />
         </div>
       ) : items.length > 0 ? (
-        <div style={{ width:"1090px"}}>
+        <div style={{ width:1090}}>
          <div style={{ position: "sticky", top: 0, zIndex: 1 }}>
            <table style={{ borderCollapse: 'collapse', border: 1, borderSpacing:"25px" , marginBottom:10}}>
             <thead style={{ position: "sticky", top: 0, zIndex: 1}} >
@@ -128,13 +128,13 @@ const TableComponent = ({ items, onProductSelect }) => {
     </table>
   </div>
 
-  <div style={{ overflow: "auto", width: "1090px",  maxHeight: "600px" , height:600 }}>
+  <div style={{ overflow: "auto", width: 1090,  maxHeight:600 , height:600 }}>
   <table style={{ borderCollapse: 'collapse', width: '100%'}}>
-        <thead style={{ position: "sticky", top: 0, zIndex: 1, borderBottom: '1px solid black'}}>
+      <thead style={{ position: "sticky", top: 0, zIndex: 1, borderBottom: '1px solid black'}}>
         <tr style={{ height: 20 }}>
             <th style={{textAlign:"center", fontSize:"0.8rem", backgroundColor: "rgb(255, 255, 255)",  }}>  </th>
             <th style={{textAlign:"center", fontSize:"0.8rem" , backgroundColor: "rgb(255, 255, 255)" }}></th>
-            <th style={{textAlign:"center", fontSize:"0.8rem" , backgroundColor: "rgb(255, 255, 0255)"}}></th>
+            <th style={{textAlign:"center", fontSize:"0.8rem" , backgroundColor: "rgb(255, 255, 255)"}}></th>
             <th style={{textAlign:"center", fontSize:"0.8rem" , backgroundColor: "rgb(255, 255, 255)"  }}></th>
             <th style={{textAlign:"center", fontSize:"0.8rem", backgroundColor: "rgb(255, 255, 255)"  }}></th>
             <th style={{textAlign:"center", fontSize:"0.8rem" , backgroundColor: "rgb(255, 255, 255)"  }}></th>

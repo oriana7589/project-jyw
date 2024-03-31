@@ -82,7 +82,8 @@ const TuComponente = () => {
   const [descuentoB, setDescuentoB] = useState(0);
   const [monto,setMonto]= useState(0.0);
   const [ticketCount, setTicketCount] = useState(1);
-  const [monedaValue, setMonedaValue] = React.useState('DOLARES AMERICANOS');
+  const [codigoSeleccionado, setCodigoSeleccionado] = useState(null);
+  const [monedaValue, setMonedaValue] = useState("DOLARES AMERICANOS");
   
   
 
@@ -91,26 +92,28 @@ const TuComponente = () => {
     setDialogOpen(false);
   };
 
+
+  const handleItemClick = (codigoInterno) => {
+    if (codigoInterno) {
+      setCodigoSeleccionado(codigoInterno);
+      fetchData(codigoInterno);
+    }
+  };
+
+
   const handleItemsSelect = (productos) => {
     setSelectedItems(productos);
     setDialogProductOpen(false);
-
-    getProductoSeleccionado(productos.CodigoInterno).then((detalleProducto) => {
-      setDetalleProducto(detalleProducto);
-      const precioVenta = new Decimal(detalleProducto.precioVenta);
-      const impuesto = new Decimal(1.18);
-      const precioVentaSinIGV = precioVenta.dividedBy(impuesto);
-      const precio = Math.round(precioVentaSinIGV.times(100)) / 100;  
-      //const precio = precioVentaSinIGV.toDecimalPlaces(2);
-      setDescuentoA(0);
-      setDescuentoB(0);
-      setTicketCount(1)
-      setMonto(precio); 
-    });
+    const codigoInterno = productos.CodigoInterno || productos.codigoInterno; // Revisa ambas formas posibles de obtener el código interno
+    if (codigoInterno) {
+      setSelectedItems(productos);
+      setDialogProductOpen(false);
+      setCodigoSeleccionado(null)
+      fetchData(codigoInterno);
+    }
 
     getFechaLlegadaProductoSeleccionado(productos.CodigoInterno).then(
       (fechaLlegada) => {
-        console.log("dfechaLlegada" + fechaLlegada);
         setfechaLlegada(fechaLlegada);
       }
     );
@@ -148,15 +151,9 @@ const TuComponente = () => {
       setToastOpen(true);
       toast.warning("No se mostrará historial de precios ni produtos sujeridos hasta seleccionar a un cliente");
     } else {
-      getHistorialPrecios(productos.CodigoInterno, selectedClient.codigoCliente).then(
-        (historialPrecios) => {
-          setHistorialPrecios(historialPrecios);
-        }
-      );
-
+      
       getArticulosSugeridosCliente(selectedClient.codigoCliente).then(
         (articuloSugeridoCliente) => {
-          console.log("selectedClient.codigoCliente"+ articuloSugeridoCliente)
           setArticuloSugeridoCliente(articuloSugeridoCliente);
         }
       );
@@ -169,6 +166,33 @@ const TuComponente = () => {
     }    
    
     setDatosDisponibles(true);
+  };
+
+  const fetchData = (codigoInterno) => {
+    getProductoSeleccionado(codigoInterno).then((detalleProducto) => {
+      setDetalleProducto(detalleProducto);
+      const precioVenta = new Decimal(detalleProducto.precioVenta);
+      const impuesto = new Decimal(1.18);
+      const precioVentaSinIGV = precioVenta.dividedBy(impuesto);
+      const precio = Math.round(precioVentaSinIGV.times(100)) / 100;  
+      //const precio = precioVentaSinIGV.toDecimalPlaces(2);
+      setDescuentoA(0);
+      setDescuentoB(0);
+      setTicketCount(1)
+      setMonto(precio); 
+    });
+
+    if (!selectedClient) {
+      
+    }else{
+      getHistorialPrecios(codigoInterno, selectedClient.codigoCliente).then(
+        (historialPrecios) => {
+          setHistorialPrecios(historialPrecios);
+        }
+      );
+    }
+
+  
   };
 
   const handleDescuentoAChange = (event) => {
@@ -200,25 +224,27 @@ const TuComponente = () => {
 
   useEffect(() => {
     const filtrarArticulosSugeridos = () => {
-      const nuevosArticulosSugeridos = articuloSugerido.filter(articulo => {
-        return !cartItems.some(item => item.codigoInterno === articulo.codigoInterno);
+      setArticuloSugerido(prevArticulos => {
+        return prevArticulos.filter(articulo => {
+          return !cartItems.some(item => item.codigoInterno === articulo.codigoInterno);
+        });
       });
-      setArticuloSugerido(nuevosArticulosSugeridos);
     };
-
+  
     filtrarArticulosSugeridos();
-  }, [cartItems, articuloSugerido]);
-
+  }, [cartItems]);
+  
   useEffect(() => {
     const filtrarArticulosSugeridoCliente = () => {
-      const nuevosArticulosSugeridosCliente = articuloSugeridoCliente.filter(articulo => {
-        return !cartItems.some(item => item.codigoInterno === articulo.codigoInterno);
+      setArticuloSugeridoCliente(prevArticulosCliente => {
+        return prevArticulosCliente.filter(articulo => {
+          return !cartItems.some(item => item.codigoInterno === articulo.codigoInterno);
+        });
       });
-      setArticuloSugeridoCliente(nuevosArticulosSugeridosCliente);
     };
-
+  
     filtrarArticulosSugeridoCliente();
-  }, [cartItems, articuloSugeridoCliente]);
+  }, [cartItems]);
   
   const addToCart = (ticketCount, detalleProducto, descuentoA,descuentoB, monto,precioFinal ) => {
     
@@ -257,7 +283,7 @@ const TuComponente = () => {
 
     getArticulosSugeridosCliente(selectedClient.codigoCliente).then(
       (articuloSugeridoCliente) => {
-        console.log("selectedClient.codigoCliente"+ articuloSugeridoCliente)
+
         setArticuloSugeridoCliente(articuloSugeridoCliente);
       }
     );
@@ -271,7 +297,7 @@ const TuComponente = () => {
 
   useEffect(() => {
     getRankingClientes().then((dataRanking) => {
-      //console.log("Ranking de clientes:", dataRanking);
+  
       setRanking(dataRanking);
     });
   }, []);
@@ -293,7 +319,7 @@ const TuComponente = () => {
   };
 
   useEffect(() => {
-    //console.log('Cambiando fecha: fechasGrafica', fechasGrafica);
+    
     if (selectedClient) {
       // Aquí puedes llamar a tus otros métodos que dependen de fechasGrafica
       getDatosVentasPorClientePorAño(
@@ -301,7 +327,6 @@ const TuComponente = () => {
         fechasGrafica[0]
       ).then((dataActual) => {
         setDataGraficaActual(dataActual);
-        // console.log("Datos del año actual:", dataActual);
       });
 
       getDatosVentasPorClientePorAño(
@@ -309,7 +334,7 @@ const TuComponente = () => {
         fechasGrafica[1]
       ).then((dataAnterior) => {
         setDataGraficaAnterior(dataAnterior);
-        // console.log("Datos del año anterior:", dataAnterior);
+        
       });
     }
   }, [fechasGrafica]);
@@ -378,8 +403,7 @@ const TuComponente = () => {
       }
     );
 
-   
-
+    
     //Mantener al último
     setHayDatosDisponibles(true);
   };
@@ -419,8 +443,6 @@ const TuComponente = () => {
     setDialogOpen(true);
     if (criterioBusqueda !== "") {
       getClientes(criterioBusqueda).then((tablaClientes) => {
-        // console.log('DATA EN ACORDION');
-        // console.log(tablaClientes);
         setClientes(tablaClientes);
       });
     } else {
@@ -725,6 +747,9 @@ const TuComponente = () => {
             articuloSugerido = {articuloSugerido}
             removeFromCart = {removeFromCart}
             setArticuloSugerido = {setArticuloSugerido}
+            codigoSeleccionado = {codigoSeleccionado}
+            setCodigoSeleccionado = {setCodigoSeleccionado}
+            handleItemClick = {handleItemClick}
           />
         </Collapse>
       </Card>

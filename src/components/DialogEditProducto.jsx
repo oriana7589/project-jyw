@@ -22,7 +22,7 @@ export default function DialogEditProducto({
   items,
   onProductSelect,
 }) {
-    console.log("selected item", selectedItem.linea)
+    
   return (
     <React.Fragment>
       <BootstrapDialog
