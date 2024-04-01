@@ -78,7 +78,22 @@ const PestañaContenido = ({
   setArticuloSugerido,
   codigoSeleccionado,
   setCodigoSeleccionado,
-  handleItemClick
+  handleItemClick, 
+  vendedor,
+  setVendedor,
+  formaPagos, 
+  setFormaPagos,
+  transporte,
+  setTransporte,
+  cantidad,
+  setCantidad,
+  dias,
+  setDias,
+  observaciones,
+  setObservaciones,
+  isChecked1 ,
+  isChecked2 ,
+  handleCheckboxChange ,
 }) => {
 
   switch (value) {
@@ -127,6 +142,21 @@ const PestañaContenido = ({
           removeFromCart = {removeFromCart}
           articuloSugerido  = {articuloSugerido}
           setArticuloSugerido = {setArticuloSugerido}
+          vendedor= {vendedor}
+          setVendedor = {setVendedor}
+          formaPagos = {formaPagos}
+          setFormaPagos = {setFormaPagos}
+          transporte = {transporte}
+          setTransporte = {setTransporte}
+          cantidad = {cantidad}
+          setCantidad = {setCantidad}
+          dias = {dias}
+          setDias = {setDias}
+          observaciones =  {observaciones}
+          setObservaciones = {setObservaciones}
+          isChecked1 = {isChecked1}
+          isChecked2 = {isChecked2}
+          handleCheckboxChange = {handleCheckboxChange}
         />
       );
     case 2:
@@ -177,7 +207,22 @@ const Items = ({
   setArticuloSugerido,
   codigoSeleccionado,
   setCodigoSeleccionado,
-  handleItemClick
+  handleItemClick,
+  vendedor,
+  setVendedor,
+  formaPagos, 
+  setFormaPagos,
+  transporte,
+  setTransporte,
+  cantidad,
+  setCantidad,
+  dias,
+  setDias,
+  observaciones,
+  setObservaciones,
+  isChecked1 ,
+  isChecked2 ,
+  handleCheckboxChange ,
   
 }) => {
 
@@ -292,6 +337,21 @@ const Items = ({
             codigoSeleccionado = {codigoSeleccionado}
             setCodigoSeleccionado = {setCodigoSeleccionado}
             handleItemClick = {handleItemClick}
+            vendedor= {vendedor}
+            setVendedor = {setVendedor}
+            formaPagos = {formaPagos}
+            setFormaPagos = {setFormaPagos}
+            transporte = {transporte}
+            setTransporte = {setTransporte}
+            cantidad = {cantidad}
+            setCantidad = {setCantidad}
+            dias = {dias}
+            setDias = {setDias}
+            observaciones =  {observaciones}
+            setObservaciones = {setObservaciones}
+            isChecked1 = {isChecked1}
+            isChecked2 = {isChecked2}
+            handleCheckboxChange = {handleCheckboxChange}
           />
         ) : (
           <div

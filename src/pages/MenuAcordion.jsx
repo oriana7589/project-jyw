@@ -84,8 +84,24 @@ const TuComponente = () => {
   const [ticketCount, setTicketCount] = useState(1);
   const [codigoSeleccionado, setCodigoSeleccionado] = useState(null);
   const [monedaValue, setMonedaValue] = useState("DOLARES AMERICANOS");
-  
-  
+  const [vendedor, setVendedor] = React.useState("");
+  const [formaPagos, setFormaPagos] = React.useState("");
+  const [transporte, setTransporte] = React.useState("");
+  const [cantidad, setCantidad] = React.useState(0);
+  const [dias, setDias] = React.useState("");
+  const [observaciones, setObservaciones] = React.useState("");
+  const [isChecked1, setIsChecked1] = useState(true);
+  const [isChecked2, setIsChecked2] = useState(false);
+
+  const handleCheckboxChange = (checkboxNumber) => {
+    if (checkboxNumber === 1) {
+      setIsChecked1(true);
+      setIsChecked2(false);
+    } else if (checkboxNumber === 2) {
+      setIsChecked1(false);
+      setIsChecked2(true);
+    }
+  };
 
   const handleClientSelect = (cliente) => {
     setSelectedClient(cliente);
@@ -751,6 +767,21 @@ const TuComponente = () => {
             codigoSeleccionado = {codigoSeleccionado}
             setCodigoSeleccionado = {setCodigoSeleccionado}
             handleItemClick = {handleItemClick}
+            vendedor= {vendedor}
+            setVendedor = {setVendedor}
+            formaPagos = {formaPagos}
+            setFormaPagos = {setFormaPagos}
+            transporte = {transporte}
+            setTransporte = {setTransporte}
+            cantidad = {cantidad}
+            setCantidad = {setCantidad}
+            dias = {dias}
+            setDias = {setDias}
+            observaciones =  {observaciones}
+            setObservaciones = {setObservaciones}
+            isChecked1 = {isChecked1}
+            isChecked2 = {isChecked2}
+            handleCheckboxChange = {handleCheckboxChange}
           />
         </Collapse>
       </Card>

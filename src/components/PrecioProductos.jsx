@@ -11,8 +11,6 @@ import { red } from "@mui/material/colors";
 import Decimal from "decimal.js";
 Decimal.set({ precision: 10 });
 
-
-
 function PrecioProductos({
   vendedores,
   formaPago,
@@ -21,54 +19,78 @@ function PrecioProductos({
   monedaValue,
   moneda,
   setMonedaValue,
-  totalSubtotal, 
-  total
+  totalSubtotal,
+  total,
+  vendedor,
+  setVendedor,
+  formaPagos,
+  setFormaPagos,
+  transporte,
+  setTransporte,
+  cantidad,
+  setCantidad,
+  dias,
+  setDias,
+  observaciones,
+  setObservaciones,
 }) {
-  const [vendedor, setVendedor] = React.useState("");
-  const [formaPagos, setFormaPagos] = React.useState("");
-  const [transporte, setTransporte] = React.useState("");
-  const [cantidad, setCantidad] = React.useState(0);
-  const [dias, setDias] = React.useState("");
-  const [observaciones, setObservaciones] = React.useState("");
+  const totalDecimal = new Decimal(
+    parseFloat(total.toString().replace("$", "").replace("S/", ""))
+  );
+  const totalFinal =
+    monedaValue === "SOLES"
+      ? "S/ " + totalDecimal.toDecimalPlaces(2).toString()
+      : "$ " + totalDecimal.toDecimalPlaces(2).toString();
 
+  const subTotalDecimal = new Decimal(
+    parseFloat(totalSubtotal.toString().replace("$", "").replace("S/", ""))
+  );
+  const subTotalFinal =
+    monedaValue === "SOLES"
+      ? "S/ " + subTotalDecimal.toDecimalPlaces(2).toString()
+      : "$ " + subTotalDecimal.toDecimalPlaces(2).toString();
 
-  const totalDecimal = new Decimal ( parseFloat(total.toString().replace("$", "").replace("S/", "")));
-  const totalFinal = monedaValue === "SOLES" ? "S/ " + totalDecimal.toDecimalPlaces(2).toString() : "$ " + totalDecimal.toDecimalPlaces(2).toString();
+  const calculoIGV =
+    monedaValue === "SOLES"
+      ? "S/ " +
+        totalDecimal.minus(subTotalDecimal).toDecimalPlaces(2).toString()
+      : "$ " +
+        totalDecimal.minus(subTotalDecimal).toDecimalPlaces(2).toString();
 
-  const subTotalDecimal = new Decimal (parseFloat(totalSubtotal.toString().replace("$", "").replace("S/", "")));
-  const subTotalFinal = monedaValue === "SOLES" ? "S/ " + subTotalDecimal.toDecimalPlaces(2).toString() : "$ " + subTotalDecimal.toDecimalPlaces(2).toString();
-
-  const calculoIGV = monedaValue === "SOLES" ? "S/ " +(totalDecimal.minus(subTotalDecimal)).toDecimalPlaces(2).toString(): "$ "+(totalDecimal.minus(subTotalDecimal)).toDecimalPlaces(2).toString();
-
-  console.log(totalDecimal)
-  console.log(subTotalDecimal)
-  console.log(totalFinal)
-  console.log(subTotalFinal)
+  console.log(totalDecimal);
+  console.log(subTotalDecimal);
+  console.log(totalFinal);
+  console.log(subTotalFinal);
 
   useEffect(() => {
     // Calcula la fecha de vencimiento basada en la fecha actual y la cantidad de días
     const calcularFechaVencimiento = () => {
       const fechaActual = new Date();
       const fechaVencimiento = new Date(fechaActual);
-      
+
       if (cantidad === 1) {
         // Si la cantidad es 1, añade un día a la fecha actual
         fechaVencimiento.setDate(fechaActual.getDate() + 1);
       } else {
         // Si la cantidad es distinta de 0, suma la cantidad de días ingresada por el usuario
-        if (cantidad !== '' && cantidad !== 0) {
+        if (cantidad !== "" && cantidad !== 0) {
           fechaVencimiento.setDate(fechaActual.getDate() + parseInt(cantidad));
         }
       }
 
       // Formatea la fecha de vencimiento en formato 'YYYY-MM-DD'
-      const formattedDate = `${String(fechaVencimiento.getDate()).padStart(2, '0')} - ${String(fechaVencimiento.getMonth() + 1).padStart(2, '0')} - ${fechaVencimiento.getFullYear()}`;
+      const formattedDate = `${String(fechaVencimiento.getDate()).padStart(
+        2,
+        "0"
+      )} - ${String(fechaVencimiento.getMonth() + 1).padStart(
+        2,
+        "0"
+      )} - ${fechaVencimiento.getFullYear()}`;
       setDias(formattedDate);
     };
 
     calcularFechaVencimiento();
   }, [cantidad]);
-
 
   const handleCantidadChange = (event) => {
     const value = event.target.value.trim(); // Eliminar espacios en blanco al principio y al final
@@ -81,7 +103,6 @@ function PrecioProductos({
       }
     }
   };
-
 
   return (
     <div style={{ width: "90%", paddingTop: 10 }}>
@@ -188,32 +209,27 @@ function PrecioProductos({
             </Select>
           </Box>
         </Grid>
-        
+
         <Grid item xs={3}>
-          <Box sx={{ marginBottom: 2, marginTop:-2 }}>
+          <Box sx={{ marginBottom: 2, marginTop: -2 }}>
             <Typography style={{ fontWeight: "bold" }}>Dias</Typography>
-            <TextField
-              type="number"
-              autoComplete="off"
+            <Select
               value={cantidad}
-              onChange={handleCantidadChange}
+              onChange={(e) => setCantidad(e.target.value)}
               fullWidth
               style={{ height: 35 }}
-              variant="outlined"
-              disabled={formaPagos !== "LETRA"}
-              InputProps={{
-                style: {
-                  fontSize: "14px",
-                  width: "105px",
-                  height: "35px",
-                  textAlign: "center",
-                },
-              }}
-            />
+              disabled={true ? formaPagos !== "CREDITO" :  false}
+            >
+              <MenuItem value={0}>0</MenuItem>
+              <MenuItem value={7}>7</MenuItem>
+              <MenuItem value={15}>15</MenuItem>
+              <MenuItem value={30}>30</MenuItem>
+              <MenuItem value={75}>75</MenuItem>
+            </Select>
           </Box>
         </Grid>
         <Grid item xs={6}>
-          <Box sx={{ marginBottom: 2 ,  marginTop:-2 }}>
+          <Box sx={{ marginBottom: 2, marginTop: -2 }}>
             <Typography style={{ fontWeight: "bold" }}>
               Fecha de vencimiento
             </Typography>
@@ -287,10 +303,20 @@ function PrecioProductos({
           </tr>
           <tr>
             <td style={{ textAlign: "right" }}>
-              <Typography fontSize={25}>Total en {monedaValue === "SOLES" ? "DÓLARES": "SOLES"} (T/C {moneda}):</Typography>
+              <Typography fontSize={25}>
+                Total en {monedaValue === "SOLES" ? "DÓLARES" : "SOLES"} (T/C{" "}
+                {moneda}):
+              </Typography>
             </td>
             <td style={{ textAlign: "end", width: "150px" }}>
-              <Typography fontSize={25}> {monedaValue === "SOLES"? "$ "+(totalDecimal.dividedBy(moneda).toDecimalPlaces(2).toString()): "S/ "+ totalDecimal.times(moneda).toDecimalPlaces(2).toString() }</Typography>
+              <Typography fontSize={25}>
+                {" "}
+                {monedaValue === "SOLES"
+                  ? "$ " +
+                    totalDecimal.dividedBy(moneda).toDecimalPlaces(2).toString()
+                  : "S/ " +
+                    totalDecimal.times(moneda).toDecimalPlaces(2).toString()}
+              </Typography>
             </td>
           </tr>
         </tbody>

@@ -27,34 +27,25 @@ function ItemsProductos({
   articuloSugerido,
   setTotalSubtotal,
   setTotal,
+  isChecked1 ,
+  isChecked2 ,
+  handleCheckboxChange ,
 }) {
   const [hoveredCard, setHoveredCard] = useState(null);
 
-  const [isChecked1, setIsChecked1] = useState(false);
-  const [isChecked2, setIsChecked2] = useState(false);
 
-  const handleCheckboxChange = (checkboxNumber) => {
-    if (checkboxNumber === 1) {
-      setIsChecked1(true);
-      setIsChecked2(false);
-    } else if (checkboxNumber === 2) {
-      setIsChecked1(false);
-      setIsChecked2(true);
+
+  const calcularSubTotal = () => {
+    const subTotal = cartItems.reduce((subTotal, item) => {
+      return subTotal + parseFloat(item.monto); 
+    }, 0);
+
+    if (monedaValue === "SOLES") {
+      setTotalSubtotal("S/" + subTotal * moneda);
+    } else if (monedaValue === "DOLARES AMERICANOS") {
+      setTotalSubtotal("$" + subTotal);
     }
   };
-
-  useEffect(() => {
-    let sum = 0;
-    cartItems.forEach((item) => {
-      if (monedaValue === "SOLES") {
-        sum += new Decimal(item.monto).times(moneda).toDecimalPlaces(2);
-        setTotalSubtotal("S/" + sum);
-      } else {
-        sum += new Decimal(item.monto).toDecimalPlaces(2);
-        setTotalSubtotal("$" + sum);
-      }
-    });
-  }, [cartItems, monedaValue, moneda]);
 
   const calcularTotalPrecioFinal = () => {
     const total = cartItems.reduce((total, item) => {
@@ -72,6 +63,10 @@ function ItemsProductos({
   useEffect(() => {
     calcularTotalPrecioFinal();
   }, [cartItems, monedaValue]);
+
+  useEffect(() => {
+    calcularSubTotal();
+  }, [cartItems, monedaValue, moneda]);
 
   const handleMouseEnter = (index) => {
     setHoveredCard(index);

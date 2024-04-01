@@ -26,6 +26,21 @@ export default function CarritoCompras({
   setCartItems,
   articuloSugerido,
   setArticuloSugerido,
+  vendedor,
+  setVendedor,
+  formaPagos, 
+  setFormaPagos,
+  transporte,
+  setTransporte,
+  cantidad,
+  setCantidad,
+  dias,
+  setDias,
+  observaciones,
+  setObservaciones,
+  isChecked1 ,
+  isChecked2 ,
+  handleCheckboxChange ,
 }) {
   const [totalSubtotal, setTotalSubtotal] = useState(0);
   const [total, setTotal] = useState(0);
@@ -55,6 +70,18 @@ export default function CarritoCompras({
             moneda={moneda}
             totalSubtotal={totalSubtotal}
             total = {total}
+            vendedor= {vendedor}
+            setVendedor = {setVendedor}
+            formaPagos = {formaPagos}
+            setFormaPagos = {setFormaPagos}
+            transporte = {transporte}
+            setTransporte = {setTransporte}
+            cantidad = {cantidad}
+            setCantidad = {setCantidad}
+            dias = {dias}
+            setDias = {setDias}
+            observaciones =  {observaciones}
+            setObservaciones = {setObservaciones}
          
           />
         </div>
@@ -69,6 +96,9 @@ export default function CarritoCompras({
             setArticuloSugerido={setArticuloSugerido}
             setTotalSubtotal={setTotalSubtotal}
             setTotal = {setTotal}
+            isChecked1 = {isChecked1}
+            isChecked2 = {isChecked2}
+            handleCheckboxChange = {handleCheckboxChange}
           />
         </div>
       </Container>
