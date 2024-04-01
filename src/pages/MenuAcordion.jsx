@@ -258,6 +258,7 @@ const TuComponente = () => {
     setToastOpen(true)
     toast.success("Se ha guardado el producto con éxito");
     const monedaType = monedaValue
+    const subTotalItem = (new Decimal (new Decimal(precioFinal) / new Decimal(1.18))).toDecimalPlaces(2);
     const newItem = {
       product: detalleProducto.descripcionArticulo,
       codigoInterno: detalleProducto.codigoInterno,
@@ -266,7 +267,7 @@ const TuComponente = () => {
       marca:detalleProducto.descripcionMarca,
       descuentoA: descuentoA,
       descuentoB:descuentoB,
-      monto:monto,
+      monto: subTotalItem,
       monedaType : monedaType,
       precioFinal: precioFinal,
       ticketCount:ticketCount

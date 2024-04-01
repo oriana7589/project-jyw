@@ -32,13 +32,18 @@ function PrecioProductos({
   const [observaciones, setObservaciones] = React.useState("");
 
 
-  const totalFinal = new Decimal ( parseFloat(total.toString().replace("$", "").replace("S/", "")));
-  const subTotal = new Decimal (parseFloat(totalSubtotal.toString().replace("$", "").replace("S/", ""))) ;
-  const resultado = monedaValue === "SOLES" ? "S/" +(totalFinal.minus(subTotal)).toString(): "$"+(totalFinal.minus(subTotal)).toString();
+  const totalDecimal = new Decimal ( parseFloat(total.toString().replace("$", "").replace("S/", "")));
+  const totalFinal = monedaValue === "SOLES" ? "S/ " + totalDecimal.toDecimalPlaces(2).toString() : "$ " + totalDecimal.toDecimalPlaces(2).toString();
 
-  
+  const subTotalDecimal = new Decimal (parseFloat(totalSubtotal.toString().replace("$", "").replace("S/", "")));
+  const subTotalFinal = monedaValue === "SOLES" ? "S/ " + subTotalDecimal.toDecimalPlaces(2).toString() : "$ " + subTotalDecimal.toDecimalPlaces(2).toString();
+
+  const calculoIGV = monedaValue === "SOLES" ? "S/ " +(totalDecimal.minus(subTotalDecimal)).toDecimalPlaces(2).toString(): "$ "+(totalDecimal.minus(subTotalDecimal)).toDecimalPlaces(2).toString();
+
+  console.log(totalDecimal)
+  console.log(subTotalDecimal)
   console.log(totalFinal)
-  console.log(subTotal)
+  console.log(subTotalFinal)
 
   useEffect(() => {
     // Calcula la fecha de vencimiento basada en la fecha actual y la cantidad de días
@@ -251,7 +256,7 @@ function PrecioProductos({
               <Typography fontSize={25}>Sub. total:</Typography>
             </td>
             <td style={{ textAlign: "end", width: "150px" }}>
-              <Typography fontSize={25}>{totalSubtotal}</Typography>
+              <Typography fontSize={25}>{subTotalFinal}</Typography>
             </td>
           </tr>
           <tr>
@@ -259,7 +264,7 @@ function PrecioProductos({
               <Typography fontSize={25}>Total IGV 18%:</Typography>
             </td>
             <td style={{ textAlign: "end", width: "150px" }}>
-              <Typography fontSize={25}>{resultado}</Typography>
+              <Typography fontSize={25}>{calculoIGV}</Typography>
             </td>
           </tr>
           <tr>
@@ -276,16 +281,16 @@ function PrecioProductos({
               }}
             >
               <Typography fontSize={25} fontWeight="bold">
-                {total}
+                {totalFinal}
               </Typography>
             </td>
           </tr>
           <tr>
             <td style={{ textAlign: "right" }}>
-              <Typography fontSize={25}>T/C Total en {monedaValue === "SOLES" ? "(S/)": "($)"} {moneda}:</Typography>
+              <Typography fontSize={25}>Total en {monedaValue === "SOLES" ? "DÓLARES": "SOLES"} (T/C {moneda}):</Typography>
             </td>
             <td style={{ textAlign: "end", width: "150px" }}>
-              <Typography fontSize={25}> {monedaValue === "SOLES"? "$"+(totalFinal/moneda): "S/ "+totalFinal*moneda }</Typography>
+              <Typography fontSize={25}> {monedaValue === "SOLES"? "$ "+(totalDecimal.dividedBy(moneda).toDecimalPlaces(2).toString()): "S/ "+ totalDecimal.times(moneda).toDecimalPlaces(2).toString() }</Typography>
             </td>
           </tr>
         </tbody>

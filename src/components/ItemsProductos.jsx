@@ -14,6 +14,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import DialogEditProducto from "./DialogEditProducto";
+import Decimal from "decimal.js";
 
 function ItemsProductos({
   cartItems,
@@ -46,10 +47,10 @@ function ItemsProductos({
     let sum = 0;
     cartItems.forEach((item) => {
       if (monedaValue === "SOLES") {
-        sum += item.monto * item.ticketCount * moneda;
+        sum += new Decimal(item.monto).times(moneda).toDecimalPlaces(2);
         setTotalSubtotal("S/" + sum);
       } else {
-        sum += item.monto * item.ticketCount;
+        sum += new Decimal(item.monto).toDecimalPlaces(2);
         setTotalSubtotal("$" + sum);
       }
     });
@@ -79,6 +80,7 @@ function ItemsProductos({
   const handleMouseLeave = () => {
     setHoveredCard(null);
   };
+  console.log('cartItems', cartItems)
 
   return (
     <div >
@@ -111,8 +113,7 @@ function ItemsProductos({
         <IconButton
           style={{
             backgroundColor: "rgb(226, 52, 48)",
-            borderRadius: "0",
-            marginLeft: "10px",
+            borderRadius: "0",            
             height: "35px",
             width: "180px",
             marginLeft: "auto",
@@ -252,9 +253,9 @@ function ItemsProductos({
                 >
                   <span style={{ fontWeight: "bold" }}> Sub total.: </span>{" "}
                   {monedaValue === "SOLES"
-                    ? "S/ " + item.monto * item.ticketCount * moneda
-                    : "$"}
-                  {item.monto * item.ticketCount}
+                    ? "S/ " + new Decimal(item.monto).times(moneda).toDecimalPlaces(2).toString()
+                    : "$ " + new Decimal(item.monto).toDecimalPlaces(2).toString()}
+                  {/* {item.monto * item.ticketCount} */}
                 </Typography>
               </CardContent>
             </CardContent>
@@ -269,15 +270,15 @@ function ItemsProductos({
                 style={{ fontWeight: "bold" }}
               >
                 {monedaValue === "SOLES"
-                  ? "S/" +
+                  ? "S/ " +
                     (item.monedaType === "SOLES"
-                      ? item.precioFinal.toString()
-                      : item.precioFinal * moneda)
-                  : "$" +
+                      ? new Decimal(item.precioFinal).toDecimalPlaces(2).toString()
+                      : new Decimal(item.precioFinal).times(moneda).toDecimalPlaces(2).toString())
+                  : "$ " +
                     (monedaValue === "DOLARES AMERICANOS"
                       ? item.monedaType === "DOLARES AMERICANOS"
-                        ? item.precioFinal.toString()
-                        : item.precioFinal / moneda
+                        ? new Decimal(item.precioFinal).toDecimalPlaces(2).toString()
+                        : new Decimal(item.precioFinal).dividedBy(new Decimal(moneda)).toDecimalPlaces(2).toString()
                       : "")}
               </Typography>
             </CardContent>

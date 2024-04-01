@@ -118,7 +118,7 @@ const ThirdTable = ({
   };
 
   const handleAddToCart = () => {
-    const precioFinal = calcularPrecioFinal();
+    const precioFinal = total;//calcularPrecioFinal();
     addToCart(
       ticketCount,
       detalleProducto,
@@ -167,7 +167,7 @@ const ThirdTable = ({
 
     if (monedaValue == "SOLES") {
       // Si la moneda es diferente de soles, aplica la conversión
-      precioFinaln = precioFinaln * moneda;
+      precioFinaln = precioFinaln.times(moneda).toDecimalPlaces(2);
     }
     
     return precioFinaln;
@@ -279,7 +279,7 @@ const ThirdTable = ({
               <tbody style={{ width: 0 }}>
                 <tr>
                   <td colSpan="1" style={{ fontWeight: "bold" }}>
-                    PRECIO LISTA:
+                    PRECIO LISTA ($):
                   </td>
                   <td>
                     <TextField
