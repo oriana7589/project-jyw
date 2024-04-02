@@ -8,9 +8,7 @@ import {
   Typography,
 } from "@mui/material";
 import React, { useState } from "react";
-import repuest from "../image/repuest1.png";
 import ItemsProductos from "./ItemsProductos";
-import TableDescripcionItems from "./TableDescriptionItems";
 import PrecioProductos from "./PrecioProductos";
 
 export default function CarritoCompras({

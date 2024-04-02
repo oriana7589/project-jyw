@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Divider, Grid, Paper, Typography } from "@mui/material";
-import repuest from "../image/repuest1.png";
+import repuest from "../image/request1.png";
 
 const TableItems = ({
   articuloSugeridoCliente,

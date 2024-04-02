@@ -11,20 +11,14 @@ import React, { useEffect, useState } from "react";
 import repuest from "../image/repuest1.png";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import DialogEditProducto from "./DialogEditProducto";
 import Decimal from "decimal.js";
 
 function ItemsProductos({
   cartItems,
   monedaValue,
-  cartItemsSoles,
   moneda,
-  setCartItems,
   removeFromCart,
-  setArticuloSugerido,
-  articuloSugerido,
   setTotalSubtotal,
   setTotal,
   isChecked1 ,
@@ -136,7 +130,7 @@ function ItemsProductos({
             marginBottom: 15,
             boxShadow:
               hoveredCard === index
-                ? "0 4px 8px 0 rgba(12, 55, 100, 0.7)"
+                ? "0 4px 8px 0 rgba(12, 55, 100, 0.2)"
                 : "0 4px 8px 0 rgba(12, 55, 100, 0.1)",
             transition: "background-color 0.3s, box-shadow 0.3s",
           }}

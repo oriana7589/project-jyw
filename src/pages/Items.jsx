@@ -5,12 +5,12 @@ import { styled } from "@mui/material/styles";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Box from "@mui/material/Box";
-import TipoA from "./DashboardCliente";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import TD from "./TD";
 import Logo from "../image/logo.png";
 import LogoCom from "../image/logoCompleto.png";
 import CarritoCompras from "../components/CarritoCompras";
+import ListaProductos from "../components/ListaProductos";
 
 const CustomLeftTab = styled(Tab)(({ theme, selected }) => ({
   color: selected
@@ -94,6 +94,7 @@ const PestañaContenido = ({
   isChecked1 ,
   isChecked2 ,
   handleCheckboxChange ,
+  pdfData
 }) => {
 
   switch (value) {
@@ -160,7 +161,7 @@ const PestañaContenido = ({
         />
       );
     case 2:
-      return <TD />;
+      return <ListaProductos cartItems={cartItems} pdfData = {pdfData}/>;
     case 3:
       return <TD />;
     case 4:
@@ -223,6 +224,7 @@ const Items = ({
   isChecked1 ,
   isChecked2 ,
   handleCheckboxChange ,
+  pdfData
   
 }) => {
 
@@ -352,6 +354,7 @@ const Items = ({
             isChecked1 = {isChecked1}
             isChecked2 = {isChecked2}
             handleCheckboxChange = {handleCheckboxChange}
+            pdfData= {pdfData}
           />
         ) : (
           <div

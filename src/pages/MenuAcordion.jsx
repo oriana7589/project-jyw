@@ -30,7 +30,8 @@ import {
   getTipoMonedas,
   getTransportistas,
   getArticulosSugeridosCliente,
-  getArticulosSugeridos 
+  getArticulosSugeridos ,
+  getPDFDataTecnica
   
 } from "../Services/ApiService";
 import Items from "./items";
@@ -87,11 +88,12 @@ const TuComponente = () => {
   const [vendedor, setVendedor] = React.useState("");
   const [formaPagos, setFormaPagos] = React.useState("");
   const [transporte, setTransporte] = React.useState("");
+  const [pdfData, setPDFData] = React.useState("");
   const [cantidad, setCantidad] = React.useState(0);
   const [dias, setDias] = React.useState("");
   const [observaciones, setObservaciones] = React.useState("");
-  const [isChecked1, setIsChecked1] = useState(true);
-  const [isChecked2, setIsChecked2] = useState(false);
+  const [isChecked1, setIsChecked1] = useState(false);
+  const [isChecked2, setIsChecked2] = useState(true);
 
   const handleCheckboxChange = (checkboxNumber) => {
     if (checkboxNumber === 1) {
@@ -159,6 +161,12 @@ const TuComponente = () => {
     getTransportistas().then(
       (transportistas) => {
         setTransportistas(transportistas);
+      }
+    );
+
+    getPDFDataTecnica("%5C%5C10.10.0.25%5CPDFDataTecnica%5Cpdfprueba.pdf").then(
+      (pdfData) => {
+        setPDFData(pdfData);
       }
     );
 
@@ -773,6 +781,7 @@ const TuComponente = () => {
             setFormaPagos = {setFormaPagos}
             transporte = {transporte}
             setTransporte = {setTransporte}
+            pdfData = {pdfData}
             cantidad = {cantidad}
             setCantidad = {setCantidad}
             dias = {dias}

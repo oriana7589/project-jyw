@@ -285,7 +285,7 @@ function PrecioProductos({
           </tr>
           <tr>
             <td style={{ textAlign: "right", color: "rgb(255,168,0)" }}>
-              <Typography fontSize={25} fontWeight="bold">
+              <Typography fontSize={30} fontWeight="bold">
                 Importe Total:
               </Typography>
             </td>
@@ -296,7 +296,7 @@ function PrecioProductos({
                 width: "150px",
               }}
             >
-              <Typography fontSize={25} fontWeight="bold">
+              <Typography fontSize={30} fontWeight="bold">
                 {totalFinal}
               </Typography>
             </td>
