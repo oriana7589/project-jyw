@@ -27,7 +27,7 @@ const ChartItemsCliente = ({ itemsComprados }) => {
       text: ''
     },
     series: [{
-      data: top20.map(item => ({
+      data: top20.sort((a, b) => b.total - a.total).map(item => ({
         x: item.codigoArticulo,
         y: item.total
       }))

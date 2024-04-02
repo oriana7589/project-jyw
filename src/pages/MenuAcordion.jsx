@@ -90,8 +90,8 @@ const TuComponente = () => {
   const [cantidad, setCantidad] = React.useState(0);
   const [dias, setDias] = React.useState("");
   const [observaciones, setObservaciones] = React.useState("");
-  const [isChecked1, setIsChecked1] = useState(true);
-  const [isChecked2, setIsChecked2] = useState(false);
+  const [isChecked1, setIsChecked1] = useState(false);
+  const [isChecked2, setIsChecked2] = useState(true);
 
   const handleCheckboxChange = (checkboxNumber) => {
     if (checkboxNumber === 1) {
