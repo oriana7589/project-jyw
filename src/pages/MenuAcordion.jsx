@@ -89,11 +89,12 @@ const TuComponente = () => {
   const [formaPagos, setFormaPagos] = React.useState("");
   const [transporte, setTransporte] = React.useState("");
   const [pdfData, setPDFData] = React.useState("");
-  const [cantidad, setCantidad] = React.useState(0);
+  const [cantidad, setCantidad] = React.useState(7);
   const [dias, setDias] = React.useState("");
   const [observaciones, setObservaciones] = React.useState("");
   const [isChecked1, setIsChecked1] = useState(false);
   const [isChecked2, setIsChecked2] = useState(true);
+  const [isChecked, setIsChecked] = useState(false);
 
   const handleCheckboxChange = (checkboxNumber) => {
     if (checkboxNumber === 1) {
@@ -102,6 +103,15 @@ const TuComponente = () => {
     } else if (checkboxNumber === 2) {
       setIsChecked1(false);
       setIsChecked2(true);
+    }
+  };
+
+  const handleCheckBox= () => {
+    setIsChecked(!isChecked);
+    if (!isChecked) {
+      // Si el checkbox se marca, establecer los descuentos en cero
+      setDescuentoA(0);
+      setDescuentoB(0);
     }
   };
 
@@ -225,7 +235,7 @@ const TuComponente = () => {
       setDescuentoA(0); 
     } else {
       const parsedValue = parseInt(value); 
-      if (!isNaN(parsedValue) && parsedValue >= 0) {
+      if (!isNaN(parsedValue) && parsedValue >= 0 && parsedValue <= 100) {
         setDescuentoA(parsedValue); 
       }
     }
@@ -236,7 +246,7 @@ const TuComponente = () => {
       setDescuentoB(0); 
     } else {
       const parsedValue = parseInt(value); 
-      if (!isNaN(parsedValue) && parsedValue >= 0) {
+      if (!isNaN(parsedValue) && parsedValue >= 0 && parsedValue <= 100) {
         setDescuentoB(parsedValue); 
       }
     }
@@ -792,7 +802,9 @@ const TuComponente = () => {
             setObservaciones = {setObservaciones}
             isChecked1 = {isChecked1}
             isChecked2 = {isChecked2}
+            isChecked = {isChecked}
             handleCheckboxChange = {handleCheckboxChange}
+            handleCheckBox = {handleCheckBox}
           />
         </Collapse>
       </Card>

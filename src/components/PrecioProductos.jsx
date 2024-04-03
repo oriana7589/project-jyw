@@ -220,7 +220,6 @@ function PrecioProductos({
               style={{ height: 35 }}
               disabled={true ? formaPagos !== "CREDITO" :  false}
             >
-              <MenuItem value={0}>0</MenuItem>
               <MenuItem value={7}>7</MenuItem>
               <MenuItem value={15}>15</MenuItem>
               <MenuItem value={30}>30</MenuItem>

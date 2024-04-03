@@ -12,6 +12,7 @@ import repuest from "../image/request1.png";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import "react-toastify/dist/ReactToastify.css";
+import IconCarrito from "../image/carritoCompras.png";
 import Decimal from "decimal.js";
 
 function ItemsProductos({
@@ -116,209 +117,243 @@ function ItemsProductos({
           </Typography>
         </IconButton>
       </div>
-      <div style={{ padding: 5, maxHeight: "550px", overflowY: "auto" }}>
-        {cartItems.map((item, index) => (
-          <Card
-            key={index}
-            onMouseEnter={() => handleMouseEnter(index)}
-            onMouseLeave={handleMouseLeave}
+      {cartItems.length === 0 ? (
+        <div
+          style={{
+            height: "calc(100vh - 15rem)",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            width: "560px",
+            justifyContent: "center",
+          }}
+        >
+          <img
+            src={IconCarrito}
+            alt="IconCarrito"
+            style={{ width: 200, height: 212, marginTop: 25, opacity: 0.3 }}
+          />
+          <Typography
             style={{
-              height: 160,
-              width: 650,
-              marginBottom: 15,
-              boxShadow:
-                hoveredCard === index
-                  ? "0 4px 8px 0 rgba(12, 55, 100, 0.2)"
-                  : "0 4px 8px 0 rgba(12, 55, 100, 0.1)",
-              transition: "background-color 0.3s, box-shadow 0.3s",
-              background:
-                item.utilidad <= 0.20
-                  ? `linear-gradient(to bottom, rgba(255, 0, 0, 1) 0%, rgba(255, 0, 0, 0.5) 0%, transparent 30%)`
-                  : "white",
+              fontSize: 24,
+              opacity: 0.3,
+              color: "rgb(12, 55, 100)",
+              marginLeft: 58,
+              marginTop: 10,
             }}
           >
-            <Typography
-              gutterBottom
-              variant="body1"
-              component="div"
-              paddingTop={2}
-              paddingLeft={2}
-              marginRight={2}
-              style={{
-                fontWeight: "bold",
-                whiteSpace: "nowrap",
-                overflow: "hidden",
-              }}
-            >
-              {item.product}
-            </Typography>
-            <CardContent sx={{ display: "flex", padding: 0, width: "100%" }}>
-              <CardMedia
-                component="img"
+            No hay productos en el carrito
+          </Typography>
+        </div>
+      ) : (
+        <>
+          <div style={{ padding: 5, maxHeight: "550px", overflowY: "auto" }}>
+            {cartItems.map((item, index) => (
+              <Card
+                key={index}
+                onMouseEnter={() => handleMouseEnter(index)}
+                onMouseLeave={handleMouseLeave}
                 style={{
-                  width: "18%",
-                  height: "85px",
-                  alignSelf: "flex-start",
-                  objectFit: "contain",
+                  height: 160,
+                  width: 650,
+                  marginBottom: 15,
+                  boxShadow:
+                    hoveredCard === index
+                      ? "0 4px 8px 0 rgba(12, 55, 100, 0.2)"
+                      : "0 4px 8px 0 rgba(12, 55, 100, 0.1)",
+                  transition: "background-color 0.3s, box-shadow 0.3s",
+                  background:
+                    item.utilidad <= 0.2
+                      ? `linear-gradient(to bottom, rgba(255, 0, 0, 1) 0%, rgba(255, 0, 0, 0.5) 0%, transparent 30%)`
+                      : "white",
                 }}
-                image={repuest}
-                alt={item.product}
-              />
-              <CardContent sx={{ padding: 0, width: "38%" }}>
-                <CardContent sx={{ display: "flex", padding: 0 }}>
-                  <Typography
-                    variant="body2"
-                    color="text.secondary"
-                    paddingRight={2}
-                  >
-                    <span style={{ fontWeight: "bold" }}>Linea:</span>{" "}
-                    {item.linea}
-                  </Typography>
-                  <Typography
-                    variant="body2"
-                    color="text.secondary"
-                    paddingRight={2}
-                  >
-                    <span style={{ fontWeight: "bold" }}> Código:</span>{" "}
-                    {item.codigoArticulo}
-                  </Typography>
-                </CardContent>
-
-                <CardContent
-                  sx={{
-                    display: "flex",
-                    padding: 0,
-                    marginBottom: 1,
-                    marginTop: 1,
-                  }}
-                >
-                  <Typography
-                    variant="body2"
-                    color="text.secondary"
-                    paddingRight={2}
-                  >
-                    <span style={{ fontWeight: "bold" }}> Cantidad: </span>{" "}
-                    {item.ticketCount}
-                  </Typography>
-                  <Typography
-                    variant="body2"
-                    color="text.secondary"
-                    paddingRight={2}
-                  >
-                    <span style={{ fontWeight: "bold" }}> Marca:</span>{" "}
-                    {item.marca.substring(0, 7)}
-                  </Typography>
-                </CardContent>
-
-                <CardContent
-                  sx={{
-                    display: "flex",
-                    padding: 0,
-                    marginBottom: 1,
-                    marginTop: 1,
-                  }}
-                >
-                  <Typography
-                    variant="body2"
-                    color="text.secondary"
-                    paddingRight={2}
-                  >
-                    <span style={{ fontWeight: "bold" }}> Desc.1: </span>{" "}
-                    {item.descuentoA}
-                  </Typography>
-                  <Typography
-                    variant="body2"
-                    color="text.secondary"
-                    paddingRight={2}
-                  >
-                    <span style={{ fontWeight: "bold" }}> Desc.2: </span>{" "}
-                    {item.descuentoB}
-                  </Typography>
-                </CardContent>
-                {/**   */}
-                <CardContent sx={{ display: "flex", padding: 0 }}>
-                  <Typography
-                    variant="body2"
-                    color="text.secondary"
-                    paddingRight={2}
-                  >
-                    <span style={{ fontWeight: "bold" }}> Utilidad: </span>{" "}
-                    {item.utilidad.toString()}
-                  </Typography>
-                </CardContent>
-              </CardContent>
-
-              <CardContent
-                style={{ textAlign: "center", paddingTop: 30, width: 175 }}
               >
                 <Typography
-                  variant="body2"
-                  color="text.secondary"
-                  fontSize="1.1rem"
-                  style={{ fontWeight: "bold" }}
-                >
-                  {monedaValue === "SOLES"
-                    ? "S/ " +
-                      (item.monedaType === "SOLES"
-                        ? new Decimal(item.precioFinal)
-                            .toDecimalPlaces(2)
-                            .toString()
-                        : new Decimal(item.precioFinal)
-                            .times(moneda)
-                            .toDecimalPlaces(2)
-                            .toString())
-                    : "$ " +
-                      (monedaValue === "DOLARES AMERICANOS"
-                        ? item.monedaType === "DOLARES AMERICANOS"
-                          ? new Decimal(item.precioFinal)
-                              .toDecimalPlaces(2)
-                              .toString()
-                          : new Decimal(item.precioFinal)
-                              .dividedBy(new Decimal(moneda))
-                              .toDecimalPlaces(2)
-                              .toString()
-                        : "")}
-                </Typography>
-              </CardContent>
-              <CardContent sx={{ padding: 0, width: 100 }}>
-                <div
+                  gutterBottom
+                  variant="body1"
+                  component="div"
+                  paddingTop={2}
+                  paddingLeft={2}
+                  marginRight={2}
                   style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "flex-end",
+                    fontWeight: "bold",
+                    whiteSpace: "nowrap",
+                    overflow: "hidden",
                   }}
                 >
-                  <IconButton
+                  {item.product}
+                </Typography>
+                <CardContent
+                  sx={{ display: "flex", padding: 0, width: "100%" }}
+                >
+                  <CardMedia
+                    component="img"
                     style={{
-                      backgroundColor: "rgb(237, 237, 237)",
-                      borderRadius: "25px",
-                      marginLeft: "10px",
-                      marginBottom: "5px",
-                      width: "40px",
-                      height: "40px",
+                      width: "18%",
+                      height: "85px",
+                      alignSelf: "flex-start",
+                      objectFit: "contain",
                     }}
-                    onClick={() => removeFromCart(item.codigoInterno)}
-                  >
-                    <DeleteIcon style={{ color: "rgb(131,131,131)" }} />
-                  </IconButton>
+                    image={repuest}
+                    alt={item.product}
+                  />
+                  <CardContent sx={{ padding: 0, width: "38%" }}>
+                    <CardContent sx={{ display: "flex", padding: 0 }}>
+                      <Typography
+                        variant="body2"
+                        color="text.secondary"
+                        paddingRight={2}
+                      >
+                        <span style={{ fontWeight: "bold" }}>Linea:</span>{" "}
+                        {item.linea}
+                      </Typography>
+                      <Typography
+                        variant="body2"
+                        color="text.secondary"
+                        paddingRight={2}
+                      >
+                        <span style={{ fontWeight: "bold" }}> Código:</span>{" "}
+                        {item.codigoArticulo}
+                      </Typography>
+                    </CardContent>
 
-                  <IconButton
-                    style={{
-                      backgroundColor: "rgb(182, 205, 229)",
-                      borderRadius: "25px",
-                      marginLeft: "10px",
-                      width: "40px",
-                      height: "40px",
-                    }}
+                    <CardContent
+                      sx={{
+                        display: "flex",
+                        padding: 0,
+                        marginBottom: 1,
+                        marginTop: 1,
+                      }}
+                    >
+                      <Typography
+                        variant="body2"
+                        color="text.secondary"
+                        paddingRight={2}
+                      >
+                        <span style={{ fontWeight: "bold" }}> Cantidad: </span>{" "}
+                        {item.ticketCount}
+                      </Typography>
+                      <Typography
+                        variant="body2"
+                        color="text.secondary"
+                        paddingRight={2}
+                      >
+                        <span style={{ fontWeight: "bold" }}> Marca:</span>{" "}
+                        {item.marca.substring(0, 7)}
+                      </Typography>
+                    </CardContent>
+
+                    <CardContent
+                      sx={{
+                        display: "flex",
+                        padding: 0,
+                        marginBottom: 1,
+                        marginTop: 1,
+                      }}
+                    >
+                      <Typography
+                        variant="body2"
+                        color="text.secondary"
+                        paddingRight={2}
+                      >
+                        <span style={{ fontWeight: "bold" }}> Desc.1: </span>{" "}
+                        {item.descuentoA}
+                      </Typography>
+                      <Typography
+                        variant="body2"
+                        color="text.secondary"
+                        paddingRight={2}
+                      >
+                        <span style={{ fontWeight: "bold" }}> Desc.2: </span>{" "}
+                        {item.descuentoB}
+                      </Typography>
+                    </CardContent>
+                    {/**   */}
+                    <CardContent sx={{ display: "flex", padding: 0 }}>
+                      <Typography
+                        variant="body2"
+                        color="text.secondary"
+                        paddingRight={2}
+                      >
+                        <span style={{ fontWeight: "bold" }}> Utilidad: </span>{" "}
+                        {item.utilidad.toString()}
+                      </Typography>
+                    </CardContent>
+                  </CardContent>
+
+                  <CardContent
+                    style={{ textAlign: "center", paddingTop: 30, width: 175 }}
                   >
-                    <EditIcon style={{ color: "rgb(12, 55, 100)" }} />
-                  </IconButton>
-                </div>
-              </CardContent>
-            </CardContent>
-          </Card>
-        ))}
-      </div>
+                    <Typography
+                      variant="body2"
+                      color="text.secondary"
+                      fontSize="1.1rem"
+                      style={{ fontWeight: "bold" }}
+                    >
+                      {monedaValue === "SOLES"
+                        ? "S/ " +
+                          (item.monedaType === "SOLES"
+                            ? new Decimal(item.precioFinal)
+                                .toDecimalPlaces(2)
+                                .toString()
+                            : new Decimal(item.precioFinal)
+                                .times(moneda)
+                                .toDecimalPlaces(2)
+                                .toString())
+                        : "$ " +
+                          (monedaValue === "DOLARES AMERICANOS"
+                            ? item.monedaType === "DOLARES AMERICANOS"
+                              ? new Decimal(item.precioFinal)
+                                  .toDecimalPlaces(2)
+                                  .toString()
+                              : new Decimal(item.precioFinal)
+                                  .dividedBy(new Decimal(moneda))
+                                  .toDecimalPlaces(2)
+                                  .toString()
+                            : "")}
+                    </Typography>
+                  </CardContent>
+                  <CardContent sx={{ padding: 0, width: 100 }}>
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        alignItems: "flex-end",
+                      }}
+                    >
+                      <IconButton
+                        style={{
+                          backgroundColor: "rgb(237, 237, 237)",
+                          borderRadius: "25px",
+                          marginLeft: "10px",
+                          marginBottom: "5px",
+                          width: "40px",
+                          height: "40px",
+                        }}
+                        onClick={() => removeFromCart(item.codigoInterno)}
+                      >
+                        <DeleteIcon style={{ color: "rgb(131,131,131)" }} />
+                      </IconButton>
+
+                      <IconButton
+                        style={{
+                          backgroundColor: "rgb(182, 205, 229)",
+                          borderRadius: "25px",
+                          marginLeft: "10px",
+                          width: "40px",
+                          height: "40px",
+                        }}
+                      >
+                        <EditIcon style={{ color: "rgb(12, 55, 100)" }} />
+                      </IconButton>
+                    </div>
+                  </CardContent>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </>
+      )}
     </div>
   );
 }

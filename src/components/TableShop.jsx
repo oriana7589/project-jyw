@@ -14,6 +14,7 @@ import {
   Select,
   IconButton,
   Box,
+  Checkbox
 } from "@mui/material";
 
 import { ToastContainer, toast } from "react-toastify";
@@ -109,10 +110,12 @@ const ThirdTable = ({
   ticketCount,
   tipoMoneda,
   monedaValue,
-  setMonedaValue
+  setMonedaValue,
+  isChecked ,
+  handleCheckBox
 }) => {
   const currentData = historialPrecios;
-  
+
   const handleIncrement = () => {
     setTicketCount(ticketCount + 1);
   };
@@ -393,6 +396,7 @@ const ThirdTable = ({
                           height: "35px",
                           textAlign: "center",
                         },
+                        disabled: isChecked,
                       }}
                     />
                   </td>
@@ -415,7 +419,9 @@ const ThirdTable = ({
                           height: "35px",
                           textAlign: "center",
                         },
+                        disabled: isChecked,
                       }}
+                      
                     />
                   </td>
                 </tr>
@@ -427,17 +433,16 @@ const ThirdTable = ({
                   </td>
                   <td
                     style={{
-                      textAlign: "right",
-                      paddingRight: 35,
                       fontWeight: "bold",
                       fontSize: "1.6rem",
+                      margin:0
                     }}
                   >
                     <TextField
                       variant="outlined"
                       autoComplete="off"
                       value={total} // Valor del estado
-                      style={{ paddingLeft: 20 }}
+                      style={{ paddingLeft:20}}
                       onChange={handlPrecioFinalChange}
                       InputProps={{
                         style: {
@@ -448,8 +453,20 @@ const ThirdTable = ({
                         },
                       }}
                     />
-                   
+                      <Checkbox
+                      checked={isChecked}
+                      onChange={handleCheckBox}
+                      sx={{
+                        padding:0,
+                        marginLeft:0.5,
+                        color: "rgb(226, 52, 48)",
+                        "&.Mui-checked": {
+                          color: "rgb(226, 52, 48)",
+                        },
+                      }}
+                      />
                   </td>
+                  
                 </tr>
                 <tr>
                   <td style={{ textAlign:"center" , paddingTop:20}}>
@@ -502,7 +519,9 @@ const TableShop = ({
   setTicketCount,
   tipoMoneda ,
   monedaValue,
-  setMonedaValue
+  setMonedaValue,
+  isChecked ,
+  handleCheckBox
 }) => {
   
   return (
@@ -564,6 +583,8 @@ const TableShop = ({
         ticketCount ={ticketCount}
         setTicketCount = {setTicketCount}
         tipoMoneda = {tipoMoneda}
+        isChecked = {isChecked}
+        handleCheckBox = {handleCheckBox}
       />
     </div>
   );

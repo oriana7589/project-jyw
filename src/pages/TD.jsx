@@ -28,7 +28,9 @@ export default function TD({
   loading,
   codigoSeleccionado,
   setCodigoSeleccionado,
-  handleItemClick
+  handleItemClick,
+  isChecked,
+  handleCheckBox 
 }) {
   const [chartData, setChartData] = useState({
     labels: [],
@@ -94,6 +96,8 @@ export default function TD({
             tipoMoneda={tipoMoneda}
             monedaValue={monedaValue}
             setMonedaValue={setMonedaValue}
+            isChecked = {isChecked}
+            handleCheckBox= {handleCheckBox}
           />
         </div>
       </Container>

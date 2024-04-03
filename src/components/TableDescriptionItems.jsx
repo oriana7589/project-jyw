@@ -25,7 +25,9 @@ const TableDescripcionItems = ({
   setTicketCount,
   tipoMoneda,
   monedaValue,
-  setMonedaValue
+  setMonedaValue,
+  isChecked ,
+  handleCheckBox
 }) => {
 
   return (
@@ -47,6 +49,8 @@ const TableDescripcionItems = ({
         ticketCount = {ticketCount}
         setTicketCount = {setTicketCount}
         tipoMoneda = {tipoMoneda}
+        isChecked = {isChecked}
+        handleCheckBox = {handleCheckBox}
       />
       <div>
  

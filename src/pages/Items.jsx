@@ -94,7 +94,9 @@ const PestañaContenido = ({
   isChecked1 ,
   isChecked2 ,
   handleCheckboxChange ,
-  pdfData
+  pdfData,
+  isChecked ,
+  handleCheckBox
 }) => {
 
   switch (value) {
@@ -123,7 +125,8 @@ const PestañaContenido = ({
           codigoSeleccionado = {codigoSeleccionado}
           setCodigoSeleccionado = {setCodigoSeleccionado}
           handleItemClick = {handleItemClick}
-          
+          isChecked = {isChecked}
+          handleCheckBox = {handleCheckBox}
         />
       );
     case 1:
@@ -224,7 +227,9 @@ const Items = ({
   isChecked1 ,
   isChecked2 ,
   handleCheckboxChange ,
-  pdfData
+  pdfData,
+  isChecked,
+  handleCheckBox
   
 }) => {
 
@@ -357,6 +362,8 @@ const Items = ({
             isChecked2 = {isChecked2}
             handleCheckboxChange = {handleCheckboxChange}
             pdfData= {pdfData}
+            isChecked = {isChecked}
+            handleCheckBox = {handleCheckBox}
           />
         ) : (
           <div
