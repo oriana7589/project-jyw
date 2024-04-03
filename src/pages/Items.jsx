@@ -294,6 +294,7 @@ const Items = ({
               marginTop: "4px",
             }}
             clickable="true" // Puedes hacer clic en esta pestaña
+            disabled
           />
 
           <CustomClickableTab
@@ -304,6 +305,7 @@ const Items = ({
               marginTop: "4px",
             }}
             clickable="true"
+            disabled
           />
         </CustomTabs>
         {datosDisponibles ? (

@@ -224,7 +224,7 @@ function PrecioProductos({
               <MenuItem value={7}>7</MenuItem>
               <MenuItem value={15}>15</MenuItem>
               <MenuItem value={30}>30</MenuItem>
-              <MenuItem value={75}>75</MenuItem>
+              <MenuItem value={45}>45</MenuItem>
             </Select>
           </Box>
         </Grid>

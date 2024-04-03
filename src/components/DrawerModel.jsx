@@ -155,7 +155,14 @@ export default function DrawerModel() {
                 justifyContent: open ? "initial" : "center",
                 px: 2.5,
               }}
-              onClick={() => setContent("Items")}
+              onClick={() => {
+                const width = 900; // Ancho de la ventana emergente
+                const height = 600; // Altura de la ventana emergente
+                const left = (window.innerWidth - width) / 2;
+                const top = (window.innerHeight - height) / 2;
+                const windowFeatures = `width=${width},height=${height},left=${left},top=${top}`;
+                window.open("http://localhost:5173/consultaPreciosYStock", "_blank", windowFeatures);
+              }}
             >
               <ListItemIcon
                 sx={{
@@ -166,7 +173,7 @@ export default function DrawerModel() {
               >
                 <CategoryIcon sx={{ color:"rgb(12,55,100)" }} />{" "}
               </ListItemIcon>
-              <ListItemText primary="Items" sx={{ opacity: open ? 1 : 0 , color:"rgb(12,55,100)", fontStyle:""}} />
+              <ListItemText primary="Consultar precios" sx={{ opacity: open ? 1 : 0 , color:"rgb(12,55,100)", fontStyle:""}} />
             </ListItemButton>
           </ListItem>
         </List>
