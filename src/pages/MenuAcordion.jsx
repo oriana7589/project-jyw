@@ -270,7 +270,7 @@ const TuComponente = () => {
     filtrarArticulosSugeridoCliente();
   }, [cartItems]);
   
-  const addToCart = (ticketCount, detalleProducto, descuentoA,descuentoB, monto,precioFinal ) => {
+  const addToCart = (ticketCount, detalleProducto, descuentoA, descuentoB, monto ,precioFinal,monedaValue, utilidad ) => {
     
   const alreadyInCart = cartItems.some(item => item.codigoInterno === detalleProducto.codigoInterno);
   if (alreadyInCart) {
@@ -278,7 +278,7 @@ const TuComponente = () => {
     toast.error("Este producto ya se encuentra en el carrito");
     return; 
   }
-
+    console.log("utilidades"+utilidad)
     setToastOpen(true)
     toast.success("Se ha guardado el producto con éxito");
     const monedaType = monedaValue
@@ -294,9 +294,11 @@ const TuComponente = () => {
       monto: subTotalItem,
       monedaType : monedaType,
       precioFinal: precioFinal,
-      ticketCount:ticketCount
+      ticketCount:ticketCount,
+      utilidad:utilidad
     };
     setCartItems([...cartItems, newItem]);
+  
   };
   const removeFromCart = (codigoInterno) => {
     const updatedCartItems = cartItems.filter(item => item.codigoInterno !== codigoInterno);

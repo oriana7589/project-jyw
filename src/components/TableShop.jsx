@@ -119,6 +119,7 @@ const ThirdTable = ({
 
   const handleAddToCart = () => {
     const precioFinal = total;//calcularPrecioFinal();
+    const utilidad = calcularUtilidad()
     addToCart(
       ticketCount,
       detalleProducto,
@@ -126,7 +127,8 @@ const ThirdTable = ({
       descuentoB,
       monto,
       precioFinal,
-      monedaValue
+      monedaValue,
+      utilidad
     );
   };
 
@@ -171,6 +173,13 @@ const ThirdTable = ({
     }
     
     return precioFinaln;
+  };
+
+  const calcularUtilidad = () => {
+    const precioVenta = calcularPrecioFinal();
+    const precioCompra = detalleProducto.precioCompra;
+    const utilidad = (precioVenta.minus(precioCompra).dividedBy(precioCompra).toDecimalPlaces(2));
+    return utilidad;
   };
 
   const [total, setTotal] = useState(calcularPrecioFinal().toString());
@@ -496,7 +505,6 @@ const TableShop = ({
   setMonedaValue
 }) => {
   
-
   return (
     <div style={{ paddingLeft: 20, paddingTop: 15 }}>
       <div
