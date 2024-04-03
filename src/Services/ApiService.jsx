@@ -155,7 +155,7 @@ export function getProductoSeleccionado(codInterno) {
 
  export function getArticulosSugeridosCliente(codigoCliente) {
     const ArticuloSugeridoCliente =
-        axios.get(`${baseUrlCliente()}/RankingArticulo/${codigoCliente}`)
+        axios.get(`${baseUrlCliente()}/ArticulosSugeridosPorCliente/${codigoCliente}`)
             .then((res) => {
                 
                 return res.data
@@ -218,3 +218,13 @@ export function getProductoSeleccionado(codInterno) {
             });
     return transportistas;
  }
+
+ export function getPDFDataTecnica(url) {
+    const PDF =
+        axios.get(`${baseUrlGeneral()}/ObtenerDataTecnica/${url}`)
+            .then((res) => {
+                return res.data
+            });
+    return PDF;
+ }
+

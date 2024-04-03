@@ -241,7 +241,8 @@ const Cliente = ({
           <CustomClickableTab
             label="CREDITOS Y COBRANZAS"
             style={{ minHeight: "25px", fontSize: "0.7rem" }}
-            clickable="true"
+            clickable="false"
+            disabled
           />
         </CustomTabs>
         {hayDatosDisponibles ? (

@@ -30,7 +30,8 @@ import {
   getTipoMonedas,
   getTransportistas,
   getArticulosSugeridosCliente,
-  getArticulosSugeridos 
+  getArticulosSugeridos ,
+  getPDFDataTecnica
   
 } from "../Services/ApiService";
 import Items from "./items";
@@ -87,6 +88,7 @@ const TuComponente = () => {
   const [vendedor, setVendedor] = React.useState("");
   const [formaPagos, setFormaPagos] = React.useState("");
   const [transporte, setTransporte] = React.useState("");
+  const [pdfData, setPDFData] = React.useState("");
   const [cantidad, setCantidad] = React.useState(0);
   const [dias, setDias] = React.useState("");
   const [observaciones, setObservaciones] = React.useState("");
@@ -159,6 +161,12 @@ const TuComponente = () => {
     getTransportistas().then(
       (transportistas) => {
         setTransportistas(transportistas);
+      }
+    );
+
+    getPDFDataTecnica("%5C%5C10.10.0.25%5CPDFDataTecnica%5Cpdfprueba.pdf").then(
+      (pdfData) => {
+        setPDFData(pdfData);
       }
     );
 
@@ -262,7 +270,7 @@ const TuComponente = () => {
     filtrarArticulosSugeridoCliente();
   }, [cartItems]);
   
-  const addToCart = (ticketCount, detalleProducto, descuentoA,descuentoB, monto,precioFinal ) => {
+  const addToCart = (ticketCount, detalleProducto, descuentoA, descuentoB, monto ,precioFinal,monedaValue, utilidad ) => {
     
   const alreadyInCart = cartItems.some(item => item.codigoInterno === detalleProducto.codigoInterno);
   if (alreadyInCart) {
@@ -270,7 +278,7 @@ const TuComponente = () => {
     toast.error("Este producto ya se encuentra en el carrito");
     return; 
   }
-
+    console.log("utilidades"+utilidad)
     setToastOpen(true)
     toast.success("Se ha guardado el producto con éxito");
     const monedaType = monedaValue
@@ -286,9 +294,11 @@ const TuComponente = () => {
       monto: subTotalItem,
       monedaType : monedaType,
       precioFinal: precioFinal,
-      ticketCount:ticketCount
+      ticketCount:ticketCount,
+      utilidad:utilidad
     };
     setCartItems([...cartItems, newItem]);
+  
   };
   const removeFromCart = (codigoInterno) => {
     const updatedCartItems = cartItems.filter(item => item.codigoInterno !== codigoInterno);
@@ -773,6 +783,7 @@ const TuComponente = () => {
             setFormaPagos = {setFormaPagos}
             transporte = {transporte}
             setTransporte = {setTransporte}
+            pdfData = {pdfData}
             cantidad = {cantidad}
             setCantidad = {setCantidad}
             dias = {dias}
