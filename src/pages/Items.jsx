@@ -11,6 +11,7 @@ import Logo from "../image/logo.png";
 import LogoCom from "../image/logoCompleto.png";
 import CarritoCompras from "../components/CarritoCompras";
 import ListaProductos from "../components/ListaProductos";
+import SI from "./SI";
 
 const CustomLeftTab = styled(Tab)(({ theme, selected }) => ({
   color: selected
@@ -50,6 +51,7 @@ const CustomClickableTab = styled(Tab)(({ theme, selected, clickable }) => ({
 const PestañaContenido = ({
   value,
   addToCart,
+  editCartItem,
   cartItems,
   cartItemsSoles,
   detalleProducto,
@@ -94,7 +96,18 @@ const PestañaContenido = ({
   isChecked1 ,
   isChecked2 ,
   handleCheckboxChange ,
-  pdfData
+  pdfData,
+  isChecked ,
+  handleCheckBox,
+  setTabValue,
+  handleGoToTab1,
+  calcularPrecioFinal,
+  total,
+  handlPrecioFinalChange,
+  calcularUtilidad,
+  isAddToCartVisible,
+  isEditToCartVisible,
+  handleItemSIClick
 }) => {
 
   switch (value) {
@@ -102,6 +115,7 @@ const PestañaContenido = ({
       return (
         <TD
           addToCart={addToCart}
+          editCartItem = {editCartItem}
           detalleProducto={detalleProducto}
           fechaLlegada={fechaLlegada}
           historialPrecios={historialPrecios}
@@ -123,7 +137,16 @@ const PestañaContenido = ({
           codigoSeleccionado = {codigoSeleccionado}
           setCodigoSeleccionado = {setCodigoSeleccionado}
           handleItemClick = {handleItemClick}
-          
+          isChecked = {isChecked}
+          handleCheckBox = {handleCheckBox}
+          calcularPrecioFinal = {calcularPrecioFinal} 
+          total= {total}
+          handlPrecioFinalChange = {handlPrecioFinalChange}
+          calcularUtilidad = {calcularUtilidad}
+          cartItems={cartItems}
+          setTabValue = {setTabValue}
+          isAddToCartVisible = {isAddToCartVisible}
+          isEditToCartVisible = {isEditToCartVisible}
         />
       );
     case 1:
@@ -158,12 +181,19 @@ const PestañaContenido = ({
           isChecked1 = {isChecked1}
           isChecked2 = {isChecked2}
           handleCheckboxChange = {handleCheckboxChange}
+          setTabValue = {setTabValue}
+          handleGoToTab1 = {handleGoToTab1}
+          
         />
       );
     case 2:
       return <ListaProductos cartItems={cartItems} pdfData = {pdfData}/>;
     case 3:
-      return <TD />;
+      return <SI  
+      articuloSugeridoCliente = {articuloSugeridoCliente} 
+      articuloSugerido  = {articuloSugerido} 
+      codigoSeleccionado = {codigoSeleccionado}
+      handleItemSIClick = {handleItemSIClick} />;
     case 4:
       return <TD />;
     default:
@@ -182,6 +212,7 @@ const Items = ({
   fechaLlegada,
   datosDisponibles,
   addToCart,
+  editCartItem,
   cartItems,
   cartItemsSoles,
   historialPrecios,
@@ -224,13 +255,20 @@ const Items = ({
   isChecked1 ,
   isChecked2 ,
   handleCheckboxChange ,
-  pdfData
-  
+  pdfData,
+  isChecked,
+  handleCheckBox,
+  tabValue ,
+  setTabValue ,
+  handleGoToTab1,
+  calcularPrecioFinal,
+  total,
+  handlPrecioFinalChange,
+  calcularUtilidad,
+  isAddToCartVisible,
+  isEditToCartVisible,
+  handleItemSIClick
 }) => {
-
-  const [tabValue, setTabValue] = useState(0);
- 
-
   const handleChangeTab = (event, newValue) => {
     setTabValue(newValue);
   };
@@ -294,7 +332,6 @@ const Items = ({
               marginTop: "4px",
             }}
             clickable="true" // Puedes hacer clic en esta pestaña
-            disabled
           />
 
           <CustomClickableTab
@@ -357,6 +394,18 @@ const Items = ({
             isChecked2 = {isChecked2}
             handleCheckboxChange = {handleCheckboxChange}
             pdfData= {pdfData}
+            isChecked = {isChecked}
+            handleCheckBox = {handleCheckBox}
+            setTabValue = {setTabValue}
+            handleGoToTab1 = {handleGoToTab1}
+            calcularPrecioFinal = {calcularPrecioFinal}
+            total= {total}
+            handlPrecioFinalChange = {handlPrecioFinalChange}
+            calcularUtilidad = {calcularUtilidad}
+            editCartItem = {editCartItem}
+            isAddToCartVisible = {isAddToCartVisible}
+            isEditToCartVisible= {isEditToCartVisible}
+            handleItemSIClick = {handleItemSIClick}
           />
         ) : (
           <div
