@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Divider, Grid, Paper, Typography } from "@mui/material";
+import { Grid, Paper, Typography } from "@mui/material";
 import repuest from "../image/request1.png";
 import CssBaseline from "@mui/material/CssBaseline";
 import Container from "@mui/material/Container";
@@ -7,7 +7,6 @@ import Container from "@mui/material/Container";
 const SI = ({
   articuloSugeridoCliente,
   articuloSugerido,
-  setCodigoSeleccionado,
   codigoSeleccionado,
   handleItemSIClick
 }) => {

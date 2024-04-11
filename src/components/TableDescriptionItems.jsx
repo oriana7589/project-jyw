@@ -1,9 +1,5 @@
 import React, { useState } from "react";
-import { Box, Button, IconButton, MenuItem, Select, TextField, Typography } from "@mui/material";
 import TableShop from "./TableShop";
-import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
-import CarritoCompras from "../components/CarritoCompras";
-import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Decimal from "decimal.js";
 Decimal.set({ precision: 10 });

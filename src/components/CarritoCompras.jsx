@@ -1,11 +1,6 @@
 import {
-  Button,
-  Card,
-  CardContent,
-  CardMedia,
   Container,
   CssBaseline,
-  Typography,
 } from "@mui/material";
 import React, { useState } from "react";
 import ItemsProductos from "./ItemsProductos";

@@ -6,7 +6,6 @@ import {
   TableContainer,
   TableHead,
   TableRow,
-  Paper,
   Divider,
   Typography,
   TextField,
@@ -17,7 +16,6 @@ import {
   Checkbox,
 } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
-import { ToastContainer, toast } from "react-toastify";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import "react-toastify/dist/ReactToastify.css";
 import Decimal from "decimal.js";
@@ -103,23 +101,16 @@ const ThirdTable = ({
   descuentoB,
   handleDescuentoBChange,
   monto,
-  moneda,
   addToCart,
   editCartItem,
-  handleMontoChange,
   setTicketCount,
   ticketCount,
-  tipoMoneda,
   monedaValue,
-  setMonedaValue,
   isChecked,
   handleCheckBox,
-  calcularPrecioFinal,
   total,
   handlPrecioFinalChange,
   calcularUtilidad,
-  cartItems,
-  setTabValue,
   isAddToCartVisible,
   isEditToCartVisible,
 }) => {
@@ -148,7 +139,7 @@ const ThirdTable = ({
     // Calcula los nuevos valores para el elemento seleccionado
     const precioFinal = total; //calcularPrecioFinal();
     const utilidad = calcularUtilidad();
-    editCartItem(precioFinal, selectedItem, utilidad, descuentoA,descuentoB);
+    editCartItem(precioFinal, selectedItem, utilidad, descuentoA,descuentoB, ticketCount, monedaValue);
   };
 
   const handleDecrement = () => {

@@ -1,13 +1,9 @@
 import {
-  Button,
   Card,
   CardContent,
-  CardMedia,
-  Checkbox,
-  IconButton,
   Typography,
 } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import "react-toastify/dist/ReactToastify.css";
 import IconCarrito from "../image/carritoCompras.png";
 

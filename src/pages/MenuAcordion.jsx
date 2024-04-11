@@ -195,10 +195,11 @@ const TuComponente = () => {
   };
 
 
-  const handleGoToTab1 = (codigoInterno, precioFinal, descuentoA,descuentoB ) => {
+  const handleGoToTab1 = (codigoInterno, precioFinal, descuentoA,descuentoB, ticketCount ) => {
     setDescuentoA(descuentoA)
     setDescuentoB(descuentoB)
     setTotal(precioFinal)
+    setTicketCount(ticketCount)
     setIsEditToCartVisible(true)
     setTabValue(0)
     getProductoSeleccionado(codigoInterno).then((detalleProducto) => {
@@ -388,22 +389,23 @@ const TuComponente = () => {
   
   };
 
-  const editCartItem = (precioFinal, selectedItem, utilidad)  => {
+  const editCartItem = (precioFinal, selectedItem, utilidad,descuentoA,descuentoB, ticketCount, monedaValue)  => {
     
     const alreadyInCartIndex = cartItems.findIndex(item => item.codigoInterno === selectedItem);
-    console.log("hola0"+selectedItem)
     if (alreadyInCartIndex !== -1) {
       // Si el producto ya está en el carrito, actualiza sus detalles
       const updatedCartItems = [...cartItems];
+      const monedaType = monedaValue
       const subTotalItem = new Decimal(precioFinal).dividedBy(1.18).toDecimalPlaces(2);
-  
       updatedCartItems[alreadyInCartIndex] = {
         ...updatedCartItems[alreadyInCartIndex],
         descuentoA,
         descuentoB,
         monto: subTotalItem,
+        monedaType : monedaType,
         precioFinal,
-        utilidad
+        utilidad, 
+        ticketCount
       };
   
       setCartItems(updatedCartItems);
