@@ -287,6 +287,7 @@ const Items = ({
       <Box
         sx={{
           display: "flex",
+          height:"100%"
         }}
       >
         <CustomTabs

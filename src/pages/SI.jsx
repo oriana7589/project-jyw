@@ -32,7 +32,7 @@ const SI = ({
         display: "flex",
         justifyContent: "space-between",
         bgcolor: "#ffffff",
-        height: "calc(100vh - 9.65rem)",
+        height: "calc(100vh - 9.25rem)",
       }}
     >
       <div style={{  maxHeight: "600px", overflowY: "auto" }}>
