@@ -11,6 +11,7 @@ Decimal.set({ precision: 10 });
 
 const TableDescripcionItems = ({
   addToCart,
+  editCartItem,
   detalleProducto,
   fechaLlegada,
   historialPrecios,
@@ -27,7 +28,15 @@ const TableDescripcionItems = ({
   monedaValue,
   setMonedaValue,
   isChecked ,
-  handleCheckBox
+  handleCheckBox,
+  calcularPrecioFinal,
+  total,
+  handlPrecioFinalChange ,
+  calcularUtilidad,
+  cartItems,
+  setTabValue ,
+  isAddToCartVisible,
+  isEditToCartVisible
 }) => {
 
   return (
@@ -44,6 +53,7 @@ const TableDescripcionItems = ({
         handleMontoChange = {handleMontoChange}   
         moneda = {moneda}  
         addToCart = {addToCart} 
+        editCartItem = {editCartItem}
         monedaValue = {monedaValue} 
         setMonedaValue = {setMonedaValue}  
         ticketCount = {ticketCount}
@@ -51,6 +61,14 @@ const TableDescripcionItems = ({
         tipoMoneda = {tipoMoneda}
         isChecked = {isChecked}
         handleCheckBox = {handleCheckBox}
+        calcularPrecioFinal = {calcularPrecioFinal}
+        total= {total}
+        handlPrecioFinalChange = {handlPrecioFinalChange}
+        calcularUtilidad = {calcularUtilidad}
+        cartItems={cartItems}
+        setTabValue = {setTabValue}
+        isAddToCartVisible = {isAddToCartVisible}
+        isEditToCartVisible = {isEditToCartVisible}
       />
       <div>
  

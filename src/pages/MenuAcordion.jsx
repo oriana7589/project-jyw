@@ -95,6 +95,9 @@ const TuComponente = () => {
   const [isChecked1, setIsChecked1] = useState(false);
   const [isChecked2, setIsChecked2] = useState(true);
   const [isChecked, setIsChecked] = useState(false);
+  const [tabValue, setTabValue] = useState(0);
+  const [isAddToCartVisible, setIsAddToCartVisible] = useState(true);
+  const [isEditToCartVisible, setIsEditToCartVisible] = useState(true);
 
   const handleCheckboxChange = (checkboxNumber) => {
     if (checkboxNumber === 1) {
@@ -117,6 +120,8 @@ const TuComponente = () => {
 
   const handleClientSelect = (cliente) => {
     setSelectedClient(cliente);
+    setIsAddToCartVisible(true);
+    setIsEditToCartVisible(false);
     setDialogOpen(false);
   };
 
@@ -124,14 +129,76 @@ const TuComponente = () => {
   const handleItemClick = (codigoInterno) => {
     if (codigoInterno) {
       setCodigoSeleccionado(codigoInterno);
+      setIsAddToCartVisible(true);
+      setIsEditToCartVisible(false);
       fetchData(codigoInterno);
     }
   };
 
 
+
+
+  const calcularPrecioFinal = () => {
+    if (ticketCount === "") {
+      ticketCount === 1;
+    }
+    const cantidad = ticketCount;
+    let preciosinigv = new Decimal(isNaN(monto) ? 0 : monto === "" ? 0 : monto);
+    let desc1n = new Decimal(descuentoA);
+    desc1n = 1 - desc1n.dividedBy(100);
+    let desc2n = new Decimal(descuentoB);
+    desc2n = 1 - desc2n.dividedBy(100);
+    let precioFinaln = preciosinigv
+      .times(desc1n)
+      .times(desc2n)
+      .times(cantidad)
+      .times(1.18)
+      .toDecimalPlaces(2);
+
+    if (monedaValue == "SOLES") {
+      // Si la moneda es diferente de soles, aplica la conversión
+      precioFinaln = precioFinaln.times(moneda).toDecimalPlaces(2);
+    }
+    
+    return precioFinaln;
+  };
+
+  const [total, setTotal] = useState(calcularPrecioFinal().toString()); 
+
+  useEffect(() => {
+    setTotal(calcularPrecioFinal());
+  }, [ticketCount, monto, descuentoA, descuentoB, monedaValue, moneda]);
+
+  const calcularUtilidad = () => {
+    const precioVenta = calcularPrecioFinal();
+    const precioCompra = detalleProducto.precioCompra;
+    const utilidad = (precioVenta.minus(precioCompra).dividedBy(precioCompra).toDecimalPlaces(2));
+    return utilidad;
+  };
+
+
+  const handlPrecioFinalChange = (event) => {
+    const value =  event.target.value;
+    setTotal((value));
+    
+  };
+
+
+  const handleGoToTab1 = (codigoInterno, precioFinal, descuentoA,descuentoB ) => {
+    setDescuentoA(descuentoA)
+    setDescuentoB(descuentoB)
+    setTotal(precioFinal)
+    setIsEditToCartVisible(true)
+    setTabValue(0)
+    getProductoSeleccionado(codigoInterno).then((detalleProducto) => {
+      setDetalleProducto(detalleProducto);})
+  };
+
   const handleItemsSelect = (productos) => {
     setSelectedItems(productos);
     setDialogProductOpen(false);
+    setIsAddToCartVisible(true);
+    setIsEditToCartVisible(false);
     const codigoInterno = productos.CodigoInterno || productos.codigoInterno; // Revisa ambas formas posibles de obtener el código interno
     if (codigoInterno) {
       setSelectedItems(productos);
@@ -288,7 +355,6 @@ const TuComponente = () => {
     toast.error("Este producto ya se encuentra en el carrito");
     return; 
   }
-    console.log("utilidades"+utilidad)
     setToastOpen(true)
     toast.success("Se ha guardado el producto con éxito");
     const monedaType = monedaValue
@@ -310,6 +376,33 @@ const TuComponente = () => {
     setCartItems([...cartItems, newItem]);
   
   };
+
+  const editCartItem = (precioFinal, selectedItem, utilidad)  => {
+    
+    const alreadyInCartIndex = cartItems.findIndex(item => item.codigoInterno === selectedItem);
+    console.log("hola0"+selectedItem)
+    if (alreadyInCartIndex !== -1) {
+      // Si el producto ya está en el carrito, actualiza sus detalles
+      const updatedCartItems = [...cartItems];
+      const subTotalItem = new Decimal(precioFinal).dividedBy(1.18).toDecimalPlaces(2);
+  
+      updatedCartItems[alreadyInCartIndex] = {
+        ...updatedCartItems[alreadyInCartIndex],
+        descuentoA,
+        descuentoB,
+        monto: subTotalItem,
+        precioFinal,
+        utilidad
+      };
+  
+      setCartItems(updatedCartItems);
+      setToastOpen(true);
+      toast.success("Producto editado con éxito");
+      setTabValue(1)
+    }
+  }
+
+  
   const removeFromCart = (codigoInterno) => {
     const updatedCartItems = cartItems.filter(item => item.codigoInterno !== codigoInterno);
     setCartItems(updatedCartItems);
@@ -761,6 +854,7 @@ const TuComponente = () => {
             fechaLlegada={fechaLlegada}
             datosDisponibles={datosDisponibles}
             addToCart={addToCart}
+            editCartItem = {editCartItem}
             cartItems={cartItems}
             cartItemsSoles={cartItemsSoles}
             descuentoA = {descuentoA}
@@ -805,6 +899,15 @@ const TuComponente = () => {
             isChecked = {isChecked}
             handleCheckboxChange = {handleCheckboxChange}
             handleCheckBox = {handleCheckBox}
+            tabValue = {tabValue}
+            setTabValue = {setTabValue}
+            handleGoToTab1 = {handleGoToTab1}
+            calcularPrecioFinal = {calcularPrecioFinal}
+            total= {total}
+            handlPrecioFinalChange = {handlPrecioFinalChange}
+            calcularUtilidad = {calcularUtilidad}
+            isAddToCartVisible = {isAddToCartVisible}
+            isEditToCartVisible = {isEditToCartVisible}
           />
         </Collapse>
       </Card>

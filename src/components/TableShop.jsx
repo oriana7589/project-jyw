@@ -14,9 +14,9 @@ import {
   Select,
   IconButton,
   Box,
-  Checkbox
+  Checkbox,
 } from "@mui/material";
-
+import EditIcon from "@mui/icons-material/Edit";
 import { ToastContainer, toast } from "react-toastify";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import "react-toastify/dist/ReactToastify.css";
@@ -105,14 +105,23 @@ const ThirdTable = ({
   monto,
   moneda,
   addToCart,
+  editCartItem,
   handleMontoChange,
   setTicketCount,
   ticketCount,
   tipoMoneda,
   monedaValue,
   setMonedaValue,
-  isChecked ,
-  handleCheckBox
+  isChecked,
+  handleCheckBox,
+  calcularPrecioFinal,
+  total,
+  handlPrecioFinalChange,
+  calcularUtilidad,
+  cartItems,
+  setTabValue,
+  isAddToCartVisible,
+  isEditToCartVisible,
 }) => {
   const currentData = historialPrecios;
 
@@ -121,8 +130,8 @@ const ThirdTable = ({
   };
 
   const handleAddToCart = () => {
-    const precioFinal = total;//calcularPrecioFinal();
-    const utilidad = calcularUtilidad()
+    const precioFinal = total; //calcularPrecioFinal();
+    const utilidad = calcularUtilidad();
     addToCart(
       ticketCount,
       detalleProducto,
@@ -135,12 +144,19 @@ const ThirdTable = ({
     );
   };
 
+  const handleEditSelectedItem = (selectedItem) => {
+    // Calcula los nuevos valores para el elemento seleccionado
+    const precioFinal = total; //calcularPrecioFinal();
+    const utilidad = calcularUtilidad();
+    editCartItem(precioFinal, selectedItem, utilidad, descuentoA,descuentoB);
+  };
+
   const handleDecrement = () => {
     if (ticketCount > 1) {
       setTicketCount(ticketCount - 1);
     }
   };
-  
+
   const handleChange = (event) => {
     const value = event.target.value.trim(); // Eliminar espacios en blanco al principio y al final
     const parsedValue = parseInt(value, 10); // Intentar convertir el valor a un número entero
@@ -152,52 +168,6 @@ const ThirdTable = ({
       setTicketCount(1);
     }
   };
-
-  const calcularPrecioFinal = () => {
-    if (ticketCount === "") {
-      ticketCount === 1;
-    }
-    const cantidad = ticketCount;
-    let preciosinigv = new Decimal(isNaN(monto) ? 0 : monto === "" ? 0 : monto);
-    let desc1n = new Decimal(descuentoA);
-    desc1n = 1 - desc1n.dividedBy(100);
-    let desc2n = new Decimal(descuentoB);
-    desc2n = 1 - desc2n.dividedBy(100);
-    let precioFinaln = preciosinigv
-      .times(desc1n)
-      .times(desc2n)
-      .times(cantidad)
-      .times(1.18)
-      .toDecimalPlaces(2);
-
-    if (monedaValue == "SOLES") {
-      // Si la moneda es diferente de soles, aplica la conversión
-      precioFinaln = precioFinaln.times(moneda).toDecimalPlaces(2);
-    }
-    
-    return precioFinaln;
-  };
-
-  const calcularUtilidad = () => {
-    const precioVenta = calcularPrecioFinal();
-    const precioCompra = detalleProducto.precioCompra;
-    const utilidad = (precioVenta.minus(precioCompra).dividedBy(precioCompra).toDecimalPlaces(2));
-    return utilidad;
-  };
-
-  const [total, setTotal] = useState(calcularPrecioFinal().toString());
-  
-  useEffect(() => {
-    setTotal(calcularPrecioFinal());
-  }, [ticketCount, monto, descuentoA, descuentoB, monedaValue, moneda]);
-
-
-  const handlPrecioFinalChange = (event) => {
-    const value =  event.target.value;
-    setTotal((value));
-    
-  };
-
 
   return (
     <>
@@ -421,28 +391,25 @@ const ThirdTable = ({
                         },
                         disabled: isChecked,
                       }}
-                      
                     />
                   </td>
                 </tr>
                 <tr>
-                  <td
-                    style={{ fontSize: "1.1rem", fontWeight: "bold" }}
-                  >
+                  <td style={{ fontSize: "1.1rem", fontWeight: "bold" }}>
                     TOTAL INC. IGV({monedaValue === "SOLES" ? "S/" : "$"}):
                   </td>
                   <td
                     style={{
                       fontWeight: "bold",
                       fontSize: "1.6rem",
-                      margin:0
+                      margin: 0,
                     }}
                   >
                     <TextField
                       variant="outlined"
                       autoComplete="off"
                       value={total} // Valor del estado
-                      style={{ paddingLeft:20}}
+                      style={{ paddingLeft: 20 }}
                       onChange={handlPrecioFinalChange}
                       InputProps={{
                         style: {
@@ -451,47 +418,79 @@ const ThirdTable = ({
                           height: "35px",
                           textAlign: "center",
                         },
+                        disabled: !isChecked,
                       }}
                     />
-                      <Checkbox
+                    <Checkbox
                       checked={isChecked}
                       onChange={handleCheckBox}
                       sx={{
-                        padding:0,
-                        marginLeft:0.5,
+                        padding: 0,
+                        marginLeft: 0.5,
                         color: "rgb(226, 52, 48)",
                         "&.Mui-checked": {
                           color: "rgb(226, 52, 48)",
                         },
                       }}
-                      />
+                    />
                   </td>
-                  
                 </tr>
                 <tr>
-                  <td style={{ textAlign:"center" , paddingTop:20}}>
-                    <IconButton
-                      style={{
-                        backgroundColor: "rgb(226, 52, 48)",
-                        borderRadius: "0",
-                        marginLeft: "70px",
-                        width: "100%",
-                        height: "40px",
-                      }}
-                      onClick={handleAddToCart}
-                    >
-                      <Typography
+                  <td style={{ textAlign: "center", paddingTop: 20 }}>
+                    {isEditToCartVisible ? (
+                      <IconButton
                         style={{
-                          color: "rgb(255, 255, 255)",
-                          fontSize: "0.7rem",
+                          backgroundColor: "rgb(182, 205, 229)",
+                          borderRadius: "0",
+                          marginLeft: "70px",
+                          width: "100%",
+                          height: "40px", // Oculta si el otro botón está visible
                         }}
+                        onClick={() =>
+                          handleEditSelectedItem(detalleProducto.codigoInterno)
+                        }
                       >
-                        AÑADIR AL CARRITO
-                      </Typography>
-                      <ShoppingCartOutlinedIcon
-                        style={{ color: "rgb(255, 255, 255)" }}
-                      />
-                    </IconButton>
+                        <Typography
+                          style={{
+                            color: "rgb(12, 55, 100)",
+                            fontSize: "0.7rem",
+                          }}
+                        >
+                          EDITAR PRODUCTO
+                        </Typography>
+                        <EditIcon
+                          style={{
+                            color: "rgb(12, 55, 100)",
+                            marginLeft:3
+                          }}
+                        />
+                      </IconButton>
+                    ) : isAddToCartVisible ? (
+                      <IconButton
+                        style={{
+                          backgroundColor: "rgb(226, 52, 48)",
+                          borderRadius: "0",
+                          marginLeft: "70px",
+                          width: "100%",
+                          height: "40px",
+                        }}
+                        onClick={handleAddToCart}
+                      >
+                        <Typography
+                          style={{
+                            color: "rgb(255, 255, 255)",
+                            fontSize: "0.7rem",
+                          }}
+                        >
+                          AÑADIR AL CARRITO
+                        </Typography>
+                        <ShoppingCartOutlinedIcon
+                          style={{ color: "rgb(255, 255, 255)" }}
+                        />
+                      </IconButton>
+                    ) : (
+                      <></>
+                    )}
                   </td>
                 </tr>
               </tbody>
@@ -515,15 +514,23 @@ const TableShop = ({
   moneda,
   handleMontoChange,
   addToCart,
+  editCartItem,
   ticketCount,
   setTicketCount,
-  tipoMoneda ,
+  tipoMoneda,
   monedaValue,
   setMonedaValue,
-  isChecked ,
-  handleCheckBox
+  isChecked,
+  handleCheckBox,
+  calcularPrecioFinal,
+  total,
+  handlPrecioFinalChange,
+  calcularUtilidad,
+  cartItems,
+  setTabValue,
+  isAddToCartVisible,
+  isEditToCartVisible,
 }) => {
-  
   return (
     <div style={{ paddingLeft: 20, paddingTop: 15 }}>
       <div
@@ -552,11 +559,11 @@ const TableShop = ({
             style={{ height: 35 }}
             variant="outlined"
           >
-           {tipoMoneda.map((tipoMonedaItem, index) => (
-                <MenuItem key={index} value={tipoMonedaItem.descripcionMoneda}>
-                  {tipoMonedaItem.descripcionMoneda}
-                </MenuItem>
-              ))}
+            {tipoMoneda.map((tipoMonedaItem, index) => (
+              <MenuItem key={index} value={tipoMonedaItem.descripcionMoneda}>
+                {tipoMonedaItem.descripcionMoneda}
+              </MenuItem>
+            ))}
           </Select>
         </Box>
       </div>
@@ -577,14 +584,23 @@ const TableShop = ({
         monto={monto}
         handleMontoChange={handleMontoChange}
         addToCart={addToCart}
+        editCartItem={editCartItem}
         moneda={moneda}
         monedaValue={monedaValue}
-        setMonedaValue = {setMonedaValue} 
-        ticketCount ={ticketCount}
-        setTicketCount = {setTicketCount}
-        tipoMoneda = {tipoMoneda}
-        isChecked = {isChecked}
-        handleCheckBox = {handleCheckBox}
+        setMonedaValue={setMonedaValue}
+        ticketCount={ticketCount}
+        setTicketCount={setTicketCount}
+        tipoMoneda={tipoMoneda}
+        isChecked={isChecked}
+        handleCheckBox={handleCheckBox}
+        calcularPrecioFinal={calcularPrecioFinal}
+        total={total}
+        handlPrecioFinalChange={handlPrecioFinalChange}
+        calcularUtilidad={calcularUtilidad}
+        cartItems={cartItems}
+        setTabValue={setTabValue}
+        isAddToCartVisible={isAddToCartVisible}
+        isEditToCartVisible={isEditToCartVisible}
       />
     </div>
   );

@@ -39,6 +39,8 @@ export default function CarritoCompras({
   isChecked1 ,
   isChecked2 ,
   handleCheckboxChange ,
+  setTabValue,
+  handleGoToTab1
 }) {
   const [totalSubtotal, setTotalSubtotal] = useState(0);
   const [total, setTotal] = useState(0);
@@ -97,6 +99,8 @@ export default function CarritoCompras({
             isChecked1 = {isChecked1}
             isChecked2 = {isChecked2}
             handleCheckboxChange = {handleCheckboxChange}
+            setTabValue = {setTabValue}
+            handleGoToTab1 = {handleGoToTab1}
           />
         </div>
       </Container>

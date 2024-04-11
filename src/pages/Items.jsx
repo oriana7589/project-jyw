@@ -50,6 +50,7 @@ const CustomClickableTab = styled(Tab)(({ theme, selected, clickable }) => ({
 const PestañaContenido = ({
   value,
   addToCart,
+  editCartItem,
   cartItems,
   cartItemsSoles,
   detalleProducto,
@@ -96,7 +97,15 @@ const PestañaContenido = ({
   handleCheckboxChange ,
   pdfData,
   isChecked ,
-  handleCheckBox
+  handleCheckBox,
+  setTabValue,
+  handleGoToTab1,
+  calcularPrecioFinal,
+  total,
+  handlPrecioFinalChange,
+  calcularUtilidad,
+  isAddToCartVisible,
+  isEditToCartVisible
 }) => {
 
   switch (value) {
@@ -104,6 +113,7 @@ const PestañaContenido = ({
       return (
         <TD
           addToCart={addToCart}
+          editCartItem = {editCartItem}
           detalleProducto={detalleProducto}
           fechaLlegada={fechaLlegada}
           historialPrecios={historialPrecios}
@@ -127,6 +137,14 @@ const PestañaContenido = ({
           handleItemClick = {handleItemClick}
           isChecked = {isChecked}
           handleCheckBox = {handleCheckBox}
+          calcularPrecioFinal = {calcularPrecioFinal} 
+          total= {total}
+          handlPrecioFinalChange = {handlPrecioFinalChange}
+          calcularUtilidad = {calcularUtilidad}
+          cartItems={cartItems}
+          setTabValue = {setTabValue}
+          isAddToCartVisible = {isAddToCartVisible}
+          isEditToCartVisible = {isEditToCartVisible}
         />
       );
     case 1:
@@ -161,6 +179,9 @@ const PestañaContenido = ({
           isChecked1 = {isChecked1}
           isChecked2 = {isChecked2}
           handleCheckboxChange = {handleCheckboxChange}
+          setTabValue = {setTabValue}
+          handleGoToTab1 = {handleGoToTab1}
+          
         />
       );
     case 2:
@@ -185,6 +206,7 @@ const Items = ({
   fechaLlegada,
   datosDisponibles,
   addToCart,
+  editCartItem,
   cartItems,
   cartItemsSoles,
   historialPrecios,
@@ -229,13 +251,17 @@ const Items = ({
   handleCheckboxChange ,
   pdfData,
   isChecked,
-  handleCheckBox
-  
+  handleCheckBox,
+  tabValue ,
+  setTabValue ,
+  handleGoToTab1,
+  calcularPrecioFinal,
+  total,
+  handlPrecioFinalChange,
+  calcularUtilidad,
+  isAddToCartVisible,
+  isEditToCartVisible
 }) => {
-
-  const [tabValue, setTabValue] = useState(0);
- 
-
   const handleChangeTab = (event, newValue) => {
     setTabValue(newValue);
   };
@@ -364,6 +390,15 @@ const Items = ({
             pdfData= {pdfData}
             isChecked = {isChecked}
             handleCheckBox = {handleCheckBox}
+            setTabValue = {setTabValue}
+            handleGoToTab1 = {handleGoToTab1}
+            calcularPrecioFinal = {calcularPrecioFinal}
+            total= {total}
+            handlPrecioFinalChange = {handlPrecioFinalChange}
+            calcularUtilidad = {calcularUtilidad}
+            editCartItem = {editCartItem}
+            isAddToCartVisible = {isAddToCartVisible}
+            isEditToCartVisible= {isEditToCartVisible}
           />
         ) : (
           <div

@@ -25,6 +25,8 @@ function ItemsProductos({
   isChecked1,
   isChecked2,
   handleCheckboxChange,
+  setTabValue,
+  handleGoToTab1
 }) {
   const [hoveredCard, setHoveredCard] = useState(null);
 
@@ -68,6 +70,7 @@ function ItemsProductos({
   const handleMouseLeave = () => {
     setHoveredCard(null);
   };
+
   console.log("cartItems", cartItems);
 
   return (
@@ -343,8 +346,9 @@ function ItemsProductos({
                           width: "40px",
                           height: "40px",
                         }}
+                        onClick={() => handleGoToTab1(item.codigoInterno, item.precioFinal, item.descuentoA,item.descuentoB,item.ticketCount)}
                       >
-                        <EditIcon style={{ color: "rgb(12, 55, 100)" }} />
+                        <EditIcon style={{ color: "rgb(12, 55, 100)" }}  />
                       </IconButton>
                     </div>
                   </CardContent>

@@ -8,6 +8,7 @@ import TableDescripcionItems from "../components/TableDescriptionItems";
 
 export default function TD({
   addToCart,
+  editCartItem,
   detalleProducto,
   fechaLlegada,
   historialPrecios,
@@ -30,7 +31,15 @@ export default function TD({
   setCodigoSeleccionado,
   handleItemClick,
   isChecked,
-  handleCheckBox 
+  handleCheckBox ,
+  calcularPrecioFinal,
+  total,
+  handlPrecioFinalChange,
+  calcularUtilidad,
+  cartItems,
+  setTabValue ,
+  isAddToCartVisible,
+  isEditToCartVisible
 }) {
   const [chartData, setChartData] = useState({
     labels: [],
@@ -81,6 +90,7 @@ export default function TD({
         <div style={{ flex: 1 }}>
           <TableDescripcionItems
             addToCart={addToCart}
+            editCartItem = {editCartItem}
             detalleProducto={detalleProducto}
             fechaLlegada={fechaLlegada}
             historialPrecios={historialPrecios}
@@ -98,6 +108,14 @@ export default function TD({
             setMonedaValue={setMonedaValue}
             isChecked = {isChecked}
             handleCheckBox= {handleCheckBox}
+            calcularPrecioFinal = {calcularPrecioFinal}
+            total= {total}
+            handlPrecioFinalChange = {handlPrecioFinalChange}
+            calcularUtilidad = {calcularUtilidad}
+            cartItems={cartItems}
+            setTabValue = {setTabValue}
+            isAddToCartVisible= {isAddToCartVisible}
+            isEditToCartVisible = {isEditToCartVisible}
           />
         </div>
       </Container>
