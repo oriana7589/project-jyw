@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Divider, Grid, Paper, Typography } from "@mui/material";
+import {  Grid, Paper, Typography } from "@mui/material";
 import repuest from "../image/request1.png";
 
 const TableItems = ({
@@ -23,7 +23,7 @@ const TableItems = ({
   });
 
   return (
-    <Grid container spacing={2}>
+    <Grid container spacing={2} >
       {articuloSugeridoCliente.slice(0, 5).map((item, index) => (
         <Grid item xs={2.4} width={"100%"} key={index}>
           {" "}

@@ -12,7 +12,6 @@ import Logo from "../image/logo.png";
 import LogoCom from "../image/logoCompleto.png";
 import DashboardCliente from "./DashboardCliente";
 import UltimasCompras from "./UltimasCompras";
-import Items from "./items";
 import DashboardItems from "./DashboardItems";
 
 const CustomLeftTab = styled(Tab)(({ theme, selected }) => ({

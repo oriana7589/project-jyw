@@ -65,17 +65,17 @@ export default function TD({
           display: "flex",
           justifyContent: "space-between",
           bgcolor: "#ffffff",
-          height: "calc(100vh - 9.65rem)",
+          height: "calc(100vh - 9.25rem)",
         }}
       >
-        <div style={{ flex: 2 }}>
+        <div style={{ flex: 2 , height: '100%'}}>
           <div
             style={{ display: "flex", margin: "5px", justifyContent: "center" }}
           >
             <img
               src={repuest}
               alt="Imagen de carrito de compras"
-              style={{ width: "70%", height: "70%" }}
+              style={{ width: "68%", height: "68%" }}
             />
           </div>
           <TableItems

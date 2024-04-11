@@ -7,7 +7,6 @@ import {
   Typography,
   Grid,
 } from "@mui/material";
-import { red } from "@mui/material/colors";
 import Decimal from "decimal.js";
 Decimal.set({ precision: 10 });
 

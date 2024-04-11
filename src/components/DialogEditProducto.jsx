@@ -2,8 +2,7 @@ import * as React from "react";
 import { styled } from "@mui/material/styles";
 import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
-import TableDialogItems from "../components/TableDialogItems";
-import { Grid, Box, Typography, Select, TextField, IconButton } from "@mui/material";
+import { Grid, Box, Typography,  TextField, IconButton } from "@mui/material";
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   padding: theme.spacing(1),
@@ -19,8 +18,6 @@ export default function DialogEditProducto({
   openProduct,
   handleProductClose,
   selectedItem,
-  items,
-  onProductSelect,
 }) {
     
   return (

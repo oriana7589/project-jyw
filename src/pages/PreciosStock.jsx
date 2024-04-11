@@ -4,23 +4,6 @@ import { styled } from "@mui/material/styles";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Box from "@mui/material/Box";
-import SearchIcon from "@mui/icons-material/Search";
-import {
-  Card,
-  CardActions,
-  Collapse,
-  Container,
-  IconButton,
-  TextField,
-  Typography,
-} from "@mui/material";
-
-const CustomLeftTab = styled(Tab)(({ theme, selected }) => ({
-  color: selected
-    ? "rgb(255, 255, 255) !important"
-    : "rgb(255, 255, 255) !important",
-  backgroundColor: selected ? "rgba(12, 55, 100, 1)" : "rgb(12, 55, 100, 1)",
-}));
 
 const CustomClickableTab = styled(Tab)(({ theme, selected, clickable }) => ({
   color: selected
