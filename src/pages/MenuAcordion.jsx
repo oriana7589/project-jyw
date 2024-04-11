@@ -135,6 +135,17 @@ const TuComponente = () => {
     }
   };
 
+  
+  const handleItemSIClick = (codigoInterno) => {
+    if (codigoInterno) {
+      setCodigoSeleccionado(codigoInterno);
+      setIsAddToCartVisible(true);
+      setIsEditToCartVisible(false);
+      fetchData(codigoInterno);
+      setTabValue(0)
+    }
+  };
+
 
 
 
@@ -908,6 +919,7 @@ const TuComponente = () => {
             calcularUtilidad = {calcularUtilidad}
             isAddToCartVisible = {isAddToCartVisible}
             isEditToCartVisible = {isEditToCartVisible}
+            handleItemSIClick = {handleItemSIClick}
           />
         </Collapse>
       </Card>

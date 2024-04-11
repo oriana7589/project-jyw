@@ -11,6 +11,7 @@ import Logo from "../image/logo.png";
 import LogoCom from "../image/logoCompleto.png";
 import CarritoCompras from "../components/CarritoCompras";
 import ListaProductos from "../components/ListaProductos";
+import SI from "./SI";
 
 const CustomLeftTab = styled(Tab)(({ theme, selected }) => ({
   color: selected
@@ -105,7 +106,8 @@ const PestañaContenido = ({
   handlPrecioFinalChange,
   calcularUtilidad,
   isAddToCartVisible,
-  isEditToCartVisible
+  isEditToCartVisible,
+  handleItemSIClick
 }) => {
 
   switch (value) {
@@ -187,7 +189,11 @@ const PestañaContenido = ({
     case 2:
       return <ListaProductos cartItems={cartItems} pdfData = {pdfData}/>;
     case 3:
-      return <TD />;
+      return <SI  
+      articuloSugeridoCliente = {articuloSugeridoCliente} 
+      articuloSugerido  = {articuloSugerido} 
+      codigoSeleccionado = {codigoSeleccionado}
+      handleItemSIClick = {handleItemSIClick} />;
     case 4:
       return <TD />;
     default:
@@ -260,7 +266,8 @@ const Items = ({
   handlPrecioFinalChange,
   calcularUtilidad,
   isAddToCartVisible,
-  isEditToCartVisible
+  isEditToCartVisible,
+  handleItemSIClick
 }) => {
   const handleChangeTab = (event, newValue) => {
     setTabValue(newValue);
@@ -325,7 +332,6 @@ const Items = ({
               marginTop: "4px",
             }}
             clickable="true" // Puedes hacer clic en esta pestaña
-            disabled
           />
 
           <CustomClickableTab
@@ -399,6 +405,7 @@ const Items = ({
             editCartItem = {editCartItem}
             isAddToCartVisible = {isAddToCartVisible}
             isEditToCartVisible= {isEditToCartVisible}
+            handleItemSIClick = {handleItemSIClick}
           />
         ) : (
           <div
