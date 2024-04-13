@@ -69,7 +69,8 @@ function PrecioProductos({
       )} - ${fechaVencimiento.getFullYear()}`;
 
        // Formatea la fecha de vencimiento en formato 'YYYY-MM-DD HH:MM:SS'
-      const formattedDateHours = fechaVencimiento.toISOString();
+      
+      const formattedDateHours =  new Date(fechaVencimiento.getTime() - (fechaVencimiento.getTimezoneOffset() * 60000)).toISOString();
 
       setFechaV(formattedDateHours)
       setDias(formattedDate);
@@ -150,7 +151,7 @@ function PrecioProductos({
               Forma de Pago
             </Typography>
             <Select
-              value={formaPagos}
+              value={formaPagos || ""}
               onChange={(e) => setFormaPagos(e.target.value)}
               fullWidth
               style={{ height: 35 }}
@@ -164,7 +165,7 @@ function PrecioProductos({
               {formaPago.map((formaPagoItem, index) => (
                 <MenuItem
                   key={index}
-                  value={formaPagoItem.descripcionFormaPago}
+                  value={formaPagoItem}
                 >
                   {formaPagoItem.descripcionFormaPago}
                 </MenuItem>

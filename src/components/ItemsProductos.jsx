@@ -31,6 +31,8 @@ function ItemsProductos({
 }) {
   const [hoveredCard, setHoveredCard] = useState(null);
 
+  console.log(cartItems)
+
   const calcularSubTotal = () => {
     const subTotal = cartItems.reduce((subTotal, item) => {
       return subTotal + parseFloat(item.monto);

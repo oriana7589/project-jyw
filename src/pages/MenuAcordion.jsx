@@ -89,7 +89,7 @@ const TuComponente = () => {
   const [ticketCount, setTicketCount] = useState(1);
   const [codigoSeleccionado, setCodigoSeleccionado] = useState(null);
   const [monedaValue, setMonedaValue] = useState("DOLARES AMERICANOS");
-  const [vendedor, setVendedor] = React.useState("Seleccione un vendedor");
+  const [vendedor, setVendedor] = React.useState("");
   const [formaPagos, setFormaPagos] = React.useState("");
   const [transporte, setTransporte] = React.useState(
     "Seleccione un transportista"
@@ -389,6 +389,9 @@ const TuComponente = () => {
     filtrarArticulosSugeridoCliente();
   }, [cartItems]);
 
+
+ 
+
   const addToCart = (
     ticketCount,
     detalleProducto,
@@ -408,6 +411,9 @@ const TuComponente = () => {
       return;
     }
     setToastOpen(true);
+
+ 
+
     toast.success("Se ha guardado el producto con éxito");
     const monedaType = monedaValue;
     const subTotalItem = new Decimal(
@@ -417,6 +423,7 @@ const TuComponente = () => {
       product: detalleProducto.descripcionArticulo,
       codigoInterno: detalleProducto.codigoInterno,
       linea: detalleProducto.codigoLinea,
+      precioLista: detalleProducto.precioVenta,
       codigoArticulo: detalleProducto.codigoArticulo,
       marca: detalleProducto.descripcionMarca,
       descuentoA: descuentoA,
@@ -630,48 +637,67 @@ const TuComponente = () => {
     };
   }, [dialogProductOpen]);
 
-  const [datosProforma, setDatosProforma] = useState({
-    codigoEmpresa: "string",
-    codigoTienda: "string",
-    codigoVendedor: vendedor.codigoVendedor,
-    codigoFormaPago: "string",
-    codigoMoneda: tipoMoneda.codigoMoneda,
-    codigoClipro: "string",
-    urgenteDespacho: "N",
-    tipoEnvio: "string",
-    codigoTransportista: transporte.codigoTransportista,
-    fechaEmision: fechaE,
-    diasCredito: cantidad,
-    fechaVencimiento: dias,
-    importeNeto: 0,
-    importeDescuento: 0,
-    porIgv: 0,
-    importeIgv: 0,
-    importeTotal: 0,
-    estado: "string",
-    observacion: observaciones,
-    listaDetalleProforma: cartItems,
-  });
-
   const handlProformaClick = () => {
     const fechaActual = new Date();
-    const fechaEmision = fechaActual.toISOString();
+    const fechaEmision = new Date(
+      fechaActual.getTime() - fechaActual.getTimezoneOffset() * 60000
+    ).toISOString();
     const fechaVencimiento = fechaV.toString();
+    const codigoMoneda = () => {
+      if (monedaValue === "DOLARES AMERICANOS") {
+        return "USD";
+      } else {
+        return "SOL";
+      }
+    };
+
+    const subTotal = subTotalDecimal.toDecimalPlaces(2);
+    const incIGV = totalDecimal.minus(subTotalDecimal).toDecimalPlaces(2);
+    const importeTotal = totalDecimal.toDecimalPlaces(2);
+    const codCliente = selectedClient.codigoCliente;
+    const estado = () => {
+      if (isChecked1 === true && isChecked2 === false) {
+        return "PFA";
+      } else {
+        return "EMI";
+      }
+    };
+
+    const listaDetalle = cartItems.map((item) => {
+      return {
+        numeroItem: 0,
+        codigoInterno: item.codigoInterno,
+        cantidad: item.ticketCount,
+        precioCompra: 0,
+        precioLista: item.precioLista,
+        precioVenta: 0,
+        descuentoUno: item.descuentoA,
+        descuentoDos: item.descuentoB,
+        totalItem: 0,
+        aceptado: "string",
+        igvItem: 0,
+      };
+    });
+
     setFechaE(fechaEmision);
-    console.log("fora"+formaPagos.codigoFormaPago)
     if (cartItems.length === 0) {
       toast.warning("Añadir un producto al carrito para guardar la proforma");
     } else {
       postPGenerarProforma(
         fechaEmision,
-        cartItems,
+        listaDetalle,
         vendedor,
         transporte,
         fechaVencimiento,
         cantidad,
-        tipoMoneda,
-        formaPago,
-        observaciones
+        codigoMoneda,
+        formaPagos,
+        observaciones,
+        estado,
+        subTotal,
+        incIGV,
+        importeTotal,
+        codCliente
       );
       toast.success("Se ha guardado la proforma con éxito");
     }
@@ -1028,8 +1054,8 @@ const TuComponente = () => {
             totalFinal={totalFinal}
             subTotalFinal={subTotalFinal}
             calculoIGV={calculoIGV}
-            fechaV = {fechaV}
-            setFechaV = {setFechaV} 
+            fechaV={fechaV}
+            setFechaV={setFechaV}
           />
         </Collapse>
       </Card>

@@ -235,40 +235,44 @@ export function getPDFDataTecnica(url) {
 
 export function postPGenerarProforma(
   fechaEmision,
-  cartItems,
+  listaDetalle,
   vendedor,
   transporte,
   fechaVencimiento,
   cantidad,
-  tipoMoneda,
-  formaPago,
-  observaciones
+  codigoMoneda,
+  formaPagos,
+  observaciones,
+  estado,
+  subTotal,
+  incIGV,
+  importeTotal,
+  codCliente
 ) {
   const Proforma = axios
     .post(`${baseUrlProforma()}`, {
-      codigoEmpresa: "string",
-      codigoTienda: "string",
+      codigoEmpresa: "01",
+      codigoTienda: "01",
       codigoVendedor: vendedor.codigoVendedor,
-      codigoFormaPago: formaPago.codigoFormaPago,
-      codigoMoneda: tipoMoneda.codigoMoneda,
-      codigoClipro: "string",
+      codigoFormaPago: formaPagos.codigoFormaPago,
+      codigoMoneda: codigoMoneda(),
+      codigoClipro: codCliente,
       urgenteDespacho: "N",
-      tipoEnvio: "string",
+      tipoEnvio: "ALM",
       codigoTransportista: transporte.codigoTransportista,
       fechaEmision: fechaEmision,
       diasCredito: cantidad,
       fechaVencimiento: fechaVencimiento,
-      importeNeto: 0,
+      importeNeto: subTotal,
       importeDescuento: 0,
-      porIgv: 0,
-      importeIgv: 0,
-      importeTotal: 0,
-      estado: "string",
+      porIgv: 0.18,
+      importeIgv: incIGV,
+      importeTotal: importeTotal,
+      estado: estado(),
       observacion: observaciones,
-      listaDetalleProforma: cartItems,
+      listaDetalleProforma: listaDetalle,
     })
     .then((res) => {
-      console.log(res.data+"hola");
       return res.data;
     });
   return Proforma;
