@@ -30,8 +30,7 @@ function ItemsProductos({
   handlProformaClick
 }) {
   const [hoveredCard, setHoveredCard] = useState(null);
-
-  console.log(cartItems)
+  
 
   const calcularSubTotal = () => {
     const subTotal = cartItems.reduce((subTotal, item) => {

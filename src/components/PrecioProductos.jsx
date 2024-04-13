@@ -93,7 +93,7 @@ function PrecioProductos({
                   setVendedor(newValue);
                 }}
                 options={vendedores}
-                getOptionLabel={(option) => option.nombreVendedor}
+                getOptionLabel={(option) => option ? option.nombreVendedor :"Seleccione un vendedor" }
                 renderInput={(params) => (
                   <div ref={params.InputProps.ref}>
                     <input
@@ -123,7 +123,7 @@ function PrecioProductos({
                   setTransporte(newValue);
                 }}
                 options={transportistas}
-                  getOptionLabel={(option) => option.descripcionCorta}
+                getOptionLabel={(optionItems) => optionItems ? optionItems.descripcionCorta : "Seleccione transportista"}
                 renderInput={(params) => (
                   <div ref={params.InputProps.ref}>
                     <input
@@ -151,16 +151,14 @@ function PrecioProductos({
               Forma de Pago
             </Typography>
             <Select
-              value={formaPagos || ""}
+              value={formaPagos || formaPago[0]}
               onChange={(e) => setFormaPagos(e.target.value)}
               fullWidth
               style={{ height: 35 }}
               variant="outlined"
               displayEmpty
             >
-              <MenuItem value="" disabled>
-                Seleccione forma de pago
-              </MenuItem>
+              
               {/* Opciones de formas de pago */}
               {formaPago.map((formaPagoItem, index) => (
                 <MenuItem

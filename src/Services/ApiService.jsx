@@ -247,30 +247,32 @@ export function postPGenerarProforma(
   subTotal,
   incIGV,
   importeTotal,
-  codCliente
+  codCliente,
+  cartItems
 ) {
   const Proforma = axios
     .post(`${baseUrlProforma()}`, {
       codigoEmpresa: "01",
       codigoTienda: "01",
-      codigoVendedor: vendedor.codigoVendedor,
+      codigoVendedor: vendedor.codigoVendedor.toString().trim(),
       codigoFormaPago: formaPagos.codigoFormaPago,
       codigoMoneda: codigoMoneda(),
       codigoClipro: codCliente,
       urgenteDespacho: "N",
       tipoEnvio: "ALM",
-      codigoTransportista: transporte.codigoTransportista,
+      codigoTransportista: transporte.codigoTransportista.toString().trim(),
       fechaEmision: fechaEmision,
       diasCredito: cantidad,
       fechaVencimiento: fechaVencimiento,
-      importeNeto: subTotal,
+      importeNeto: parseFloat(subTotal),
       importeDescuento: 0,
       porIgv: 0.18,
-      importeIgv: incIGV,
-      importeTotal: importeTotal,
+      importeIgv: parseFloat(incIGV),
+      importeTotal: parseFloat(importeTotal),
       estado: estado(),
       observacion: observaciones,
       listaDetalleProforma: listaDetalle,
+      
     })
     .then((res) => {
       return res.data;

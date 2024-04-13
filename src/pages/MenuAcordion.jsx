@@ -91,9 +91,7 @@ const TuComponente = () => {
   const [monedaValue, setMonedaValue] = useState("DOLARES AMERICANOS");
   const [vendedor, setVendedor] = React.useState("");
   const [formaPagos, setFormaPagos] = React.useState("");
-  const [transporte, setTransporte] = React.useState(
-    "Seleccione un transportista"
-  );
+  const [transporte, setTransporte] = React.useState("");
   const [pdfData, setPDFData] = React.useState("");
   const [cantidad, setCantidad] = React.useState(0);
   const [dias, setDias] = React.useState("");
@@ -251,6 +249,7 @@ const TuComponente = () => {
     setDialogProductOpen(false);
     setIsAddToCartVisible(true);
     setIsEditToCartVisible(false);
+
     const codigoInterno = productos.CodigoInterno || productos.codigoInterno; // Revisa ambas formas posibles de obtener el código interno
     if (codigoInterno) {
       setSelectedItems(productos);
@@ -389,8 +388,10 @@ const TuComponente = () => {
     filtrarArticulosSugeridoCliente();
   }, [cartItems]);
 
-
- 
+  const CalcularPosicion = () => {
+    const posiciones = cartItems.map((item, index) => index + 1);
+    return posiciones;
+  };
 
   const addToCart = (
     ticketCount,
@@ -411,11 +412,9 @@ const TuComponente = () => {
       return;
     }
     setToastOpen(true);
-
- 
-
     toast.success("Se ha guardado el producto con éxito");
     const monedaType = monedaValue;
+
     const subTotalItem = new Decimal(
       new Decimal(precioFinal) / new Decimal(1.18)
     ).toDecimalPlaces(2);
@@ -424,6 +423,7 @@ const TuComponente = () => {
       codigoInterno: detalleProducto.codigoInterno,
       linea: detalleProducto.codigoLinea,
       precioLista: detalleProducto.precioVenta,
+      precioCompra: detalleProducto.precioCompra,
       codigoArticulo: detalleProducto.codigoArticulo,
       marca: detalleProducto.descripcionMarca,
       descuentoA: descuentoA,
@@ -638,51 +638,73 @@ const TuComponente = () => {
   }, [dialogProductOpen]);
 
   const handlProformaClick = () => {
-    const fechaActual = new Date();
-    const fechaEmision = new Date(
-      fechaActual.getTime() - fechaActual.getTimezoneOffset() * 60000
-    ).toISOString();
-    const fechaVencimiento = fechaV.toString();
-    const codigoMoneda = () => {
-      if (monedaValue === "DOLARES AMERICANOS") {
-        return "USD";
-      } else {
-        return "SOL";
-      }
-    };
-
-    const subTotal = subTotalDecimal.toDecimalPlaces(2);
-    const incIGV = totalDecimal.minus(subTotalDecimal).toDecimalPlaces(2);
-    const importeTotal = totalDecimal.toDecimalPlaces(2);
-    const codCliente = selectedClient.codigoCliente;
-    const estado = () => {
-      if (isChecked1 === true && isChecked2 === false) {
-        return "PFA";
-      } else {
-        return "EMI";
-      }
-    };
-
-    const listaDetalle = cartItems.map((item) => {
-      return {
-        numeroItem: 0,
-        codigoInterno: item.codigoInterno,
-        cantidad: item.ticketCount,
-        precioCompra: 0,
-        precioLista: item.precioLista,
-        precioVenta: 0,
-        descuentoUno: item.descuentoA,
-        descuentoDos: item.descuentoB,
-        totalItem: 0,
-        aceptado: "string",
-        igvItem: 0,
-      };
-    });
-
-    setFechaE(fechaEmision);
-    if (cartItems.length === 0) {
+    if (!selectedClient) {
+      toast.warning("Seleccione un cliente para guardar la proforma");
+    } else if (cartItems.length === 0) {
       toast.warning("Añadir un producto al carrito para guardar la proforma");
     } else {
+      const fechaActual = new Date();
+      const fechaEmision = new Date(
+        fechaActual.getTime() - fechaActual.getTimezoneOffset() * 60000
+      ).toISOString();
+      const fechaVencimiento = fechaV.toString();
+      const codigoMoneda = () => {
+        if (monedaValue === "DOLARES AMERICANOS") {
+          return "USD";
+        } else {
+          return "SOL";
+        }
+      };
+
+      const subTotal = subTotalDecimal.toDecimalPlaces(2);
+      const incIGV = totalDecimal.minus(subTotalDecimal).toDecimalPlaces(2);
+      const importeTotal = totalDecimal.toDecimalPlaces(2);
+      const codCliente = selectedClient.codigoCliente;
+
+      const estado = () => {
+        if (isChecked1 === true && isChecked2 === false) {
+          return "PFA";
+        } else {
+          return "EMI";
+        }
+      };
+
+      const listaDetalle = cartItems.map((item, index) => {
+        const precioF =
+          monedaValue === "SOLES"
+            ? item.monedaType === "SOLES"
+              ? new Decimal(item.precioFinal).toDecimalPlaces(2)
+              : new Decimal(item.precioFinal).times(moneda).toDecimalPlaces(2)
+            : monedaValue === "DOLARES AMERICANOS"
+            ? item.monedaType === "DOLARES AMERICANOS"
+              ? new Decimal(item.precioFinal).toDecimalPlaces(2)
+              : new Decimal(item.precioFinal)
+                  .dividedBy(new Decimal(moneda))
+                  .toDecimalPlaces(2)
+            : 0;
+
+        const precioVenta = precioF / ticketCount;
+
+        const conIgv = new Decimal(item.precioFinal)
+          .times(0.18)
+          .toDecimalPlaces(2);
+
+        return {
+          numeroItem: 1,
+          codigoInterno: item.codigoInterno,
+          cantidad: item.ticketCount,
+          precioCompra: item.precioCompra,
+          precioLista: item.precioLista,
+          precioVenta: precioVenta,
+          descuentoUno: item.descuentoA,
+          descuentoDos: item.descuentoB,
+          totalItem: parseFloat(precioF),
+          aceptado: item.utilidad > 0.2 ? "S" : "N",
+          igvItem: parseFloat(conIgv),
+        };
+      });
+
+      setFechaE(fechaEmision);
       postPGenerarProforma(
         fechaEmision,
         listaDetalle,
@@ -697,7 +719,8 @@ const TuComponente = () => {
         subTotal,
         incIGV,
         importeTotal,
-        codCliente
+        codCliente,
+        cartItems
       );
       toast.success("Se ha guardado la proforma con éxito");
     }
