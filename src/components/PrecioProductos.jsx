@@ -6,6 +6,8 @@ import {
   Box,
   Typography,
   Grid,
+  Autocomplete,
+  Input,
 } from "@mui/material";
 import Decimal from "decimal.js";
 Decimal.set({ precision: 10 });
@@ -19,7 +21,7 @@ function PrecioProductos({
   moneda,
   setMonedaValue,
   totalSubtotal,
-  total,
+  total1,
   vendedor,
   setVendedor,
   formaPagos,
@@ -32,34 +34,14 @@ function PrecioProductos({
   setDias,
   observaciones,
   setObservaciones,
+  totalDecimal,
+  totalFinal,
+  subTotalFinal,
+  calculoIGV,
+  fechaV,
+  setFechaV 
 }) {
-  const totalDecimal = new Decimal(
-    parseFloat(total.toString().replace("$", "").replace("S/", ""))
-  );
-  const totalFinal =
-    monedaValue === "SOLES"
-      ? "S/ " + totalDecimal.toDecimalPlaces(2).toString()
-      : "$ " + totalDecimal.toDecimalPlaces(2).toString();
-
-  const subTotalDecimal = new Decimal(
-    parseFloat(totalSubtotal.toString().replace("$", "").replace("S/", ""))
-  );
-  const subTotalFinal =
-    monedaValue === "SOLES"
-      ? "S/ " + subTotalDecimal.toDecimalPlaces(2).toString()
-      : "$ " + subTotalDecimal.toDecimalPlaces(2).toString();
-
-  const calculoIGV =
-    monedaValue === "SOLES"
-      ? "S/ " +
-        totalDecimal.minus(subTotalDecimal).toDecimalPlaces(2).toString()
-      : "$ " +
-        totalDecimal.minus(subTotalDecimal).toDecimalPlaces(2).toString();
-
-  console.log(totalDecimal);
-  console.log(subTotalDecimal);
-  console.log(totalFinal);
-  console.log(subTotalFinal);
+ 
 
   useEffect(() => {
     // Calcula la fecha de vencimiento basada en la fecha actual y la cantidad de días
@@ -85,76 +67,79 @@ function PrecioProductos({
         2,
         "0"
       )} - ${fechaVencimiento.getFullYear()}`;
+
+       // Formatea la fecha de vencimiento en formato 'YYYY-MM-DD HH:MM:SS'
+      const formattedDateHours = fechaVencimiento.toISOString();
+
+      setFechaV(formattedDateHours)
       setDias(formattedDate);
     };
 
     calcularFechaVencimiento();
   }, [cantidad]);
 
-  const handleCantidadChange = (event) => {
-    const value = event.target.value.trim(); // Eliminar espacios en blanco al principio y al final
-    if (value === "") {
-      setCantidad(0); // Si el campo está vacío, establecer el valor predeterminado en 1
-    } else {
-      const parsedValue = parseInt(value); // Intentar convertir el valor a un número entero
-      if (!isNaN(parsedValue) && parsedValue >= 0) {
-        setCantidad(parsedValue); // Establecer el nuevo valor del contador si es un número válido y mayor o igual a 1
-      }
-    }
-  };
 
   return (
     <div style={{ width: "90%", paddingTop: 10 }}>
       <Grid container spacing={2}>
         <Grid item xs={6}>
           <Box sx={{ marginBottom: 2 }}>
-            <Typography style={{ fontWeight: "bold" }}>Vendedor</Typography>
-            <Select
-              value={vendedor}
-              onChange={(e) => setVendedor(e.target.value)}
-              fullWidth
-              style={{ height: 35 }}
-              variant="outlined"
-              displayEmpty
-            >
-              <MenuItem value="" disabled>
-                Seleccione un vendedor
-              </MenuItem>
-              {/* Mapeo sobre los vendedores */}
-              {vendedores.map((vendedorItem, index) => (
-                <MenuItem key={index} value={vendedorItem.nombreVendedor}>
-                  {vendedorItem.nombreVendedor}
-                </MenuItem>
-              ))}
-            </Select>
+            <label style={{ fontWeight: "bold" }}>
+              Vendedor
+              <Autocomplete
+                value={vendedor}
+                onChange={(event, newValue) => {
+                  setVendedor(newValue);
+                }}
+                options={vendedores}
+                getOptionLabel={(option) => option.nombreVendedor}
+                renderInput={(params) => (
+                  <div ref={params.InputProps.ref}>
+                    <input
+                      type="text"
+                      {...params.inputProps}
+                      style={{
+                        width: "100%",
+                        height: "40px",
+                        border: "1px solid #ccc",
+                        borderRadius: "4px",
+                        padding: "8px",
+                      }}
+                    />
+                  </div>
+                )}
+              />
+            </label>
           </Box>
         </Grid>
         <Grid item xs={6}>
           <Box sx={{ marginBottom: 2 }}>
-            <Typography style={{ fontWeight: "bold" }}>
+            <label style={{ fontWeight: "bold" }}>
               Transportista
-            </Typography>
-            <Select
-              value={transporte}
-              onChange={(e) => setTransporte(e.target.value)}
-              fullWidth
-              style={{ height: 35 }}
-              variant="outlined"
-              displayEmpty
-            >
-              <MenuItem value="" disabled>
-                Seleccione Transportista
-              </MenuItem>
-              {/* Opciones de formas de pago */}
-              {transportistas.map((transportistasItem, index) => (
-                <MenuItem
-                  key={index}
-                  value={transportistasItem.descripcionCorta}
-                >
-                  {transportistasItem.descripcionCorta}
-                </MenuItem>
-              ))}
-            </Select>
+              <Autocomplete
+                value={transporte}
+                onChange={(event, newValue) => {
+                  setTransporte(newValue);
+                }}
+                options={transportistas}
+                  getOptionLabel={(option) => option.descripcionCorta}
+                renderInput={(params) => (
+                  <div ref={params.InputProps.ref}>
+                    <input
+                      type="text"
+                      {...params.inputProps}
+                      style={{
+                        width: "100%",
+                        height: "40px",
+                        border: "1px solid #ccc",
+                        borderRadius: "4px",
+                        padding: "8px",
+                      }}
+                    />
+                  </div>
+                )}
+              />
+            </label>
           </Box>
         </Grid>
       </Grid>
@@ -217,8 +202,8 @@ function PrecioProductos({
               onChange={(e) => setCantidad(e.target.value)}
               fullWidth
               style={{ height: 35 }}
-              disabled={true ? formaPagos !== "CREDITO" :  false}
-            >
+              disabled={true ? formaPagos.codigoFormaPago !== "CRE" : false}
+            > <MenuItem value={0}>0</MenuItem>
               <MenuItem value={7}>7</MenuItem>
               <MenuItem value={15}>15</MenuItem>
               <MenuItem value={30}>30</MenuItem>

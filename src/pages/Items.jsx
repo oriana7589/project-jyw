@@ -107,7 +107,18 @@ const PestañaContenido = ({
   calcularUtilidad,
   isAddToCartVisible,
   isEditToCartVisible,
-  handleItemSIClick
+  handleItemSIClick,
+  handlProformaClick,
+  setTotalSubtotal,
+  setTotal1,
+  totalDecimal,
+  totalFinal,
+  subTotalFinal,
+  calculoIGV,
+  totalSubtotal,
+  total1,
+  fechaV,
+  setFechaV 
 }) => {
 
   switch (value) {
@@ -183,6 +194,17 @@ const PestañaContenido = ({
           handleCheckboxChange = {handleCheckboxChange}
           setTabValue = {setTabValue}
           handleGoToTab1 = {handleGoToTab1}
+          handlProformaClick = {handlProformaClick}
+          setTotalSubtotal = {setTotalSubtotal}
+          setTotal1 = {setTotal1}
+          totalDecimal = {totalDecimal}
+          totalFinal = {totalFinal}
+          subTotalFinal = {subTotalFinal}
+          calculoIGV = {calculoIGV}
+          totalSubtotal =  {totalSubtotal}
+          total1 = {total1}
+          fechaV = {fechaV}
+          setFechaV = {setFechaV}
           
         />
       );
@@ -267,7 +289,18 @@ const Items = ({
   calcularUtilidad,
   isAddToCartVisible,
   isEditToCartVisible,
-  handleItemSIClick
+  handleItemSIClick,
+  handlProformaClick,
+  setTotalSubtotal,
+  setTotal1,
+  totalDecimal,
+  totalFinal,
+  subTotalFinal,
+  calculoIGV,
+  totalSubtotal,
+  total1,
+  fechaV,
+  setFechaV 
 }) => {
   const handleChangeTab = (event, newValue) => {
     setTabValue(newValue);
@@ -407,6 +440,17 @@ const Items = ({
             isAddToCartVisible = {isAddToCartVisible}
             isEditToCartVisible= {isEditToCartVisible}
             handleItemSIClick = {handleItemSIClick}
+            handlProformaClick= {handlProformaClick}
+            setTotalSubtotal = {setTotalSubtotal}
+            setTotal1 = {setTotal1}
+            totalDecimal = {totalDecimal}
+            totalFinal = {totalFinal}
+            subTotalFinal = {subTotalFinal}
+            calculoIGV = {calculoIGV}
+            totalSubtotal = {totalSubtotal}
+            total1 = {total1}
+            fechaV = {fechaV}
+            setFechaV = {setFechaV}
           />
         ) : (
           <div

@@ -387,7 +387,7 @@ const ThirdTable = ({
                 </tr>
                 <tr>
                   <td style={{ fontSize: "1.1rem", fontWeight: "bold" }}>
-                    TOTAL INC. IGV({monedaValue === "SOLES" ? "S/" : "$"}):
+                    TOTAL INC. IGV({monedaValue === "SOL" ? "S/" : "$"}):
                   </td>
                   <td
                     style={{

@@ -21,12 +21,13 @@ function ItemsProductos({
   moneda,
   removeFromCart,
   setTotalSubtotal,
-  setTotal,
+  setTotal1,
   isChecked1,
   isChecked2,
   handleCheckboxChange,
   setTabValue,
-  handleGoToTab1
+  handleGoToTab1,
+  handlProformaClick
 }) {
   const [hoveredCard, setHoveredCard] = useState(null);
 
@@ -48,9 +49,9 @@ function ItemsProductos({
     }, 0);
 
     if (monedaValue === "SOLES") {
-      setTotal("S/" + total * moneda);
+      setTotal1("S/" + total * moneda);
     } else if (monedaValue === "DOLARES AMERICANOS") {
-      setTotal("$" + total);
+      setTotal1("$" + total);
     }
   };
 
@@ -71,7 +72,6 @@ function ItemsProductos({
     setHoveredCard(null);
   };
 
-  console.log("cartItems", cartItems);
 
   return (
     <div>
@@ -109,6 +109,7 @@ function ItemsProductos({
             width: "180px",
             marginLeft: "auto",
           }}
+          onClick={handlProformaClick}
         >
           <Typography
             style={{

@@ -30,9 +30,9 @@ import {
   getTipoMonedas,
   getTransportistas,
   getArticulosSugeridosCliente,
-  getArticulosSugeridos ,
-  getPDFDataTecnica
-  
+  getArticulosSugeridos,
+  getPDFDataTecnica,
+  postPGenerarProforma,
 } from "../Services/ApiService";
 import Items from "./items";
 import DialogProductos from "../components/DialogProductos";
@@ -66,14 +66,18 @@ const TuComponente = () => {
   const [ranking, setRanking] = useState([]);
   const [articuloSugerido, setArticuloSugerido] = useState([]);
   const [articuloSugeridoCliente, setArticuloSugeridoCliente] = useState([]);
-  const [rankingClienteSeleccionado, setRankingClienteSeleccionado] = useState("S/R");
-  const [fechasGrafica, setFechasGrafica] = useState([ new Date().getFullYear(), new Date().getFullYear() - 1 ]);
+  const [rankingClienteSeleccionado, setRankingClienteSeleccionado] =
+    useState("S/R");
+  const [fechasGrafica, setFechasGrafica] = useState([
+    new Date().getFullYear(),
+    new Date().getFullYear() - 1,
+  ]);
   const [hayDatosDisponibles, setHayDatosDisponibles] = useState(false);
   const [datosDisponibles, setDatosDisponibles] = useState(false);
   const [loading, setLoading] = useState(false);
   const [cartItems, setCartItems] = useState([]); // Estado para el arreglo que quieres pasar a CardList
   const [cartItemsSoles, setCartItemsSoles] = useState([]);
-  const [historialPrecios, setHistorialPrecios] = useState([]); 
+  const [historialPrecios, setHistorialPrecios] = useState([]);
   const [formaPago, setFormaPago] = useState([]);
   const [tipoMoneda, setTipoMoneda] = useState([]);
   const [transportistas, setTransportistas] = useState([]);
@@ -81,16 +85,20 @@ const TuComponente = () => {
   const [moneda, setMoneda] = useState(0.0);
   const [descuentoA, setDescuentoA] = useState(0);
   const [descuentoB, setDescuentoB] = useState(0);
-  const [monto,setMonto]= useState(0.0);
+  const [monto, setMonto] = useState(0.0);
   const [ticketCount, setTicketCount] = useState(1);
   const [codigoSeleccionado, setCodigoSeleccionado] = useState(null);
   const [monedaValue, setMonedaValue] = useState("DOLARES AMERICANOS");
-  const [vendedor, setVendedor] = React.useState("");
+  const [vendedor, setVendedor] = React.useState("Seleccione un vendedor");
   const [formaPagos, setFormaPagos] = React.useState("");
-  const [transporte, setTransporte] = React.useState("");
+  const [transporte, setTransporte] = React.useState(
+    "Seleccione un transportista"
+  );
   const [pdfData, setPDFData] = React.useState("");
-  const [cantidad, setCantidad] = React.useState(7);
+  const [cantidad, setCantidad] = React.useState(0);
   const [dias, setDias] = React.useState("");
+  const [fechaE, setFechaE] = React.useState("");
+  const [fechaV, setFechaV] = React.useState("");
   const [observaciones, setObservaciones] = React.useState("");
   const [isChecked1, setIsChecked1] = useState(false);
   const [isChecked2, setIsChecked2] = useState(true);
@@ -98,6 +106,8 @@ const TuComponente = () => {
   const [tabValue, setTabValue] = useState(0);
   const [isAddToCartVisible, setIsAddToCartVisible] = useState(true);
   const [isEditToCartVisible, setIsEditToCartVisible] = useState(true);
+  const [totalSubtotal, setTotalSubtotal] = useState(0);
+  const [total1, setTotal1] = useState(0);
 
   const handleCheckboxChange = (checkboxNumber) => {
     if (checkboxNumber === 1) {
@@ -109,7 +119,7 @@ const TuComponente = () => {
     }
   };
 
-  const handleCheckBox= () => {
+  const handleCheckBox = () => {
     setIsChecked(!isChecked);
     if (!isChecked) {
       // Si el checkbox se marca, establecer los descuentos en cero
@@ -125,7 +135,6 @@ const TuComponente = () => {
     setDialogOpen(false);
   };
 
-
   const handleItemClick = (codigoInterno) => {
     if (codigoInterno) {
       setCodigoSeleccionado(codigoInterno);
@@ -135,19 +144,38 @@ const TuComponente = () => {
     }
   };
 
-  
   const handleItemSIClick = (codigoInterno) => {
     if (codigoInterno) {
       setCodigoSeleccionado(codigoInterno);
       setIsAddToCartVisible(true);
       setIsEditToCartVisible(false);
       fetchData(codigoInterno);
-      setTabValue(0)
+      setTabValue(0);
     }
   };
 
+  const totalDecimal = new Decimal(
+    parseFloat(total1.toString().replace("$", "").replace("S/", ""))
+  );
+  const totalFinal =
+    monedaValue === "SOLES"
+      ? "S/ " + totalDecimal.toDecimalPlaces(2).toString()
+      : "$ " + totalDecimal.toDecimalPlaces(2).toString();
 
+  const subTotalDecimal = new Decimal(
+    parseFloat(totalSubtotal.toString().replace("$", "").replace("S/", ""))
+  );
+  const subTotalFinal =
+    monedaValue === "SOLES"
+      ? "S/ " + subTotalDecimal.toDecimalPlaces(2).toString()
+      : "$ " + subTotalDecimal.toDecimalPlaces(2).toString();
 
+  const calculoIGV =
+    monedaValue === "SOLES"
+      ? "S/ " +
+        totalDecimal.minus(subTotalDecimal).toDecimalPlaces(2).toString()
+      : "$ " +
+        totalDecimal.minus(subTotalDecimal).toDecimalPlaces(2).toString();
 
   const calcularPrecioFinal = () => {
     if (ticketCount === "") {
@@ -170,11 +198,11 @@ const TuComponente = () => {
       // Si la moneda es diferente de soles, aplica la conversión
       precioFinaln = precioFinaln.times(moneda).toDecimalPlaces(2);
     }
-    
+
     return precioFinaln;
   };
 
-  const [total, setTotal] = useState(calcularPrecioFinal().toString()); 
+  const [total, setTotal] = useState(calcularPrecioFinal().toString());
 
   useEffect(() => {
     setTotal(calcularPrecioFinal());
@@ -183,27 +211,39 @@ const TuComponente = () => {
   const calcularUtilidad = () => {
     const precioVenta = calcularPrecioFinal();
     const precioCompra = detalleProducto.precioCompra;
-    const utilidad = (precioVenta.minus(precioCompra).dividedBy(precioCompra).toDecimalPlaces(2));
+    const utilidad = precioVenta
+      .minus(precioCompra)
+      .dividedBy(precioCompra)
+      .toDecimalPlaces(2);
     return utilidad;
   };
 
-
   const handlPrecioFinalChange = (event) => {
-    const value =  event.target.value;
-    setTotal((value));
-    
+    const value = event.target.value;
+    setTotal(value);
   };
 
+  const handleGoToTab1 = (
+    codigoInterno,
+    precioFinal,
+    descuentoA,
+    descuentoB,
+    ticketCount
+  ) => {
+    setDescuentoA(descuentoA);
+    setDescuentoB(descuentoB);
+    setTotal(precioFinal);
+    setTicketCount(ticketCount);
 
-  const handleGoToTab1 = (codigoInterno, precioFinal, descuentoA,descuentoB, ticketCount ) => {
-    setDescuentoA(descuentoA)
-    setDescuentoB(descuentoB)
-    setTotal(precioFinal)
-    setTicketCount(ticketCount)
-    setIsEditToCartVisible(true)
-    setTabValue(0)
+    setTabValue(0);
     getProductoSeleccionado(codigoInterno).then((detalleProducto) => {
-      setDetalleProducto(detalleProducto);})
+      setDetalleProducto(detalleProducto);
+    });
+    if (cartItems.length === 0) {
+      setIsEditToCartVisible(false);
+    } else {
+      setIsEditToCartVisible(true);
+    }
   };
 
   const handleItemsSelect = (productos) => {
@@ -215,7 +255,7 @@ const TuComponente = () => {
     if (codigoInterno) {
       setSelectedItems(productos);
       setDialogProductOpen(false);
-      setCodigoSeleccionado(null)
+      setCodigoSeleccionado(null);
       fetchData(codigoInterno);
     }
 
@@ -225,33 +265,23 @@ const TuComponente = () => {
       }
     );
 
-    getListVendedores().then(
-      (vendedores) => {
-        setVendedores(vendedores);
-      }
-    );
+    getListVendedores().then((vendedores) => {
+      setVendedores(vendedores);
+    });
 
-    getCambioDeMoneda().then(
-      (moneda) => {
-        setMoneda(moneda);
-      }
-    );
+    getCambioDeMoneda().then((moneda) => {
+      setMoneda(moneda);
+    });
 
-    getFormaDePago().then(
-      (formaPago) => {
-        setFormaPago(formaPago);
-      }
-    );
-    getTipoMonedas().then(
-      (tipoMoneda) => {
-        setTipoMoneda(tipoMoneda);
-      }
-    );
-    getTransportistas().then(
-      (transportistas) => {
-        setTransportistas(transportistas);
-      }
-    );
+    getFormaDePago().then((formaPago) => {
+      setFormaPago(formaPago);
+    });
+    getTipoMonedas().then((tipoMoneda) => {
+      setTipoMoneda(tipoMoneda);
+    });
+    getTransportistas().then((transportistas) => {
+      setTransportistas(transportistas);
+    });
 
     getPDFDataTecnica("%5C%5C10.10.0.25%5CPDFDataTecnica%5Cpdfprueba.pdf").then(
       (pdfData) => {
@@ -262,22 +292,21 @@ const TuComponente = () => {
     if (!selectedClient) {
       // Si no hay cliente seleccionado entonces se mostrará el toast
       setToastOpen(true);
-      toast.warning("No se mostrará historial de precios ni produtos sujeridos hasta seleccionar a un cliente");
+      toast.warning(
+        "No se mostrará historial de precios ni produtos sugeridos hasta seleccionar a un cliente"
+      );
     } else {
-      
       getArticulosSugeridosCliente(selectedClient.codigoCliente).then(
         (articuloSugeridoCliente) => {
           setArticuloSugeridoCliente(articuloSugeridoCliente);
         }
       );
-  
-      getArticulosSugeridos().then(
-        (articuloSugerido) => {
-          setArticuloSugerido(articuloSugerido);
-        }
-      );
-    }    
-   
+
+      getArticulosSugeridos().then((articuloSugerido) => {
+        setArticuloSugerido(articuloSugerido);
+      });
+    }
+
     setDatosDisponibles(true);
   };
 
@@ -287,160 +316,182 @@ const TuComponente = () => {
       const precioVenta = new Decimal(detalleProducto.precioVenta);
       const impuesto = new Decimal(1.18);
       const precioVentaSinIGV = precioVenta.dividedBy(impuesto);
-      const precio = Math.round(precioVentaSinIGV.times(100)) / 100;  
+      const precio = Math.round(precioVentaSinIGV.times(100)) / 100;
       //const precio = precioVentaSinIGV.toDecimalPlaces(2);
       setDescuentoA(0);
       setDescuentoB(0);
-      setTicketCount(1)
-      setMonto(precio); 
+      setTicketCount(1);
+      setMonto(precio);
     });
 
     if (!selectedClient) {
-      
-    }else{
+    } else {
       getHistorialPrecios(codigoInterno, selectedClient.codigoCliente).then(
         (historialPrecios) => {
           setHistorialPrecios(historialPrecios);
         }
       );
     }
-
-  
   };
 
   const handleDescuentoAChange = (event) => {
-    const value = event.target.value.trim(); 
+    const value = event.target.value.trim();
     if (value === "") {
-      setDescuentoA(0); 
+      setDescuentoA(0);
     } else {
-      const parsedValue = parseInt(value); 
+      const parsedValue = parseInt(value);
       if (!isNaN(parsedValue) && parsedValue >= 0 && parsedValue <= 100) {
-        setDescuentoA(parsedValue); 
+        setDescuentoA(parsedValue);
       }
     }
-};
+  };
   const handleDescuentoBChange = (event) => {
-    const value = event.target.value.trim(); 
+    const value = event.target.value.trim();
     if (value === "") {
-      setDescuentoB(0); 
+      setDescuentoB(0);
     } else {
-      const parsedValue = parseInt(value); 
+      const parsedValue = parseInt(value);
       if (!isNaN(parsedValue) && parsedValue >= 0 && parsedValue <= 100) {
-        setDescuentoB(parsedValue); 
+        setDescuentoB(parsedValue);
       }
     }
   };
   const handleMontoChange = (event) => {
-    const value = event.target.value; 
-    setMonto(value); 
-  }; 
+    const value = event.target.value;
+    setMonto(value);
+  };
 
   useEffect(() => {
     const filtrarArticulosSugeridos = () => {
-      setArticuloSugerido(prevArticulos => {
-        return prevArticulos.filter(articulo => {
-          return !cartItems.some(item => item.codigoInterno === articulo.codigoInterno);
+      setArticuloSugerido((prevArticulos) => {
+        return prevArticulos.filter((articulo) => {
+          return !cartItems.some(
+            (item) => item.codigoInterno === articulo.codigoInterno
+          );
         });
       });
     };
-  
+
     filtrarArticulosSugeridos();
   }, [cartItems]);
-  
+
   useEffect(() => {
     const filtrarArticulosSugeridoCliente = () => {
-      setArticuloSugeridoCliente(prevArticulosCliente => {
-        return prevArticulosCliente.filter(articulo => {
-          return !cartItems.some(item => item.codigoInterno === articulo.codigoInterno);
+      setArticuloSugeridoCliente((prevArticulosCliente) => {
+        return prevArticulosCliente.filter((articulo) => {
+          return !cartItems.some(
+            (item) => item.codigoInterno === articulo.codigoInterno
+          );
         });
       });
     };
-  
+
     filtrarArticulosSugeridoCliente();
   }, [cartItems]);
-  
-  const addToCart = (ticketCount, detalleProducto, descuentoA, descuentoB, monto ,precioFinal,monedaValue, utilidad ) => {
-    
-  const alreadyInCart = cartItems.some(item => item.codigoInterno === detalleProducto.codigoInterno);
-  if (alreadyInCart) {
+
+  const addToCart = (
+    ticketCount,
+    detalleProducto,
+    descuentoA,
+    descuentoB,
+    monto,
+    precioFinal,
+    monedaValue,
+    utilidad
+  ) => {
+    const alreadyInCart = cartItems.some(
+      (item) => item.codigoInterno === detalleProducto.codigoInterno
+    );
+    if (alreadyInCart) {
+      setToastOpen(true);
+      toast.error("Este producto ya se encuentra en el carrito");
+      return;
+    }
     setToastOpen(true);
-    toast.error("Este producto ya se encuentra en el carrito");
-    return; 
-  }
-    setToastOpen(true)
     toast.success("Se ha guardado el producto con éxito");
-    const monedaType = monedaValue
-    const subTotalItem = (new Decimal (new Decimal(precioFinal) / new Decimal(1.18))).toDecimalPlaces(2);
+    const monedaType = monedaValue;
+    const subTotalItem = new Decimal(
+      new Decimal(precioFinal) / new Decimal(1.18)
+    ).toDecimalPlaces(2);
     const newItem = {
       product: detalleProducto.descripcionArticulo,
       codigoInterno: detalleProducto.codigoInterno,
-      linea:detalleProducto.codigoLinea,
+      linea: detalleProducto.codigoLinea,
       codigoArticulo: detalleProducto.codigoArticulo,
-      marca:detalleProducto.descripcionMarca,
+      marca: detalleProducto.descripcionMarca,
       descuentoA: descuentoA,
-      descuentoB:descuentoB,
+      descuentoB: descuentoB,
       monto: subTotalItem,
-      monedaType : monedaType,
+      monedaType: monedaType,
       precioFinal: precioFinal,
-      ticketCount:ticketCount,
-      utilidad:utilidad
+      ticketCount: ticketCount,
+      utilidad: utilidad,
     };
     setCartItems([...cartItems, newItem]);
-  
   };
 
-  const editCartItem = (precioFinal, selectedItem, utilidad,descuentoA,descuentoB, ticketCount, monedaValue)  => {
-    
-    const alreadyInCartIndex = cartItems.findIndex(item => item.codigoInterno === selectedItem);
+  const editCartItem = (
+    precioFinal,
+    selectedItem,
+    utilidad,
+    descuentoA,
+    descuentoB,
+    ticketCount,
+    monedaValue
+  ) => {
+    const alreadyInCartIndex = cartItems.findIndex(
+      (item) => item.codigoInterno === selectedItem
+    );
     if (alreadyInCartIndex !== -1) {
       // Si el producto ya está en el carrito, actualiza sus detalles
       const updatedCartItems = [...cartItems];
-      const monedaType = monedaValue
-      const subTotalItem = new Decimal(precioFinal).dividedBy(1.18).toDecimalPlaces(2);
+      const monedaType = monedaValue;
+      const subTotalItem = new Decimal(precioFinal)
+        .dividedBy(1.18)
+        .toDecimalPlaces(2);
       updatedCartItems[alreadyInCartIndex] = {
         ...updatedCartItems[alreadyInCartIndex],
         descuentoA,
         descuentoB,
         monto: subTotalItem,
-        monedaType : monedaType,
+        monedaType: monedaType,
         precioFinal,
-        utilidad, 
-        ticketCount
+        utilidad,
+        ticketCount,
       };
-  
+
       setCartItems(updatedCartItems);
       setToastOpen(true);
       toast.success("Producto editado con éxito");
-      setTabValue(1)
+      setTabValue(1);
     }
-  }
+  };
 
-  
   const removeFromCart = (codigoInterno) => {
-    const updatedCartItems = cartItems.filter(item => item.codigoInterno !== codigoInterno);
+    const updatedCartItems = cartItems.filter(
+      (item) => item.codigoInterno !== codigoInterno
+    );
     setCartItems(updatedCartItems);
     toast.success("Se ha eliminado el producto con éxito");
-  
-    const newCardItems = cartItems.filter(item => item.codigoInterno !== codigoInterno);
+    setIsEditToCartVisible(false);
+    const newCardItems = cartItems.filter(
+      (item) => item.codigoInterno !== codigoInterno
+    );
     setCartItems(newCardItems);
 
     getArticulosSugeridosCliente(selectedClient.codigoCliente).then(
       (articuloSugeridoCliente) => {
-
         setArticuloSugeridoCliente(articuloSugeridoCliente);
       }
     );
 
-    getArticulosSugeridos().then(
-      (articuloSugerido) => {
-        setArticuloSugerido(articuloSugerido);
-      }
-    );
+    getArticulosSugeridos().then((articuloSugerido) => {
+      setArticuloSugerido(articuloSugerido);
+    });
   };
 
   useEffect(() => {
     getRankingClientes().then((dataRanking) => {
-  
       setRanking(dataRanking);
     });
   }, []);
@@ -462,7 +513,6 @@ const TuComponente = () => {
   };
 
   useEffect(() => {
-    
     if (selectedClient) {
       // Aquí puedes llamar a tus otros métodos que dependen de fechasGrafica
       getDatosVentasPorClientePorAño(
@@ -477,7 +527,6 @@ const TuComponente = () => {
         fechasGrafica[1]
       ).then((dataAnterior) => {
         setDataGraficaAnterior(dataAnterior);
-        
       });
     }
   }, [fechasGrafica]);
@@ -546,7 +595,6 @@ const TuComponente = () => {
       }
     );
 
-    
     //Mantener al último
     setHayDatosDisponibles(true);
   };
@@ -581,6 +629,53 @@ const TuComponente = () => {
       document.removeEventListener("click", handleOutsideClick);
     };
   }, [dialogProductOpen]);
+
+  const [datosProforma, setDatosProforma] = useState({
+    codigoEmpresa: "string",
+    codigoTienda: "string",
+    codigoVendedor: vendedor.codigoVendedor,
+    codigoFormaPago: "string",
+    codigoMoneda: tipoMoneda.codigoMoneda,
+    codigoClipro: "string",
+    urgenteDespacho: "N",
+    tipoEnvio: "string",
+    codigoTransportista: transporte.codigoTransportista,
+    fechaEmision: fechaE,
+    diasCredito: cantidad,
+    fechaVencimiento: dias,
+    importeNeto: 0,
+    importeDescuento: 0,
+    porIgv: 0,
+    importeIgv: 0,
+    importeTotal: 0,
+    estado: "string",
+    observacion: observaciones,
+    listaDetalleProforma: cartItems,
+  });
+
+  const handlProformaClick = () => {
+    const fechaActual = new Date();
+    const fechaEmision = fechaActual.toISOString();
+    const fechaVencimiento = fechaV.toString();
+    setFechaE(fechaEmision);
+    console.log("fora"+formaPagos.codigoFormaPago)
+    if (cartItems.length === 0) {
+      toast.warning("Añadir un producto al carrito para guardar la proforma");
+    } else {
+      postPGenerarProforma(
+        fechaEmision,
+        cartItems,
+        vendedor,
+        transporte,
+        fechaVencimiento,
+        cantidad,
+        tipoMoneda,
+        formaPago,
+        observaciones
+      );
+      toast.success("Se ha guardado la proforma con éxito");
+    }
+  };
 
   const handleIconButtonClick = () => {
     setDialogOpen(true);
@@ -653,7 +748,6 @@ const TuComponente = () => {
                 color: "rgb(255,255,255)",
                 fontSize: "1rem",
                 fontWeight: "bold",
-               
               }}
             >
               CLIENTE
@@ -684,7 +778,7 @@ const TuComponente = () => {
                 borderRadius: "0",
                 marginLeft: "10px",
                 height: "25px",
-                width:"100px"
+                width: "100px",
               }}
               onClick={(event) => {
                 event.stopPropagation(); // Evita la propagación del evento al acordeón
@@ -700,7 +794,9 @@ const TuComponente = () => {
               >
                 Buscar
               </Typography>
-              <SearchIcon style={{ color: "rgb(255, 255, 255)" , marginLeft:4}} />
+              <SearchIcon
+                style={{ color: "rgb(255, 255, 255)", marginLeft: 4 }}
+              />
             </IconButton>
           </Container>
         </CardActions>
@@ -785,7 +881,7 @@ const TuComponente = () => {
             />
             <TextField
               size="small"
-               autoComplete="off"
+              autoComplete="off"
               InputProps={{
                 style: {
                   backgroundColor: "white",
@@ -839,7 +935,7 @@ const TuComponente = () => {
                 borderRadius: "0",
                 marginLeft: "10px",
                 height: "25px",
-                width:"100px"
+                width: "100px",
               }}
               onClick={(event) => {
                 event.stopPropagation();
@@ -851,12 +947,13 @@ const TuComponente = () => {
                   color: "rgb(255, 255, 255)",
                   borderRadius: "0",
                   marginLeft: "10px",
-                  
                 }}
               >
                 Buscar
               </Typography>
-              <SearchIcon style={{ color: "rgb(255, 255, 255)" , marginLeft:4}} />
+              <SearchIcon
+                style={{ color: "rgb(255, 255, 255)", marginLeft: 4 }}
+              />
             </IconButton>
           </Container>
         </CardActions>
@@ -867,61 +964,72 @@ const TuComponente = () => {
             fechaLlegada={fechaLlegada}
             datosDisponibles={datosDisponibles}
             addToCart={addToCart}
-            editCartItem = {editCartItem}
+            editCartItem={editCartItem}
             cartItems={cartItems}
             cartItemsSoles={cartItemsSoles}
-            descuentoA = {descuentoA}
-            handleDescuentoAChange = {handleDescuentoAChange}
-            descuentoB = {descuentoB}
-            handleDescuentoBChange = {handleDescuentoBChange}
-            monto = {monto}
-            handleMontoChange = {handleMontoChange}
+            descuentoA={descuentoA}
+            handleDescuentoAChange={handleDescuentoAChange}
+            descuentoB={descuentoB}
+            handleDescuentoBChange={handleDescuentoBChange}
+            monto={monto}
+            handleMontoChange={handleMontoChange}
             historialPrecios={historialPrecios}
-            vendedores ={vendedores}
-            tipoMoneda = {tipoMoneda}
-            transportistas = {transportistas}
-            moneda ={moneda}
-            formaPago = {formaPago}
-            ticketCount ={ticketCount}
-            setTicketCount = {setTicketCount}
-            monedaValue = {monedaValue} 
-            setMonedaValue = {setMonedaValue}  
-            setCartItems ={setCartItems}
-            articuloSugeridoCliente = {articuloSugeridoCliente}
-            articuloSugerido = {articuloSugerido}
-            removeFromCart = {removeFromCart}
-            setArticuloSugerido = {setArticuloSugerido}
-            codigoSeleccionado = {codigoSeleccionado}
-            setCodigoSeleccionado = {setCodigoSeleccionado}
-            handleItemClick = {handleItemClick}
-            vendedor= {vendedor}
-            setVendedor = {setVendedor}
-            formaPagos = {formaPagos}
-            setFormaPagos = {setFormaPagos}
-            transporte = {transporte}
-            setTransporte = {setTransporte}
-            pdfData = {pdfData}
-            cantidad = {cantidad}
-            setCantidad = {setCantidad}
-            dias = {dias}
-            setDias = {setDias}
-            observaciones =  {observaciones}
-            setObservaciones = {setObservaciones}
-            isChecked1 = {isChecked1}
-            isChecked2 = {isChecked2}
-            isChecked = {isChecked}
-            handleCheckboxChange = {handleCheckboxChange}
-            handleCheckBox = {handleCheckBox}
-            tabValue = {tabValue}
-            setTabValue = {setTabValue}
-            handleGoToTab1 = {handleGoToTab1}
-            calcularPrecioFinal = {calcularPrecioFinal}
-            total= {total}
-            handlPrecioFinalChange = {handlPrecioFinalChange}
-            calcularUtilidad = {calcularUtilidad}
-            isAddToCartVisible = {isAddToCartVisible}
-            isEditToCartVisible = {isEditToCartVisible}
-            handleItemSIClick = {handleItemSIClick}
+            vendedores={vendedores}
+            tipoMoneda={tipoMoneda}
+            transportistas={transportistas}
+            moneda={moneda}
+            formaPago={formaPago}
+            ticketCount={ticketCount}
+            setTicketCount={setTicketCount}
+            monedaValue={monedaValue}
+            setMonedaValue={setMonedaValue}
+            setCartItems={setCartItems}
+            articuloSugeridoCliente={articuloSugeridoCliente}
+            articuloSugerido={articuloSugerido}
+            removeFromCart={removeFromCart}
+            setArticuloSugerido={setArticuloSugerido}
+            codigoSeleccionado={codigoSeleccionado}
+            setCodigoSeleccionado={setCodigoSeleccionado}
+            handleItemClick={handleItemClick}
+            vendedor={vendedor}
+            setVendedor={setVendedor}
+            formaPagos={formaPagos}
+            setFormaPagos={setFormaPagos}
+            transporte={transporte}
+            setTransporte={setTransporte}
+            pdfData={pdfData}
+            cantidad={cantidad}
+            setCantidad={setCantidad}
+            dias={dias}
+            setDias={setDias}
+            observaciones={observaciones}
+            setObservaciones={setObservaciones}
+            isChecked1={isChecked1}
+            isChecked2={isChecked2}
+            isChecked={isChecked}
+            handleCheckboxChange={handleCheckboxChange}
+            handleCheckBox={handleCheckBox}
+            tabValue={tabValue}
+            setTabValue={setTabValue}
+            handleGoToTab1={handleGoToTab1}
+            calcularPrecioFinal={calcularPrecioFinal}
+            total={total}
+            handlPrecioFinalChange={handlPrecioFinalChange}
+            calcularUtilidad={calcularUtilidad}
+            isAddToCartVisible={isAddToCartVisible}
+            isEditToCartVisible={isEditToCartVisible}
+            handleItemSIClick={handleItemSIClick}
+            handlProformaClick={handlProformaClick}
+            totalSubtotal={totalSubtotal}
+            setTotalSubtotal={setTotalSubtotal}
+            total1={total1}
+            setTotal1={setTotal1}
+            totalDecimal={totalDecimal}
+            totalFinal={totalFinal}
+            subTotalFinal={subTotalFinal}
+            calculoIGV={calculoIGV}
+            fechaV = {fechaV}
+            setFechaV = {setFechaV} 
           />
         </Collapse>
       </Card>
@@ -952,7 +1060,6 @@ const TuComponente = () => {
         theme="light"
         transition:Bounce
       />
-      
     </Paper>
   );
 };
