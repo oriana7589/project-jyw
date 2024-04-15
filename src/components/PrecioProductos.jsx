@@ -93,7 +93,7 @@ function PrecioProductos({
                   setVendedor(newValue);
                 }}
                 options={vendedores}
-                getOptionLabel={(option) => option ? option.nombreVendedor :"Seleccione un vendedor" }
+                getOptionLabel={(option) => option ? option.nombreVendedor :"OFICINA" }
                 renderInput={(params) => (
                   <div ref={params.InputProps.ref}>
                     <input

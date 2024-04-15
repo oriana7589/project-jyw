@@ -12,6 +12,7 @@ import LogoCom from "../image/logoCompleto.png";
 import CarritoCompras from "../components/CarritoCompras";
 import ListaProductos from "../components/ListaProductos";
 import SI from "./SI";
+import ProductosSugeridosCliente from "../components/ProductosSugeridosCliente";
 
 const CustomLeftTab = styled(Tab)(({ theme, selected }) => ({
   color: selected
@@ -118,7 +119,9 @@ const PestañaContenido = ({
   totalSubtotal,
   total1,
   fechaV,
-  setFechaV 
+  setFechaV ,
+  handleItemSugeridoClick,
+  selectedClient
 }) => {
 
   switch (value) {
@@ -158,6 +161,7 @@ const PestañaContenido = ({
           setTabValue = {setTabValue}
           isAddToCartVisible = {isAddToCartVisible}
           isEditToCartVisible = {isEditToCartVisible}
+          handleItemSugeridoClick = {handleItemSugeridoClick}
         />
       );
     case 1:
@@ -300,7 +304,10 @@ const Items = ({
   totalSubtotal,
   total1,
   fechaV,
-  setFechaV 
+  setFechaV ,
+  selectedClient,
+  produtosSugeridosCliente,
+  handleItemsSelect
 }) => {
   const handleChangeTab = (event, newValue) => {
     setTabValue(newValue);
@@ -451,9 +458,11 @@ const Items = ({
             total1 = {total1}
             fechaV = {fechaV}
             setFechaV = {setFechaV}
+            selectedClient = {selectedClient}
           />
         ) : (
-          <div
+           !selectedClient ? ( 
+           <div
             style={{
               height: "calc(100vh - 15rem)",
               display: "flex",
@@ -474,6 +483,15 @@ const Items = ({
               style={{ width: 360, height: 75, opacity: 0.5 }}
             />
           </div>
+          ) :
+          (
+           <ProductosSugeridosCliente   
+           produtosSugeridosCliente = {produtosSugeridosCliente} 
+           codigoSeleccionado = {codigoSeleccionado}
+           handleItemsSelect = {handleItemsSelect}
+          />
+          )
+          
         )}
       </Box>
     </React.Fragment>

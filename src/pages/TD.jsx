@@ -39,7 +39,8 @@ export default function TD({
   cartItems,
   setTabValue ,
   isAddToCartVisible,
-  isEditToCartVisible
+  isEditToCartVisible,
+  handleItemSugeridoClick
 }) {
   const [chartData, setChartData] = useState({
     labels: [],
@@ -116,6 +117,7 @@ export default function TD({
             setTabValue = {setTabValue}
             isAddToCartVisible= {isAddToCartVisible}
             isEditToCartVisible = {isEditToCartVisible}
+            handleItemSugeridoClick = {handleItemSugeridoClick}
           />
         </div>
       </Container>

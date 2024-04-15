@@ -106,6 +106,7 @@ const TuComponente = () => {
   const [isEditToCartVisible, setIsEditToCartVisible] = useState(true);
   const [totalSubtotal, setTotalSubtotal] = useState(0);
   const [total1, setTotal1] = useState(0);
+  const [produtosSugeridosCliente,setProductosSugeridosCliente] = useState([])
 
   const handleCheckboxChange = (checkboxNumber) => {
     if (checkboxNumber === 1) {
@@ -131,7 +132,14 @@ const TuComponente = () => {
     setIsAddToCartVisible(true);
     setIsEditToCartVisible(false);
     setDialogOpen(false);
+
+    getArticulosSugeridosCliente(cliente.codigoCliente).then(
+      (produtosSugeridosCliente) => {
+        setProductosSugeridosCliente(produtosSugeridosCliente);
+      });
+
   };
+
 
   const handleItemClick = (codigoInterno) => {
     if (codigoInterno) {
@@ -244,15 +252,16 @@ const TuComponente = () => {
     }
   };
 
+
   const handleItemsSelect = (productos) => {
-    setSelectedItems(productos);
+    //setSelectedItems(productos);
     setDialogProductOpen(false);
     setIsAddToCartVisible(true);
     setIsEditToCartVisible(false);
 
-    const codigoInterno = productos.CodigoInterno || productos.codigoInterno; // Revisa ambas formas posibles de obtener el código interno
+    const codigoInterno = productos.CodigoInterno || productos.codigoInterno || productos; // Revisa ambas formas posibles de obtener el código interno
     if (codigoInterno) {
-      setSelectedItems(productos);
+     // setSelectedItems(productos);
       setDialogProductOpen(false);
       setCodigoSeleccionado(null);
       fetchData(codigoInterno);
@@ -275,9 +284,11 @@ const TuComponente = () => {
     getFormaDePago().then((formaPago) => {
       setFormaPago(formaPago);
     });
+
     getTipoMonedas().then((tipoMoneda) => {
       setTipoMoneda(tipoMoneda);
     });
+
     getTransportistas().then((transportistas) => {
       setTransportistas(transportistas);
     });
@@ -310,6 +321,7 @@ const TuComponente = () => {
   };
 
   const fetchData = (codigoInterno) => {
+
     getProductoSeleccionado(codigoInterno).then((detalleProducto) => {
       setDetalleProducto(detalleProducto);
       const precioVenta = new Decimal(detalleProducto.precioVenta);
@@ -690,7 +702,7 @@ const TuComponente = () => {
           .toDecimalPlaces(2);
 
         return {
-          numeroItem: 1,
+          numeroItem: index+1,
           codigoInterno: item.codigoInterno,
           cantidad: item.ticketCount,
           precioCompra: item.precioCompra,
@@ -725,6 +737,8 @@ const TuComponente = () => {
       toast.success("Se ha guardado la proforma con éxito");
     }
   };
+
+ 
 
   const handleIconButtonClick = () => {
     setDialogOpen(true);
@@ -1079,6 +1093,9 @@ const TuComponente = () => {
             calculoIGV={calculoIGV}
             fechaV={fechaV}
             setFechaV={setFechaV}
+            selectedClient={selectedClient}
+            produtosSugeridosCliente= {produtosSugeridosCliente}
+            handleItemsSelect = {handleItemsSelect}
           />
         </Collapse>
       </Card>
