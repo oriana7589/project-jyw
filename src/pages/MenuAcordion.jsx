@@ -33,6 +33,8 @@ import {
   getArticulosSugeridos,
   getPDFDataTecnica,
   postPGenerarProforma,
+  getSeleccionarProformaCabecera,
+  getSeleccionarProformaDetalle,
 } from "../Services/ApiService";
 import Items from "./items";
 import DialogProductos from "../components/DialogProductos";
@@ -49,8 +51,11 @@ const TuComponente = () => {
   const [criterio1, setCriterio1] = useState("");
   const [criterio2, setCriterio2] = useState("");
   const [criterio3, setCriterio3] = useState("");
+  const [numeroProforma, setNumeroProforma] = useState("");
   const [clientes, setClientes] = useState([]);
   const [items, setItems] = useState([]);
+  const [proformaSeleccionada, setProformaSeleccionada] = useState([]);
+  const [proformaDetalle, setProformaDetalle] = useState([]);
   const [selectedClient, setSelectedClient] = useState(null);
   const [selectedItems, setSelectedItems] = useState(null);
   const [dataGraficaActual, setDataGraficaActual] = useState([]);
@@ -106,7 +111,9 @@ const TuComponente = () => {
   const [isEditToCartVisible, setIsEditToCartVisible] = useState(true);
   const [totalSubtotal, setTotalSubtotal] = useState(0);
   const [total1, setTotal1] = useState(0);
-  const [produtosSugeridosCliente,setProductosSugeridosCliente] = useState([])
+  const [produtosSugeridosCliente, setProductosSugeridosCliente] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [importeTotal, setImporteTotal] = useState(0);
 
   const handleCheckboxChange = (checkboxNumber) => {
     if (checkboxNumber === 1) {
@@ -136,10 +143,15 @@ const TuComponente = () => {
     getArticulosSugeridosCliente(cliente.codigoCliente).then(
       (produtosSugeridosCliente) => {
         setProductosSugeridosCliente(produtosSugeridosCliente);
-      });
+      }
+    );
 
+    getArticulosSugeridosCliente(cliente.codigoCliente).then(
+      (articuloSugeridoCliente) => {
+        setArticuloSugeridoCliente(articuloSugeridoCliente);
+      }
+    );
   };
-
 
   const handleItemClick = (codigoInterno) => {
     if (codigoInterno) {
@@ -163,25 +175,62 @@ const TuComponente = () => {
   const totalDecimal = new Decimal(
     parseFloat(total1.toString().replace("$", "").replace("S/", ""))
   );
-  const totalFinal =
-    monedaValue === "SOLES"
-      ? "S/ " + totalDecimal.toDecimalPlaces(2).toString()
-      : "$ " + totalDecimal.toDecimalPlaces(2).toString();
 
   const subTotalDecimal = new Decimal(
     parseFloat(totalSubtotal.toString().replace("$", "").replace("S/", ""))
   );
-  const subTotalFinal =
-    monedaValue === "SOLES"
-      ? "S/ " + subTotalDecimal.toDecimalPlaces(2).toString()
-      : "$ " + subTotalDecimal.toDecimalPlaces(2).toString();
 
-  const calculoIGV =
-    monedaValue === "SOLES"
-      ? "S/ " +
-        totalDecimal.minus(subTotalDecimal).toDecimalPlaces(2).toString()
-      : "$ " +
-        totalDecimal.minus(subTotalDecimal).toDecimalPlaces(2).toString();
+  let totalFinal;
+  let subTotalFinal;
+  let calculoIGV;
+  let totalConvertido;
+  if (proformaSeleccionada && proformaSeleccionada.importeTotal) {
+    totalFinal =
+      monedaValue === "SOLES"
+        ? "S/ " + proformaSeleccionada.importeTotal
+        : "$ " + proformaSeleccionada.importeTotal;
+
+    subTotalFinal =
+      monedaValue === "SOLES"
+        ? "S/ " + proformaSeleccionada.importeNeto
+        : "$ " + proformaSeleccionada.importeNeto;
+
+    calculoIGV =
+      monedaValue === "SOLES"
+        ? "S/ " + proformaSeleccionada.importeIgv
+        : "$ " + proformaSeleccionada.importeIgv;
+
+    totalConvertido =
+        monedaValue === "SOLES"
+          ? "$ " + proformaSeleccionada.importeTotal/moneda
+          : "S/" + proformaSeleccionada.importeTotal*moneda
+
+    console.log("Proforma Seleccionada:", proformaSeleccionada);
+  } else {
+    totalFinal =
+      monedaValue === "SOLES"
+        ? "S/ " + totalDecimal.toDecimalPlaces(2).toString()
+        : "$ " + totalDecimal.toDecimalPlaces(2).toString();
+
+    subTotalFinal =
+      monedaValue === "SOLES"
+        ? "S/ " + subTotalDecimal.toDecimalPlaces(2).toString()
+        : "$ " + subTotalDecimal.toDecimalPlaces(2).toString();
+
+    calculoIGV =
+      monedaValue === "SOLES"
+        ? "S/ " +
+          totalDecimal.minus(subTotalDecimal).toDecimalPlaces(2).toString()
+        : "$ " +
+          totalDecimal.minus(subTotalDecimal).toDecimalPlaces(2).toString();
+
+    totalConvertido =
+      monedaValue === "SOLES"
+        ? "$ " + totalDecimal.dividedBy(moneda).toDecimalPlaces(2).toString()
+        : "S/ " + totalDecimal.times(moneda).toDecimalPlaces(2).toString();
+
+    console.log("moneda:", monedaValue, "Total Final:", totalFinal);
+  }
 
   const calcularPrecioFinal = () => {
     if (ticketCount === "") {
@@ -200,7 +249,7 @@ const TuComponente = () => {
       .times(1.18)
       .toDecimalPlaces(2);
 
-    if (monedaValue == "SOLES") {
+    if (monedaValue === "SOLES") {
       // Si la moneda es diferente de soles, aplica la conversión
       precioFinaln = precioFinaln.times(moneda).toDecimalPlaces(2);
     }
@@ -252,16 +301,15 @@ const TuComponente = () => {
     }
   };
 
-
   const handleItemsSelect = (productos) => {
     //setSelectedItems(productos);
     setDialogProductOpen(false);
     setIsAddToCartVisible(true);
     setIsEditToCartVisible(false);
-
-    const codigoInterno = productos.CodigoInterno || productos.codigoInterno || productos; // Revisa ambas formas posibles de obtener el código interno
+    const codigoInterno =
+      productos.CodigoInterno || productos.codigoInterno || productos;
     if (codigoInterno) {
-     // setSelectedItems(productos);
+      // setSelectedItems(productos);
       setDialogProductOpen(false);
       setCodigoSeleccionado(null);
       fetchData(codigoInterno);
@@ -305,23 +353,12 @@ const TuComponente = () => {
       toast.warning(
         "No se mostrará historial de precios ni produtos sugeridos hasta seleccionar a un cliente"
       );
-    } else {
-      getArticulosSugeridosCliente(selectedClient.codigoCliente).then(
-        (articuloSugeridoCliente) => {
-          setArticuloSugeridoCliente(articuloSugeridoCliente);
-        }
-      );
-
-      getArticulosSugeridos().then((articuloSugerido) => {
-        setArticuloSugerido(articuloSugerido);
-      });
     }
-
+    setTabValue(0);
     setDatosDisponibles(true);
   };
 
   const fetchData = (codigoInterno) => {
-
     getProductoSeleccionado(codigoInterno).then((detalleProducto) => {
       setDetalleProducto(detalleProducto);
       const precioVenta = new Decimal(detalleProducto.precioVenta);
@@ -483,6 +520,8 @@ const TuComponente = () => {
       setToastOpen(true);
       toast.success("Producto editado con éxito");
       setTabValue(1);
+      setIsAddToCartVisible(true);
+      setIsEditToCartVisible(false);
     }
   };
 
@@ -512,6 +551,26 @@ const TuComponente = () => {
   useEffect(() => {
     getRankingClientes().then((dataRanking) => {
       setRanking(dataRanking);
+    });
+
+    getListVendedores().then((vendedores) => {
+      setVendedores(vendedores);
+    });
+
+    getCambioDeMoneda().then((moneda) => {
+      setMoneda(moneda);
+    });
+
+    getFormaDePago().then((formaPago) => {
+      setFormaPago(formaPago);
+    });
+
+    getTipoMonedas().then((tipoMoneda) => {
+      setTipoMoneda(tipoMoneda);
+    });
+
+    getTransportistas().then((transportistas) => {
+      setTransportistas(transportistas);
     });
   }, []);
 
@@ -702,7 +761,7 @@ const TuComponente = () => {
           .toDecimalPlaces(2);
 
         return {
-          numeroItem: index+1,
+          numeroItem: index + 1,
           codigoInterno: item.codigoInterno,
           cantidad: item.ticketCount,
           precioCompra: item.precioCompra,
@@ -738,13 +797,14 @@ const TuComponente = () => {
     }
   };
 
- 
-
   const handleIconButtonClick = () => {
     setDialogOpen(true);
     if (criterioBusqueda !== "") {
       getClientes(criterioBusqueda).then((tablaClientes) => {
         setClientes(tablaClientes);
+      });
+      getArticulosSugeridos().then((articuloSugerido) => {
+        setArticuloSugerido(articuloSugerido);
       });
     } else {
       setClientes([]);
@@ -771,6 +831,126 @@ const TuComponente = () => {
     }
 
     setItems([]);
+  };
+
+  const formateFecha = (fechaVencimiento) => {
+    const fecha = fechaVencimiento.toString();
+
+    // Parsear la cadena de fecha
+    const date = new Date(fecha);
+
+    // Obtener día, mes y año
+    const day = String(date.getDate()).padStart(2, "0");
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const year = date.getFullYear();
+
+    // Formatear la fecha en el formato "dd/mm/yyyy"
+    const formattedDate = `${day} - ${month} - ${year}`;
+    setDias(formattedDate);
+  };
+
+  const hallarVendedorPorCodigo = (codigoVendedor) => {
+    const vendedor = vendedores.find(
+      (v) => v.codigoVendedor === codigoVendedor
+    );
+    setVendedor(vendedor);
+  };
+
+  const hallarTransportistaPorCodigo = (codigoTransportista) => {
+    const transportista = transportistas.find(
+      (v) => v.codigoTransportista === codigoTransportista
+    );
+    setTransporte(transportista);
+  };
+
+  const handleBuscarProforma = () => {
+    if (numeroProforma === "") {
+      toast.warning("Por favor, ingrese la proforma");
+    } else {
+      getSeleccionarProformaCabecera(numeroProforma).then(
+        (proformaSeleccionada) => {
+          setProformaSeleccionada(proformaSeleccionada);
+        }
+      );
+
+      getSeleccionarProformaDetalle(numeroProforma).then((proformaDetalle) => {
+        setProformaDetalle(proformaDetalle);
+      });
+
+      setDatosDisponibles(true);
+      setTabValue(1);
+      handleExpandClick(2);
+
+      setCodigoSeleccionado("000000100018967");
+      setIsAddToCartVisible(true);
+      setIsEditToCartVisible(false);
+      fetchData("000000100018967");
+
+      getFechaLlegadaProductoSeleccionado("000000100018967").then(
+        (fechaLlegada) => {
+          setfechaLlegada(fechaLlegada);
+        }
+      );
+      getTipoMonedas().then((tipoMoneda) => {
+        setTipoMoneda(tipoMoneda);
+      });
+
+      const moneda =
+        proformaSeleccionada.codigoMoneda === "USD"
+          ? "DOLARES AMERICANOS"
+          : "SOLES";
+      setObservaciones(proformaSeleccionada.observacion.toString());
+      formateFecha(proformaSeleccionada.fechaVencimiento);
+      setMonedaValue(moneda);
+      setFormaPagos(
+        proformaSeleccionada.codigoFormaPago === "CON"
+          ? formaPago[0]
+          : proformaSeleccionada.codigoFormaPago === "CRE"
+          ? formaPago[1]
+          : formaPago[2]
+      );
+      console.log(proformaSeleccionada.codigoFormaPago);
+      setCantidad(proformaSeleccionada.diasCredito);
+      hallarVendedorPorCodigo(proformaSeleccionada.codigoVendedor);
+      hallarTransportistaPorCodigo(proformaSeleccionada.codigoTransportista);
+      if (proformaSeleccionada.estado === "EMI") {
+        setIsChecked1(false);
+        setIsChecked2(true);
+      } else {
+        setIsChecked1(true);
+        setIsChecked2(false);
+      }
+
+      proformaDetalle.map((item) => {
+        console.log("item", item);
+        const precioVenta = new Decimal(item.precioVenta);
+        const precioCompra = item.precioCompra;
+        const utilidad = precioVenta
+          .minus(precioCompra)
+          .dividedBy(precioCompra)
+          .toDecimalPlaces(2);
+        const monedaType = moneda;
+        console.log(moneda + "moneda");
+        console.log(item.totalItem + "monto");
+        const newItems = {
+          product: "producto de prueba",
+          codigoInterno: item.codigoInterno,
+          linea: "VOL",
+          precioLista: 10,
+          precioCompra: 1,
+          codigoArticulo: "ABCD--2313",
+          marca: "juancito",
+          descuentoA: item.descuentoUno,
+          descuentoB: item.descuentoDos,
+          monto: item.totalItem,
+          monedaType: moneda,
+          precioFinal: item.totalItem,
+          ticketCount: item.cantidad,
+          utilidad: utilidad,
+        };
+        setCartItems([...cartItems, newItems]);
+      });
+    }
   };
 
   const handleCloseDialogProduct = () => {
@@ -846,6 +1026,63 @@ const TuComponente = () => {
               onClick={(event) => {
                 event.stopPropagation(); // Evita la propagación del evento al acordeón
                 handleIconButtonClick();
+              }}
+            >
+              <Typography
+                style={{
+                  color: "rgb(255, 255, 255)",
+                  borderRadius: "0",
+                  marginLeft: "10px",
+                }}
+              >
+                Buscar
+              </Typography>
+              <SearchIcon
+                style={{ color: "rgb(255, 255, 255)", marginLeft: 4 }}
+              />
+            </IconButton>
+          </Container>
+          <Container sx={{ display: "flex", marginLeft: 50 }}>
+            <Typography
+              style={{
+                color: "rgb(255,255,255)",
+                fontSize: "1rem",
+                fontWeight: "bold",
+              }}
+            >
+              PROFORMA
+            </Typography>
+            <TextField
+              size="small"
+              InputProps={{
+                style: {
+                  backgroundColor: "white",
+                  width: "25ch",
+                  fontSize: "0.9rem",
+                  height: "25px",
+                  borderRadius: 0,
+                }, // Anula el radio de borde y ajusta el ancho a 35 unidades (caracteres)
+              }}
+              InputLabelProps={{ style: { color: "rgb(255,255,255)" } }}
+              style={{ marginLeft: "10px" }}
+              placeholder="Num. proforma"
+              autoComplete="off"
+              onChange={(e) => setNumeroProforma(e.target.value)}
+              onClick={(event) => {
+                event.stopPropagation(); // Evita la propagación del evento al acordeón
+              }}
+            />
+            <IconButton
+              style={{
+                backgroundColor: "rgb(255, 168, 0)",
+                borderRadius: "0",
+                marginLeft: "10px",
+                height: "25px",
+                width: "100px",
+              }}
+              onClick={(event) => {
+                event.stopPropagation(); // Evita la propagación del evento al acordeón
+                handleBuscarProforma();
               }}
             >
               <Typography
@@ -1094,8 +1331,12 @@ const TuComponente = () => {
             fechaV={fechaV}
             setFechaV={setFechaV}
             selectedClient={selectedClient}
-            produtosSugeridosCliente= {produtosSugeridosCliente}
-            handleItemsSelect = {handleItemsSelect}
+            produtosSugeridosCliente={produtosSugeridosCliente}
+            handleItemsSelect={handleItemsSelect}
+            isLoading={isLoading}
+            setIsLoading={setIsLoading}
+            proformaSeleccionada={proformaSeleccionada}
+            totalConvertido={totalConvertido}
           />
         </Collapse>
       </Card>

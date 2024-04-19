@@ -31,9 +31,9 @@ const ProductosSugeridosCliente = ({
       }}
     >
       <div style={{  maxHeight: "600px", overflowY: "auto" }}>
-     <Grid container spacing={2} style={{padding:15, overflowY:"auto"}}>
+     <Grid container spacing={2} style={{padding:20, paddingLeft:80, overflowY:"auto"}}>
       {produtosSugeridosCliente.slice(0, 10).map((item, index) => (
-        <Grid item xs={1.5} width={"100%"} key={index}>
+        <Grid item xs={2.2} width={"100%"} key={index}>
           {" "}
           {/* Change xs to 6 */}
           <Paper

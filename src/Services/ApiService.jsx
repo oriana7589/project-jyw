@@ -279,3 +279,21 @@ export function postPGenerarProforma(
     });
   return Proforma;
 }
+
+export function getSeleccionarProformaCabecera(NumeroProforma) {
+  const seleccionarProformaCabecera = axios
+    .get(`${baseUrlProforma()}/SeleccionarProformaCabecera/${NumeroProforma}`)
+    .then((res) => {
+      return res.data;
+    });
+  return seleccionarProformaCabecera;
+}
+
+export function getSeleccionarProformaDetalle(NumeroProforma) {
+  const seleccionarProformaDetalle = axios
+    .get(`${baseUrlProforma()}/SeleccionarProformaDetalle/${NumeroProforma}`)
+    .then((res) => {
+      return res.data;
+    });
+  return seleccionarProformaDetalle;
+}

@@ -39,7 +39,9 @@ function PrecioProductos({
   subTotalFinal,
   calculoIGV,
   fechaV,
-  setFechaV 
+  setFechaV ,
+  totalConvertido
+  
 }) {
  
 
@@ -293,11 +295,7 @@ function PrecioProductos({
             <td style={{ textAlign: "end", width: "150px" }}>
               <Typography fontSize={25}>
                 {" "}
-                {monedaValue === "SOLES"
-                  ? "$ " +
-                    totalDecimal.dividedBy(moneda).toDecimalPlaces(2).toString()
-                  : "S/ " +
-                    totalDecimal.times(moneda).toDecimalPlaces(2).toString()}
+                {totalConvertido}
               </Typography>
             </td>
           </tr>

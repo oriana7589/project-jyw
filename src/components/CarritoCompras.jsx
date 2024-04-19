@@ -46,7 +46,9 @@ export default function CarritoCompras({
   totalSubtotal,
   total1,
   fechaV,
-  setFechaV 
+  setFechaV , 
+  proformaSeleccionada,
+  totalConvertido
 }) {
  
   return (
@@ -91,6 +93,8 @@ export default function CarritoCompras({
             calculoIGV = {calculoIGV}
             fechaV = {fechaV}
             setFechaV =  {setFechaV}
+            proformaSeleccionada = {proformaSeleccionada}
+            totalConvertido = {totalConvertido}
           />
         </div>
         <div style={{ flex: 0.5 }}>

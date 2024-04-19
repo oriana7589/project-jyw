@@ -9,7 +9,6 @@ const TableItems = ({
   codigoSeleccionado,
   handleItemClick,
 }) => {
-  console.log(articuloSugeridoCliente+"d")
   const [codigoHover, setCodigoHover] = useState(null);
   const handleItemHover = (codigoInterno) => {
     setCodigoHover(codigoInterno);
