@@ -208,7 +208,6 @@ const TableComponent = ({ items, onProductSelect }) => {
      </div>  
   </div>
       ) : (
-        // Si no está cargando y no hay datos de clientes
         <div
           style={{display: "flex",
             flexDirection: "column",

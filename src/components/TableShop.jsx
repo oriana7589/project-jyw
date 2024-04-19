@@ -139,7 +139,15 @@ const ThirdTable = ({
     // Calcula los nuevos valores para el elemento seleccionado
     const precioFinal = total; //calcularPrecioFinal();
     const utilidad = calcularUtilidad();
-    editCartItem(precioFinal, selectedItem, utilidad, descuentoA,descuentoB, ticketCount, monedaValue);
+    editCartItem(
+      precioFinal,
+      selectedItem,
+      utilidad,
+      descuentoA,
+      descuentoB,
+      ticketCount,
+      monedaValue
+    );
   };
 
   const handleDecrement = () => {
@@ -452,7 +460,7 @@ const ThirdTable = ({
                         <EditIcon
                           style={{
                             color: "rgb(12, 55, 100)",
-                            marginLeft:3
+                            marginLeft: 3,
                           }}
                         />
                       </IconButton>
@@ -535,12 +543,34 @@ const TableShop = ({
         <Typography style={{ fontWeight: "bold", fontSize: "1.2rem" }}>
           SKU: {detalleProducto.codigoInterno}
         </Typography>
+        <div style={{display:"flex", marginLeft: "auto", paddingLeft:35 }}>
+        <Typography style={{marginTop:5,fontWeight: "bold"}}>P.DESC:</Typography>
+          <TextField
+            variant="outlined"
+            autoComplete="off"
+            value={total} // Valor del estado
+            style={{ paddingLeft: 5 }}
+            onChange={handlPrecioFinalChange}
+            InputProps={{
+              style: {
+                fontSize: "14px",
+                width: "90px",
+                height: "35px",
+                textAlign: "center",
+              },
+              disabled: !isChecked,
+            }}
+          />
+        </div>
+         
+      
+
         <Box
           sx={{
             marginRight: 1,
             marginLeft: "auto",
             width: 250,
-            marginBottom: 1,
+            marginBottom: 0,
           }}
         >
           <Select

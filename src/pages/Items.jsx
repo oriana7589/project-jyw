@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import CssBaseline from "@mui/material/CssBaseline";
 import Container from "@mui/material/Container";
 import { styled } from "@mui/material/styles";
@@ -12,6 +12,8 @@ import LogoCom from "../image/logoCompleto.png";
 import CarritoCompras from "../components/CarritoCompras";
 import ListaProductos from "../components/ListaProductos";
 import SI from "./SI";
+import ProductosSugeridosCliente from "../components/ProductosSugeridosCliente";
+import { CircularProgress } from "@mui/material";
 
 const CustomLeftTab = styled(Tab)(({ theme, selected }) => ({
   color: selected
@@ -107,7 +109,23 @@ const PestañaContenido = ({
   calcularUtilidad,
   isAddToCartVisible,
   isEditToCartVisible,
-  handleItemSIClick
+  handleItemSIClick,
+  handlProformaClick,
+  setTotalSubtotal,
+  setTotal1,
+  totalDecimal,
+  totalFinal,
+  subTotalFinal,
+  calculoIGV,
+  totalSubtotal,
+  total1,
+  fechaV,
+  setFechaV ,
+  handleItemSugeridoClick,
+  selectedClient,
+  proformaSeleccionada,
+  totalConvertido,
+  handleImporteTotal
 }) => {
 
   switch (value) {
@@ -147,6 +165,7 @@ const PestañaContenido = ({
           setTabValue = {setTabValue}
           isAddToCartVisible = {isAddToCartVisible}
           isEditToCartVisible = {isEditToCartVisible}
+          handleItemSugeridoClick = {handleItemSugeridoClick}
         />
       );
     case 1:
@@ -183,6 +202,19 @@ const PestañaContenido = ({
           handleCheckboxChange = {handleCheckboxChange}
           setTabValue = {setTabValue}
           handleGoToTab1 = {handleGoToTab1}
+          handlProformaClick = {handlProformaClick}
+          setTotalSubtotal = {setTotalSubtotal}
+          setTotal1 = {setTotal1}
+          totalDecimal = {totalDecimal}
+          totalFinal = {totalFinal}
+          subTotalFinal = {subTotalFinal}
+          calculoIGV = {calculoIGV}
+          totalSubtotal =  {totalSubtotal}
+          total1 = {total1}
+          fechaV = {fechaV}
+          setFechaV = {setFechaV}
+          proformaSeleccionada = {proformaSeleccionada}
+          totalConvertido = {totalConvertido}
           
         />
       );
@@ -267,11 +299,46 @@ const Items = ({
   calcularUtilidad,
   isAddToCartVisible,
   isEditToCartVisible,
-  handleItemSIClick
+  handleItemSIClick,
+  handlProformaClick,
+  setTotalSubtotal,
+  setTotal1,
+  totalDecimal,
+  totalFinal,
+  subTotalFinal,
+  calculoIGV,
+  totalSubtotal,
+  total1,
+  fechaV,
+  setFechaV ,
+  selectedClient,
+  produtosSugeridosCliente,
+  handleItemsSelect,
+  isLoading , 
+  setIsLoading , 
+  proformaSeleccionada,
+  totalConvertido
 }) => {
+
   const handleChangeTab = (event, newValue) => {
     setTabValue(newValue);
   };
+
+  useEffect(() => {
+    // Simular una carga de datos con un retraso de 1.5 segundos
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 2500);
+  
+    // Limpia el temporizador en caso de que el componente se desmonte antes de que se complete la carga
+    return () => clearTimeout(timer);
+  }, []);
+  
+  useEffect(() => {
+    if (produtosSugeridosCliente.length > 0) {
+      setIsLoading(false);
+    }
+  }, [produtosSugeridosCliente]);
 
   return (
     <React.Fragment>
@@ -407,9 +474,24 @@ const Items = ({
             isAddToCartVisible = {isAddToCartVisible}
             isEditToCartVisible= {isEditToCartVisible}
             handleItemSIClick = {handleItemSIClick}
+            handlProformaClick= {handlProformaClick}
+            setTotalSubtotal = {setTotalSubtotal}
+            setTotal1 = {setTotal1}
+            totalDecimal = {totalDecimal}
+            totalFinal = {totalFinal}
+            subTotalFinal = {subTotalFinal}
+            calculoIGV = {calculoIGV}
+            totalSubtotal = {totalSubtotal}
+            total1 = {total1}
+            fechaV = {fechaV}
+            setFechaV = {setFechaV}
+            selectedClient = {selectedClient}
+            proformaSeleccionada = {proformaSeleccionada}
+            totalConvertido = {totalConvertido}
           />
         ) : (
-          <div
+           !selectedClient ? ( 
+           <div
             style={{
               height: "calc(100vh - 15rem)",
               display: "flex",
@@ -430,6 +512,41 @@ const Items = ({
               style={{ width: 360, height: 75, opacity: 0.5 }}
             />
           </div>
+          ) : (
+            produtosSugeridosCliente.length>0 ? 
+              (
+                <ProductosSugeridosCliente   
+                produtosSugeridosCliente = {produtosSugeridosCliente} 
+                codigoSeleccionado = {codigoSeleccionado}
+                handleItemsSelect = {handleItemsSelect}
+               />
+               )
+             :
+             (
+              <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "center",
+                alignItems: "center",
+                height: "300px",
+                width: "900px",
+                paddingLeft:300
+              }}
+            >
+              <img src={Logo} alt="Logo" style={{ width: 120, height: 30, marginBottom:20 }} />
+              <CircularProgress
+                style={{
+                  color: "rgb(12, 55, 100)",
+                  height: "50px",
+                  width: "50px",
+                }}
+              />
+            </div>
+             )
+          )
+          
+          
         )}
       </Box>
     </React.Fragment>

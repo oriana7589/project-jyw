@@ -35,12 +35,22 @@ export default function CarritoCompras({
   isChecked2 ,
   handleCheckboxChange ,
   setTabValue,
-  handleGoToTab1
+  handleGoToTab1,
+  handlProformaClick,
+  setTotalSubtotal,
+  setTotal1,
+  totalDecimal,
+  totalFinal,
+  subTotalFinal,
+  calculoIGV,
+  totalSubtotal,
+  total1,
+  fechaV,
+  setFechaV , 
+  proformaSeleccionada,
+  totalConvertido
 }) {
-  const [totalSubtotal, setTotalSubtotal] = useState(0);
-  const [total, setTotal] = useState(0);
-  
-
+ 
   return (
     <React.Fragment>
       <CssBaseline />
@@ -64,7 +74,7 @@ export default function CarritoCompras({
             monedaValue={monedaValue}
             moneda={moneda}
             totalSubtotal={totalSubtotal}
-            total = {total}
+            total1 = {total1}
             vendedor= {vendedor}
             setVendedor = {setVendedor}
             formaPagos = {formaPagos}
@@ -77,7 +87,14 @@ export default function CarritoCompras({
             setDias = {setDias}
             observaciones =  {observaciones}
             setObservaciones = {setObservaciones}
-         
+            totalDecimal = {totalDecimal}
+            totalFinal = {totalFinal}
+            subTotalFinal = {subTotalFinal}
+            calculoIGV = {calculoIGV}
+            fechaV = {fechaV}
+            setFechaV =  {setFechaV}
+            proformaSeleccionada = {proformaSeleccionada}
+            totalConvertido = {totalConvertido}
           />
         </div>
         <div style={{ flex: 0.5 }}>
@@ -90,12 +107,13 @@ export default function CarritoCompras({
             articuloSugerido={articuloSugerido}
             setArticuloSugerido={setArticuloSugerido}
             setTotalSubtotal={setTotalSubtotal}
-            setTotal = {setTotal}
+            setTotal1 = {setTotal1}
             isChecked1 = {isChecked1}
             isChecked2 = {isChecked2}
             handleCheckboxChange = {handleCheckboxChange}
             setTabValue = {setTabValue}
             handleGoToTab1 = {handleGoToTab1}
+            handlProformaClick = {handlProformaClick}
           />
         </div>
       </Container>
