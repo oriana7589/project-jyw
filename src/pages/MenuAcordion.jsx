@@ -135,6 +135,7 @@ const TuComponente = () => {
   };
 
   const handleClientSelect = (cliente) => {
+    console.log('cliente', cliente)
     setSelectedClient(cliente);
     setIsAddToCartVisible(true);
     setIsEditToCartVisible(false);
@@ -547,6 +548,16 @@ const TuComponente = () => {
     getTransportistas().then((transportistas) => {
       setTransportistas(transportistas);
     });
+
+    getArticulosSugeridos().then((articuloSugerido) => {
+      setArticuloSugerido(articuloSugerido);
+    });
+
+    getPDFDataTecnica("%5C%5C10.10.0.25%5CPDFDataTecnica%5Cpdfprueba.pdf").then(
+      (pdfData) => {
+        setPDFData(pdfData);
+      }
+    );
   }, []);
 
   useEffect(() => {
@@ -778,9 +789,9 @@ const TuComponente = () => {
       getClientes(criterioBusqueda).then((tablaClientes) => {
         setClientes(tablaClientes);
       });
-      getArticulosSugeridos().then((articuloSugerido) => {
-        setArticuloSugerido(articuloSugerido);
-      });
+      // getArticulosSugeridos().then((articuloSugerido) => {
+      //   setArticuloSugerido(articuloSugerido);
+      // });
     } else {
       setClientes([]);
     }
@@ -865,12 +876,35 @@ const TuComponente = () => {
     if (proformaDetalle.length > 0) {
       //COPIANDO EL CODIGO JAJA      
 
-      console.log('cartItems DETALLE CARGADO', cartItems)
+      const clienteProforma = {
+        codigoCliente: proformaSeleccionada.codigoClipro,
+        tipoDocumento: proformaSeleccionada.tipoDocumentoCliente,
+        numDocumento: proformaSeleccionada.numeroDocumentoCliente,
+        codigoVendedor: proformaSeleccionada.codigoVendedorCliente,
+        razonSocial: proformaSeleccionada.razonSocialCliente,
+        direccion: proformaSeleccionada.direccionCliente,
+        telefono1: proformaSeleccionada.telefonoUnoCliente,
+        telefono2: proformaSeleccionada.telefonoDosCliente,
+        celular: proformaSeleccionada.celularCliente,
+        correo: proformaSeleccionada.correoCliente,
+        estado: proformaSeleccionada.estadoCliente
+      }
+      
+      console.log('clienteProforma', clienteProforma)
+      handleClientSelect(clienteProforma);
+      //setSelectedClient(clienteProforma); 
+
       setDatosDisponibles(true);
       setTabValue(1);
       handleExpandClick(2);
 
       const primerItem = ((proformaDetalle.find((item) => item.numeroItem === 1) ?? {}).codigoInterno) ?? "000000100018967";
+
+      getHistorialPrecios(primerItem, clienteProforma.codigoCliente).then(
+        (historialPrecios) => {
+          setHistorialPrecios(historialPrecios);
+        }
+      );
 
       setCodigoSeleccionado(primerItem);
       setIsAddToCartVisible(true);
@@ -913,8 +947,6 @@ const TuComponente = () => {
       }
       let newCartItems = [];
       proformaDetalle.map((item) => {
-        console.log("item", item);
-        console.log('cartItems ITERACION', cartItems)
         const precioVenta = new Decimal(item.precioVenta);
         const precioCompra = item.precioCompra;
         const utilidad = precioVenta
@@ -938,11 +970,8 @@ const TuComponente = () => {
           precioFinal: item.totalItem,
           ticketCount: item.cantidad,
           utilidad: utilidad,
-        };
-        console.log('newItems', newItems)
-        newCartItems.push(newItems);
-        
-        console.log('cartItems ITERACION LLENADO', cartItems)
+        };        
+        newCartItems.push(newItems);   
       });
 
       setCartItems(newCartItems);

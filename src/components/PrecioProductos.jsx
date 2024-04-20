@@ -80,11 +80,11 @@ function PrecioProductos({
 
     calcularFechaVencimiento();
   }, [cantidad]);
-console.log('transporte', transporte)
+  
   if (transporte === null || transporte === undefined) {
     transporte = {descripcionCorta: "Seleccione transportista"}
   }
-  
+
   return (
     <div style={{ width: "90%", paddingTop: 10 }}>
       <Grid container spacing={2}>
