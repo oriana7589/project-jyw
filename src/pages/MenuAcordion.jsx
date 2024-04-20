@@ -135,6 +135,7 @@ const TuComponente = () => {
   };
 
   const handleClientSelect = (cliente) => {
+    console.log('cliente', cliente)
     setSelectedClient(cliente);
     setIsAddToCartVisible(true);
     setIsEditToCartVisible(false);
@@ -184,29 +185,7 @@ const TuComponente = () => {
   let subTotalFinal;
   let calculoIGV;
   let totalConvertido;
-  if (proformaSeleccionada && proformaSeleccionada.importeTotal) {
-    totalFinal =
-      monedaValue === "SOLES"
-        ? "S/ " + proformaSeleccionada.importeTotal
-        : "$ " + proformaSeleccionada.importeTotal;
-
-    subTotalFinal =
-      monedaValue === "SOLES"
-        ? "S/ " + proformaSeleccionada.importeNeto
-        : "$ " + proformaSeleccionada.importeNeto;
-
-    calculoIGV =
-      monedaValue === "SOLES"
-        ? "S/ " + proformaSeleccionada.importeIgv
-        : "$ " + proformaSeleccionada.importeIgv;
-
-    totalConvertido =
-        monedaValue === "SOLES"
-          ? "$ " + proformaSeleccionada.importeTotal/moneda
-          : "S/" + proformaSeleccionada.importeTotal*moneda
-
-    console.log("Proforma Seleccionada:", proformaSeleccionada);
-  } else {
+  
     totalFinal =
       monedaValue === "SOLES"
         ? "S/ " + totalDecimal.toDecimalPlaces(2).toString()
@@ -227,10 +206,7 @@ const TuComponente = () => {
     totalConvertido =
       monedaValue === "SOLES"
         ? "$ " + totalDecimal.dividedBy(moneda).toDecimalPlaces(2).toString()
-        : "S/ " + totalDecimal.times(moneda).toDecimalPlaces(2).toString();
-
-    console.log("moneda:", monedaValue, "Total Final:", totalFinal);
-  }
+        : "S/ " + totalDecimal.times(moneda).toDecimalPlaces(2).toString();    
 
   const calcularPrecioFinal = () => {
     if (ticketCount === "") {
@@ -572,6 +548,16 @@ const TuComponente = () => {
     getTransportistas().then((transportistas) => {
       setTransportistas(transportistas);
     });
+
+    getArticulosSugeridos().then((articuloSugerido) => {
+      setArticuloSugerido(articuloSugerido);
+    });
+
+    getPDFDataTecnica("%5C%5C10.10.0.25%5CPDFDataTecnica%5Cpdfprueba.pdf").then(
+      (pdfData) => {
+        setPDFData(pdfData);
+      }
+    );
   }, []);
 
   useEffect(() => {
@@ -803,9 +789,9 @@ const TuComponente = () => {
       getClientes(criterioBusqueda).then((tablaClientes) => {
         setClientes(tablaClientes);
       });
-      getArticulosSugeridos().then((articuloSugerido) => {
-        setArticuloSugerido(articuloSugerido);
-      });
+      // getArticulosSugeridos().then((articuloSugerido) => {
+      //   setArticuloSugerido(articuloSugerido);
+      // });
     } else {
       setClientes([]);
     }
@@ -866,27 +852,66 @@ const TuComponente = () => {
   const handleBuscarProforma = () => {
     if (numeroProforma === "") {
       toast.warning("Por favor, ingrese la proforma");
-    } else {
-      getSeleccionarProformaCabecera(numeroProforma).then(
-        (proformaSeleccionada) => {
-          setProformaSeleccionada(proformaSeleccionada);
-        }
-      );
+      } else {
+        console.log('cartItems BUSCAR PROFORMA', cartItems)
+        //setCartItems([]);
+        console.log('cartItems BUSCAR PROFORMA VACIO', cartItems)
+        getSeleccionarProformaCabecera(numeroProforma).then(
+          (proformaSeleccionada) => {
+            setProformaSeleccionada(proformaSeleccionada);
+          }
+        );
+      }
+    };
 
+  useEffect(() => {
+    if (proformaSeleccionada) {
       getSeleccionarProformaDetalle(numeroProforma).then((proformaDetalle) => {
         setProformaDetalle(proformaDetalle);
       });
+    }
+  },[proformaSeleccionada]);
+
+  useEffect(() => {
+    if (proformaDetalle.length > 0) {
+      //COPIANDO EL CODIGO JAJA      
+
+      const clienteProforma = {
+        codigoCliente: proformaSeleccionada.codigoClipro,
+        tipoDocumento: proformaSeleccionada.tipoDocumentoCliente,
+        numDocumento: proformaSeleccionada.numeroDocumentoCliente,
+        codigoVendedor: proformaSeleccionada.codigoVendedorCliente,
+        razonSocial: proformaSeleccionada.razonSocialCliente,
+        direccion: proformaSeleccionada.direccionCliente,
+        telefono1: proformaSeleccionada.telefonoUnoCliente,
+        telefono2: proformaSeleccionada.telefonoDosCliente,
+        celular: proformaSeleccionada.celularCliente,
+        correo: proformaSeleccionada.correoCliente,
+        estado: proformaSeleccionada.estadoCliente
+      }
+      
+      console.log('clienteProforma', clienteProforma)
+      handleClientSelect(clienteProforma);
+      //setSelectedClient(clienteProforma); 
 
       setDatosDisponibles(true);
       setTabValue(1);
       handleExpandClick(2);
 
-      setCodigoSeleccionado("000000100018967");
+      const primerItem = ((proformaDetalle.find((item) => item.numeroItem === 1) ?? {}).codigoInterno) ?? "000000100018967";
+
+      getHistorialPrecios(primerItem, clienteProforma.codigoCliente).then(
+        (historialPrecios) => {
+          setHistorialPrecios(historialPrecios);
+        }
+      );
+
+      setCodigoSeleccionado(primerItem);
       setIsAddToCartVisible(true);
       setIsEditToCartVisible(false);
-      fetchData("000000100018967");
+      fetchData(primerItem);
 
-      getFechaLlegadaProductoSeleccionado("000000100018967").then(
+      getFechaLlegadaProductoSeleccionado(primerItem).then(
         (fechaLlegada) => {
           setfechaLlegada(fechaLlegada);
         }
@@ -909,7 +934,7 @@ const TuComponente = () => {
           ? formaPago[1]
           : formaPago[2]
       );
-      console.log(proformaSeleccionada.codigoFormaPago);
+      
       setCantidad(proformaSeleccionada.diasCredito);
       hallarVendedorPorCodigo(proformaSeleccionada.codigoVendedor);
       hallarTransportistaPorCodigo(proformaSeleccionada.codigoTransportista);
@@ -920,9 +945,8 @@ const TuComponente = () => {
         setIsChecked1(true);
         setIsChecked2(false);
       }
-
+      let newCartItems = [];
       proformaDetalle.map((item) => {
-        console.log("item", item);
         const precioVenta = new Decimal(item.precioVenta);
         const precioCompra = item.precioCompra;
         const utilidad = precioVenta
@@ -930,16 +954,15 @@ const TuComponente = () => {
           .dividedBy(precioCompra)
           .toDecimalPlaces(2);
         const monedaType = moneda;
-        console.log(moneda + "moneda");
-        console.log(item.totalItem + "monto");
+        
         const newItems = {
-          product: "producto de prueba",
+          product: item.descripcionArticulo,
           codigoInterno: item.codigoInterno,
-          linea: "VOL",
-          precioLista: 10,
-          precioCompra: 1,
-          codigoArticulo: "ABCD--2313",
-          marca: "juancito",
+          linea: item.codigoLinea,
+          precioLista: item.precioLista,
+          precioCompra: item.precioCompra,
+          codigoArticulo: item.codigoArticulo,
+          marca: item.descripcionMarca,
           descuentoA: item.descuentoUno,
           descuentoB: item.descuentoDos,
           monto: item.totalItem,
@@ -947,12 +970,14 @@ const TuComponente = () => {
           precioFinal: item.totalItem,
           ticketCount: item.cantidad,
           utilidad: utilidad,
-        };
-        setCartItems([...cartItems, newItems]);
+        };        
+        newCartItems.push(newItems);   
       });
-    }
-  };
 
+      setCartItems(newCartItems);
+    }
+  }, [proformaDetalle]);      
+    
   const handleCloseDialogProduct = () => {
     setDialogProductOpen(false);
   };

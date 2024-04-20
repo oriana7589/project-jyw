@@ -21,6 +21,7 @@ function ItemsProductos({
   moneda,
   removeFromCart,
   setTotalSubtotal,
+  total1,
   setTotal1,
   isChecked1,
   isChecked2,
@@ -30,29 +31,42 @@ function ItemsProductos({
   handlProformaClick
 }) {
   const [hoveredCard, setHoveredCard] = useState(null);
-  
 
-  const calcularSubTotal = () => {
-    const subTotal = cartItems.reduce((subTotal, item) => {
-      return subTotal + parseFloat(item.monto);
-    }, 0);
+  const calcularSubTotal = () => {    
+    const totalNumero = total1.toString().replace("S/", "").replace("$","").trim();
+    const totalDecimal = new Decimal(totalNumero);
+    const subTotal = totalDecimal.dividedBy(1.18);
 
     if (monedaValue === "SOLES") {
-      setTotalSubtotal("S/" + subTotal * moneda);
+      setTotalSubtotal("S/" + subTotal);            
     } else if (monedaValue === "DOLARES AMERICANOS") {
-      setTotalSubtotal("$" + subTotal);
+      setTotalSubtotal("$" + subTotal);      
     }
   };
 
-  const calcularTotalPrecioFinal = () => {
+  const calcularTotalPrecioFinal = () => {    
     const total = cartItems.reduce((total, item) => {
-      return total + parseFloat(item.precioFinal);
-    }, 0);
+      let precioFinal = new Decimal(item.precioFinal);
+
+      if (monedaValue === "SOLES") {
+        if (item.monedaType !== "SOLES") {
+          precioFinal = precioFinal.times(moneda);
+        }
+      } else if (monedaValue === "DOLARES AMERICANOS") {
+        if (item.monedaType !== "DOLARES AMERICANOS") {
+          precioFinal = precioFinal.dividedBy(new Decimal(moneda));
+        }
+      }
+
+      total = total.plus(precioFinal);     
+      return total;
+
+    }, new Decimal(0));
 
     if (monedaValue === "SOLES") {
-      setTotal1("S/" + total * moneda);
+      setTotal1("S/" + total);            
     } else if (monedaValue === "DOLARES AMERICANOS") {
-      setTotal1("$" + total);
+      setTotal1("$" + total);      
     }
   };
 
@@ -63,7 +77,7 @@ function ItemsProductos({
 
   useEffect(() => {
     calcularSubTotal();
-  }, [cartItems, monedaValue, moneda]);
+  }, [total1, cartItems, monedaValue, moneda]);
 
   const handleMouseEnter = (index) => {
     setHoveredCard(index);
@@ -297,25 +311,25 @@ function ItemsProductos({
                     >
                       {monedaValue === "SOLES"
                         ? "S/ " +
-                          (item.monedaType === "SOLES"
-                            ? new Decimal(item.precioFinal)
-                                .toDecimalPlaces(2)
-                                .toString()
-                            : new Decimal(item.precioFinal)
-                                .times(moneda)
-                                .toDecimalPlaces(2)
-                                .toString())
+                        (item.monedaType === "SOLES"
+                          ? new Decimal(item.precioFinal)
+                            .toDecimalPlaces(2)
+                            .toString()
+                          : new Decimal(item.precioFinal)
+                            .times(moneda)
+                            .toDecimalPlaces(2)
+                            .toString())
                         : "$ " +
-                          (monedaValue === "DOLARES AMERICANOS"
-                            ? item.monedaType === "DOLARES AMERICANOS"
-                              ? new Decimal(item.precioFinal)
-                                  .toDecimalPlaces(2)
-                                  .toString()
-                              : new Decimal(item.precioFinal)
-                                  .dividedBy(new Decimal(moneda))
-                                  .toDecimalPlaces(2)
-                                  .toString()
-                            : "")}
+                        (monedaValue === "DOLARES AMERICANOS"
+                          ? item.monedaType === "DOLARES AMERICANOS"
+                            ? new Decimal(item.precioFinal)
+                              .toDecimalPlaces(2)
+                              .toString()
+                            : new Decimal(item.precioFinal)
+                              .dividedBy(new Decimal(moneda))
+                              .toDecimalPlaces(2)
+                              .toString()
+                          : "")}
                     </Typography>
                   </CardContent>
                   <CardContent sx={{ padding: 0, width: 100 }}>
@@ -348,9 +362,9 @@ function ItemsProductos({
                           width: "40px",
                           height: "40px",
                         }}
-                        onClick={() => handleGoToTab1(item.codigoInterno, item.precioFinal, item.descuentoA,item.descuentoB,item.ticketCount)}
+                        onClick={() => handleGoToTab1(item.codigoInterno, item.precioFinal, item.descuentoA, item.descuentoB, item.ticketCount)}
                       >
-                        <EditIcon style={{ color: "rgb(12, 55, 100)" }}  />
+                        <EditIcon style={{ color: "rgb(12, 55, 100)" }} />
                       </IconButton>
                     </div>
                   </CardContent>
