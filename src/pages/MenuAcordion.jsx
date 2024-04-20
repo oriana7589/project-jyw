@@ -184,29 +184,7 @@ const TuComponente = () => {
   let subTotalFinal;
   let calculoIGV;
   let totalConvertido;
-  if (proformaSeleccionada && proformaSeleccionada.importeTotal) {
-    totalFinal =
-      monedaValue === "SOLES"
-        ? "S/ " + proformaSeleccionada.importeTotal
-        : "$ " + proformaSeleccionada.importeTotal;
-
-    subTotalFinal =
-      monedaValue === "SOLES"
-        ? "S/ " + proformaSeleccionada.importeNeto
-        : "$ " + proformaSeleccionada.importeNeto;
-
-    calculoIGV =
-      monedaValue === "SOLES"
-        ? "S/ " + proformaSeleccionada.importeIgv
-        : "$ " + proformaSeleccionada.importeIgv;
-
-    totalConvertido =
-        monedaValue === "SOLES"
-          ? "$ " + proformaSeleccionada.importeTotal/moneda
-          : "S/" + proformaSeleccionada.importeTotal*moneda
-
-    console.log("Proforma Seleccionada:", proformaSeleccionada);
-  } else {
+  
     totalFinal =
       monedaValue === "SOLES"
         ? "S/ " + totalDecimal.toDecimalPlaces(2).toString()
@@ -227,10 +205,7 @@ const TuComponente = () => {
     totalConvertido =
       monedaValue === "SOLES"
         ? "$ " + totalDecimal.dividedBy(moneda).toDecimalPlaces(2).toString()
-        : "S/ " + totalDecimal.times(moneda).toDecimalPlaces(2).toString();
-
-    console.log("moneda:", monedaValue, "Total Final:", totalFinal);
-  }
+        : "S/ " + totalDecimal.times(moneda).toDecimalPlaces(2).toString();    
 
   const calcularPrecioFinal = () => {
     if (ticketCount === "") {
@@ -866,27 +841,43 @@ const TuComponente = () => {
   const handleBuscarProforma = () => {
     if (numeroProforma === "") {
       toast.warning("Por favor, ingrese la proforma");
-    } else {
-      getSeleccionarProformaCabecera(numeroProforma).then(
-        (proformaSeleccionada) => {
-          setProformaSeleccionada(proformaSeleccionada);
-        }
-      );
+      } else {
+        console.log('cartItems BUSCAR PROFORMA', cartItems)
+        //setCartItems([]);
+        console.log('cartItems BUSCAR PROFORMA VACIO', cartItems)
+        getSeleccionarProformaCabecera(numeroProforma).then(
+          (proformaSeleccionada) => {
+            setProformaSeleccionada(proformaSeleccionada);
+          }
+        );
+      }
+    };
 
+  useEffect(() => {
+    if (proformaSeleccionada) {
       getSeleccionarProformaDetalle(numeroProforma).then((proformaDetalle) => {
         setProformaDetalle(proformaDetalle);
       });
+    }
+  },[proformaSeleccionada]);
 
+  useEffect(() => {
+    if (proformaDetalle.length > 0) {
+      //COPIANDO EL CODIGO JAJA      
+
+      console.log('cartItems DETALLE CARGADO', cartItems)
       setDatosDisponibles(true);
       setTabValue(1);
       handleExpandClick(2);
 
-      setCodigoSeleccionado("000000100018967");
+      const primerItem = ((proformaDetalle.find((item) => item.numeroItem === 1) ?? {}).codigoInterno) ?? "000000100018967";
+
+      setCodigoSeleccionado(primerItem);
       setIsAddToCartVisible(true);
       setIsEditToCartVisible(false);
-      fetchData("000000100018967");
+      fetchData(primerItem);
 
-      getFechaLlegadaProductoSeleccionado("000000100018967").then(
+      getFechaLlegadaProductoSeleccionado(primerItem).then(
         (fechaLlegada) => {
           setfechaLlegada(fechaLlegada);
         }
@@ -909,7 +900,7 @@ const TuComponente = () => {
           ? formaPago[1]
           : formaPago[2]
       );
-      console.log(proformaSeleccionada.codigoFormaPago);
+      
       setCantidad(proformaSeleccionada.diasCredito);
       hallarVendedorPorCodigo(proformaSeleccionada.codigoVendedor);
       hallarTransportistaPorCodigo(proformaSeleccionada.codigoTransportista);
@@ -920,9 +911,10 @@ const TuComponente = () => {
         setIsChecked1(true);
         setIsChecked2(false);
       }
-
+      let newCartItems = [];
       proformaDetalle.map((item) => {
         console.log("item", item);
+        console.log('cartItems ITERACION', cartItems)
         const precioVenta = new Decimal(item.precioVenta);
         const precioCompra = item.precioCompra;
         const utilidad = precioVenta
@@ -930,16 +922,15 @@ const TuComponente = () => {
           .dividedBy(precioCompra)
           .toDecimalPlaces(2);
         const monedaType = moneda;
-        console.log(moneda + "moneda");
-        console.log(item.totalItem + "monto");
+        
         const newItems = {
-          product: "producto de prueba",
+          product: item.descripcionArticulo,
           codigoInterno: item.codigoInterno,
-          linea: "VOL",
-          precioLista: 10,
-          precioCompra: 1,
-          codigoArticulo: "ABCD--2313",
-          marca: "juancito",
+          linea: item.codigoLinea,
+          precioLista: item.precioLista,
+          precioCompra: item.precioCompra,
+          codigoArticulo: item.codigoArticulo,
+          marca: item.descripcionMarca,
           descuentoA: item.descuentoUno,
           descuentoB: item.descuentoDos,
           monto: item.totalItem,
@@ -948,11 +939,16 @@ const TuComponente = () => {
           ticketCount: item.cantidad,
           utilidad: utilidad,
         };
-        setCartItems([...cartItems, newItems]);
+        console.log('newItems', newItems)
+        newCartItems.push(newItems);
+        
+        console.log('cartItems ITERACION LLENADO', cartItems)
       });
-    }
-  };
 
+      setCartItems(newCartItems);
+    }
+  }, [proformaDetalle]);      
+    
   const handleCloseDialogProduct = () => {
     setDialogProductOpen(false);
   };

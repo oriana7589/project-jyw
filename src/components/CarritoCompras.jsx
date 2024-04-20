@@ -107,6 +107,7 @@ export default function CarritoCompras({
             articuloSugerido={articuloSugerido}
             setArticuloSugerido={setArticuloSugerido}
             setTotalSubtotal={setTotalSubtotal}
+            total1 = {total1}
             setTotal1 = {setTotal1}
             isChecked1 = {isChecked1}
             isChecked2 = {isChecked2}
