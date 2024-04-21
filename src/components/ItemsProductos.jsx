@@ -70,6 +70,27 @@ function ItemsProductos({
     }
   };
 
+  const calcularUtilidadCarrito = () => {
+    cartItems.forEach((item) => {
+      let precioVentaSinIGVDolares;
+      console.log('item', item)
+      if (item.monedaType === "SOLES") {
+        precioVentaSinIGVDolares = new Decimal(item.monto.dividedBy(moneda).dividedBy(item.ticketCount));
+      } else {          
+        precioVentaSinIGVDolares = new Decimal(item.monto.dividedBy(item.ticketCount));
+      }
+      
+      const precioCompraSinIGVDolares = new Decimal(item.precioCompra).dividedBy(1.18);
+      const utilidad = precioVentaSinIGVDolares
+        .minus(precioCompraSinIGVDolares)
+        .dividedBy(precioCompraSinIGVDolares)
+        .toDecimalPlaces(2);         
+      console.log('item.utilidad', item.utilidad)
+      item.utilidad = utilidad;
+    });
+  };
+
+
   // Llamar a la función para calcular el total al renderizar el componente
   useEffect(() => {
     calcularTotalPrecioFinal();
@@ -77,6 +98,7 @@ function ItemsProductos({
 
   useEffect(() => {
     calcularSubTotal();
+    calcularUtilidadCarrito();
   }, [total1, cartItems, monedaValue, moneda]);
 
   const handleMouseEnter = (index) => {

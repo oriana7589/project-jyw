@@ -33,6 +33,7 @@ import {
   getArticulosSugeridos,
   getPDFDataTecnica,
   postPGenerarProforma,
+  putActualizarProforma,
   getSeleccionarProformaCabecera,
   getSeleccionarProformaDetalle,
 } from "../Services/ApiService";
@@ -240,8 +241,9 @@ const TuComponente = () => {
   }, [ticketCount, monto, descuentoA, descuentoB, monedaValue, moneda]);
 
   const calcularUtilidad = () => {
+  
    // const precioVenta = calcularPrecioFinal();
-    const montoDecimal = new Decimal(monto)
+    const montoDecimal = new Decimal(monto)  
     const precioVentaSinIGV =new  Decimal(monedaValue === "SOLES" ? montoDecimal.dividedBy(moneda): montoDecimal).dividedBy(ticketCount);
     const precioCompraSinIGV = new Decimal(detalleProducto.precioCompra).dividedBy(1.18);
     const utilidad = precioVentaSinIGV
@@ -250,6 +252,10 @@ const TuComponente = () => {
       .toDecimalPlaces(2);
     return utilidad;
   };
+
+  const calcularUtilidadPorItem = () => {
+
+  }
 
   const handlPrecioFinalChange = (event) => {
     const value = event.target.value;
@@ -777,10 +783,96 @@ const TuComponente = () => {
         subTotal,
         incIGV,
         importeTotal,
-        codCliente,
-        cartItems
+        codCliente
       );
       toast.success("Se ha guardado la proforma con éxito");
+    }
+  };
+
+  const actualizarProforma = () => {
+     if (!proformaSeleccionada) {
+       toast.warning("Seleccione una proforma antes de actualizar la proforma");
+     } else if (cartItems.length === 0) {
+      toast.warning("Añadir al menos un producto al carrito para actualizar la proforma");
+    } else {
+      const fechaActual = new Date();
+      const fechaEmision = new Date(
+        fechaActual.getTime() - fechaActual.getTimezoneOffset() * 60000
+      ).toISOString();
+      const fechaVencimiento = fechaV.toString();
+      const codigoMoneda = () => {
+        if (monedaValue === "DOLARES AMERICANOS") {
+          return "USD";
+        } else {
+          return "SOL";
+        }
+      };
+
+      const subTotal = subTotalDecimal.toDecimalPlaces(2);
+      const incIGV = totalDecimal.minus(subTotalDecimal).toDecimalPlaces(2);
+      const importeTotal = totalDecimal.toDecimalPlaces(2);
+      const codCliente = selectedClient.codigoCliente;
+
+      const estado = () => {
+        if (isChecked1 === true && isChecked2 === false) {
+          return "PFA";
+        } else {
+          return "EMI";
+        }
+      };
+
+      const listaDetalle = cartItems.map((item, index) => {
+        const subTotalItem =
+          monedaValue === "SOLES"
+            ? item.monedaType === "SOLES"
+              ? new Decimal(item.monto).toDecimalPlaces(2)
+              : new Decimal(item.monto).times(moneda).toDecimalPlaces(2)
+            : monedaValue === "DOLARES AMERICANOS"
+            ? item.monedaType === "DOLARES AMERICANOS"
+              ? new Decimal(item.monto).toDecimalPlaces(2)
+              : new Decimal(item.monto)
+                  .dividedBy(new Decimal(moneda))
+                  .toDecimalPlaces(2)
+            : 0;
+
+        const precioVentaSinIGV = subTotalItem / ticketCount;
+        const precioCompraSinIGV =  new Decimal(item.precioCompra).dividedBy(1.18).toDecimalPlaces(2);
+        const totalItemConIGV = new Decimal(item.precioFinal).toDecimalPlaces(2);
+
+        return {
+          numeroItem: index + 1,
+          codigoInterno: item.codigoInterno,
+          cantidad: item.ticketCount,
+          precioCompra: precioCompraSinIGV, //item.precioCompra,
+          precioLista: item.precioLista,
+          precioVenta: precioVentaSinIGV,
+          descuentoUno: item.descuentoA,
+          descuentoDos: item.descuentoB,
+          totalItem: parseFloat(subTotalItem),
+          aceptado: item.utilidad > 0.2 ? "S" : "N",
+          igvItem: parseFloat(totalItemConIGV),
+        };
+      });
+
+      setFechaE(fechaEmision);
+      putActualizarProforma(
+        proformaSeleccionada.numeroProforma,
+        fechaEmision,
+        listaDetalle,
+        vendedor,
+        transporte,
+        fechaVencimiento,
+        cantidad,
+        codigoMoneda,
+        formaPagos,
+        observaciones,
+        estado,
+        subTotal,
+        incIGV,
+        importeTotal,
+        codCliente
+      );
+      toast.success("Se ha actualizado la proforma con éxito");
     }
   };
 
@@ -853,10 +945,7 @@ const TuComponente = () => {
   const handleBuscarProforma = () => {
     if (numeroProforma === "") {
       toast.warning("Por favor, ingrese la proforma");
-      } else {
-        console.log('cartItems BUSCAR PROFORMA', cartItems)
-        //setCartItems([]);
-        console.log('cartItems BUSCAR PROFORMA VACIO', cartItems)
+      } else {       
         getSeleccionarProformaCabecera(numeroProforma).then(
           (proformaSeleccionada) => {
             setProformaSeleccionada(proformaSeleccionada);

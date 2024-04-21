@@ -247,8 +247,7 @@ export function postPGenerarProforma(
   subTotal,
   incIGV,
   importeTotal,
-  codCliente,
-  cartItems
+  codCliente
 ) {
   const Proforma = axios
     .post(`${baseUrlProforma()}`, {
@@ -273,6 +272,53 @@ export function postPGenerarProforma(
       observacion: observaciones,
       listaDetalleProforma: listaDetalle,
       
+    })
+    .then((res) => {
+      return res.data;
+    });
+  return Proforma;
+}
+
+export function putActualizarProforma(
+  numeroProforma,
+  fechaEmision,
+  listaDetalle,
+  vendedor,
+  transporte,
+  fechaVencimiento,
+  cantidad,
+  codigoMoneda,
+  formaPagos,
+  observaciones,
+  estado,
+  subTotal,
+  incIGV,
+  importeTotal,
+  codCliente
+) {
+  const Proforma = axios
+    .put(`${baseUrlProforma()}`, {
+      numeroProforma: numeroProforma,
+      codigoEmpresa: "01",
+      codigoTienda: "01",
+      codigoVendedor: vendedor.codigoVendedor === undefined ? "1": vendedor.codigoVendedor.toString().trim() ,
+      codigoFormaPago: formaPagos.codigoFormaPago === undefined ? "CON" : formaPagos.codigoFormaPago,
+      codigoMoneda: codigoMoneda(),
+      codigoClipro: codCliente,
+      urgenteDespacho: "N",
+      tipoEnvio: "ALM",
+      codigoTransportista: transporte.codigoTransportista === undefined ? "-1" : transporte.codigoTransportista.toString().trim(),
+      fechaEmision: fechaEmision,
+      diasCredito: cantidad,
+      fechaVencimiento: fechaVencimiento,
+      importeNeto: parseFloat(subTotal),
+      importeDescuento: 0,
+      porIgv: 0.18,
+      importeIgv: parseFloat(incIGV),
+      importeTotal: parseFloat(importeTotal),
+      estado: estado(),
+      observacion: observaciones,
+      listaDetalleProforma: listaDetalle,      
     })
     .then((res) => {
       return res.data;
