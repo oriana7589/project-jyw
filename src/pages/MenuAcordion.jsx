@@ -240,11 +240,13 @@ const TuComponente = () => {
   }, [ticketCount, monto, descuentoA, descuentoB, monedaValue, moneda]);
 
   const calcularUtilidad = () => {
-    const precioVenta = calcularPrecioFinal();
-    const precioCompra = detalleProducto.precioCompra;
-    const utilidad = precioVenta
-      .minus(precioCompra)
-      .dividedBy(precioCompra)
+   // const precioVenta = calcularPrecioFinal();
+    const montoDecimal = new Decimal(monto)
+    const precioVentaSinIGV =new  Decimal(monedaValue === "SOLES" ? montoDecimal.dividedBy(moneda): montoDecimal).dividedBy(ticketCount);
+    const precioCompraSinIGV = new Decimal(detalleProducto.precioCompra).dividedBy(1.18);
+    const utilidad = precioVentaSinIGV
+      .minus(precioCompraSinIGV)
+      .dividedBy(precioCompraSinIGV)
       .toDecimalPlaces(2);
     return utilidad;
   };
@@ -439,10 +441,11 @@ const TuComponente = () => {
     setToastOpen(true);
     toast.success("Se ha guardado el producto con éxito");
     const monedaType = monedaValue;
-
+   
     const subTotalItem = new Decimal(
       new Decimal(precioFinal) / new Decimal(1.18)
     ).toDecimalPlaces(2);
+    console.log('subTotalItem', subTotalItem)
     const newItem = {
       product: detalleProducto.descripcionArticulo,
       codigoInterno: detalleProducto.codigoInterno,
@@ -727,37 +730,35 @@ const TuComponente = () => {
       };
 
       const listaDetalle = cartItems.map((item, index) => {
-        const precioF =
+        const subTotalItem =
           monedaValue === "SOLES"
             ? item.monedaType === "SOLES"
-              ? new Decimal(item.precioFinal).toDecimalPlaces(2)
-              : new Decimal(item.precioFinal).times(moneda).toDecimalPlaces(2)
+              ? new Decimal(item.monto).toDecimalPlaces(2)
+              : new Decimal(item.monto).times(moneda).toDecimalPlaces(2)
             : monedaValue === "DOLARES AMERICANOS"
             ? item.monedaType === "DOLARES AMERICANOS"
-              ? new Decimal(item.precioFinal).toDecimalPlaces(2)
-              : new Decimal(item.precioFinal)
+              ? new Decimal(item.monto).toDecimalPlaces(2)
+              : new Decimal(item.monto)
                   .dividedBy(new Decimal(moneda))
                   .toDecimalPlaces(2)
             : 0;
 
-        const precioVenta = precioF / ticketCount;
-
-        const conIgv = new Decimal(item.precioFinal)
-          .times(0.18)
-          .toDecimalPlaces(2);
+        const precioVentaSinIGV = subTotalItem / ticketCount;
+        const precioCompraSinIGV =  new Decimal(item.precioCompra).dividedBy(1.18).toDecimalPlaces(2);
+        const totalItemConIGV = new Decimal(item.precioFinal).toDecimalPlaces(2);
 
         return {
           numeroItem: index + 1,
           codigoInterno: item.codigoInterno,
           cantidad: item.ticketCount,
-          precioCompra: item.precioCompra,
+          precioCompra: precioCompraSinIGV, //item.precioCompra,
           precioLista: item.precioLista,
-          precioVenta: precioVenta,
+          precioVenta: precioVentaSinIGV,
           descuentoUno: item.descuentoA,
           descuentoDos: item.descuentoB,
-          totalItem: parseFloat(precioF),
+          totalItem: parseFloat(subTotalItem),
           aceptado: item.utilidad > 0.2 ? "S" : "N",
-          igvItem: parseFloat(conIgv),
+          igvItem: parseFloat(totalItemConIGV),
         };
       });
 
