@@ -75,9 +75,9 @@ function ItemsProductos({
       let precioVentaSinIGVDolares;
       console.log('item', item)
       if (item.monedaType === "SOLES") {
-        precioVentaSinIGVDolares = new Decimal(item.monto.dividedBy(moneda).dividedBy(item.ticketCount));
+        precioVentaSinIGVDolares = new Decimal(new Decimal(item.monto).dividedBy(moneda).dividedBy(item.ticketCount));
       } else {          
-        precioVentaSinIGVDolares = new Decimal(item.monto.dividedBy(item.ticketCount));
+        precioVentaSinIGVDolares = new Decimal(new Decimal(item.monto).dividedBy(item.ticketCount));
       }
       
       const precioCompraSinIGVDolares = new Decimal(item.precioCompra).dividedBy(1.18);
