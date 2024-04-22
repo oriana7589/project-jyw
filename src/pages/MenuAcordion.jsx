@@ -118,6 +118,7 @@ const TuComponente = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [importeTotal, setImporteTotal] = useState(0);
 
+
   const handleCheckboxChange = (checkboxNumber) => {
     if (checkboxNumber === 1) {
       setIsChecked1(true);
@@ -1018,7 +1019,7 @@ const TuComponente = () => {
         proformaSeleccionada.codigoMoneda === "USD"
           ? "DOLARES AMERICANOS"
           : "SOLES";
-      setObservaciones(proformaSeleccionada.observacion.toString());
+      setObservaciones(proformaSeleccionada.observacion === null ? "": proformaSeleccionada.observacion.toString());
       formateFecha(proformaSeleccionada.fechaVencimiento);
       setMonedaValue(moneda);
       setFormaPagos(
@@ -1029,7 +1030,7 @@ const TuComponente = () => {
           : formaPago[2]
       );
       
-      setCantidad(proformaSeleccionada.diasCredito);
+      setCantidad(proformaSeleccionada.diasCredito === null ? 0 : proformaSeleccionada.diasCredito );
       hallarVendedorPorCodigo(proformaSeleccionada.codigoVendedor);
       hallarTransportistaPorCodigo(proformaSeleccionada.codigoTransportista);
       if (proformaSeleccionada.estado === "EMI") {
@@ -1061,7 +1062,7 @@ const TuComponente = () => {
           descuentoB: item.descuentoDos,
           monto: item.totalItem,
           monedaType: moneda,
-          precioFinal: item.totalItem,
+          precioFinal: item.igvItem,
           ticketCount: item.cantidad,
           utilidad: utilidad,
         };        

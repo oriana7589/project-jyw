@@ -15,6 +15,7 @@ import Logo from "../image/logo.png";
 import LogoCom from "../image/logoCompleto.png";
 import MenuAcordion from "../pages/MenuAcordion";
 import ArticleIcon from '@mui/icons-material/Article';
+import { Dialog, DialogActions, DialogContent, Typography, Button } from "@mui/material";
 
 const drawerWidth = 240;
 
@@ -81,6 +82,22 @@ export default function DrawerModel() {
   const [open, setOpen] = React.useState(false);
   const [content, setContent] = useState("");
   const [menuKey, setMenuKey] = useState(0);
+
+  const [dialogOpen, setDialogOpen] = useState(false);
+
+  const handleOpenDialog = () => {
+    setDialogOpen(true);
+  };
+
+  const handleCloseDialog = () => {
+    setDialogOpen(false);
+  };
+
+  const handleNuevaProforma = () => {
+    setDialogOpen(false);
+    reiniciarAplicacion();
+  };
+
 
   React.useEffect(() => {
     // Establecer el contenido inicial al cargar la aplicación
@@ -156,7 +173,7 @@ export default function DrawerModel() {
               <ListItemText
                 primary="Nueva Proforma"
                 sx={{ opacity: open ? 1 : 0, color: "rgb(12,55,100)" }}
-                onClick={() => {reiniciarAplicacion()}}
+                onClick={handleOpenDialog}
               />
             </ListItemButton>
 
@@ -200,6 +217,24 @@ export default function DrawerModel() {
         <DrawerHeader />
         {content === "MenuAcordion" && <MenuAcordion  key={menuKey}  />}
       </Box>
+
+      {/* Dialog para Actualizar menú acordion */}
+      <Dialog open={dialogOpen} onClose={handleCloseDialog}>
+        <DialogContent>
+          <Typography variant="body1">
+          ¿Quieres crear una nueva proforma ? <br/>
+          Una vez aceptado se perderán los datos existentes.
+          </Typography>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseDialog} color="error">
+            Cancelar
+          </Button>
+          <Button onClick={handleNuevaProforma} variant="contained" autoFocus style={{backgroundColor: "rgb(255, 168, 0)"}}>
+            Aceptar
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Box>
   );
 }

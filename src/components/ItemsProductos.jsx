@@ -35,8 +35,7 @@ function ItemsProductos({
   proformaSeleccionada,
   isEditProformaVisible,
   isAddProformaVisible,
-  actualizarProforma
-
+  actualizarProforma,
 }) {
   const [hoveredCard, setHoveredCard] = useState(null);
 
@@ -51,22 +50,27 @@ function ItemsProductos({
   };
 
   const handleConfirmEdit = () => {
-    actualizarProforma
+    setDialogOpen(false);
+    actualizarProforma();
   };
 
-  const calcularSubTotal = () => {    
-    const totalNumero = total1.toString().replace("S/", "").replace("$","").trim();
+  const calcularSubTotal = () => {
+    const totalNumero = total1
+      .toString()
+      .replace("S/", "")
+      .replace("$", "")
+      .trim();
     const totalDecimal = new Decimal(totalNumero);
     const subTotal = totalDecimal.dividedBy(1.18);
 
     if (monedaValue === "SOLES") {
-      setTotalSubtotal("S/" + subTotal);            
+      setTotalSubtotal("S/" + subTotal);
     } else if (monedaValue === "DOLARES AMERICANOS") {
-      setTotalSubtotal("$" + subTotal);      
+      setTotalSubtotal("$" + subTotal);
     }
   };
 
-  const calcularTotalPrecioFinal = () => {    
+  const calcularTotalPrecioFinal = () => {
     const total = cartItems.reduce((total, item) => {
       let precioFinal = new Decimal(item.precioFinal);
 
@@ -80,38 +84,42 @@ function ItemsProductos({
         }
       }
 
-      total = total.plus(precioFinal);     
+      total = total.plus(precioFinal);
       return total;
-
     }, new Decimal(0));
 
     if (monedaValue === "SOLES") {
-      setTotal1("S/" + total);            
+      setTotal1("S/" + total);
     } else if (monedaValue === "DOLARES AMERICANOS") {
-      setTotal1("$" + total);      
+      setTotal1("$" + total);
     }
   };
 
   const calcularUtilidadCarrito = () => {
     cartItems.forEach((item) => {
       let precioVentaSinIGVDolares;
-      console.log('item', item)
+      console.log("item", item);
       if (item.monedaType === "SOLES") {
-        precioVentaSinIGVDolares = new Decimal(new Decimal(item.monto).dividedBy(moneda).dividedBy(item.ticketCount));
-      } else {          
-        precioVentaSinIGVDolares = new Decimal(new Decimal(item.monto).dividedBy(item.ticketCount));
+        precioVentaSinIGVDolares = new Decimal(
+          new Decimal(item.monto).dividedBy(moneda).dividedBy(item.ticketCount)
+        );
+      } else {
+        precioVentaSinIGVDolares = new Decimal(
+          new Decimal(item.monto).dividedBy(item.ticketCount)
+        );
       }
-      
-      const precioCompraSinIGVDolares = new Decimal(item.precioCompra).dividedBy(1.18);
+
+      const precioCompraSinIGVDolares = new Decimal(
+        item.precioCompra
+      ).dividedBy(1.18);
       const utilidad = precioVentaSinIGVDolares
         .minus(precioCompraSinIGVDolares)
         .dividedBy(precioCompraSinIGVDolares)
-        .toDecimalPlaces(2);         
-      console.log('item.utilidad', item.utilidad)
+        .toDecimalPlaces(2);
+      console.log("item.utilidad", item.utilidad);
       item.utilidad = utilidad;
     });
   };
-
 
   // Llamar a la función para calcular el total al renderizar el componente
   useEffect(() => {
@@ -130,7 +138,6 @@ function ItemsProductos({
   const handleMouseLeave = () => {
     setHoveredCard(null);
   };
-
 
   return (
     <div>
@@ -161,51 +168,50 @@ function ItemsProductos({
         />
         <label htmlFor="checkbox2">Emitido</label>
         <div>
-          {isEditProformaVisible  ? (
+          {isEditProformaVisible ? (
             <IconButton
-            style={{
-              backgroundColor: "rgb(182, 205, 229)",
-              borderRadius: "0",
-              height: "35px",
-              width: "180px",
-              marginLeft:240,
-            }}
-            onClick={handleOpenDialog}
-          >
-            <Typography
               style={{
-                color: "rgb(12, 55, 100)",
+                backgroundColor: "rgb(182, 205, 229)",
                 borderRadius: "0",
+                height: "35px",
+                width: "180px",
+                marginLeft: 240,
               }}
+              onClick={handleOpenDialog}
             >
-              Editar proforma
-            </Typography>
-          </IconButton>
-           
-
-          ): isAddProformaVisible ?( 
+              <Typography
+                style={{
+                  color: "rgb(12, 55, 100)",
+                  borderRadius: "0",
+                }}
+              >
+                Editar proforma
+              </Typography>
+            </IconButton>
+          ) : isAddProformaVisible ? (
             <IconButton
-             style={{
-               backgroundColor: "rgb(226, 52, 48)",
-               borderRadius: "0",
-               height: "35px",
-               width: "180px",
-               marginLeft: 240,
-             }}
-             onClick={handlProformaClick}
-           >
-             <Typography
-               style={{
-                 color: "rgb(255, 255, 255)",
-                 borderRadius: "0",
-               }}
-             >
-               Guardar proforma
-             </Typography>
-           </IconButton>
-        ): <></>}
+              style={{
+                backgroundColor: "rgb(226, 52, 48)",
+                borderRadius: "0",
+                height: "35px",
+                width: "180px",
+                marginLeft: 240,
+              }}
+              onClick={handlProformaClick}
+            >
+              <Typography
+                style={{
+                  color: "rgb(255, 255, 255)",
+                  borderRadius: "0",
+                }}
+              >
+                Guardar proforma
+              </Typography>
+            </IconButton>
+          ) : (
+            <></>
+          )}
         </div>
-       
       </div>
       {cartItems.length === 0 ? (
         <div
@@ -382,25 +388,25 @@ function ItemsProductos({
                     >
                       {monedaValue === "SOLES"
                         ? "S/ " +
-                        (item.monedaType === "SOLES"
-                          ? new Decimal(item.precioFinal)
-                            .toDecimalPlaces(2)
-                            .toString()
-                          : new Decimal(item.precioFinal)
-                            .times(moneda)
-                            .toDecimalPlaces(2)
-                            .toString())
-                        : "$ " +
-                        (monedaValue === "DOLARES AMERICANOS"
-                          ? item.monedaType === "DOLARES AMERICANOS"
+                          (item.monedaType === "SOLES"
                             ? new Decimal(item.precioFinal)
-                              .toDecimalPlaces(2)
-                              .toString()
+                                .toDecimalPlaces(2)
+                                .toString()
                             : new Decimal(item.precioFinal)
-                              .dividedBy(new Decimal(moneda))
-                              .toDecimalPlaces(2)
-                              .toString()
-                          : "")}
+                                .times(moneda)
+                                .toDecimalPlaces(2)
+                                .toString())
+                        : "$ " +
+                          (monedaValue === "DOLARES AMERICANOS"
+                            ? item.monedaType === "DOLARES AMERICANOS"
+                              ? new Decimal(item.precioFinal)
+                                  .toDecimalPlaces(2)
+                                  .toString()
+                              : new Decimal(item.precioFinal)
+                                  .dividedBy(new Decimal(moneda))
+                                  .toDecimalPlaces(2)
+                                  .toString()
+                            : "")}
                     </Typography>
                   </CardContent>
                   <CardContent sx={{ padding: 0, width: 100 }}>
@@ -433,7 +439,15 @@ function ItemsProductos({
                           width: "40px",
                           height: "40px",
                         }}
-                        onClick={() => handleGoToTab1(item.codigoInterno, item.precioFinal, item.descuentoA, item.descuentoB, item.ticketCount)}
+                        onClick={() =>
+                          handleGoToTab1(
+                            item.codigoInterno,
+                            item.precioFinal,
+                            item.descuentoA,
+                            item.descuentoB,
+                            item.ticketCount
+                          )
+                        }
                       >
                         <EditIcon style={{ color: "rgb(12, 55, 100)" }} />
                       </IconButton>
@@ -445,12 +459,14 @@ function ItemsProductos({
           </div>
         </>
       )}
-       {/* Dialog para Editar una proforma */}
-        <Dialog open={dialogOpen} onClose={handleCloseDialog}>
+      {/* Dialog para Editar una proforma */}
+      <Dialog open={dialogOpen} onClose={handleCloseDialog}>
         <DialogContent>
           <Typography variant="body1">
-            ¿Estás seguro de editar esta proforma <strong>{proformaSeleccionada.numeroProforma}</strong>? <br/>
-            Cliente: {proformaSeleccionada.razonSocialCliente}<br/>
+            ¿Estás seguro de editar esta proforma{" "}
+            <strong>{proformaSeleccionada.numeroProforma}</strong>? <br />
+            Cliente: {proformaSeleccionada.razonSocialCliente}
+            <br />
             Total : {proformaSeleccionada.importeTotal}
           </Typography>
         </DialogContent>
@@ -458,7 +474,12 @@ function ItemsProductos({
           <Button onClick={handleCloseDialog} color="error">
             Cancelar
           </Button>
-          <Button onClick={handleConfirmEdit} variant="contained" color="success" autoFocus>
+          <Button
+            onClick={handleConfirmEdit}
+            variant="contained"
+            style={{backgroundColor: "rgb(255, 168, 0)"}}
+            autoFocus
+          >
             Aceptar
           </Button>
         </DialogActions>
