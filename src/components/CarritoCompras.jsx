@@ -1,10 +1,12 @@
 import {
+  CircularProgress,
   Container,
   CssBaseline,
 } from "@mui/material";
 import React, { useState } from "react";
 import ItemsProductos from "./ItemsProductos";
 import PrecioProductos from "./PrecioProductos";
+import Logo from "../image/logo.png";
 
 export default function CarritoCompras({
   cartItems,
@@ -48,13 +50,17 @@ export default function CarritoCompras({
   fechaV,
   setFechaV , 
   proformaSeleccionada,
-  totalConvertido
+  totalConvertido,
+  isEditProformaVisible,
+  isAddProformaVisible,
+  actualizarProforma
 }) {
  
   return (
     <React.Fragment>
       <CssBaseline />
-      <Container
+      {proformaSeleccionada ? (
+        <Container
         maxWidth="false"
         sx={{
           display: "flex",
@@ -115,9 +121,36 @@ export default function CarritoCompras({
             setTabValue = {setTabValue}
             handleGoToTab1 = {handleGoToTab1}
             handlProformaClick = {handlProformaClick}
+            proformaSeleccionada = {proformaSeleccionada}  
+            isEditProformaVisible = {isEditProformaVisible}
+            isAddProformaVisible = {isAddProformaVisible}
+            actualizarProforma = {actualizarProforma}
           />
         </div>
       </Container>
+      ):(
+        <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "300px",
+          width: "900px",
+          paddingLeft:300
+        }}
+      >
+        <img src={Logo} alt="Logo" style={{ width: 120, height: 30, marginBottom:20 }} />
+        <CircularProgress
+          style={{
+            color: "rgb(12, 55, 100)",
+            height: "50px",
+            width: "50px",
+          }}
+        />
+      </div>
+      )}
+      
     </React.Fragment>
   );
 }

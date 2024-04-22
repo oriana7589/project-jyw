@@ -67,7 +67,7 @@ const PestañaContenido = ({
   handleMontoChange,
   vendedores,
   moneda,
-  ticketCount, 
+  ticketCount,
   setTicketCount,
   formaPago,
   tipoMoneda,
@@ -82,10 +82,10 @@ const PestañaContenido = ({
   setArticuloSugerido,
   codigoSeleccionado,
   setCodigoSeleccionado,
-  handleItemClick, 
+  handleItemClick,
   vendedor,
   setVendedor,
-  formaPagos, 
+  formaPagos,
   setFormaPagos,
   transporte,
   setTransporte,
@@ -95,11 +95,11 @@ const PestañaContenido = ({
   setDias,
   observaciones,
   setObservaciones,
-  isChecked1 ,
-  isChecked2 ,
-  handleCheckboxChange ,
+  isChecked1,
+  isChecked2,
+  handleCheckboxChange,
   pdfData,
-  isChecked ,
+  isChecked,
   handleCheckBox,
   setTabValue,
   handleGoToTab1,
@@ -120,52 +120,54 @@ const PestañaContenido = ({
   totalSubtotal,
   total1,
   fechaV,
-  setFechaV ,
+  setFechaV,
   handleItemSugeridoClick,
   selectedClient,
   proformaSeleccionada,
   totalConvertido,
-  handleImporteTotal
+  handleImporteTotal,
+  isEditProformaVisible,
+  isAddProformaVisible,
+  actualizarProforma
 }) => {
-
   switch (value) {
     case 0:
       return (
         <TD
           addToCart={addToCart}
-          editCartItem = {editCartItem}
+          editCartItem={editCartItem}
           detalleProducto={detalleProducto}
           fechaLlegada={fechaLlegada}
           historialPrecios={historialPrecios}
           descuentoA={descuentoA}
-          handleDescuentoAChange = {handleDescuentoAChange}
+          handleDescuentoAChange={handleDescuentoAChange}
           descuentoB={descuentoB}
-          handleDescuentoBChange = {handleDescuentoBChange}
+          handleDescuentoBChange={handleDescuentoBChange}
           monto={monto}
-          handleMontoChange = {handleMontoChange}
-          moneda = {moneda}
-          ticketCount = {ticketCount}
-          setTicketCount = {setTicketCount}
-          tipoMoneda = {tipoMoneda}
-          monedaValue = {monedaValue} 
-          setMonedaValue = {setMonedaValue} 
-          articuloSugeridoCliente = {articuloSugeridoCliente} 
-          articuloSugerido  = {articuloSugerido}
-          loading = {loading}
-          codigoSeleccionado = {codigoSeleccionado}
-          setCodigoSeleccionado = {setCodigoSeleccionado}
-          handleItemClick = {handleItemClick}
-          isChecked = {isChecked}
-          handleCheckBox = {handleCheckBox}
-          calcularPrecioFinal = {calcularPrecioFinal} 
-          total= {total}
-          handlPrecioFinalChange = {handlPrecioFinalChange}
-          calcularUtilidad = {calcularUtilidad}
+          handleMontoChange={handleMontoChange}
+          moneda={moneda}
+          ticketCount={ticketCount}
+          setTicketCount={setTicketCount}
+          tipoMoneda={tipoMoneda}
+          monedaValue={monedaValue}
+          setMonedaValue={setMonedaValue}
+          articuloSugeridoCliente={articuloSugeridoCliente}
+          articuloSugerido={articuloSugerido}
+          loading={loading}
+          codigoSeleccionado={codigoSeleccionado}
+          setCodigoSeleccionado={setCodigoSeleccionado}
+          handleItemClick={handleItemClick}
+          isChecked={isChecked}
+          handleCheckBox={handleCheckBox}
+          calcularPrecioFinal={calcularPrecioFinal}
+          total={total}
+          handlPrecioFinalChange={handlPrecioFinalChange}
+          calcularUtilidad={calcularUtilidad}
           cartItems={cartItems}
-          setTabValue = {setTabValue}
-          isAddToCartVisible = {isAddToCartVisible}
-          isEditToCartVisible = {isEditToCartVisible}
-          handleItemSugeridoClick = {handleItemSugeridoClick}
+          setTabValue={setTabValue}
+          isAddToCartVisible={isAddToCartVisible}
+          isEditToCartVisible={isEditToCartVisible}
+          handleItemSugeridoClick={handleItemSugeridoClick}
         />
       );
     case 1:
@@ -175,57 +177,62 @@ const PestañaContenido = ({
           cartItemsSoles={cartItemsSoles}
           detalleProducto={detalleProducto}
           vendedores={vendedores}
-          formaPago = {formaPago}
-          tipoMoneda = {tipoMoneda}
-          moneda = {moneda}
-          transportistas = {transportistas}
-          monedaValue = {monedaValue} 
-          setMonedaValue = {setMonedaValue}  
-          setCartItems = {setCartItems}
-          removeFromCart = {removeFromCart}
-          articuloSugerido  = {articuloSugerido}
-          setArticuloSugerido = {setArticuloSugerido}
-          vendedor= {vendedor}
-          setVendedor = {setVendedor}
-          formaPagos = {formaPagos}
-          setFormaPagos = {setFormaPagos}
-          transporte = {transporte}
-          setTransporte = {setTransporte}
-          cantidad = {cantidad}
-          setCantidad = {setCantidad}
-          dias = {dias}
-          setDias = {setDias}
-          observaciones =  {observaciones}
-          setObservaciones = {setObservaciones}
-          isChecked1 = {isChecked1}
-          isChecked2 = {isChecked2}
-          handleCheckboxChange = {handleCheckboxChange}
-          setTabValue = {setTabValue}
-          handleGoToTab1 = {handleGoToTab1}
-          handlProformaClick = {handlProformaClick}
-          setTotalSubtotal = {setTotalSubtotal}
-          setTotal1 = {setTotal1}
-          totalDecimal = {totalDecimal}
-          totalFinal = {totalFinal}
-          subTotalFinal = {subTotalFinal}
-          calculoIGV = {calculoIGV}
-          totalSubtotal =  {totalSubtotal}
-          total1 = {total1}
-          fechaV = {fechaV}
-          setFechaV = {setFechaV}
-          proformaSeleccionada = {proformaSeleccionada}
-          totalConvertido = {totalConvertido}
-          
+          formaPago={formaPago}
+          tipoMoneda={tipoMoneda}
+          moneda={moneda}
+          transportistas={transportistas}
+          monedaValue={monedaValue}
+          setMonedaValue={setMonedaValue}
+          setCartItems={setCartItems}
+          removeFromCart={removeFromCart}
+          articuloSugerido={articuloSugerido}
+          setArticuloSugerido={setArticuloSugerido}
+          vendedor={vendedor}
+          setVendedor={setVendedor}
+          formaPagos={formaPagos}
+          setFormaPagos={setFormaPagos}
+          transporte={transporte}
+          setTransporte={setTransporte}
+          cantidad={cantidad}
+          setCantidad={setCantidad}
+          dias={dias}
+          setDias={setDias}
+          observaciones={observaciones}
+          setObservaciones={setObservaciones}
+          isChecked1={isChecked1}
+          isChecked2={isChecked2}
+          handleCheckboxChange={handleCheckboxChange}
+          setTabValue={setTabValue}
+          handleGoToTab1={handleGoToTab1}
+          handlProformaClick={handlProformaClick}
+          setTotalSubtotal={setTotalSubtotal}
+          setTotal1={setTotal1}
+          totalDecimal={totalDecimal}
+          totalFinal={totalFinal}
+          subTotalFinal={subTotalFinal}
+          calculoIGV={calculoIGV}
+          totalSubtotal={totalSubtotal}
+          total1={total1}
+          fechaV={fechaV}
+          setFechaV={setFechaV}
+          proformaSeleccionada={proformaSeleccionada}
+          totalConvertido={totalConvertido}
+          isEditProformaVisible={isEditProformaVisible}
+          isAddProformaVisible={isAddProformaVisible}
+          actualizarProforma = {actualizarProforma}
         />
       );
     case 2:
-      return <ListaProductos cartItems={cartItems} pdfData = {pdfData}/>;
+      return <ListaProductos cartItems={cartItems} pdfData={pdfData} />;
     case 3:
-      return <SI  
-      articuloSugeridoCliente = {articuloSugeridoCliente} 
-      articuloSugerido  = {articuloSugerido} 
-      codigoSeleccionado = {codigoSeleccionado}
-      handleItemSIClick = {handleItemSIClick} />;
+      return (
+        <SI
+          articuloSugeridoCliente={articuloSugeridoCliente}
+          articuloSugerido={articuloSugerido}
+          codigoSeleccionado={codigoSeleccionado}
+          handleItemSIClick={handleItemSIClick}
+        />
+      );
     case 4:
       return <TD />;
     default:
@@ -254,7 +261,7 @@ const Items = ({
   handleDescuentoBChange,
   monto,
   handleMontoChange,
-  vendedores, 
+  vendedores,
   moneda,
   formaPago,
   ticketCount,
@@ -274,7 +281,7 @@ const Items = ({
   handleItemClick,
   vendedor,
   setVendedor,
-  formaPagos, 
+  formaPagos,
   setFormaPagos,
   transporte,
   setTransporte,
@@ -284,14 +291,14 @@ const Items = ({
   setDias,
   observaciones,
   setObservaciones,
-  isChecked1 ,
-  isChecked2 ,
-  handleCheckboxChange ,
+  isChecked1,
+  isChecked2,
+  handleCheckboxChange,
   pdfData,
   isChecked,
   handleCheckBox,
-  tabValue ,
-  setTabValue ,
+  tabValue,
+  setTabValue,
   handleGoToTab1,
   calcularPrecioFinal,
   total,
@@ -310,16 +317,18 @@ const Items = ({
   totalSubtotal,
   total1,
   fechaV,
-  setFechaV ,
+  setFechaV,
   selectedClient,
   produtosSugeridosCliente,
   handleItemsSelect,
-  isLoading , 
-  setIsLoading , 
+  isLoading,
+  setIsLoading,
   proformaSeleccionada,
-  totalConvertido
+  totalConvertido,
+  isEditProformaVisible,
+  isAddProformaVisible,
+  actualizarProforma
 }) => {
-
   const handleChangeTab = (event, newValue) => {
     setTabValue(newValue);
   };
@@ -329,11 +338,11 @@ const Items = ({
     const timer = setTimeout(() => {
       setIsLoading(false);
     }, 2500);
-  
+
     // Limpia el temporizador en caso de que el componente se desmonte antes de que se complete la carga
     return () => clearTimeout(timer);
   }, []);
-  
+
   useEffect(() => {
     if (produtosSugeridosCliente.length > 0) {
       setIsLoading(false);
@@ -354,7 +363,7 @@ const Items = ({
       <Box
         sx={{
           display: "flex",
-          height:"100%"
+          height: "100%",
         }}
       >
         <CustomTabs
@@ -428,70 +437,72 @@ const Items = ({
             handleDescuentoBChange={handleDescuentoBChange}
             monto={monto}
             handleMontoChange={handleMontoChange}
-            vendedores ={vendedores}
-            formaPago = {formaPago}
-            moneda = {moneda}
-            ticketCount= {ticketCount}
-            setTicketCount =  {setTicketCount} 
-            tipoMoneda = {tipoMoneda}
-            transportistas = {transportistas}
-            monedaValue = {monedaValue} 
-            setMonedaValue = {setMonedaValue}  
-            setCartItems= {setCartItems}
-            articuloSugeridoCliente = {articuloSugeridoCliente} 
-            articuloSugerido  = {articuloSugerido}
-            removeFromCart =  {removeFromCart}
-            loading = {loading}
-            setArticuloSugerido= {setArticuloSugerido}
-            codigoSeleccionado = {codigoSeleccionado}
-            setCodigoSeleccionado = {setCodigoSeleccionado}
-            handleItemClick = {handleItemClick}
-            vendedor= {vendedor}
-            setVendedor = {setVendedor}
-            formaPagos = {formaPagos}
-            setFormaPagos = {setFormaPagos}
-            transporte = {transporte}
-            setTransporte = {setTransporte}
-            cantidad = {cantidad}
-            setCantidad = {setCantidad}
-            dias = {dias}
-            setDias = {setDias}
-            observaciones =  {observaciones}
-            setObservaciones = {setObservaciones}
-            isChecked1 = {isChecked1}
-            isChecked2 = {isChecked2}
-            handleCheckboxChange = {handleCheckboxChange}
-            pdfData= {pdfData}
-            isChecked = {isChecked}
-            handleCheckBox = {handleCheckBox}
-            setTabValue = {setTabValue}
-            handleGoToTab1 = {handleGoToTab1}
-            calcularPrecioFinal = {calcularPrecioFinal}
-            total= {total}
-            handlPrecioFinalChange = {handlPrecioFinalChange}
-            calcularUtilidad = {calcularUtilidad}
-            editCartItem = {editCartItem}
-            isAddToCartVisible = {isAddToCartVisible}
-            isEditToCartVisible= {isEditToCartVisible}
-            handleItemSIClick = {handleItemSIClick}
-            handlProformaClick= {handlProformaClick}
-            setTotalSubtotal = {setTotalSubtotal}
-            setTotal1 = {setTotal1}
-            totalDecimal = {totalDecimal}
-            totalFinal = {totalFinal}
-            subTotalFinal = {subTotalFinal}
-            calculoIGV = {calculoIGV}
-            totalSubtotal = {totalSubtotal}
-            total1 = {total1}
-            fechaV = {fechaV}
-            setFechaV = {setFechaV}
-            selectedClient = {selectedClient}
-            proformaSeleccionada = {proformaSeleccionada}
-            totalConvertido = {totalConvertido}
+            vendedores={vendedores}
+            formaPago={formaPago}
+            moneda={moneda}
+            ticketCount={ticketCount}
+            setTicketCount={setTicketCount}
+            tipoMoneda={tipoMoneda}
+            transportistas={transportistas}
+            monedaValue={monedaValue}
+            setMonedaValue={setMonedaValue}
+            setCartItems={setCartItems}
+            articuloSugeridoCliente={articuloSugeridoCliente}
+            articuloSugerido={articuloSugerido}
+            removeFromCart={removeFromCart}
+            loading={loading}
+            setArticuloSugerido={setArticuloSugerido}
+            codigoSeleccionado={codigoSeleccionado}
+            setCodigoSeleccionado={setCodigoSeleccionado}
+            handleItemClick={handleItemClick}
+            vendedor={vendedor}
+            setVendedor={setVendedor}
+            formaPagos={formaPagos}
+            setFormaPagos={setFormaPagos}
+            transporte={transporte}
+            setTransporte={setTransporte}
+            cantidad={cantidad}
+            setCantidad={setCantidad}
+            dias={dias}
+            setDias={setDias}
+            observaciones={observaciones}
+            setObservaciones={setObservaciones}
+            isChecked1={isChecked1}
+            isChecked2={isChecked2}
+            handleCheckboxChange={handleCheckboxChange}
+            pdfData={pdfData}
+            isChecked={isChecked}
+            handleCheckBox={handleCheckBox}
+            setTabValue={setTabValue}
+            handleGoToTab1={handleGoToTab1}
+            calcularPrecioFinal={calcularPrecioFinal}
+            total={total}
+            handlPrecioFinalChange={handlPrecioFinalChange}
+            calcularUtilidad={calcularUtilidad}
+            editCartItem={editCartItem}
+            isAddToCartVisible={isAddToCartVisible}
+            isEditToCartVisible={isEditToCartVisible}
+            handleItemSIClick={handleItemSIClick}
+            handlProformaClick={handlProformaClick}
+            setTotalSubtotal={setTotalSubtotal}
+            setTotal1={setTotal1}
+            totalDecimal={totalDecimal}
+            totalFinal={totalFinal}
+            subTotalFinal={subTotalFinal}
+            calculoIGV={calculoIGV}
+            totalSubtotal={totalSubtotal}
+            total1={total1}
+            fechaV={fechaV}
+            setFechaV={setFechaV}
+            selectedClient={selectedClient}
+            proformaSeleccionada={proformaSeleccionada}
+            totalConvertido={totalConvertido}
+            isEditProformaVisible={isEditProformaVisible}
+            isAddProformaVisible={isAddProformaVisible}
+            actualizarProforma = {actualizarProforma}
           />
-        ) : (
-           !selectedClient ? ( 
-           <div
+        ) : !selectedClient ? (
+          <div
             style={{
               height: "calc(100vh - 15rem)",
               display: "flex",
@@ -512,41 +523,37 @@ const Items = ({
               style={{ width: 360, height: 75, opacity: 0.5 }}
             />
           </div>
-          ) : (
-            produtosSugeridosCliente.length>0 ? 
-              (
-                <ProductosSugeridosCliente   
-                produtosSugeridosCliente = {produtosSugeridosCliente} 
-                codigoSeleccionado = {codigoSeleccionado}
-                handleItemsSelect = {handleItemsSelect}
-               />
-               )
-             :
-             (
-              <div
+        ) : produtosSugeridosCliente.length > 0 ? (
+          <ProductosSugeridosCliente
+            produtosSugeridosCliente={produtosSugeridosCliente}
+            codigoSeleccionado={codigoSeleccionado}
+            handleItemsSelect={handleItemsSelect}
+          />
+        ) : (
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              alignItems: "center",
+              height: "300px",
+              width: "900px",
+              paddingLeft: 300,
+            }}
+          >
+            <img
+              src={Logo}
+              alt="Logo"
+              style={{ width: 120, height: 30, marginBottom: 20 }}
+            />
+            <CircularProgress
               style={{
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "center",
-                alignItems: "center",
-                height: "300px",
-                width: "900px",
-                paddingLeft:300
+                color: "rgb(12, 55, 100)",
+                height: "50px",
+                width: "50px",
               }}
-            >
-              <img src={Logo} alt="Logo" style={{ width: 120, height: 30, marginBottom:20 }} />
-              <CircularProgress
-                style={{
-                  color: "rgb(12, 55, 100)",
-                  height: "50px",
-                  width: "50px",
-                }}
-              />
-            </div>
-             )
-          )
-          
-          
+            />
+          </div>
         )}
       </Box>
     </React.Fragment>

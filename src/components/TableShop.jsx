@@ -562,9 +562,6 @@ const TableShop = ({
             }}
           />
         </div>
-         
-      
-
         <Box
           sx={{
             marginRight: 1,

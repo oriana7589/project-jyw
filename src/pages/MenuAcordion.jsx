@@ -110,6 +110,8 @@ const TuComponente = () => {
   const [tabValue, setTabValue] = useState(0);
   const [isAddToCartVisible, setIsAddToCartVisible] = useState(true);
   const [isEditToCartVisible, setIsEditToCartVisible] = useState(true);
+  const [isAddProformaVisible, setIsAddProformaVisible] = useState(true);
+  const [isEditProformaVisible, setIsEditProformaVisible] = useState(false);
   const [totalSubtotal, setTotalSubtotal] = useState(0);
   const [total1, setTotal1] = useState(0);
   const [produtosSugeridosCliente, setProductosSugeridosCliente] = useState([]);
@@ -951,6 +953,8 @@ const TuComponente = () => {
             setProformaSeleccionada(proformaSeleccionada);
           }
         );
+        setIsAddProformaVisible(false);
+        setIsEditProformaVisible(true);
       }
     };
 
@@ -1452,6 +1456,9 @@ const TuComponente = () => {
             setIsLoading={setIsLoading}
             proformaSeleccionada={proformaSeleccionada}
             totalConvertido={totalConvertido}
+            isEditProformaVisible = {isEditProformaVisible} 
+            isAddProformaVisible = {isAddProformaVisible}
+            actualizarProforma = {actualizarProforma}
           />
         </Collapse>
       </Card>

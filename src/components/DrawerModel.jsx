@@ -14,6 +14,7 @@ import AccountBoxIcon from "@mui/icons-material/AccountBox";
 import Logo from "../image/logo.png";
 import LogoCom from "../image/logoCompleto.png";
 import MenuAcordion from "../pages/MenuAcordion";
+import ArticleIcon from '@mui/icons-material/Article';
 
 const drawerWidth = 240;
 
@@ -78,7 +79,8 @@ const Drawer = styled(MuiDrawer, {
 export default function DrawerModel() {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
-  const [content, setContent] = useState("ClientView");
+  const [content, setContent] = useState("");
+  const [menuKey, setMenuKey] = useState(0);
 
   React.useEffect(() => {
     // Establecer el contenido inicial al cargar la aplicación
@@ -92,6 +94,12 @@ export default function DrawerModel() {
   const handleMouseEnter = () => {
     setOpen(true);
   };
+
+  const reiniciarAplicacion =() =>{
+    setMenuKey(prevKey => prevKey + 1);
+
+    setContent("MenuAcordion")
+  }
 
   const handleMouseLeave = () => {
     setOpen(false);
@@ -143,12 +151,12 @@ export default function DrawerModel() {
                   justifyContent: "center",
                 }}
               >
-                <AccountBoxIcon sx={{ color: "rgb(12,55,100)" }} />{" "}
+                <ArticleIcon sx={{ color: "rgb(12,55,100)" }} />{" "}
               </ListItemIcon>
               <ListItemText
-                primary="Ventas"
+                primary="Nueva Proforma"
                 sx={{ opacity: open ? 1 : 0, color: "rgb(12,55,100)" }}
-                onClick={() => setContent("MenuAcordion")}
+                onClick={() => {reiniciarAplicacion()}}
               />
             </ListItemButton>
 
@@ -190,7 +198,7 @@ export default function DrawerModel() {
 
       <Box component="main" sx={{ flexGrow: 1, marginTop: " -0.91rem" }}>
         <DrawerHeader />
-        {content === "MenuAcordion" && <MenuAcordion />}
+        {content === "MenuAcordion" && <MenuAcordion  key={menuKey}  />}
       </Box>
     </Box>
   );

@@ -4,6 +4,9 @@ import {
   CardContent,
   CardMedia,
   Checkbox,
+  Dialog,
+  DialogActions,
+  DialogContent,
   IconButton,
   Typography,
 } from "@mui/material";
@@ -28,9 +31,28 @@ function ItemsProductos({
   handleCheckboxChange,
   setTabValue,
   handleGoToTab1,
-  handlProformaClick
+  handlProformaClick,
+  proformaSeleccionada,
+  isEditProformaVisible,
+  isAddProformaVisible,
+  actualizarProforma
+
 }) {
   const [hoveredCard, setHoveredCard] = useState(null);
+
+  const [dialogOpen, setDialogOpen] = useState(false);
+
+  const handleOpenDialog = () => {
+    setDialogOpen(true);
+  };
+
+  const handleCloseDialog = () => {
+    setDialogOpen(false);
+  };
+
+  const handleConfirmEdit = () => {
+    actualizarProforma
+  };
 
   const calcularSubTotal = () => {    
     const totalNumero = total1.toString().replace("S/", "").replace("$","").trim();
@@ -138,25 +160,52 @@ function ItemsProductos({
           style={{ marginLeft: 10 }}
         />
         <label htmlFor="checkbox2">Emitido</label>
-        <IconButton
-          style={{
-            backgroundColor: "rgb(226, 52, 48)",
-            borderRadius: "0",
-            height: "35px",
-            width: "180px",
-            marginLeft: "auto",
-          }}
-          onClick={handlProformaClick}
-        >
-          <Typography
+        <div>
+          {isEditProformaVisible  ? (
+            <IconButton
             style={{
-              color: "rgb(255, 255, 255)",
+              backgroundColor: "rgb(182, 205, 229)",
               borderRadius: "0",
+              height: "35px",
+              width: "180px",
+              marginLeft:240,
             }}
+            onClick={handleOpenDialog}
           >
-            Guardar proforma
-          </Typography>
-        </IconButton>
+            <Typography
+              style={{
+                color: "rgb(12, 55, 100)",
+                borderRadius: "0",
+              }}
+            >
+              Editar proforma
+            </Typography>
+          </IconButton>
+           
+
+          ): isAddProformaVisible ?( 
+            <IconButton
+             style={{
+               backgroundColor: "rgb(226, 52, 48)",
+               borderRadius: "0",
+               height: "35px",
+               width: "180px",
+               marginLeft: 240,
+             }}
+             onClick={handlProformaClick}
+           >
+             <Typography
+               style={{
+                 color: "rgb(255, 255, 255)",
+                 borderRadius: "0",
+               }}
+             >
+               Guardar proforma
+             </Typography>
+           </IconButton>
+        ): <></>}
+        </div>
+       
       </div>
       {cartItems.length === 0 ? (
         <div
@@ -396,6 +445,24 @@ function ItemsProductos({
           </div>
         </>
       )}
+       {/* Dialog para Editar una proforma */}
+        <Dialog open={dialogOpen} onClose={handleCloseDialog}>
+        <DialogContent>
+          <Typography variant="body1">
+            ¿Estás seguro de editar esta proforma <strong>{proformaSeleccionada.numeroProforma}</strong>? <br/>
+            Cliente: {proformaSeleccionada.razonSocialCliente}<br/>
+            Total : {proformaSeleccionada.importeTotal}
+          </Typography>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseDialog} color="error">
+            Cancelar
+          </Button>
+          <Button onClick={handleConfirmEdit} variant="contained" color="success" autoFocus>
+            Aceptar
+          </Button>
+        </DialogActions>
+      </Dialog>
     </div>
   );
 }
