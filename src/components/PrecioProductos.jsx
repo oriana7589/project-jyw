@@ -39,12 +39,18 @@ function PrecioProductos({
   subTotalFinal,
   calculoIGV,
   fechaV,
-  setFechaV ,
-  totalConvertido
-  
+  setFechaV,
+  totalConvertido,
+  proformaSeleccionada,
+  selectedClient,
 }) {
- 
-
+  let razonSocial = "";
+  let ruc = "";
+  
+  if (selectedClient) {
+    razonSocial = selectedClient.razonSocial || proformaSeleccionada.razonSocialCliente;
+    ruc = selectedClient.numDocumento || proformaSeleccionada.razonSocialCliente;
+  }
   useEffect(() => {
     // Calcula la fecha de vencimiento basada en la fecha actual y la cantidad de días
     const calcularFechaVencimiento = () => {
@@ -70,24 +76,49 @@ function PrecioProductos({
         "0"
       )} - ${fechaVencimiento.getFullYear()}`;
 
-       // Formatea la fecha de vencimiento en formato 'YYYY-MM-DD HH:MM:SS'
-      
-      const formattedDateHours =  new Date(fechaVencimiento.getTime() - (fechaVencimiento.getTimezoneOffset() * 60000)).toISOString();
+      // Formatea la fecha de vencimiento en formato 'YYYY-MM-DD HH:MM:SS'
 
-      setFechaV(formattedDateHours)
+      const formattedDateHours = new Date(
+        fechaVencimiento.getTime() -
+          fechaVencimiento.getTimezoneOffset() * 60000
+      ).toISOString();
+
+      setFechaV(formattedDateHours);
       setDias(formattedDate);
     };
 
     calcularFechaVencimiento();
   }, [cantidad]);
-  
+
   if (transporte === null || transporte === undefined) {
-    transporte = {descripcionCorta: "Seleccione transportista"}
+    transporte = { descripcionCorta: "Seleccione transportista" };
   }
 
   return (
     <div style={{ width: "90%", paddingTop: 10 }}>
       <Grid container spacing={2}>
+        {selectedClient && (
+          <>
+            <Typography
+              variant="body1"
+              style={{ paddingTop: 15, paddingLeft: 17, marginTop: 0 }}
+            >
+              <strong>RAZÓN SOCIAL: </strong>
+              {razonSocial}
+            </Typography>
+            <Typography
+              variant="body1"
+              style={{
+                paddingTop: 5,
+                paddingLeft: 17,
+                width: "100%"
+              }}
+            >
+              <strong>RUC: </strong>
+              {ruc}
+            </Typography>
+          </>
+        )}
         <Grid item xs={6}>
           <Box sx={{ marginBottom: 2 }}>
             <label style={{ fontWeight: "bold" }}>
@@ -98,7 +129,9 @@ function PrecioProductos({
                   setVendedor(newValue);
                 }}
                 options={vendedores}
-                getOptionLabel={(option) => option ? option.nombreVendedor :"OFICINA" }
+                getOptionLabel={(option) =>
+                  option ? option.nombreVendedor : "OFICINA"
+                }
                 renderInput={(params) => (
                   <div ref={params.InputProps.ref}>
                     <input
@@ -125,11 +158,14 @@ function PrecioProductos({
               <Autocomplete
                 value={transporte}
                 onChange={(event, newValue) => {
-                  
                   setTransporte(newValue);
                 }}
                 options={transportistas}
-                getOptionLabel={(optionItems) => optionItems ? optionItems.descripcionCorta : "Seleccione transportista"}
+                getOptionLabel={(optionItems) =>
+                  optionItems
+                    ? optionItems.descripcionCorta
+                    : "Seleccione transportista"
+                }
                 renderInput={(params) => (
                   <div ref={params.InputProps.ref}>
                     <input
@@ -164,13 +200,9 @@ function PrecioProductos({
               variant="outlined"
               displayEmpty
             >
-              
               {/* Opciones de formas de pago */}
               {formaPago.map((formaPagoItem, index) => (
-                <MenuItem
-                  key={index}
-                  value={formaPagoItem}
-                >
+                <MenuItem key={index} value={formaPagoItem}>
                   {formaPagoItem.descripcionFormaPago}
                 </MenuItem>
               ))}
@@ -208,7 +240,9 @@ function PrecioProductos({
               fullWidth
               style={{ height: 35 }}
               disabled={true ? formaPagos.codigoFormaPago !== "CRE" : false}
-            > <MenuItem value={0}>0</MenuItem>
+            >
+              {" "}
+              <MenuItem value={0}>0</MenuItem>
               <MenuItem value={7}>7</MenuItem>
               <MenuItem value={15}>15</MenuItem>
               <MenuItem value={30}>30</MenuItem>
@@ -297,10 +331,7 @@ function PrecioProductos({
               </Typography>
             </td>
             <td style={{ textAlign: "end", width: "150px" }}>
-              <Typography fontSize={25}>
-                {" "}
-                {totalConvertido}
-              </Typography>
+              <Typography fontSize={25}> {totalConvertido}</Typography>
             </td>
           </tr>
         </tbody>

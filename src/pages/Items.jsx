@@ -220,6 +220,7 @@ const PestañaContenido = ({
           isEditProformaVisible={isEditProformaVisible}
           isAddProformaVisible={isAddProformaVisible}
           actualizarProforma = {actualizarProforma}
+          selectedClient = {selectedClient}
         />
       );
     case 2:

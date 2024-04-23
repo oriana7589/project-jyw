@@ -14,8 +14,14 @@ import AccountBoxIcon from "@mui/icons-material/AccountBox";
 import Logo from "../image/logo.png";
 import LogoCom from "../image/logoCompleto.png";
 import MenuAcordion from "../pages/MenuAcordion";
-import ArticleIcon from '@mui/icons-material/Article';
-import { Dialog, DialogActions, DialogContent, Typography, Button } from "@mui/material";
+import ArticleIcon from "@mui/icons-material/Article";
+import {
+  Dialog,
+  DialogActions,
+  DialogContent,
+  Typography,
+  Button,
+} from "@mui/material";
 
 const drawerWidth = 240;
 
@@ -96,8 +102,8 @@ export default function DrawerModel() {
   const handleNuevaProforma = () => {
     setDialogOpen(false);
     reiniciarAplicacion();
+    setOpen(false);
   };
-
 
   React.useEffect(() => {
     // Establecer el contenido inicial al cargar la aplicación
@@ -112,11 +118,11 @@ export default function DrawerModel() {
     setOpen(true);
   };
 
-  const reiniciarAplicacion =() =>{
-    setMenuKey(prevKey => prevKey + 1);
+  const reiniciarAplicacion = () => {
+    setMenuKey((prevKey) => prevKey + 1);
 
-    setContent("MenuAcordion")
-  }
+    setContent("MenuAcordion");
+  };
 
   const handleMouseLeave = () => {
     setOpen(false);
@@ -158,46 +164,48 @@ export default function DrawerModel() {
               sx={{
                 minHeight: 48,
                 justifyContent: open ? "initial" : "center",
-                px: 2.5,
+                px: 0,
               }}
             >
               <ListItemIcon
                 sx={{
-                  minWidth: 0,
-                  mr: open ? 3 : "auto",
+                  minWidth: 65,
+                  mr: open ? 1 : "auto",
                   justifyContent: "center",
                 }}
               >
-                <ArticleIcon sx={{ color: "rgb(12,55,100)" }} />{" "}
+                <ArticleIcon sx={{ color: "rgb(12,55,100)" }} />
               </ListItemIcon>
               <ListItemText
                 primary="Nueva Proforma"
-                sx={{ opacity: open ? 1 : 0, color: "rgb(12,55,100)" }}
-                onClick={handleOpenDialog}
+                sx={{ opacity: open ? 3 : 0, color: "rgb(12,55,100)" }}
+                onClick={(event) => {
+                  event.stopPropagation(); // Detener la propagación del evento
+                  handleOpenDialog();
+                }}
               />
             </ListItemButton>
 
             <ListItemButton
               sx={{
                 minHeight: 48,
-                px: 2.5,
+                px: 0,
               }}
             >
               <ListItemIcon
                 sx={{
-                  minWidth: 0,
-                  mr: open ? 3 : "auto",
+                  minWidth: 65,
+                  mr: open ? 1 : "auto",
                   justifyContent: "center",
                 }}
               >
-                <CategoryIcon sx={{ color: "rgb(12,55,100)" }} />{" "}
+                <CategoryIcon sx={{ color: "rgb(12,55,100)" }} />
               </ListItemIcon>
               <ListItemText
                 primary="Consultar precios"
                 sx={{
-                  opacity: open ? 1 : 0,
+                  opacity: open ? 3 : 0,
                   color: "rgb(12,55,100)",
-                  fontStyle: "",
                 }}
                 onClick={() => {
                   const width = 900; // Ancho de la ventana emergente
@@ -205,7 +213,11 @@ export default function DrawerModel() {
                   const left = (window.innerWidth - width) / 2;
                   const top = (window.innerHeight - height) / 2;
                   const windowFeatures = `width=${width},height=${height},left=${left},top=${top}`;
-                  window.open("http://localhost:5173/consultaPreciosYStock", "_blank", windowFeatures);
+                  window.open(
+                    "http://localhost:5173/consultaPreciosYStock",
+                    "_blank",
+                    windowFeatures
+                  );
                 }}
               />
             </ListItemButton>
@@ -215,22 +227,27 @@ export default function DrawerModel() {
 
       <Box component="main" sx={{ flexGrow: 1, marginTop: " -0.91rem" }}>
         <DrawerHeader />
-        {content === "MenuAcordion" && <MenuAcordion  key={menuKey}  />}
+        {content === "MenuAcordion" && <MenuAcordion key={menuKey} />}
       </Box>
 
       {/* Dialog para Actualizar menú acordion */}
       <Dialog open={dialogOpen} onClose={handleCloseDialog}>
         <DialogContent>
           <Typography variant="body1">
-          ¿Quieres crear una nueva proforma ? <br/>
-          Una vez aceptado se perderán los datos existentes.
+            ¿Quieres crear una nueva proforma ? <br />
+            Una vez aceptado se perderán los datos existentes.
           </Typography>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleCloseDialog} color="error">
             Cancelar
           </Button>
-          <Button onClick={handleNuevaProforma} variant="contained" autoFocus style={{backgroundColor: "rgb(255, 168, 0)"}}>
+          <Button
+            onClick={handleNuevaProforma}
+            variant="contained"
+            autoFocus
+            style={{ backgroundColor: "rgb(255, 168, 0)" }}
+          >
             Aceptar
           </Button>
         </DialogActions>

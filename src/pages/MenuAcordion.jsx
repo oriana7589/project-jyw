@@ -135,6 +135,7 @@ const TuComponente = () => {
       // Si el checkbox se marca, establecer los descuentos en cero
       setDescuentoA(0);
       setDescuentoB(0);
+      
     }
   };
 
@@ -260,10 +261,7 @@ const TuComponente = () => {
 
   }
 
-  const handlPrecioFinalChange = (event) => {
-    const value = event.target.value;
-    setTotal(value);
-  };
+  
 
   const handleGoToTab1 = (
     codigoInterno,
@@ -391,6 +389,19 @@ const TuComponente = () => {
       }
     }
   };
+
+  const handlPrecioFinalChange = (event) => {
+    const value = event.target.value.trim();
+    if (value === "") {
+      setTotal(0);
+    } else {
+      const parsedValue = parseFloat(value);
+      if (!isNaN(parsedValue) && parsedValue >= 0 ) {
+        setTotal(parsedValue);
+      }
+    };
+  };
+
   const handleMontoChange = (event) => {
     const value = event.target.value;
     setMonto(value);
@@ -454,7 +465,6 @@ const TuComponente = () => {
     const subTotalItem = new Decimal(
       new Decimal(precioFinal) / new Decimal(1.18)
     ).toDecimalPlaces(2);
-    console.log('subTotalItem', subTotalItem)
     const newItem = {
       product: detalleProducto.descripcionArticulo,
       codigoInterno: detalleProducto.codigoInterno,
@@ -490,9 +500,9 @@ const TuComponente = () => {
       // Si el producto ya está en el carrito, actualiza sus detalles
       const updatedCartItems = [...cartItems];
       const monedaType = monedaValue;
-      const subTotalItem = new Decimal(precioFinal)
-        .dividedBy(1.18)
-        .toDecimalPlaces(2);
+      const subTotalItem = new Decimal(
+        new Decimal(precioFinal) / new Decimal(1.18)
+      ).toDecimalPlaces(2);
       updatedCartItems[alreadyInCartIndex] = {
         ...updatedCartItems[alreadyInCartIndex],
         descuentoA,
@@ -787,7 +797,11 @@ const TuComponente = () => {
         incIGV,
         importeTotal,
         codCliente
-      );
+      ).then(  (numeroProforma) => {
+        setNumeroProforma(numeroProforma);
+        console.log(numeroProforma)
+        handleBuscarProforma();
+      })
       toast.success("Se ha guardado la proforma con éxito");
     }
   };
@@ -945,7 +959,16 @@ const TuComponente = () => {
     setTransporte(transportista);
   };
 
-  const handleBuscarProforma = () => {
+  useEffect(() => {
+    // Verifica que 'numeroProforma' no esté vacío
+    if (numeroProforma !== '') {
+      // Llama a 'handleBuscarProforma' con el nuevo valor de 'numeroProforma'
+      handleBuscarProforma(numeroProforma);
+    }
+  }, [numeroProforma]); 
+
+  const handleBuscarProforma = (numeroProforma) => {
+    console.log('numeroProforma', numeroProforma)
     if (numeroProforma === "") {
       toast.warning("Por favor, ingrese la proforma");
       } else {       
@@ -1173,6 +1196,7 @@ const TuComponente = () => {
               PROFORMA
             </Typography>
             <TextField
+            value={numeroProforma}
               size="small"
               InputProps={{
                 style: {

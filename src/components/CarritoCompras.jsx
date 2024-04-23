@@ -53,7 +53,8 @@ export default function CarritoCompras({
   totalConvertido,
   isEditProformaVisible,
   isAddProformaVisible,
-  actualizarProforma
+  actualizarProforma,
+  selectedClient
 }) {
  
   return (
@@ -101,6 +102,7 @@ export default function CarritoCompras({
             setFechaV =  {setFechaV}
             proformaSeleccionada = {proformaSeleccionada}
             totalConvertido = {totalConvertido}
+            selectedClient = {selectedClient}
           />
         </div>
         <div style={{ flex: 0.5 }}>
