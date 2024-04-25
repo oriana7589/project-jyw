@@ -98,7 +98,6 @@ function ItemsProductos({
   const calcularUtilidadCarrito = () => {
     cartItems.forEach((item) => {
       let precioVentaSinIGVDolares;
-      console.log("item", item);
       if (item.monedaType === "SOLES") {
         precioVentaSinIGVDolares = new Decimal(
           new Decimal(item.monto).dividedBy(moneda).dividedBy(item.ticketCount)
@@ -115,8 +114,7 @@ function ItemsProductos({
       const utilidad = precioVentaSinIGVDolares
         .minus(precioCompraSinIGVDolares)
         .dividedBy(precioCompraSinIGVDolares)
-        .toDecimalPlaces(2);
-      console.log("item.utilidad", item.utilidad);
+        .toDecimalPlaces(2);      
       item.utilidad = utilidad;
     });
   };
@@ -129,6 +127,7 @@ function ItemsProductos({
   useEffect(() => {
     calcularSubTotal();
     calcularUtilidadCarrito();
+    console.log('cartItems', cartItems)
   }, [total1, cartItems, monedaValue, moneda]);
 
   const handleMouseEnter = (index) => {
@@ -445,7 +444,8 @@ function ItemsProductos({
                             item.precioFinal,
                             item.descuentoA,
                             item.descuentoB,
-                            item.ticketCount
+                            item.ticketCount,
+                            item.monto
                           )
                         }
                       >

@@ -219,6 +219,7 @@ const TuComponente = () => {
     }
     const cantidad = ticketCount;
     let preciosinigv = new Decimal(isNaN(monto) ? 0 : monto === "" ? 0 : monto);
+    console.log('estoy aqui', monto)
     let desc1n = new Decimal(descuentoA);
     desc1n = 1 - desc1n.dividedBy(100);
     let desc2n = new Decimal(descuentoB);
@@ -229,7 +230,7 @@ const TuComponente = () => {
       .times(cantidad)
       .times(1.18)
       .toDecimalPlaces(2);
-
+      
     if (monedaValue === "SOLES") {
       // Si la moneda es diferente de soles, aplica la conversión
       precioFinaln = precioFinaln.times(moneda).toDecimalPlaces(2);
@@ -242,7 +243,7 @@ const TuComponente = () => {
 
   useEffect(() => {
     setTotal(calcularPrecioFinal());
-  }, [ticketCount, monto, descuentoA, descuentoB, monedaValue, moneda]);
+  }, [ticketCount, monto, descuentoA, descuentoB, monedaValue, moneda, tabValue]);
 
   const calcularUtilidad = () => {
   
@@ -268,12 +269,14 @@ const TuComponente = () => {
     precioFinal,
     descuentoA,
     descuentoB,
-    ticketCount
+    ticketCount,
+    monto
   ) => {
     setDescuentoA(descuentoA);
     setDescuentoB(descuentoB);
     setTotal(precioFinal);
     setTicketCount(ticketCount);
+    setMonto(monto);
 
     setTabValue(0);
     getProductoSeleccionado(codigoInterno).then((detalleProducto) => {
@@ -455,11 +458,11 @@ const TuComponente = () => {
     );
     if (alreadyInCart) {
       setToastOpen(true);
-      toast.error("Este producto ya se encuentra en el carrito");
+      toast.error("Este artículo ya se encuentra en el carrito");
       return;
     }
     setToastOpen(true);
-    toast.success("Se ha guardado el producto con éxito");
+    toast.success("Artículo agregado al carrito con éxito");
     const monedaType = monedaValue;
    
     const subTotalItem = new Decimal(
@@ -516,7 +519,7 @@ const TuComponente = () => {
 
       setCartItems(updatedCartItems);
       setToastOpen(true);
-      toast.success("Producto editado con éxito");
+      toast.success("El artículo se ha editado con éxito");
       setTabValue(1);
       setIsAddToCartVisible(true);
       setIsEditToCartVisible(false);
@@ -528,7 +531,7 @@ const TuComponente = () => {
       (item) => item.codigoInterno !== codigoInterno
     );
     setCartItems(updatedCartItems);
-    toast.success("Se ha eliminado el producto con éxito");
+    toast.success("El artículo se ha eliminado con éxito");
     setIsEditToCartVisible(false);
     const newCardItems = cartItems.filter(
       (item) => item.codigoInterno !== codigoInterno
