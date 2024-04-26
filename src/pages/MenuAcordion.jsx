@@ -116,7 +116,7 @@ const TuComponente = () => {
   const [total1, setTotal1] = useState(0);
   const [produtosSugeridosCliente, setProductosSugeridosCliente] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [importeTotal, setImporteTotal] = useState(0);
+  const [monedaType, setMonedaType] = useState("");
 
 
   const handleCheckboxChange = (checkboxNumber) => {
@@ -218,23 +218,38 @@ const TuComponente = () => {
       ticketCount === 1;
     }
     const cantidad = ticketCount;
-    let preciosinigv = new Decimal(isNaN(monto) ? 0 : monto === "" ? 0 : monto);
+    let precioUnitarioSinIgv = new Decimal(isNaN(monto) ? 0 : monto === "" ? 0 : monto)//.dividedBy(cantidad);
     console.log('estoy aqui', monto)
     let desc1n = new Decimal(descuentoA);
     desc1n = 1 - desc1n.dividedBy(100);
     let desc2n = new Decimal(descuentoB);
     desc2n = 1 - desc2n.dividedBy(100);
-    let precioFinaln = preciosinigv
+    let precioFinaln = precioUnitarioSinIgv
       .times(desc1n)
       .times(desc2n)
       .times(cantidad)
       .times(1.18)
       .toDecimalPlaces(2);
-      
-    if (monedaValue === "SOLES") {
+
+    if (monedaType !== "") {
+      if (monedaValue === "SOLES") {
+        if (monedaType !== "SOLES") {
+          console.log('monedaType', monedaType)
+          console.log('monedaValue', monedaValue)
+          precioFinaln = precioFinaln.times(moneda).toDecimalPlaces(2);
+        }
+      } else if (monedaValue === "DOLARES AMERICANOS") {
+          if (monedaType !== "DOLARES AMERICANOS") {
+            precioFinaln = precioFinaln.dividedBy(moneda).toDecimalPlaces(2);
+          }
+        }
+    } else if (monedaValue === "SOLES") {
       // Si la moneda es diferente de soles, aplica la conversión
       precioFinaln = precioFinaln.times(moneda).toDecimalPlaces(2);
     }
+
+     
+    
 
     return precioFinaln;
   };
@@ -270,13 +285,15 @@ const TuComponente = () => {
     descuentoA,
     descuentoB,
     ticketCount,
-    monto
+    monto,
+    monedaType
   ) => {
     setDescuentoA(descuentoA);
     setDescuentoB(descuentoB);
     setTotal(precioFinal);
     setTicketCount(ticketCount);
-    setMonto(monto);
+    setMonto(monto/ticketCount);
+    setMonedaType(monedaType);
 
     setTabValue(0);
     getProductoSeleccionado(codigoInterno).then((detalleProducto) => {
@@ -358,6 +375,7 @@ const TuComponente = () => {
       setDescuentoB(0);
       setTicketCount(1);
       setMonto(precio);
+      setMonedaType("");
     });
 
     if (!selectedClient) {
@@ -393,16 +411,29 @@ const TuComponente = () => {
     }
   };
 
+  // const handlPrecioFinalChange = (event) => {
+  //   const value = event.target.value.trim();
+  //   if (value === "") {
+  //     setTotal(0);
+  //   } else {
+  //     const parsedValue = parseFloat(value);
+  //     if (!isNaN(parsedValue) && parsedValue >= 0 ) {
+  //       setTotal(parsedValue);
+  //     }
+  //   };
+  // };
+
   const handlPrecioFinalChange = (event) => {
     const value = event.target.value.trim();
+    // Expresión regular para validar números positivos con hasta dos decimales
+    const regex = /^(\d+(\.\d{0,2})?|\.\d{1,2})$/;// /^\d+(\.\d{1,2})?$/;
     if (value === "") {
       setTotal(0);
-    } else {
-      const parsedValue = parseFloat(value);
-      if (!isNaN(parsedValue) && parsedValue >= 0 ) {
-        setTotal(parsedValue);
-      }
-    };
+    } else if (regex.test(value)) {
+      // Verificar si el valor cumple con el formato requerido
+      //const parsedValue = parseFloat(value);
+      setTotal(value);
+    }
   };
 
   const handleMontoChange = (event) => {
@@ -480,7 +511,7 @@ const TuComponente = () => {
       descuentoB: descuentoB,
       monto: subTotalItem,
       monedaType: monedaType,
-      precioFinal: precioFinal,
+      precioFinal: new Decimal(precioFinal),
       ticketCount: ticketCount,
       utilidad: utilidad,
     };
@@ -512,7 +543,7 @@ const TuComponente = () => {
         descuentoB,
         monto: subTotalItem,
         monedaType: monedaType,
-        precioFinal,
+        precioFinal: new Decimal(precioFinal),
         utilidad,
         ticketCount,
       };

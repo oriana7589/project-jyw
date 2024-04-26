@@ -445,7 +445,8 @@ function ItemsProductos({
                             item.descuentoA,
                             item.descuentoB,
                             item.ticketCount,
-                            item.monto
+                            item.monto,
+                            item.monedaType
                           )
                         }
                       >
