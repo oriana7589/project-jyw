@@ -140,21 +140,22 @@ const TuComponente = () => {
   };
 
   const handleClientSelect = (cliente) => {
-    console.log('cliente', cliente)
+    const diasSinComprar1 = 0; // Los productos sugeridos en este punto tienen 0 días sin comprar
+    const diasSinComprar2 = 60; // Los productos sugeridos en este punto tienen 60 días sin comprar
     setSelectedClient(cliente);
     setIsAddToCartVisible(true);
     setIsEditToCartVisible(false);
     setDialogOpen(false);
 
-    getArticulosSugeridosCliente(cliente.codigoCliente).then(
+    getArticulosSugeridosCliente(cliente.codigoCliente, diasSinComprar1).then(
       (produtosSugeridosCliente) => {
-        setProductosSugeridosCliente(produtosSugeridosCliente);
+        setProductosSugeridosCliente(produtosSugeridosCliente);//Productos sugeridos al encontrar un cliente - primera sugerencia
       }
     );
 
-    getArticulosSugeridosCliente(cliente.codigoCliente).then(
+    getArticulosSugeridosCliente(cliente.codigoCliente, diasSinComprar2).then(
       (articuloSugeridoCliente) => {
-        setArticuloSugeridoCliente(articuloSugeridoCliente);
+        setArticuloSugeridoCliente(articuloSugeridoCliente);//Productos sugeridos en donde se eligen los items
       }
     );
   };

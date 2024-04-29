@@ -161,9 +161,9 @@ export function getHistorialPrecios(codigoInterno, codigoCliente) {
   return FechaLlegada;
 }
 
-export function getArticulosSugeridosCliente(codigoCliente) {
+export function getArticulosSugeridosCliente(codigoCliente, diasSinComprar) {
   const ArticuloSugeridoCliente = axios
-    .get(`${baseUrlCliente()}/ArticulosSugeridosPorCliente/${codigoCliente}`)
+    .get(`${baseUrlCliente()}/ArticulosSugeridosPorCliente?codCliente=${codigoCliente}&dias=${diasSinComprar}`)
     .then((res) => {
       return res.data;
     });
