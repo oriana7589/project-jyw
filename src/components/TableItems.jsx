@@ -5,6 +5,7 @@ import repuest from "../image/request1.png";
 const TableItems = ({
   articuloSugeridoCliente,
   articuloSugerido,
+  articuloSugeridoClientePorMonto,
   setCodigoSeleccionado,
   codigoSeleccionado,
   handleItemClick,
@@ -18,7 +19,7 @@ const TableItems = ({
     setCodigoHover(null);
   };
 
-   const lista2Filtrada = articuloSugerido.filter(item2 => {
+   const lista2Filtrada = articuloSugeridoClientePorMonto.filter(item2 => {
     return !articuloSugeridoCliente.slice(0, 5).some(item1 => item1.codigoInterno === item2.codigoInterno);
   });
 

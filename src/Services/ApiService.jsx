@@ -161,9 +161,9 @@ export function getHistorialPrecios(codigoInterno, codigoCliente) {
   return FechaLlegada;
 }
 
-export function getArticulosSugeridosCliente(codigoCliente, diasSinComprar) {
+export function getSugeridosPorClientePorCantidad(codigoCliente, diasSinComprar) {
   const ArticuloSugeridoCliente = axios
-    .get(`${baseUrlCliente()}/ArticulosSugeridosPorCliente?codCliente=${codigoCliente}&dias=${diasSinComprar}`)
+    .get(`${baseUrlCliente()}/SugeridosPorClientePorCantidad?CodigoCliente=${codigoCliente}&dias=${diasSinComprar}`)
     .then((res) => {
       return res.data;
     });
@@ -177,6 +177,16 @@ export function getArticulosSugeridos() {
       return res.data;
     });
   return ArticuloSugerido;
+}
+
+export function getSugeridosPorClientePorMonto(codigoCliente, diasSinComprar) {
+  const ArticuloSugeridoClientePorMonto = axios
+    .get(`${baseUrlCliente()}/SugeridosPorClientePorMonto?CodigoCliente=${codigoCliente}&dias=${diasSinComprar}`)
+    .then((res) => {
+      console.log("filtrado por monto"+res.data)
+      return res.data;
+    });
+  return ArticuloSugeridoClientePorMonto;
 }
 
 export function getListVendedores() {
@@ -342,4 +352,35 @@ export function getSeleccionarProformaDetalle(NumeroProforma) {
       return res.data;
     });
   return seleccionarProformaDetalle;
+}
+
+/// Consultar Precios
+export function getUltimasVentasArticulo(codInterno) {
+  const ultimasVentas = axios
+    .get(`${baseUrlProductos()}/UltimasVentasArticulo/${codInterno}`)
+    .then((res) => {
+      return res.data;
+    });
+
+  return ultimasVentas;
+}
+
+export function getUltimasComprasArticulo(codInterno) {
+  const ultimasCompras = axios
+    .get(`${baseUrlProductos()}/UltimasComprasArticulo/${codInterno}`)
+    .then((res) => {
+      return res.data;
+    });
+
+  return ultimasCompras;
+}
+
+export function getLlegadaProducto(codInterno) {
+  const LlegadaProducto = axios
+    .get(`${baseUrlProductos()}/LlegadaProducto/${codInterno}`)
+    .then((res) => {
+      return res.data;
+    });
+
+  return LlegadaProducto;
 }

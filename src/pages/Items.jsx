@@ -77,6 +77,8 @@ const PestañaContenido = ({
   setCartItems,
   articuloSugeridoCliente,
   articuloSugerido,
+  articuloSugeridoCliente75,
+  articuloSugeridoClientePorMonto75,
   removeFromCart,
   loading,
   setArticuloSugerido,
@@ -128,7 +130,9 @@ const PestañaContenido = ({
   handleImporteTotal,
   isEditProformaVisible,
   isAddProformaVisible,
-  actualizarProforma
+  actualizarProforma,
+  articuloSugeridoClientePorMonto,
+  handleBuscarProforma,
 }) => {
   switch (value) {
     case 0:
@@ -168,6 +172,7 @@ const PestañaContenido = ({
           isAddToCartVisible={isAddToCartVisible}
           isEditToCartVisible={isEditToCartVisible}
           handleItemSugeridoClick={handleItemSugeridoClick}
+          articuloSugeridoClientePorMonto={articuloSugeridoClientePorMonto}
         />
       );
     case 1:
@@ -219,8 +224,8 @@ const PestañaContenido = ({
           totalConvertido={totalConvertido}
           isEditProformaVisible={isEditProformaVisible}
           isAddProformaVisible={isAddProformaVisible}
-          actualizarProforma = {actualizarProforma}
-          selectedClient = {selectedClient}
+          actualizarProforma={actualizarProforma}
+          selectedClient={selectedClient}
         />
       );
     case 2:
@@ -228,10 +233,13 @@ const PestañaContenido = ({
     case 3:
       return (
         <SI
+          articuloSugeridoClientePorMonto={articuloSugeridoClientePorMonto}
           articuloSugeridoCliente={articuloSugeridoCliente}
           articuloSugerido={articuloSugerido}
           codigoSeleccionado={codigoSeleccionado}
           handleItemSIClick={handleItemSIClick}
+          articuloSugeridoCliente75={articuloSugeridoCliente75}
+          articuloSugeridoClientePorMonto75={articuloSugeridoClientePorMonto75}
         />
       );
     case 4:
@@ -273,6 +281,9 @@ const Items = ({
   setMonedaValue,
   setCartItems,
   articuloSugeridoCliente,
+  articuloSugeridoClientePorMonto,
+  articuloSugeridoCliente75,
+  articuloSugeridoClientePorMonto75,
   articuloSugerido,
   removeFromCart,
   loading,
@@ -328,7 +339,8 @@ const Items = ({
   totalConvertido,
   isEditProformaVisible,
   isAddProformaVisible,
-  actualizarProforma
+  actualizarProforma,
+  handleBuscarProforma,
 }) => {
   const handleChangeTab = (event, newValue) => {
     setTabValue(newValue);
@@ -450,6 +462,10 @@ const Items = ({
             setCartItems={setCartItems}
             articuloSugeridoCliente={articuloSugeridoCliente}
             articuloSugerido={articuloSugerido}
+            articuloSugeridoCliente75={articuloSugeridoCliente75}
+            articuloSugeridoClientePorMonto75={
+              articuloSugeridoClientePorMonto75
+            }
             removeFromCart={removeFromCart}
             loading={loading}
             setArticuloSugerido={setArticuloSugerido}
@@ -500,7 +516,9 @@ const Items = ({
             totalConvertido={totalConvertido}
             isEditProformaVisible={isEditProformaVisible}
             isAddProformaVisible={isAddProformaVisible}
-            actualizarProforma = {actualizarProforma}
+            actualizarProforma={actualizarProforma}
+            articuloSugeridoClientePorMonto={articuloSugeridoClientePorMonto}
+            handleBuscarProforma={handleBuscarProforma}
           />
         ) : !selectedClient ? (
           <div

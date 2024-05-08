@@ -10,7 +10,6 @@ import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import CategoryIcon from "@mui/icons-material/Category";
-import AccountBoxIcon from "@mui/icons-material/AccountBox";
 import Logo from "../image/logo.png";
 import LogoCom from "../image/logoCompleto.png";
 import MenuAcordion from "../pages/MenuAcordion";
@@ -206,10 +205,11 @@ export default function DrawerModel() {
                 sx={{
                   opacity: open ? 3 : 0,
                   color: "rgb(12,55,100)",
+                  overflow: "hidden",
                 }}
                 onClick={() => {
-                  const width = 900; // Ancho de la ventana emergente
-                  const height = 600; // Altura de la ventana emergente
+                  const width = 1090; // Ancho de la ventana emergente
+                  const height = 650; // Altura de la ventana emergente
                   const left = (window.innerWidth - width) / 2;
                   const top = (window.innerHeight - height) / 2;
                   const windowFeatures = `width=${width},height=${height},left=${left},top=${top}`;

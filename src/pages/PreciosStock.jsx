@@ -4,6 +4,13 @@ import { styled } from "@mui/material/styles";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Box from "@mui/material/Box";
+import TableProductos from "../components/ConsultasPrecios/TableProductos";
+import Logo from "/react/project-jyw/src/image/logo.png";
+import { CircularProgress } from "@mui/material";
+import TableUltimasCompras from "../components/TableUltimasCompras";
+import TableUltimasVentas from "../components/ConsultasPrecios/TableUltimasVentas";
+import TableUltimasComprasItems from "../components/ConsultasPrecios/TableUltimasComprasItems";
+import LlegadaProducto from "../components/ConsultasPrecios/LlegadaProducto";
 
 const CustomClickableTab = styled(Tab)(({ theme, selected, clickable }) => ({
   color: selected
@@ -26,24 +33,39 @@ const CustomClickableTab = styled(Tab)(({ theme, selected, clickable }) => ({
   },
 }));
 
-const PestañaContenido = ({ value }) => {
+const PestañaContenido = ({
+  value,
+  productos,
+  onProductSelect,
+  filaSeleccionada,
+  setFilaSeleccionada,
+  ultimasVentas,
+  ultimasCompras,
+  llegadaProducto
+}) => {
   switch (value) {
     case 0:
-      return "Hola";
+      return (
+        <TableProductos
+          productos={productos}
+          onProductSelect={onProductSelect}
+          filaSeleccionada={filaSeleccionada}
+          setFilaSeleccionada={setFilaSeleccionada}
+        />
+      );
     case 1:
-      return "Hola";
+      return <TableUltimasVentas ultimasVentas = {ultimasVentas}  filaSeleccionada={filaSeleccionada}
+     />;
     case 2:
-      return "Hola";
+      return <TableUltimasComprasItems  ultimasCompras={ultimasCompras} filaSeleccionada={filaSeleccionada}/>;
     case 3:
-      return "Hola";
+      return "Ultimas compras";
     case 4:
-      return "Hola";
+      return "Grafica";
     case 5:
-      return "Hola";
+      return "VentaMensual";
     case 6:
-      return "Hola";
-    case 7:
-      return "Hola";
+      return <LlegadaProducto llegadaProducto={llegadaProducto} filaSeleccionada={filaSeleccionada}/>;
     default:
       return null;
   }
@@ -55,12 +77,21 @@ const CustomTabs = styled(Tabs)({
   },
 });
 
-const PreciosStock = ({}) => {
+const PreciosStock = ({
+  productos,
+  onProductSelect,
+  filaSeleccionada,
+  setFilaSeleccionada,
+  ultimasVentas,
+  ultimasCompras,
+  llegadaProducto
+}) => {
   const [tabValue, setTabValue] = useState(0);
 
   const handleChangeTab = (event, newValue) => {
     setTabValue(newValue);
   };
+ 
 
   return (
     <React.Fragment>
@@ -140,7 +171,43 @@ const PreciosStock = ({}) => {
             clickable="true"
           />
         </CustomTabs>
-        <PestañaContenido value={tabValue} />
+        {productos.length > 0 ? (
+          <PestañaContenido
+            value={tabValue}
+            productos={productos}
+            onProductSelect={onProductSelect}
+            filaSeleccionada={filaSeleccionada}
+            setFilaSeleccionada={setFilaSeleccionada}
+            ultimasVentas={ultimasVentas}
+            ultimasCompras= {ultimasCompras}
+            llegadaProducto= {llegadaProducto}
+          />
+        ) : (
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              alignItems: "center",
+              height: "584px",
+              width: "900px",
+              paddingLeft: 200,
+            }}
+          >
+            <img
+              src={Logo}
+              alt="Logo"
+              style={{ width: 120, height: 30, marginBottom: 20 }}
+            />
+            <CircularProgress
+              style={{
+                color: "rgb(12, 55, 100)",
+                height: "50px",
+                width: "50px",
+              }}
+            />
+          </div>
+        )}
       </Box>
     </React.Fragment>
   );

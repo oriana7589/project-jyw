@@ -115,7 +115,8 @@ const TableComponent = ({ items, onProductSelect }) => {
              </tr>
            </thead>
           <tbody  style={{ height: 20}}>
-             <td style={{ fontSize: "0.8rem", paddingBottom:5,backgroundColor: "rgb(179,180,177)",width:55}}></td>
+            <tr>
+            <td style={{ fontSize: "0.8rem", paddingBottom:5,backgroundColor: "rgb(179,180,177)",width:55}}></td>
              <td style={{ fontSize: "0.8rem", paddingLeft:5, fontWeight:"bold"}}>Importado</td>
              <td style={{ width:50}}></td>
              <td style={{ fontSize: "0.8rem", paddingBottom:5,backgroundColor: "rgb(227,216,249)",width:55}}></td>
@@ -124,6 +125,9 @@ const TableComponent = ({ items, onProductSelect }) => {
              <td style={{ fontSize: "0.8rem", paddingBottom:5,backgroundColor: "rgb(29,241,255)",width:55}}></td>
              <td style={{  fontSize: "0.8rem", paddingLeft:5,fontWeight:"bold"}}>Precio Descuento</td>
              <td style={{ }}></td>
+
+            </tr>
+             
       </tbody>
     </table>
   </div>

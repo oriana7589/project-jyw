@@ -40,7 +40,8 @@ export default function TD({
   setTabValue ,
   isAddToCartVisible,
   isEditToCartVisible,
-  handleItemSugeridoClick
+  handleItemSugeridoClick,
+  articuloSugeridoClientePorMonto
 }) {
   const [chartData, setChartData] = useState({
     labels: [],
@@ -82,6 +83,7 @@ export default function TD({
           <TableItems
             loading={loading}
             articuloSugeridoCliente={articuloSugeridoCliente}
+            articuloSugeridoClientePorMonto = {articuloSugeridoClientePorMonto}
             articuloSugerido={articuloSugerido}
             codigoSeleccionado={codigoSeleccionado}
             setCodigoSeleccionado={setCodigoSeleccionado}

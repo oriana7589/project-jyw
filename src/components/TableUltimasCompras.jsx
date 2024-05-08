@@ -7,7 +7,7 @@ import TableCell from "@mui/material/TableCell";
 import TableRow from "@mui/material/TableRow";
 import TablePagination from "@mui/material/TablePagination";
 
-const TableUltimasCompras = ({ ultimasCompras, itemsPerPage }) => {
+const TableUltimasCompras = ({ ultimasCompras, itemsPerPage, setNumeroProforma, handleBuscarProforma }) => {
   const [selectedClient, setSelectedClient] = useState(null);
   const [highlightedRow, setHighlightedRow] = useState(null);
   const [isLoading, setIsLoading] = useState(true); // Estado de carga
@@ -26,7 +26,10 @@ const TableUltimasCompras = ({ ultimasCompras, itemsPerPage }) => {
 
   const handleRowDoubleClick = (datosCliente) => {
     setSelectedClient(datosCliente);
-    onClientSelect(datosCliente);
+    setNumeroProforma(datosCliente.numProforma)
+    console.log("Numero de proforma"+datosCliente.numProforma)
+    handleBuscarProforma()
+    
   };
 
   const handleChangePage = (event, newPage) => {
