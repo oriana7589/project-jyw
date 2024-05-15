@@ -10,7 +10,14 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { getProdutosFiltrados, getUltimasVentasArticulo, getUltimasComprasArticulo, getLlegadaProducto } from "../Services/ApiService";
+import {
+  getProdutosFiltrados,
+  getUltimasVentasArticulo,
+  getUltimasComprasArticulo,
+  getLlegadaProducto,
+  getResumenVentasAnualArticulo,
+  getResumenDevolucionesAnualArticulo
+} from "../Services/ApiService";
 import SearchIcon from "@mui/icons-material/Search";
 import PreciosStock from "./PreciosStock"; // Asegúrate de importar el componente PreciosStock correctamente
 import { ToastContainer, toast } from "react-toastify";
@@ -27,9 +34,11 @@ const ConsultasPrecios = () => {
   const [productos, setProductos] = useState([]);
   const [datosdisponibles, setDatosDisponibles] = useState(false);
   const [filaSeleccionada, setFilaSeleccionada] = useState(null);
-  const [ultimasVentas,setUltimasVentas] = useState([])
-  const [ultimasCompras,setUltimasCompras] = useState([])
-  const [llegadaProducto,setLlegadaProducto] = useState({})
+  const [ultimasVentas, setUltimasVentas] = useState([]);
+  const [ultimasCompras, setUltimasCompras] = useState([]);
+  const [resumenVentas, setResumenVentas] = useState([]);
+  const [resumenDevoluciones, setResumenDevoluciones] = useState([]);
+  const [llegadaProducto, setLlegadaProducto] = useState({});
   const [isLoading, setIsLoading] = useState(true); // Estado de carga
 
   useEffect(() => {
@@ -64,21 +73,23 @@ const ConsultasPrecios = () => {
   };
 
   const onProductSelect = (productos) => {
-    getUltimasVentasArticulo(productos.CodigoInterno).then(
-      (ultimasVentas) => {
-        setUltimasVentas(ultimasVentas);
-      }
-    );
+    getUltimasVentasArticulo(productos.CodigoInterno).then((ultimasVentas) => {
+      setUltimasVentas(ultimasVentas);
+    });
     getUltimasComprasArticulo(productos.CodigoInterno).then(
       (ultimasCompras) => {
         setUltimasCompras(ultimasCompras);
       }
     );
-    getLlegadaProducto(productos.CodigoInterno).then(
-      (llegadaProducto) => {
-        setLlegadaProducto(llegadaProducto);
-      }
-    );
+    getLlegadaProducto(productos.CodigoInterno).then((llegadaProducto) => {
+      setLlegadaProducto(llegadaProducto);
+    });
+    getResumenVentasAnualArticulo(productos.CodigoInterno).then((resumenVentas) => {
+      setResumenVentas(resumenVentas);
+    });
+    getResumenDevolucionesAnualArticulo(productos.CodigoInterno).then((resumenDevoluciones) => {
+      setResumenDevoluciones(resumenDevoluciones);
+    });
   };
 
   return (
@@ -195,12 +206,11 @@ const ConsultasPrecios = () => {
             <PreciosStock
               productos={productos}
               onProductSelect={onProductSelect}
-              filaSeleccionada = {filaSeleccionada}
+              filaSeleccionada={filaSeleccionada}
               setFilaSeleccionada={setFilaSeleccionada}
-              ultimasVentas = {ultimasVentas}
-              ultimasCompras = {ultimasCompras}
-              llegadaProducto = {llegadaProducto}
-              
+              ultimasVentas={ultimasVentas}
+              ultimasCompras={ultimasCompras}
+              llegadaProducto={llegadaProducto}
             />
           ) : (
             <div

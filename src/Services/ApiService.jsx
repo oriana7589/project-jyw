@@ -384,3 +384,23 @@ export function getLlegadaProducto(codInterno) {
 
   return LlegadaProducto;
 }
+
+export function getResumenVentasAnualArticulo(codInterno) {
+  const ventaAnual = axios
+    .get(`${baseUrlProductos()}/ResumenVentasAnualArticulo/${codInterno}`)
+    .then((res) => {
+      return res.data;
+    });
+
+  return ventaAnual;
+}
+
+export function getResumenDevolucionesAnualArticulo(codInterno) {
+  const devolucionAnual = axios
+    .get(`${baseUrlProductos()}/ResumenDevolucionesAnualArticulo/${codInterno}`)
+    .then((res) => {
+      return res.data;
+    });
+
+  return devolucionAnual;
+}
