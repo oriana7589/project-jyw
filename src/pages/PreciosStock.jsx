@@ -11,6 +11,7 @@ import TableUltimasCompras from "../components/TableUltimasCompras";
 import TableUltimasVentas from "../components/ConsultasPrecios/TableUltimasVentas";
 import TableUltimasComprasItems from "../components/ConsultasPrecios/TableUltimasComprasItems";
 import LlegadaProducto from "../components/ConsultasPrecios/LlegadaProducto";
+import VentasMensuales from "../components/ConsultasPrecios/VentasMensuales";
 
 const CustomClickableTab = styled(Tab)(({ theme, selected, clickable }) => ({
   color: selected
@@ -41,7 +42,9 @@ const PestañaContenido = ({
   setFilaSeleccionada,
   ultimasVentas,
   ultimasCompras,
-  llegadaProducto
+  llegadaProducto,
+  resumenDevoluciones,
+  resumenVentas
 }) => {
   switch (value) {
     case 0:
@@ -54,18 +57,36 @@ const PestañaContenido = ({
         />
       );
     case 1:
-      return <TableUltimasVentas ultimasVentas = {ultimasVentas}  filaSeleccionada={filaSeleccionada}
-     />;
+      return (
+        <TableUltimasVentas
+          ultimasVentas={ultimasVentas}
+          filaSeleccionada={filaSeleccionada}
+        />
+      );
     case 2:
-      return <TableUltimasComprasItems  ultimasCompras={ultimasCompras} filaSeleccionada={filaSeleccionada}/>;
+      return (
+        <TableUltimasComprasItems
+          ultimasCompras={ultimasCompras}
+          filaSeleccionada={filaSeleccionada}
+        />
+      );
     case 3:
-      return "Ultimas compras";
-    case 4:
       return "Grafica";
+    case 4:
+      return (
+        <VentasMensuales
+          filaSeleccionada={filaSeleccionada}
+          resumenVentas={resumenVentas}
+          resumenDevoluciones={resumenDevoluciones}
+        />
+      );
     case 5:
-      return "VentaMensual";
-    case 6:
-      return <LlegadaProducto llegadaProducto={llegadaProducto} filaSeleccionada={filaSeleccionada}/>;
+      return (
+        <LlegadaProducto
+          llegadaProducto={llegadaProducto}
+          filaSeleccionada={filaSeleccionada}
+        />
+      );
     default:
       return null;
   }
@@ -84,14 +105,15 @@ const PreciosStock = ({
   setFilaSeleccionada,
   ultimasVentas,
   ultimasCompras,
-  llegadaProducto
+  llegadaProducto,
+  resumenVentas,
+  resumenDevoluciones,
 }) => {
   const [tabValue, setTabValue] = useState(0);
 
   const handleChangeTab = (event, newValue) => {
     setTabValue(newValue);
   };
- 
 
   return (
     <React.Fragment>
@@ -138,15 +160,7 @@ const PreciosStock = ({
             }}
             clickable="true"
           />
-          <CustomClickableTab
-            label="ULTIMAS COMPRAS"
-            style={{
-              minHeight: "25px",
-              marginRight: "4px",
-              fontSize: "0.7rem",
-            }}
-            clickable="true" // Puedes hacer clic en esta pestaña
-          />
+          
           <CustomClickableTab
             label="GRAFICA "
             style={{
@@ -179,8 +193,10 @@ const PreciosStock = ({
             filaSeleccionada={filaSeleccionada}
             setFilaSeleccionada={setFilaSeleccionada}
             ultimasVentas={ultimasVentas}
-            ultimasCompras= {ultimasCompras}
-            llegadaProducto= {llegadaProducto}
+            ultimasCompras={ultimasCompras}
+            llegadaProducto={llegadaProducto}
+            resumenVentas={resumenVentas}
+            resumenDevoluciones={resumenDevoluciones}
           />
         ) : (
           <div

@@ -211,6 +211,8 @@ const ConsultasPrecios = () => {
               ultimasVentas={ultimasVentas}
               ultimasCompras={ultimasCompras}
               llegadaProducto={llegadaProducto}
+              resumenVentas = {resumenVentas}
+              resumenDevoluciones = {resumenDevoluciones}
             />
           ) : (
             <div
