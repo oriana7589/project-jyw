@@ -156,6 +156,11 @@ const TuComponente = () => {
     setIsEditToCartVisible(false);
     setDialogOpen(false);
 
+    getArticulosSugeridos(
+    ).then((articuloSugerido) => {
+      setArticuloSugerido(articuloSugerido); //Productos sugeridos en donde se eligen los items
+    });
+
     getSugeridosPorClientePorCantidad(
       cliente.codigoCliente,
       diasSinComprar1
@@ -169,6 +174,7 @@ const TuComponente = () => {
     ).then((articuloSugeridoCliente) => {
       setArticuloSugeridoCliente(articuloSugeridoCliente); //Productos sugeridos en donde se eligen los items
     });
+    
 
     getSugeridosPorClientePorMonto(cliente.codigoCliente, diasSinComprar2).then(
       (articuloSugeridoClientePorMonto) => {
@@ -1041,15 +1047,16 @@ const TuComponente = () => {
     setTransporte(transportista);
   };
 
-  useEffect(() => {
+/*  useEffect(() => {
     // Verifica que 'numeroProforma' no esté vacío
     if (numeroProforma !== "") {
       // Llama a 'handleBuscarProforma' con el nuevo valor de 'numeroProforma'
       handleBuscarProforma(numeroProforma);
     }
-  }, [numeroProforma]);
+  }, [numeroProforma]);*/
 
   const handleBuscarProforma = (numeroProforma) => {
+    console.log("Console proforma"+numeroProforma)
     if (numeroProforma === "") {
       toast.warning("Por favor, ingrese la proforma");
     } else {
@@ -1315,7 +1322,7 @@ const TuComponente = () => {
               }}
               onClick={(event) => {
                 event.stopPropagation(); // Evita la propagación del evento al acordeón
-                handleBuscarProforma();
+                handleBuscarProforma(numeroProforma);
               }}
             >
               <Typography

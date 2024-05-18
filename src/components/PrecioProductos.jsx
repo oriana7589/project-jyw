@@ -104,7 +104,7 @@ function PrecioProductos({
               style={{ paddingTop: 15, paddingLeft: 17, marginTop: 0 }}
             >
               <strong>RAZÓN SOCIAL: </strong>
-              {razonSocial}
+              {razonSocial.substring(0,40)}
             </Typography>
             <Typography
               variant="body1"
@@ -129,6 +129,7 @@ function PrecioProductos({
                   setVendedor(newValue);
                 }}
                 options={vendedores}
+                disabled={proformaSeleccionada.estado === 'FAC'}
                 getOptionLabel={(option) =>
                   option ? option.nombreVendedor : "OFICINA"
                 }
@@ -160,6 +161,7 @@ function PrecioProductos({
                 onChange={(event, newValue) => {
                   setTransporte(newValue);
                 }}
+                disabled={proformaSeleccionada.estado === 'FAC'}
                 options={transportistas}
                 getOptionLabel={(optionItems) =>
                   optionItems
@@ -199,6 +201,7 @@ function PrecioProductos({
               style={{ height: 35 }}
               variant="outlined"
               displayEmpty
+              disabled={proformaSeleccionada.estado === 'FAC'}
             >
               {/* Opciones de formas de pago */}
               {formaPago.map((formaPagoItem, index) => (
@@ -221,6 +224,7 @@ function PrecioProductos({
               fullWidth
               style={{ height: 35 }}
               variant="outlined"
+              disabled={proformaSeleccionada.estado === 'FAC'}
             >
               {tipoMoneda.map((tipoMonedaItem, index) => (
                 <MenuItem key={index} value={tipoMonedaItem.descripcionMoneda}>
@@ -281,6 +285,7 @@ function PrecioProductos({
         rows={4}
         fullWidth
         variant="outlined"
+        disabled={proformaSeleccionada.estado === 'FAC'}
         helperText={`${observaciones.length}/1000 caracteres`}
         inputProps={{ maxLength: 1000 }}
       />

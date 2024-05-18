@@ -105,7 +105,7 @@ const TableUltimasComprasItems = ({ ultimasCompras, filaSeleccionada }) => {
               </div>
             </Paper>
           </div>
-          <TableContainer style={{ maxHeight: 490, width: "2000px" }}>
+          <TableContainer style={{ maxHeight: 455, width: "2000px" }}>
             <Table
               stickyHeader
               sx={{
