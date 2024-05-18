@@ -4,8 +4,8 @@ import Container from "@mui/material/Container";
 import "react-datepicker/dist/react-datepicker.css";
 import TableVentasMensuales from "./TablaVentasMensuales";
 import TableDevolucionesMensuales from "./TableDevolucionesMensuales";
-import Logo from "/react/project-jyw/src/image/logo.png";
-import LogoCom from "/react/project-jyw/src/image/logoCompleto.png";
+import Logo from "../../image/logo.png";
+import LogoCom from "../../image/logoCompleto.png";
 import { Typography , Paper} from "@mui/material";
 
 export default function VentasMensuales({

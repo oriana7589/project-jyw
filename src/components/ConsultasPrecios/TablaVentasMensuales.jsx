@@ -5,8 +5,6 @@ import TableHead from "@mui/material/TableHead";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
 import TableRow from "@mui/material/TableRow";
-import Logo from "/react/project-jyw/src/image/logo.png";
-import LogoCom from "/react/project-jyw/src/image/logoCompleto.png";
 import { Typography, Paper } from "@mui/material";
 import TableUltimasCompras from "../TableUltimasCompras";
 import Decimal from "decimal.js";
