@@ -46,381 +46,389 @@ const SI = ({
           height: "calc(100vh - 9.25rem)",
         }}
       >
-        <div
-          style={{
-            flexDirection: "column",
-            width: "100%",
-            paddingLeft: 50,
-            paddingTop: 30,
-            overflow: "auto",
-          }}
-        >
-          <Typography>Articulos sugeridos mayor a 45 días(Cantidad)</Typography>
+        {articuloSugeridoCliente.length > 0 &&
+        articuloSugeridoCliente75.length > 0 &&
+        articuloSugeridoClientePorMonto.length > 0 &&
+        articuloSugeridoClientePorMonto75.length > 0 ? (
           <div
             style={{
-              maxWidth: "160vh",
-              maxHeight: "210px",
-              overflowX: "auto",
-              display: "flex",
-            }}
-          >
-            {articuloSugeridoCliente.map((item, index) => (
-              <Paper
-                elevation={3}
-                style={{
-                  display: "flex",
-                  flexShrink: 0,
-                  flexDirection: "column",
-                  alignItems: "center",
-                  width: 145,
-                  margin: "0.5rem",
-                  backgroundColor:
-                    codigoSeleccionado === item.codigoInterno
-                      ? "rgb(237, 237, 237)"
-                      : codigoHover === item.codigoInterno
-                      ? "rgba(0, 0, 0, 0.1)" // Color de fondo cuando el mouse está sobre el elemento
-                      : "white",
-                }}
-                onClick={() => handleItemSIClick(item.codigoInterno)}
-                onMouseEnter={() => handleItemHover(item.codigoInterno)}
-                onMouseLeave={handleItemLeave}
-              >
-                <img
-                  src={repuest}
-                  style={{ width: "60%", height: "60%", margin: "0.2rem" }}
-                />
-                <Typography
-                  fontSize="0.9rem"
-                  width={"90%"}
-                  style={{
-                    fontWeight: "bold",
-                    whiteSpace: "nowrap",
-                    overflow: "hidden",
-                  }}
-                >
-                  {item.codigoArticulo}
-                </Typography>
-                <Typography
-                  fontSize="0.9rem"
-                  width={"90%"}
-                  style={{ borderTop: "0.01rem solid #888" }}
-                >
-                  {item.marca}
-                </Typography>
-                <Typography
-                  fontSize="0.9rem"
-                  width={"90%"}
-                  style={{ borderTop: "0.01rem solid #888" }}
-                >
-                  {item.codigoLinea}
-                </Typography>
-              </Paper>
-            ))}
-          </div>
-          <Typography>Articulos sugeridos mayor a 45 días(Monto)</Typography>
-          <div
-            style={{
-              maxWidth: "160vh",
-              maxHeight: "210px",
-              overflowX: "auto",
-              display: "flex",
-            }}
-          >
-            {lista2Filtrada.map((item, index) => (
-              <Paper
-                elevation={3}
-                style={{
-                  display: "flex",
-                  flexShrink: 0,
-                  flexDirection: "column",
-                  alignItems: "center",
-                  width: 145,
-                  margin: "0.5rem",
-                  backgroundColor:
-                    codigoSeleccionado === item.codigoInterno
-                      ? "rgb(237, 237, 237)"
-                      : codigoHover === item.codigoInterno
-                      ? "rgba(0, 0, 0, 0.1)" // Color de fondo cuando el mouse está sobre el elemento
-                      : "white",
-                }}
-                onClick={() => handleItemSIClick(item.codigoInterno)}
-                onMouseEnter={() => handleItemHover(item.codigoInterno)}
-                onMouseLeave={handleItemLeave}
-              >
-                <img
-                  src={repuest}
-                  style={{ width: "60%", height: "60%", margin: "0.2rem" }}
-                />
-                <Typography
-                  fontSize="0.9rem"
-                  width={"90%"}
-                  style={{
-                    fontWeight: "bold",
-                    whiteSpace: "nowrap",
-                    overflow: "hidden",
-                  }}
-                >
-                  {item.codigoArticulo}
-                </Typography>
-                <Typography
-                  fontSize="0.9rem"
-                  width={"90%"}
-                  style={{ borderTop: "0.01rem solid #888" }}
-                >
-                  {item.marca}
-                </Typography>
-                <Typography
-                  fontSize="0.9rem"
-                  width={"90%"}
-                  style={{ borderTop: "0.01rem solid #888" }}
-                >
-                  {item.codigoLinea}
-                </Typography>
-              </Paper>
-            ))}
-          </div>
-
-          <Typography>Articulos sugeridos mayor a 75 días(Cantidad)</Typography>
-          <div
-            style={{
-              maxWidth: "160vh",
-              maxHeight: "210px",
-              overflowX: "auto",
-              display: "flex",
-            }}
-          >
-            {articuloSugeridoCliente75.map((item, index) => (
-              <Paper
-                elevation={3}
-                style={{
-                  display: "flex",
-                  flexShrink: 0,
-                  flexDirection: "column",
-                  alignItems: "center",
-                  width: 145,
-                  margin: "0.5rem",
-                  backgroundColor:
-                    codigoSeleccionado === item.codigoInterno
-                      ? "rgb(237, 237, 237)"
-                      : codigoHover === item.codigoInterno
-                      ? "rgba(0, 0, 0, 0.1)" // Color de fondo cuando el mouse está sobre el elemento
-                      : "white",
-                }}
-                onClick={() => handleItemSIClick(item.codigoInterno)}
-                onMouseEnter={() => handleItemHover(item.codigoInterno)}
-                onMouseLeave={handleItemLeave}
-              >
-                <img
-                  src={repuest}
-                  style={{ width: "60%", height: "60%", margin: "0.2rem" }}
-                />
-                <Typography
-                  fontSize="0.9rem"
-                  width={"90%"}
-                  style={{
-                    fontWeight: "bold",
-                    whiteSpace: "nowrap",
-                    overflow: "hidden",
-                  }}
-                >
-                  {item.codigoArticulo}
-                </Typography>
-                <Typography
-                  fontSize="0.9rem"
-                  width={"90%"}
-                  style={{ borderTop: "0.01rem solid #888" }}
-                >
-                  {item.marca}
-                </Typography>
-                <Typography
-                  fontSize="0.9rem"
-                  width={"90%"}
-                  style={{ borderTop: "0.01rem solid #888" }}
-                >
-                  {item.codigoLinea}
-                </Typography>
-              </Paper>
-            ))}
-          </div>
-
-          <Typography>Articulos sugeridos mayor a 75 días(Monto)</Typography>
-          <div
-            style={{
-              maxWidth: "160vh",
-              maxHeight: "210px",
-              overflowX: "auto",
-              display: "flex",
-            }}
-          >
-            {lista2Filtrada75.map((item, index) => (
-              <Paper
-                elevation={3}
-                style={{
-                  display: "flex",
-                  flexShrink: 0,
-                  flexDirection: "column",
-                  alignItems: "center",
-                  width: 145,
-                  margin: "0.5rem",
-                  backgroundColor:
-                    codigoSeleccionado === item.codigoInterno
-                      ? "rgb(237, 237, 237)"
-                      : codigoHover === item.codigoInterno
-                      ? "rgba(0, 0, 0, 0.1)" // Color de fondo cuando el mouse está sobre el elemento
-                      : "white",
-                }}
-                onClick={() => handleItemSIClick(item.codigoInterno)}
-                onMouseEnter={() => handleItemHover(item.codigoInterno)}
-                onMouseLeave={handleItemLeave}
-              >
-                <img
-                  src={repuest}
-                  style={{ width: "60%", height: "60%", margin: "0.2rem" }}
-                />
-                <Typography
-                  fontSize="0.9rem"
-                  width={"90%"}
-                  style={{
-                    fontWeight: "bold",
-                    whiteSpace: "nowrap",
-                    overflow: "hidden",
-                  }}
-                >
-                  {item.codigoArticulo}
-                </Typography>
-                <Typography
-                  fontSize="0.9rem"
-                  width={"90%"}
-                  style={{ borderTop: "0.01rem solid #888" }}
-                >
-                  {item.marca}
-                </Typography>
-                <Typography
-                  fontSize="0.9rem"
-                  width={"90%"}
-                  style={{ borderTop: "0.01rem solid #888" }}
-                >
-                  {item.codigoLinea}
-                </Typography>
-              </Paper>
-            ))}
-          </div>
-        </div>
-
-        {/* <div style={{  maxHeight: "600px", overflowY: "auto" }}>
-     <Grid container spacing={2} style={{padding:15, overflowY:"auto"}}>
-      {articuloSugeridoCliente.slice(0, 65).map((item, index) => (
-        <Grid item xs={1.5} width={"100%"} key={item.codigoInterno}>
-          {" "}
-         
-          <Paper
-            elevation={3}
-            style={{
-              display: "flex",
               flexDirection: "column",
-              alignItems: "center",
-              width: 145,
-              backgroundColor:
-              codigoSeleccionado === item.codigoInterno
-                ? "rgb(237, 237, 237)"
-                : codigoHover === item.codigoInterno
-                ? "rgba(0, 0, 0, 0.1)" // Color de fondo cuando el mouse está sobre el elemento
-                : "white",
-          }}
-          onClick={() => handleItemSIClick(item.codigoInterno)}
-          onMouseEnter={() => handleItemHover(item.codigoInterno)}
-          onMouseLeave={handleItemLeave}
+              width: "100%",
+              paddingLeft: 20,
+              overflow: "auto",
+            }}
           >
-            <img
-              src={repuest}
-              style={{ width: "60%", height: "60%", margin: "0.2rem" }}
-            />
             <Typography
-              fontSize="0.9rem"
-              width={"90%"}
               style={{
                 fontWeight: "bold",
-                whiteSpace: "nowrap",
-                overflow: "hidden",
+                fontSize: 23,
+                paddingLeft: 8,
+                paddingTop: 45,
               }}
             >
-              {item.codigoArticulo}
+              ARTICULOS SUGERIDOS MAYOR A 45 DIAS(CANTIDAD)
             </Typography>
-            <Typography
-              fontSize="0.9rem"
-              width={"90%"}
-              style={{ borderTop: "0.01rem solid #888" }}
+            <div
+              style={{
+                maxWidth: "165vh",
+                maxHeight: "210px",
+                overflowX: "auto",
+                display: "flex",
+              }}
             >
-              {item.marca}
-            </Typography>
+              {articuloSugeridoCliente.map((item, index) => (
+                <Paper
+                  elevation={3}
+                  style={{
+                    display: "flex",
+                    flexShrink: 0,
+                    flexDirection: "column",
+                    alignItems: "center",
+                    width: 145,
+                    margin: "0.5rem",
+                    backgroundColor:
+                      codigoSeleccionado === item.codigoInterno
+                        ? "rgb(237, 237, 237)"
+                        : codigoHover === item.codigoInterno
+                        ? "rgba(0, 0, 0, 0.1)" // Color de fondo cuando el mouse está sobre el elemento
+                        : "white",
+                  }}
+                  onClick={() => handleItemSIClick(item.codigoInterno)}
+                  onMouseEnter={() => handleItemHover(item.codigoInterno)}
+                  onMouseLeave={handleItemLeave}
+                >
+                  <img
+                    src={repuest}
+                    style={{ width: "60%", height: "60%", margin: "0.2rem" }}
+                  />
+                  <Typography
+                    fontSize="0.9rem"
+                    width={"90%"}
+                    style={{
+                      fontWeight: "bold",
+                      whiteSpace: "nowrap",
+                      overflow: "hidden",
+                    }}
+                  >
+                    {item.codigoArticulo}
+                  </Typography>
+                  <Typography
+                    fontSize="0.9rem"
+                    width={"90%"}
+                    style={{ borderTop: "0.01rem solid #888" }}
+                  >
+                    {item.marca}
+                  </Typography>
+                  <Typography
+                    fontSize="0.9rem"
+                    width={"90%"}
+                    style={{ borderTop: "0.01rem solid #888" }}
+                  >
+                    {item.codigoLinea}
+                  </Typography>
+                </Paper>
+              ))}
+            </div>
             <Typography
-              fontSize="0.9rem"
-              width={"90%"}
-              style={{ borderTop: "0.01rem solid #888" }}
-            >
-              {item.codigoLinea}
-            </Typography>
-          </Paper>
-        </Grid>
-      ))}
-
-      {lista2Filtrada.slice(0, 65).map((item, index) => (
-        <Grid item xs={1.5} width={"100%"} key={index}>
-          {" "}
-         
-          <Paper
-            elevation={3}
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              width: 145,
-              backgroundColor:
-              codigoSeleccionado === item.codigoInterno
-                ? "rgb(237, 237, 237)"
-                : codigoHover === item.codigoInterno
-                ? "rgba(0, 0, 0, 0.1)" // Color de fondo cuando el mouse está sobre el elemento
-                : "white",
+             style={{
+              fontWeight: "bold",
+              fontSize: 23,
+              paddingLeft: 8,
+              paddingTop: 45,
             }}
-            onClick={() => handleItemSIClick(item.codigoInterno)}
-            onMouseEnter={() => handleItemHover(item.codigoInterno)}
-            onMouseLeave={handleItemLeave}
-          >
-            <img
-              src={repuest}
-              style={{ width: "60%", height: "60%", margin: "0.2rem" }}
-            />
+            >
+              ARTICULOS SUGERIDOS MAYOR A 45 DIAS(MONTO)
+            </Typography>
+            <div
+              style={{
+                maxWidth: "165vh",
+                maxHeight: "210px",
+                overflowX: "auto",
+                display: "flex",
+              }}
+            >
+              {lista2Filtrada.map((item, index) => (
+                <Paper
+                  elevation={3}
+                  style={{
+                    display: "flex",
+                    flexShrink: 0,
+                    flexDirection: "column",
+                    alignItems: "center",
+                    width: 145,
+                    margin: "0.5rem",
+                    backgroundColor:
+                      codigoSeleccionado === item.codigoInterno
+                        ? "rgb(237, 237, 237)"
+                        : codigoHover === item.codigoInterno
+                        ? "rgba(0, 0, 0, 0.1)" // Color de fondo cuando el mouse está sobre el elemento
+                        : "white",
+                  }}
+                  onClick={() => handleItemSIClick(item.codigoInterno)}
+                  onMouseEnter={() => handleItemHover(item.codigoInterno)}
+                  onMouseLeave={handleItemLeave}
+                >
+                  <img
+                    src={repuest}
+                    style={{ width: "60%", height: "60%", margin: "0.2rem" }}
+                  />
+                  <Typography
+                    fontSize="0.9rem"
+                    width={"90%"}
+                    style={{
+                      fontWeight: "bold",
+                      whiteSpace: "nowrap",
+                      overflow: "hidden",
+                    }}
+                  >
+                    {item.codigoArticulo}
+                  </Typography>
+                  <Typography
+                    fontSize="0.9rem"
+                    width={"90%"}
+                    style={{ borderTop: "0.01rem solid #888" }}
+                  >
+                    {item.marca}
+                  </Typography>
+                  <Typography
+                    fontSize="0.9rem"
+                    width={"90%"}
+                    style={{ borderTop: "0.01rem solid #888" }}
+                  >
+                    {item.codigoLinea}
+                  </Typography>
+                </Paper>
+              ))}
+            </div>
+
             <Typography
-              fontSize="0.9rem"
-              width={"90%"}
               style={{
                 fontWeight: "bold",
-                whiteSpace: "nowrap",
-                overflow: "hidden",
+                fontSize: 23,
+                paddingLeft: 8,
+                paddingTop: 45,
               }}
             >
-              {item.codigoArticulo}
+              ARTICULOS SUGERIDOS MAYOR A 75 DIAS(CANTIDAD)
             </Typography>
-            <Typography
-              fontSize="0.9rem"
-              width={"90%"}
-              style={{ borderTop: "0.01rem solid #888" }}
+            <div
+              style={{
+                maxWidth: "165vh",
+                maxHeight: "210px",
+                overflowX: "auto",
+                display: "flex",
+              }}
             >
-              {item.marca}
-            </Typography>
-            <Typography
-              fontSize="0.9rem"
-              width={"90%"}
-              style={{ borderTop: "0.01rem solid #888" }}
-            >
-              {item.codigoLinea}
-            </Typography>
-          </Paper>
-        </Grid>
-      ))}
-    </Grid>
+              {articuloSugeridoCliente75.map((item, index) => (
+                <Paper
+                  elevation={3}
+                  style={{
+                    display: "flex",
+                    flexShrink: 0,
+                    flexDirection: "column",
+                    alignItems: "center",
+                    width: 145,
+                    margin: "0.5rem",
+                    backgroundColor:
+                      codigoSeleccionado === item.codigoInterno
+                        ? "rgb(237, 237, 237)"
+                        : codigoHover === item.codigoInterno
+                        ? "rgba(0, 0, 0, 0.1)" // Color de fondo cuando el mouse está sobre el elemento
+                        : "white",
+                  }}
+                  onClick={() => handleItemSIClick(item.codigoInterno)}
+                  onMouseEnter={() => handleItemHover(item.codigoInterno)}
+                  onMouseLeave={handleItemLeave}
+                >
+                  <img
+                    src={repuest}
+                    style={{ width: "60%", height: "60%", margin: "0.2rem" }}
+                  />
+                  <Typography
+                    fontSize="0.9rem"
+                    width={"90%"}
+                    style={{
+                      fontWeight: "bold",
+                      whiteSpace: "nowrap",
+                      overflow: "hidden",
+                    }}
+                  >
+                    {item.codigoArticulo}
+                  </Typography>
+                  <Typography
+                    fontSize="0.9rem"
+                    width={"90%"}
+                    style={{ borderTop: "0.01rem solid #888" }}
+                  >
+                    {item.marca}
+                  </Typography>
+                  <Typography
+                    fontSize="0.9rem"
+                    width={"90%"}
+                    style={{ borderTop: "0.01rem solid #888" }}
+                  >
+                    {item.codigoLinea}
+                  </Typography>
+                </Paper>
+              ))}
+            </div>
 
-    </div> */}
+            <Typography
+              style={{
+                fontWeight: "bold",
+                fontSize: 23,
+                paddingLeft: 8,
+                paddingTop: 45,
+              }}
+            >
+              ARTICULOS SUGERIDOS MAYOR A 75 DIAS(MONTO)
+            </Typography>
+            <div
+              style={{
+                maxWidth: "165vh",
+                maxHeight: "210px",
+                overflowX: "auto",
+                display: "flex",
+              }}
+            >
+              {lista2Filtrada75.map((item, index) => (
+                <Paper
+                  elevation={3}
+                  style={{
+                    display: "flex",
+                    flexShrink: 0,
+                    flexDirection: "column",
+                    alignItems: "center",
+                    width: 145,
+                    margin: "0.5rem",
+                    backgroundColor:
+                      codigoSeleccionado === item.codigoInterno
+                        ? "rgb(237, 237, 237)"
+                        : codigoHover === item.codigoInterno
+                        ? "rgba(0, 0, 0, 0.1)" // Color de fondo cuando el mouse está sobre el elemento
+                        : "white",
+                  }}
+                  onClick={() => handleItemSIClick(item.codigoInterno)}
+                  onMouseEnter={() => handleItemHover(item.codigoInterno)}
+                  onMouseLeave={handleItemLeave}
+                >
+                  <img
+                    src={repuest}
+                    style={{ width: "60%", height: "60%", margin: "0.2rem" }}
+                  />
+                  <Typography
+                    fontSize="0.9rem"
+                    width={"90%"}
+                    style={{
+                      fontWeight: "bold",
+                      whiteSpace: "nowrap",
+                      overflow: "hidden",
+                    }}
+                  >
+                    {item.codigoArticulo}
+                  </Typography>
+                  <Typography
+                    fontSize="0.9rem"
+                    width={"90%"}
+                    style={{ borderTop: "0.01rem solid #888" }}
+                  >
+                    {item.marca}
+                  </Typography>
+                  <Typography
+                    fontSize="0.9rem"
+                    width={"90%"}
+                    style={{ borderTop: "0.01rem solid #888" }}
+                  >
+                    {item.codigoLinea}
+                  </Typography>
+                </Paper>
+              ))}
+            </div>
+          </div>
+        ) : (
+          <div
+            style={{
+              flexDirection: "column",
+              width: "100%",
+              paddingLeft: 50,
+              paddingTop: 30,
+              overflow: "auto",
+              display: "flex",
+            }}
+          >
+            <Typography
+              style={{ fontWeight: "bold", fontSize: 25, paddingLeft: 8 }}
+            >
+              ARTICULOS SUGERIDOS{" "}
+            </Typography>
+            <div style={{ maxHeight: "600px", overflowY: "auto" }}>
+              <Grid
+                container
+                spacing={2}
+                style={{ padding: 10, paddingLeft: 80, overflowY: "auto" }}
+              >
+                {articuloSugerido.slice(0, 10).map((item, index) => (
+                  <Grid item xs={2.2} width={"100%"} key={index}>
+                    {" "}
+                    {/* Change xs to 6 */}
+                    <Paper
+                      elevation={3}
+                      style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        alignItems: "center",
+                        width: 145,
+                        backgroundColor:
+                          codigoSeleccionado === item.codigoInterno
+                            ? "rgb(237, 237, 237)"
+                            : codigoHover === item.codigoInterno
+                            ? "rgba(0, 0, 0, 0.1)" // Color de fondo cuando el mouse está sobre el elemento
+                            : "white",
+                      }}
+                      onClick={() => handleItemsSelect(item.codigoInterno)}
+                      onMouseEnter={() => handleItemHover(item.codigoInterno)}
+                      onMouseLeave={handleItemLeave}
+                    >
+                      <img
+                        src={repuest}
+                        style={{
+                          width: "60%",
+                          height: "60%",
+                          margin: "0.2rem",
+                        }}
+                      />
+                      <Typography
+                        fontSize="0.9rem"
+                        width={"90%"}
+                        style={{
+                          fontWeight: "bold",
+                          whiteSpace: "nowrap",
+                          overflow: "hidden",
+                        }}
+                      >
+                        {item.codigoArticulo}
+                      </Typography>
+                      <Typography
+                        fontSize="0.9rem"
+                        width={"90%"}
+                        style={{ borderTop: "0.01rem solid #888" }}
+                      >
+                        {item.marca}
+                      </Typography>
+                      <Typography
+                        fontSize="0.9rem"
+                        width={"90%"}
+                        style={{ borderTop: "0.01rem solid #888" }}
+                      >
+                        {item.codigoLinea}
+                      </Typography>
+                    </Paper>
+                  </Grid>
+                ))}
+              </Grid>
+            </div>
+          </div>
+        )}
       </Container>
     </React.Fragment>
   );

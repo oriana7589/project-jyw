@@ -41,6 +41,12 @@ function ItemsProductos({
 
   const [dialogOpen, setDialogOpen] = useState(false);
 
+  const handlePosition = () => {
+    const position = cartItems.reduce((item, index) => {
+      const numeroItems = index + 1;
+    });
+  };
+
   const handleOpenDialog = () => {
     setDialogOpen(true);
   };
@@ -114,7 +120,7 @@ function ItemsProductos({
       const utilidad = precioVentaSinIGVDolares
         .minus(precioCompraSinIGVDolares)
         .dividedBy(precioCompraSinIGVDolares)
-        .toDecimalPlaces(2);      
+        .toDecimalPlaces(2);
       item.utilidad = utilidad;
     });
   };
@@ -127,7 +133,7 @@ function ItemsProductos({
   useEffect(() => {
     calcularSubTotal();
     calcularUtilidadCarrito();
-    console.log('cartItems', cartItems)
+    console.log("cartItems", cartItems);
   }, [total1, cartItems, monedaValue, moneda]);
 
   const handleMouseEnter = (index) => {
@@ -141,32 +147,37 @@ function ItemsProductos({
   return (
     <div>
       <div style={{ display: "flex", alignItems: "center", marginBottom: 10 }}>
-        <Checkbox
-          id="checkbox1"
-          checked={isChecked1}
-          sx={{
-            color: "rgb(226, 52, 48)",
-            "&.Mui-checked": {
-              color: "rgb(226, 52, 48)",
-            },
-          }}
-          onChange={() => handleCheckboxChange(1)}
-        />
-        <label htmlFor="checkbox1">Por facturar</label>
-        <Checkbox
-          id="checkbox2"
-          checked={isChecked2}
-          sx={{
-            color: "rgb(226, 52, 48)",
-            "&.Mui-checked": {
-              color: "rgb(226, 52, 48)",
-            },
-          }}
-          onChange={() => handleCheckboxChange(2)}
-          style={{ marginLeft: 10 }}
-        />
-        <label htmlFor="checkbox2">Emitido</label>
-        <div>
+        {proformaSeleccionada.estado === "FAC" ? (
+          <div style={{paddingRight:315}}>
+            <Typography style={{fontWeight:"bold", color: "rgb(226, 52, 48)", fontSize:25, textAlign:"center"}}>FACTURADO</Typography></div>
+        ) : (
+          <div style={{ display:"flex", width:"100%"}} >
+            <Checkbox
+              id="checkbox1"
+              checked={isChecked1}
+              sx={{
+                color: "rgb(226, 52, 48)",
+                "&.Mui-checked": {
+                  color: "rgb(226, 52, 48)",
+                },
+              }}
+              onChange={() => handleCheckboxChange(1)}
+            />
+            <label htmlFor="checkbox1" style={{paddingTop:10}}>Por facturar</label>
+            <Checkbox
+              id="checkbox2"
+              checked={isChecked2}
+              sx={{
+                color: "rgb(226, 52, 48)",
+                "&.Mui-checked": {
+                  color: "rgb(226, 52, 48)",
+                },
+              }}
+              onChange={() => handleCheckboxChange(2)}
+              style={{ marginLeft: 10 }}
+            />
+            <label htmlFor="checkbox2"style={{paddingTop:10}}>Emitido</label>
+            <div style={{paddingLeft:240, paddingTop:5}}>
           {isEditProformaVisible ? (
             <IconButton
               style={{
@@ -174,8 +185,8 @@ function ItemsProductos({
                 borderRadius: "0",
                 height: "35px",
                 width: "180px",
-                marginLeft: 240,
               }}
+              disabled={proformaSeleccionada.estado === "FAC"}
               onClick={handleOpenDialog}
             >
               <Typography
@@ -194,7 +205,6 @@ function ItemsProductos({
                 borderRadius: "0",
                 height: "35px",
                 width: "180px",
-                marginLeft: 240,
               }}
               onClick={handlProformaClick}
             >
@@ -211,6 +221,10 @@ function ItemsProductos({
             <></>
           )}
         </div>
+          </div>
+        )}
+
+        
       </div>
       {cartItems.length === 0 ? (
         <div
@@ -276,7 +290,7 @@ function ItemsProductos({
                     overflow: "hidden",
                   }}
                 >
-                  {item.product}
+                  {index + 1}) {item.product}
                 </Typography>
                 <CardContent
                   sx={{ display: "flex", padding: 0, width: "100%" }}
@@ -308,7 +322,7 @@ function ItemsProductos({
                         paddingRight={2}
                       >
                         <span style={{ fontWeight: "bold" }}> Código:</span>{" "}
-                        {item.codigoArticulo}
+                        {item.codigoArticulo.substring(0,10)}
                       </Typography>
                     </CardContent>
 
@@ -425,6 +439,7 @@ function ItemsProductos({
                           width: "40px",
                           height: "40px",
                         }}
+                        disabled={proformaSeleccionada.estado === "FAC"}
                         onClick={() => removeFromCart(item.codigoInterno)}
                       >
                         <DeleteIcon style={{ color: "rgb(131,131,131)" }} />
@@ -438,6 +453,7 @@ function ItemsProductos({
                           width: "40px",
                           height: "40px",
                         }}
+                        disabled={proformaSeleccionada.estado === "FAC"}
                         onClick={() =>
                           handleGoToTab1(
                             item.codigoInterno,
@@ -478,7 +494,7 @@ function ItemsProductos({
           <Button
             onClick={handleConfirmEdit}
             variant="contained"
-            style={{backgroundColor: "rgb(255, 168, 0)"}}
+            style={{ backgroundColor: "rgb(255, 168, 0)" }}
             autoFocus
           >
             Aceptar

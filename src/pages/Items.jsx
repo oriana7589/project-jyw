@@ -542,8 +542,9 @@ const Items = ({
               style={{ width: 360, height: 75, opacity: 0.5 }}
             />
           </div>
-        ) : produtosSugeridosCliente.length > 0 ? (
+        ) : produtosSugeridosCliente.length > 0 || articuloSugerido.length>0? (
           <ProductosSugeridosCliente
+            articuloSugerido={articuloSugerido}
             produtosSugeridosCliente={produtosSugeridosCliente}
             codigoSeleccionado={codigoSeleccionado}
             handleItemsSelect={handleItemsSelect}
