@@ -22,8 +22,8 @@ import SearchIcon from "@mui/icons-material/Search";
 import PreciosStock from "./PreciosStock"; // Asegúrate de importar el componente PreciosStock correctamente
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import Logo from "/react/project-jyw/src/image/logo.png";
-import LogoCom from "/react/project-jyw/src/image/logoCompleto.png";
+import Logo from "../image/logo.png";
+import LogoCom from "../image/logoCompleto.png";
 
 const ConsultasPrecios = () => {
   // Mantén el panel siempre expandido configurando el estado inicial con el valor del índice del panel

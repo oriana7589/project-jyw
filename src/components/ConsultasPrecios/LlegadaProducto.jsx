@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import TableContainer from "@mui/material/TableContainer";
-import Logo from "/react/project-jyw/src/image/logo.png";
-import LogoCom from "/react/project-jyw/src/image/logoCompleto.png";
+import Logo from "../../image/logo.png";
+import LogoCom from "../../image/logoCompleto.png";
 import { Box, Paper, Typography } from "@mui/material";
 
 const LlegadaProducto = ({ llegadaProducto, filaSeleccionada }) => {

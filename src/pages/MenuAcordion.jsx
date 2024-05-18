@@ -36,7 +36,7 @@ import {
   putActualizarProforma,
   getSeleccionarProformaCabecera,
   getSeleccionarProformaDetalle,
-  getSugeridosPorClientePorMonto,
+  getSugeridosPorClientePorMonto
 } from "../Services/ApiService";
 import Items from "./items";
 import DialogProductos from "../components/DialogProductos";
@@ -382,7 +382,8 @@ const TuComponente = () => {
       setTransportistas(transportistas);
     });
 
-    getPDFDataTecnica("%5C%5C10.10.0.25%5CPDFDataTecnica%5Cpdfprueba.pdf").then(
+    const url = encodeURIComponent("\\\\10.10.0.25\\PDFDataTecnica\\pdfprueba.pdf");
+    getPDFDataTecnica(url).then(
       (pdfData) => {
         setPDFData(pdfData);
       }

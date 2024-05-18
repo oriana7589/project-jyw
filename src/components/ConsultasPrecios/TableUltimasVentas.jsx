@@ -6,8 +6,8 @@ import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
 import TableRow from "@mui/material/TableRow";
 import { Typography, Paper } from "@mui/material";
-import Logo from "/react/project-jyw/src/image/logo.png";
-import LogoCom from "/react/project-jyw/src/image/logoCompleto.png";
+import Logo from "../../image/logo.png";
+import LogoCom from "../../image/logoCompleto.png";
 import Decimal from "decimal.js";
 
 const TableUltimasVentas = ({ ultimasVentas, filaSeleccionada }) => {

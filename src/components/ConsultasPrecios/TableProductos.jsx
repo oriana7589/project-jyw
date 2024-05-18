@@ -2,8 +2,6 @@ import React, { useState, useEffect } from "react";
 
 import { Typography } from "@mui/material";
 import SquareSharpIcon from "@mui/icons-material/SquareSharp";
-import Logo from "/react/project-jyw/src/image/logo.png";
-import LogoCom from "/react/project-jyw/src/image/logoCompleto.png";
 
 const TableProductos = ({
   productos,

@@ -5,7 +5,7 @@ import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Box from "@mui/material/Box";
 import TableProductos from "../components/ConsultasPrecios/TableProductos";
-import Logo from "/react/project-jyw/src/image/logo.png";
+import Logo from "../image/logo.png";
 import { CircularProgress } from "@mui/material";
 import TableUltimasCompras from "../components/TableUltimasCompras";
 import TableUltimasVentas from "../components/ConsultasPrecios/TableUltimasVentas";

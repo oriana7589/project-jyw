@@ -5,8 +5,8 @@ import TableHead from "@mui/material/TableHead";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
 import TableRow from "@mui/material/TableRow";
-import Logo from "/react/project-jyw/src/image/logo.png";
-import LogoCom from "/react/project-jyw/src/image/logoCompleto.png";
+import Logo from "../../image/logo.png";
+import LogoCom from "../../image/logoCompleto.png";
 import { Typography , Paper} from "@mui/material";
 import TableUltimasCompras from "../TableUltimasCompras";
 
@@ -197,7 +197,6 @@ const TableUltimasComprasItems = ({ ultimasCompras, filaSeleccionada }) => {
                       paddingRight: 5,
                       fontSize: "1rem",
                       fontWeight: "bold",
-                      paddingRight: 5,
                       textAlign: "center",
                     }}
                   >

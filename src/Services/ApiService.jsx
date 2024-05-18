@@ -243,6 +243,15 @@ export function getPDFDataTecnica(url) {
   return PDF;
 }
 
+export function getImagenArticulo(url) {
+  const imagen = axios
+    .get(`${baseUrlGeneral()}/ObtenerImagenArticulo/${url}`)
+    .then((res) => {
+      return res.data;
+    });
+  return imagen;
+}
+
 export function postPGenerarProforma(
   fechaEmision,
   listaDetalle,
