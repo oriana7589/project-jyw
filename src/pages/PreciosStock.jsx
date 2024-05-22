@@ -12,6 +12,7 @@ import TableUltimasVentas from "../components/ConsultasPrecios/TableUltimasVenta
 import TableUltimasComprasItems from "../components/ConsultasPrecios/TableUltimasComprasItems";
 import LlegadaProducto from "../components/ConsultasPrecios/LlegadaProducto";
 import VentasMensuales from "../components/ConsultasPrecios/VentasMensuales";
+import GraficaArticulo from "../components/ConsultasPrecios/GraficaArticulo";
 
 const CustomClickableTab = styled(Tab)(({ theme, selected, clickable }) => ({
   color: selected
@@ -71,7 +72,10 @@ const PestañaContenido = ({
         />
       );
     case 3:
-      return "Grafica";
+      return (
+        <GraficaArticulo
+          filaSeleccionada={filaSeleccionada}/>
+    );
     case 4:
       return (
         <VentasMensuales

@@ -38,7 +38,7 @@ import {
   getSeleccionarProformaDetalle,
   getSugeridosPorClientePorMonto
 } from "../Services/ApiService";
-import Items from "./items";
+import Items from "./Items";
 import DialogProductos from "../components/DialogProductos";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -519,7 +519,18 @@ const TuComponente = () => {
       });
     };
 
+    const filtrarArticulosSugeridoClientePorMonto = () => {
+      setArticuloSugeridoClientePorMonto((prevArticulosCliente) => {
+        return prevArticulosCliente.filter((articulo) => {
+          return !cartItems.some(
+            (item) => item.codigoInterno === articulo.codigoInterno
+          );
+        });
+      });
+    };
+
     filtrarArticulosSugeridoCliente();
+    filtrarArticulosSugeridoClientePorMonto();
   }, [cartItems]);
 
   const CalcularPosicion = () => {
@@ -629,6 +640,15 @@ const TuComponente = () => {
     ).then((articuloSugeridoCliente) => {
       setArticuloSugeridoCliente(articuloSugeridoCliente); //Productos sugeridos en donde se eligen los items
     });
+
+    getSugeridosPorClientePorMonto(
+      selectedClient.codigoCliente,
+      diasSinComprar2
+    ).then((articuloSugeridoClientePorMonto) => {
+      setArticuloSugeridoClientePorMonto(articuloSugeridoClientePorMonto); //Productos sugeridos en donde se eligen los items
+    });
+
+
 
     getArticulosSugeridos().then((articuloSugerido) => {
       setArticuloSugerido(articuloSugerido);

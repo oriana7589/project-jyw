@@ -144,7 +144,7 @@ const SI = ({
                   textAlign: "center",
                 }}
               >
-                No se encontrarón productos
+                No se encontraron productos
               </div>
             )}
 
@@ -235,7 +235,7 @@ const SI = ({
                   textAlign: "center",
                 }}
               >
-                No se encontrarón productos
+                No se encontraron productos
               </div>
             )}
 
@@ -326,7 +326,7 @@ const SI = ({
                   textAlign: "center",
                 }}
               >
-                No se encontrarón productos
+                No se encontraron productos
               </div>
             )}
 
@@ -418,7 +418,7 @@ const SI = ({
                   textAlign: "center",
                 }}
               >
-                No se encontrarón productos
+                No se encontraron productos
               </div>
             )}
           </div>
