@@ -272,8 +272,6 @@ const TuComponente = () => {
     if (monedaType !== "") {
       if (monedaValue === "SOLES") {
         if (monedaType !== "SOLES") {
-          console.log("monedaType", monedaType);
-          console.log("monedaValue", monedaValue);
           precioFinaln = precioFinaln.times(moneda).toDecimalPlaces(2);
         }
       } else if (monedaValue === "DOLARES AMERICANOS") {
@@ -450,6 +448,18 @@ const TuComponente = () => {
       const parsedValue = parseInt(value);
       if (!isNaN(parsedValue) && parsedValue >= 0 && parsedValue <= 100) {
         setDescuentoB(parsedValue);
+      }
+    }
+  };
+
+  const handleProforma = (event) => {
+    const value = event.target.value.trim();
+    if (value === "") {
+      setNumeroProforma("");
+    } else {
+      const parsedValue = parseInt(value);
+      if (!isNaN(parsedValue) ) {
+        setNumeroProforma(parsedValue);
       }
     }
   };
@@ -1307,7 +1317,7 @@ const TuComponente = () => {
               style={{ marginLeft: "10px" }}
               placeholder="Num. proforma"
               autoComplete="off"
-              onChange={(e) => setNumeroProforma(e.target.value)}
+              onChange={handleProforma}
               onClick={(event) => {
                 event.stopPropagation(); // Evita la propagación del evento al acordeón
               }}
