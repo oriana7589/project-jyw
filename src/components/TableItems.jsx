@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import {  Grid, Paper, Typography } from "@mui/material";
+import { Grid, Paper, Typography } from "@mui/material";
 import repuest from "../image/request1.png";
 import LazyImagen from "./LazyImagen";
 
@@ -20,188 +20,216 @@ const TableItems = ({
     setCodigoHover(null);
   };
 
-   const lista2Filtrada = articuloSugeridoClientePorMonto.filter(item2 => {
-    return !articuloSugeridoCliente.slice(0, 5).some(item1 => item1.codigoInterno === item2.codigoInterno);
+  const lista2Filtrada = articuloSugeridoClientePorMonto.filter((item2) => {
+    return !articuloSugeridoCliente
+      .slice(0, 5)
+      .some((item1) => item1.codigoInterno === item2.codigoInterno);
   });
 
   return (
     <div>
-      {articuloSugeridoCliente.length>0&&articuloSugeridoClientePorMonto.length>0 ? (
- <Grid container spacing={2} >
- {articuloSugeridoCliente.slice(0, 5).map((item, index) => (
-   <Grid item xs={2.4} width={"100%"} key={index}>
-     {" "}
-     {/* Change xs to 6 */}
-     <Paper
-       elevation={3}
-       style={{
-         display: "flex",
-         flexDirection: "column",
-         alignItems: "center",
-         width: 100,
-         backgroundColor:
-         codigoSeleccionado === item.codigoInterno
-           ? "rgb(237, 237, 237)"
-           : codigoHover === item.codigoInterno
-           ? "rgba(0, 0, 0, 0.1)" // Color de fondo cuando el mouse está sobre el elemento
-           : "white",
-     }}
-     onClick={() => handleItemClick(item.codigoInterno)}
-     onMouseEnter={() => handleItemHover(item.codigoInterno)}
-     onMouseLeave={handleItemLeave}
-     >
-      <LazyImagen codigoArticulo={item.codigoArticulo.trim()} />
-       {/* <img
+      <Typography
+        style={{
+          marginBottom: 3,
+          fontSize: 18,
+          fontWeight: "bold",
+          marginTop: 3,
+        }}
+      >
+        PRODUCTOS SUGERIDOS
+      </Typography>
+      {articuloSugeridoCliente.length > 0 &&
+      articuloSugeridoClientePorMonto.length > 0 ? (
+        <Grid container spacing={2}>
+          {articuloSugeridoCliente.slice(0, 5).map((item, index) => (
+            <Grid item xs={2.4} width={"100%"} key={index}>
+              {" "}
+              {/* Change xs to 6 */}
+              <Paper
+                elevation={3}
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  width: 100,
+                  backgroundColor:
+                    codigoSeleccionado === item.codigoInterno
+                      ? "rgb(237, 237, 237)"
+                      : codigoHover === item.codigoInterno
+                      ? "rgba(0, 0, 0, 0.1)" // Color de fondo cuando el mouse está sobre el elemento
+                      : "white",
+                }}
+                onClick={() => handleItemClick(item.codigoInterno)}
+                onMouseEnter={() => handleItemHover(item.codigoInterno)}
+                onMouseLeave={handleItemLeave}
+              >
+                <LazyImagen codigoArticulo={item.codigoArticulo.trim()} />
+                {/* <img
          src={repuest}
          style={{ width: "60%", height: "60%", margin: "0.2rem" }}
        /> */}
-       <Typography
-         fontSize="0.9rem"
-         width={"90%"}
-         style={{
-           fontWeight: "bold",
-           whiteSpace: "nowrap",
-           overflow: "hidden",
-         }}
-       >
-         {item.codigoArticulo}
-       </Typography>
-       <Typography
-         fontSize="0.7rem"
-         width={"90%"}
-         style={{ borderTop: "0.01rem solid #888" }}
-       >
-         {item.marca}
-       </Typography>
-       <Typography
-         fontSize="0.7rem"
-         width={"90%"}
-         style={{ borderTop: "0.01rem solid #888" }}
-       >
-         {item.codigoLinea}
-       </Typography>
-     </Paper>
-   </Grid>
- ))}
+                <Typography
+                  fontSize="0.9rem"
+                  width={"90%"}
+                  style={{
+                    fontWeight: "bold",
+                    whiteSpace: "nowrap",
+                    overflow: "hidden",
+                  }}
+                >
+                  {item.codigoArticulo}
+                </Typography>
+                <Typography
+                  fontSize="0.7rem"
+                  width={"90%"}
+                  style={{ borderTop: "0.01rem solid #888" }}
+                >
+                  {item.marca}
+                </Typography>
+                <Typography
+                  fontSize="0.7rem"
+                  width={"90%"}
+                  style={{ borderTop: "0.01rem solid #888" }}
+                >
+                  {item.codigoLinea}
+                </Typography>
+              </Paper>
+            </Grid>
+          ))}
 
- {lista2Filtrada.slice(0, 5).map((item, index) => (
-   <Grid item xs={2.4} width={"100%"} key={index}>
-     {" "}
-     {/* Change xs to 6 */}
-     <Paper
-       elevation={3}
-       style={{
-         display: "flex",
-         flexDirection: "column",
-         alignItems: "center",
-         width: 100,
-         backgroundColor:
-         codigoSeleccionado === item.codigoInterno
-           ? "rgb(237, 237, 237)"
-           : codigoHover === item.codigoInterno
-           ? "rgba(0, 0, 0, 0.1)" // Color de fondo cuando el mouse está sobre el elemento
-           : "white",
-       }}
-       onClick={() => handleItemClick(item.codigoInterno)}
-       onMouseEnter={() => handleItemHover(item.codigoInterno)}
-       onMouseLeave={handleItemLeave}
-     >
-        <LazyImagen codigoArticulo={item.codigoArticulo.trim()} />
-       {/* <img
+          {lista2Filtrada.slice(0, 5).map((item, index) => (
+            <Grid item xs={2.4} width={"100%"} key={index}>
+              {" "}
+              {/* Change xs to 6 */}
+              <Paper
+                elevation={3}
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  width: 100,
+                  backgroundColor:
+                    codigoSeleccionado === item.codigoInterno
+                      ? "rgb(237, 237, 237)"
+                      : codigoHover === item.codigoInterno
+                      ? "rgba(0, 0, 0, 0.1)" // Color de fondo cuando el mouse está sobre el elemento
+                      : "white",
+                }}
+                onClick={() => handleItemClick(item.codigoInterno)}
+                onMouseEnter={() => handleItemHover(item.codigoInterno)}
+                onMouseLeave={handleItemLeave}
+              >
+                <LazyImagen codigoArticulo={item.codigoArticulo.trim()} />
+                {/* <img
          src={repuest}
          style={{ width: "60%", height: "60%", margin: "0.2rem" }}
        /> */}
-       <Typography
-         fontSize="0.9rem"
-         width={"90%"}
-         style={{
-           fontWeight: "bold",
-           whiteSpace: "nowrap",
-           overflow: "hidden",
-         }}
-       >
-         {item.codigoArticulo}
-       </Typography>
-       <Typography
-         fontSize="0.7rem"
-         width={"90%"}
-         style={{ borderTop: "0.01rem solid #888" }}
-       >
-         {item.marca}
-       </Typography>
-       <Typography
-         fontSize="0.7rem"
-         width={"90%"}
-         style={{ borderTop: "0.01rem solid #888" }}
-       >
-         {item.codigoLinea}
-       </Typography>
-     </Paper>
-   </Grid>
- ))}
-</Grid>
-      ):(
-       <div style={{display:"flex",flexWrap: "wrap",justifyContent: "space-around"}}>
-        {articuloSugerido.slice(0, 10).map((item, index) => (
-   <Grid item xs={4} width={"100%"} key={index} style={{ flexBasis: "20%", boxSizing: "border-box" , marginTop:10}}>
-     {" "}
-     {/* Change xs to 6 */}
-     <Paper
-       elevation={3}
-       style={{
-         display: "flex",
-         flexDirection: "column",
-         alignItems: "center",
-         width: 120,
-         backgroundColor:
-         codigoSeleccionado === item.codigoInterno
-           ? "rgb(237, 237, 237)"
-           : codigoHover === item.codigoInterno
-           ? "rgba(0, 0, 0, 0.1)" // Color de fondo cuando el mouse está sobre el elemento
-           : "white",
-       }}
-       onClick={() => handleItemClick(item.codigoInterno)}
-       onMouseEnter={() => handleItemHover(item.codigoInterno)}
-       onMouseLeave={handleItemLeave}
-     >
-        <LazyImagen codigoArticulo={item.codigoArticulo.trim()} />
-       {/* <img
+                <Typography
+                  fontSize="0.9rem"
+                  width={"90%"}
+                  style={{
+                    fontWeight: "bold",
+                    whiteSpace: "nowrap",
+                    overflow: "hidden",
+                  }}
+                >
+                  {item.codigoArticulo}
+                </Typography>
+                <Typography
+                  fontSize="0.7rem"
+                  width={"90%"}
+                  style={{ borderTop: "0.01rem solid #888" }}
+                >
+                  {item.marca}
+                </Typography>
+                <Typography
+                  fontSize="0.7rem"
+                  width={"90%"}
+                  style={{ borderTop: "0.01rem solid #888" }}
+                >
+                  {item.codigoLinea}
+                </Typography>
+              </Paper>
+            </Grid>
+          ))}
+        </Grid>
+      ) : (
+        <div
+          style={{
+            display: "flex",
+            flexWrap: "wrap",
+            width: "103%",
+            justifyContent: "space-around",
+          }}
+        >
+          {articuloSugerido.slice(0, 10).map((item, index) => (
+            <Grid
+              item
+              xs={2.4}
+              width={"100%"}
+              key={index}
+              style={{
+                flexBasis: "20%",
+                boxSizing: "border-box",
+                paddingTop: index >= 5 ? 15 : 0,
+              }}
+            >
+              {" "}
+              {/* Change xs to 6 */}
+              <Paper
+                elevation={3}
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  width: 100,
+                  backgroundColor:
+                    codigoSeleccionado === item.codigoInterno
+                      ? "rgb(237, 237, 237)"
+                      : codigoHover === item.codigoInterno
+                      ? "rgba(0, 0, 0, 0.1)" // Color de fondo cuando el mouse está sobre el elemento
+                      : "white",
+                }}
+                onClick={() => handleItemClick(item.codigoInterno)}
+                onMouseEnter={() => handleItemHover(item.codigoInterno)}
+                onMouseLeave={handleItemLeave}
+              >
+                <LazyImagen codigoArticulo={item.codigoArticulo.trim()} />
+                {/* <img
          src={repuest}
          style={{ width: "60%", height: "60%", margin: "0.2rem" }}
        /> */}
-       <Typography
-         fontSize="0.9rem"
-         width={"90%"}
-         style={{
-           fontWeight: "bold",
-           whiteSpace: "nowrap",
-           overflow: "hidden",
-         }}
-       >
-         {item.codigoArticulo}
-       </Typography>
-       <Typography
-         fontSize="0.7rem"
-         width={"90%"}
-         style={{ borderTop: "0.01rem solid #888" }}
-       >
-         {item.marca}
-       </Typography>
-       <Typography
-         fontSize="0.7rem"
-         width={"90%"}
-         style={{ borderTop: "0.01rem solid #888" }}
-       >
-         {item.codigoLinea}
-       </Typography>
-     </Paper>
-   </Grid>
- ))}
-       </div>
+                <Typography
+                  fontSize="0.9rem"
+                  width={"90%"}
+                  style={{
+                    fontWeight: "bold",
+                    whiteSpace: "nowrap",
+                    overflow: "hidden",
+                  }}
+                >
+                  {item.codigoArticulo}
+                </Typography>
+                <Typography
+                  fontSize="0.7rem"
+                  width={"90%"}
+                  style={{ borderTop: "0.01rem solid #888" }}
+                >
+                  {item.marca}
+                </Typography>
+                <Typography
+                  fontSize="0.7rem"
+                  width={"90%"}
+                  style={{ borderTop: "0.01rem solid #888" }}
+                >
+                  {item.codigoLinea}
+                </Typography>
+              </Paper>
+            </Grid>
+          ))}
+        </div>
       )}
-    
     </div>
-    
   );
 };
 

@@ -29,8 +29,6 @@ const TableUltimasVentas = ({ ultimasVentas, filaSeleccionada }) => {
   const handleRowDoubleClick = (datosCliente) => {
     //setSelectedClient(datosCliente);
     //setNumeroProforma(datosCliente.numProforma)
-    console.log("Numero de proforma" + datosCliente.numProforma);
-    console.log("producto" + filaSeleccionada.DescripcionArticulo);
     //handleBuscarProforma()
   };
 

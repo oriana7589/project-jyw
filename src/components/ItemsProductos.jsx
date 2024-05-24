@@ -17,6 +17,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import "react-toastify/dist/ReactToastify.css";
 import IconCarrito from "../image/carritoCompras.png";
 import Decimal from "decimal.js";
+import LazyImagen from "../components/LazyImagen";
 
 function ItemsProductos({
   cartItems,
@@ -133,7 +134,6 @@ function ItemsProductos({
   useEffect(() => {
     calcularSubTotal();
     calcularUtilidadCarrito();
-    console.log("cartItems", cartItems);
   }, [total1, cartItems, monedaValue, moneda]);
 
   const handleMouseEnter = (index) => {
@@ -148,10 +148,20 @@ function ItemsProductos({
     <div>
       <div style={{ display: "flex", alignItems: "center", marginBottom: 10 }}>
         {proformaSeleccionada.estado === "FAC" ? (
-          <div style={{paddingRight:315}}>
-            <Typography style={{fontWeight:"bold", color: "rgb(226, 52, 48)", fontSize:25, textAlign:"center"}}>FACTURADO</Typography></div>
+          <div style={{ paddingRight: 315 }}>
+            <Typography
+              style={{
+                fontWeight: "bold",
+                color: "rgb(226, 52, 48)",
+                fontSize: 25,
+                textAlign: "center",
+              }}
+            >
+              FACTURADO
+            </Typography>
+          </div>
         ) : (
-          <div style={{ display:"flex", width:"100%"}} >
+          <div style={{ display: "flex", width: "100%" }}>
             <Checkbox
               id="checkbox1"
               checked={isChecked1}
@@ -163,7 +173,9 @@ function ItemsProductos({
               }}
               onChange={() => handleCheckboxChange(1)}
             />
-            <label htmlFor="checkbox1" style={{paddingTop:10}}>Por facturar</label>
+            <label htmlFor="checkbox1" style={{ paddingTop: 10 }}>
+              Por facturar
+            </label>
             <Checkbox
               id="checkbox2"
               checked={isChecked2}
@@ -176,55 +188,55 @@ function ItemsProductos({
               onChange={() => handleCheckboxChange(2)}
               style={{ marginLeft: 10 }}
             />
-            <label htmlFor="checkbox2"style={{paddingTop:10}}>Emitido</label>
-            <div style={{paddingLeft:240, paddingTop:5}}>
-          {isEditProformaVisible ? (
-            <IconButton
-              style={{
-                backgroundColor: "rgb(182, 205, 229)",
-                borderRadius: "0",
-                height: "35px",
-                width: "180px",
-              }}
-              disabled={proformaSeleccionada.estado === "FAC"}
-              onClick={handleOpenDialog}
-            >
-              <Typography
-                style={{
-                  color: "rgb(12, 55, 100)",
-                  borderRadius: "0",
-                }}
-              >
-                Editar proforma
-              </Typography>
-            </IconButton>
-          ) : isAddProformaVisible ? (
-            <IconButton
-              style={{
-                backgroundColor: "rgb(226, 52, 48)",
-                borderRadius: "0",
-                height: "35px",
-                width: "180px",
-              }}
-              onClick={handlProformaClick}
-            >
-              <Typography
-                style={{
-                  color: "rgb(255, 255, 255)",
-                  borderRadius: "0",
-                }}
-              >
-                Guardar proforma
-              </Typography>
-            </IconButton>
-          ) : (
-            <></>
-          )}
-        </div>
+            <label htmlFor="checkbox2" style={{ paddingTop: 10 }}>
+              Emitido
+            </label>
+            <div style={{ paddingLeft: 240, paddingTop: 5 }}>
+              {isEditProformaVisible ? (
+                <IconButton
+                  style={{
+                    backgroundColor: "rgb(182, 205, 229)",
+                    borderRadius: "0",
+                    height: "35px",
+                    width: "180px",
+                  }}
+                  disabled={proformaSeleccionada.estado === "FAC"}
+                  onClick={handleOpenDialog}
+                >
+                  <Typography
+                    style={{
+                      color: "rgb(12, 55, 100)",
+                      borderRadius: "0",
+                    }}
+                  >
+                    Editar proforma
+                  </Typography>
+                </IconButton>
+              ) : isAddProformaVisible ? (
+                <IconButton
+                  style={{
+                    backgroundColor: "rgb(226, 52, 48)",
+                    borderRadius: "0",
+                    height: "35px",
+                    width: "180px",
+                  }}
+                  onClick={handlProformaClick}
+                >
+                  <Typography
+                    style={{
+                      color: "rgb(255, 255, 255)",
+                      borderRadius: "0",
+                    }}
+                  >
+                    Guardar proforma
+                  </Typography>
+                </IconButton>
+              ) : (
+                <></>
+              )}
+            </div>
           </div>
         )}
-
-        
       </div>
       {cartItems.length === 0 ? (
         <div
@@ -263,7 +275,7 @@ function ItemsProductos({
                 onMouseEnter={() => handleMouseEnter(index)}
                 onMouseLeave={handleMouseLeave}
                 style={{
-                  height: 160,
+                  height: 165,
                   width: 650,
                   marginBottom: 15,
                   boxShadow:
@@ -296,16 +308,17 @@ function ItemsProductos({
                   sx={{ display: "flex", padding: 0, width: "100%" }}
                 >
                   <CardMedia
-                    component="img"
+                    component="div"
                     style={{
-                      width: "18%",
-                      height: "85px",
+                      width: "16%",
+                      height: "16%",
                       alignSelf: "flex-start",
                       objectFit: "contain",
                     }}
-                    image={repuest}
                     alt={item.product}
-                  />
+                  >
+                    <LazyImagen codigoArticulo={item.codigoArticulo.trim()} />
+                  </CardMedia>
                   <CardContent sx={{ padding: 0, width: "38%" }}>
                     <CardContent sx={{ display: "flex", padding: 0 }}>
                       <Typography
@@ -322,7 +335,7 @@ function ItemsProductos({
                         paddingRight={2}
                       >
                         <span style={{ fontWeight: "bold" }}> Código:</span>{" "}
-                        {item.codigoArticulo.substring(0,10)}
+                        {item.codigoArticulo.substring(0, 10)}
                       </Typography>
                     </CardContent>
 

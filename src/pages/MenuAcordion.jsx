@@ -43,6 +43,7 @@ import DialogProductos from "../components/DialogProductos";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Decimal from "decimal.js";
+import imagenNoDisponible from "../image/imagen-no-disponible.jpeg";
 
 const TuComponente = () => {
   const [expandedPanels, setExpandedPanels] = useState([1]);
@@ -127,6 +128,7 @@ const TuComponente = () => {
   const [produtosSugeridosCliente, setProductosSugeridosCliente] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [monedaType, setMonedaType] = useState("");
+  const [urlImagen, setUrlImagen] = useState(imagenNoDisponible);
 
   const handleCheckboxChange = (checkboxNumber) => {
     if (checkboxNumber === 1) {
@@ -385,13 +387,6 @@ const TuComponente = () => {
     getTransportistas().then((transportistas) => {
       setTransportistas(transportistas);
     });
-
-    const url = encodeURIComponent("\\\\10.10.0.25\\PDFDataTecnica\\pdfprueba.pdf");
-    getPDFDataTecnica(url).then(
-      (pdfData) => {
-        setPDFData(pdfData);
-      }
-    );
 
     if (!selectedClient) {
       // Si no hay cliente seleccionado entonces se mostrará el toast
@@ -684,11 +679,6 @@ const TuComponente = () => {
       setArticuloSugerido(articuloSugerido);
     });
 
-    getPDFDataTecnica("%5C%5C10.10.0.25%5CPDFDataTecnica%5Cpdfprueba.pdf").then(
-      (pdfData) => {
-        setPDFData(pdfData);
-      }
-    );
   }, []);
 
   useEffect(() => {
@@ -1086,7 +1076,6 @@ const TuComponente = () => {
   }, [numeroProforma]);*/
 
   const handleBuscarProforma = (numeroProforma) => {
-    console.log("Console proforma"+numeroProforma)
     if (numeroProforma === "") {
       toast.warning("Por favor, ingrese la proforma");
     } else {
@@ -1126,7 +1115,6 @@ const TuComponente = () => {
         estado: proformaSeleccionada.estadoCliente,
       };
 
-      console.log("clienteProforma", clienteProforma);
       handleClientSelect(clienteProforma);
       //setSelectedClient(clienteProforma);
 
@@ -1620,6 +1608,8 @@ const TuComponente = () => {
             isEditProformaVisible={isEditProformaVisible}
             isAddProformaVisible={isAddProformaVisible}
             actualizarProforma={actualizarProforma}
+            urlImagen = {urlImagen}
+            setUrlImagen = {setUrlImagen}
           />
         </Collapse>
       </Card>

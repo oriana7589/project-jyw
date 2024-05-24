@@ -31,23 +31,26 @@ const TableDevolucionesMensuales = ({
   const handleRowDoubleClick = (datosCliente) => {
     //setSelectedClient(datosCliente);
     //setNumeroProforma(datosCliente.numProforma)
-    console.log("Numero de proforma" + datosCliente.numProforma);
-    console.log("producto" + filaSeleccionada.DescripcionArticulo);
     //handleBuscarProforma()
   };
 
-  const DevolucionAnual = ()=>{
+  const DevolucionAnual = () => {
     // Suma de las devoluciones anuales
-    const totalAnual = resumenDevoluciones.reduce((total, item) => total + item.cantidad, 0);
-   
-    return totalAnual;
-   }
+    const totalAnual = resumenDevoluciones.reduce(
+      (total, item) => total + item.cantidad,
+      0
+    );
 
-   const PromedioDevolucionMensual = () =>{
-    const devolucionAnual = DevolucionAnual()
-    const promedio = new Decimal(devolucionAnual).dividedBy(13).toDecimalPlaces(0) 
-    return parseInt(promedio)
-   }
+    return totalAnual;
+  };
+
+  const PromedioDevolucionMensual = () => {
+    const devolucionAnual = DevolucionAnual();
+    const promedio = new Decimal(devolucionAnual)
+      .dividedBy(13)
+      .toDecimalPlaces(0);
+    return parseInt(promedio);
+  };
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -64,125 +67,160 @@ const TableDevolucionesMensuales = ({
   return (
     <div
       style={{
-        padding: 10,
         overflow: "hidden",
         display: "grid",
         gridTemplateRows: "1fr auto",
       }}
     >
       {resumenDevoluciones.length > 0 ? (
-        <div style={{ display: "flex", flexDirection: "column", overflow:"auto" , height:445 }}>
-        <div style={{ overflow:"auto", height:345 }}>
-          <TableContainer style={{  }}>
-            <Table
-              stickyHeader
-              sx={{
-                borderCollapse: "collapse",
-                width: "100%",
-                border: "1px solid gis",
-              }}
-            >
-              <TableHead>
-                <TableRow>
-                  <TableCell
-                    style={{
-                      fontSize: "1rem",
-                      whiteSpace: "nowrap",
-                      fontWeight: "bold",
-                    }}
-                  >
-                    Mes/Año
-                  </TableCell>
-                  <TableCell
-                    style={{
-                      fontSize: "1rem",
-                      whiteSpace: "nowrap",
-                      fontWeight: "bold",
-                    }}
-                  >
-                    Cantidad
-                  </TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {resumenDevoluciones.map((item, index) => (
-                  <TableRow
-                    key={index}
-                    sx={{
-                      cursor: "pointer",
-                      backgroundColor:
-                        selectedClient === item
-                          ? "#B8B8B8"
-                          : highlightedRow === index
-                          ? "#F0F0F0"
-                          : "white",
-                    }}
-                    onDoubleClick={() => handleRowDoubleClick(item)}
-                    onMouseEnter={() => handleMouseEnter(index)}
-                    onMouseLeave={handleMouseLeave}
-                  >
+        <div style={{ display: "flex", flexDirection: "column" }}>
+         <div style={{ height: 360 }}>
+            <TableContainer style={{ maxHeight: 350,  paddingLeft:10}}>
+              <Table
+                stickyHeader
+                sx={{
+                  borderCollapse: "collapse",
+                  width: "100%",
+                  border: "1px solid gis",
+                 
+                }}
+              >
+                <TableHead>
+                  <TableRow>
                     <TableCell
-                      style={{ textAlign: "left", fontSize: "0.85rem" }}
+                      style={{
+                        fontSize: "1rem",
+                        whiteSpace: "nowrap",
+                        fontWeight: "bold",
+                      }}
                     >
-                      {item.mes} {item.año}
+                      Mes/Año
                     </TableCell>
-
                     <TableCell
-                      style={{ textAlign: "left", fontSize: "0.85rem" }}
+                      style={{
+                        fontSize: "1rem",
+                        whiteSpace: "nowrap",
+                        fontWeight: "bold",
+                      }}
                     >
-                      {item.cantidad}
+                      Cantidad
                     </TableCell>
                   </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
-        </div>
-        <table
-          style={{ textAlign: "left", fontSize: "0.9rem", marginLeft: 10}}
-        >
-          <tbody>
-            <tr>
-              <td colSpan="1" style={{ fontSize: 15,fontWeight:"bold" }}>
-              DEVOLUCIONES ANUAL
-              </td>
-              <td style={{ fontSize: 19, fontWeight: "bold", padding: 2 }}>
-                <div
-                  style={{
-                    background: "rgb(12,55,100)",
-                    color: "rgb(255,255,255)",
-                    padding: 5,
-                    textAlign: "center",
-                  }}
-                >
-                 {DevolucionAnual()}
-                </div>
-              </td>
-            </tr>
+                </TableHead>
+                <TableBody>
+                  {resumenDevoluciones.map((item, index) => (
+                    <TableRow
+                      key={index}
+                      sx={{
+                        cursor: "pointer",
+                        backgroundColor:
+                          selectedClient === item
+                            ? "#B8B8B8"
+                            : highlightedRow === index
+                            ? "#F0F0F0"
+                            : "white",
+                      }}
+                      onDoubleClick={() => handleRowDoubleClick(item)}
+                      onMouseEnter={() => handleMouseEnter(index)}
+                      onMouseLeave={handleMouseLeave}
+                    >
+                      <TableCell
+                        style={{ textAlign: "left", fontSize: "0.85rem" }}
+                      >
+                        {item.mes} {item.año}
+                      </TableCell>
 
-            <tr>
-              <td colSpan="1" style={{ fontSize: 15, fontWeight:"bold" }}>
-                PROMEDIO DE DEVOLUCIONES MENSUAL
-              </td>
-              <td style={{ fontSize: 19, fontWeight: "bold", padding: 2, width:50 }}>
-                <div
+                      <TableCell
+                        style={{ textAlign: "left", fontSize: "0.85rem" }}
+                      >
+                        {item.cantidad}
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          </div>
+          <Paper
+              elevation={3}
+              style={{
+                margin: "2px",
+                display: "flex",
+                flexDirection: "column",
+                paddingRight:10,
+                paddingBottom:5,
+                marginLeft:15
+              }}
+            >
+          <table
+            style={{
+              textAlign: "left",
+              fontSize: "0.9rem",
+              marginLeft: 10,
+              paddingTop: 10,
+            }}
+          >
+            <tbody>
+              <tr>
+                <td colSpan="1" style={{ fontSize: 15, fontWeight: "bold" }}>
+                  DEVOLUCIONES ANUAL
+                </td>
+                <td style={{ fontSize: 19, fontWeight: "bold", padding: 2 }}>
+                  <div
+                    style={{
+                      background: "rgb(12,55,100)",
+                      color: "rgb(255,255,255)",
+                      padding: 5,
+                      textAlign: "center",
+                    }}
+                  >
+                    {DevolucionAnual()}
+                  </div>
+                </td>
+              </tr>
+
+              <tr>
+                <td colSpan="1" style={{ fontSize: 15, fontWeight: "bold" }}>
+                  PROMEDIO DE DEVOLUCIONES MENSUAL
+                </td>
+                <td
                   style={{
-                    background: "rgb(12,55,100)",
-                    color: "rgb(255,255,255)",
-                    padding: 5,
-                    textAlign: "center",
-                    
+                    fontSize: 19,
+                    fontWeight: "bold",
+                    padding: 2,
+                    width: 50,
                   }}
                 >
-                 {PromedioDevolucionMensual()}
-                </div>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+                  <div
+                    style={{
+                      background: "rgb(12,55,100)",
+                      color: "rgb(255,255,255)",
+                      padding: 5,
+                      textAlign: "center",
+                    }}
+                  >
+                    {PromedioDevolucionMensual()}
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          </Paper>
+        </div>
       ) : (
-        <div style={{textAlign:"center"}}>No hay devoluciones</div>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            flexDirection: "column",
+            height: 450,
+            paddingLeft: 170,
+          }}
+        >
+          <Typography style={{ fontSize: 18, fontWeight: "bold" }}>
+            No hay devoluciones
+          </Typography>
+        </div>
       )}
     </div>
   );

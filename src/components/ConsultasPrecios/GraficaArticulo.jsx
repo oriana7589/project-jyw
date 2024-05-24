@@ -14,11 +14,9 @@ export default function GraficaArticulo({
   filaSeleccionada,
 }) {
     const [urlImagen, setUrlImagen] = useState(imagenNoDisponible);
-    console.log('filaSeleccioanda', filaSeleccionada);
 
     const fetchImagen = async () => {
         try {
-            
           const urlGetRequest = encodeURIComponent(`\\\\10.10.0.25\\fotos\\${filaSeleccionada.CodigoArticulo.trim()}-1.jpg`);
           console.log('urlGetRequest', urlGetRequest)
           const imagenBase64 = await getImagenArticulo(urlGetRequest);

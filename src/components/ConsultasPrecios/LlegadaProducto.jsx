@@ -5,7 +5,6 @@ import LogoCom from "../../image/logoCompleto.png";
 import { Box, Paper, Typography } from "@mui/material";
 
 const LlegadaProducto = ({ llegadaProducto, filaSeleccionada }) => {
-  console.log("llegadaProducto" + llegadaProducto);
   const [selectedClient, setSelectedClient] = useState(null);
   const [highlightedRow, setHighlightedRow] = useState(null);
   const [isLoading, setIsLoading] = useState(true); // Estado de carga
@@ -24,8 +23,6 @@ const LlegadaProducto = ({ llegadaProducto, filaSeleccionada }) => {
   const handleRowDoubleClick = (datosCliente) => {
     //setSelectedClient(datosCliente);
     //setNumeroProforma(datosCliente.numProforma)
-    console.log("Numero de proforma" + datosCliente.numProforma);
-    console.log("producto" + filaSeleccionada.DescripcionArticulo);
     //handleBuscarProforma()
   };
 

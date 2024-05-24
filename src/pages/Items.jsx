@@ -133,6 +133,8 @@ const PestañaContenido = ({
   actualizarProforma,
   articuloSugeridoClientePorMonto,
   handleBuscarProforma,
+  urlImagen,
+            setUrlImagen 
 }) => {
   switch (value) {
     case 0:
@@ -173,6 +175,8 @@ const PestañaContenido = ({
           isEditToCartVisible={isEditToCartVisible}
           handleItemSugeridoClick={handleItemSugeridoClick}
           articuloSugeridoClientePorMonto={articuloSugeridoClientePorMonto}
+          urlImagen = {urlImagen}
+          setUrlImagen = {setUrlImagen}
         />
       );
     case 1:
@@ -341,6 +345,8 @@ const Items = ({
   isAddProformaVisible,
   actualizarProforma,
   handleBuscarProforma,
+  urlImagen,
+  setUrlImagen,
 }) => {
   const handleChangeTab = (event, newValue) => {
     setTabValue(newValue);
@@ -519,6 +525,8 @@ const Items = ({
             actualizarProforma={actualizarProforma}
             articuloSugeridoClientePorMonto={articuloSugeridoClientePorMonto}
             handleBuscarProforma={handleBuscarProforma}
+            urlImagen={urlImagen}
+            setUrlImagen={setUrlImagen}
           />
         ) : !selectedClient ? (
           <div
@@ -542,7 +550,8 @@ const Items = ({
               style={{ width: 360, height: 75, opacity: 0.5 }}
             />
           </div>
-        ) : produtosSugeridosCliente.length > 0 || articuloSugerido.length>0? (
+        ) : produtosSugeridosCliente.length > 0 ||
+          articuloSugerido.length > 0 ? (
           <ProductosSugeridosCliente
             articuloSugerido={articuloSugerido}
             produtosSugeridosCliente={produtosSugeridosCliente}

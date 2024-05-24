@@ -3,13 +3,16 @@ import {
   CardContent,
   Typography,
 } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "react-toastify/dist/ReactToastify.css";
 import IconCarrito from "../image/carritoCompras.png";
+import { getPDFDataTecnica } from "../Services/ApiService.jsx";
 
 function ListaProductos({ cartItems, pdfData }) {
   const [hoveredCard, setHoveredCard] = useState(null);
   const [selectedItem, setSelectedItem] = useState(0);
+  const [pdfUrl,setPdfUrl] = useState("")
+  const [codigo,setCodigo] = useState("")
 
   const handleMouseEnter = (index) => {
     setHoveredCard(index);
@@ -18,10 +21,40 @@ function ListaProductos({ cartItems, pdfData }) {
   const handleMouseLeave = () => {
     setHoveredCard(null);
   };
+  
 
-  const handleClick = (index) => {
+
+  const handleClick = (item,index) => {
+    setCodigo(item.codigoArticulo.trim())
     setSelectedItem(index);
   };
+
+  const obtenerPdf = async (codigoArticulo) => {
+    try {
+      const pdf = encodeURIComponent(`\\\\10.10.0.25\\PDFDataTecnica\\${codigoArticulo}.pdf`);
+      console.log('index seleccionada', pdf)
+      const pdfBase64 = await getPDFDataTecnica(pdf);
+      const urlPdf = `data:application/pdf;base64,${pdfBase64}`;
+      setPdfUrl(urlPdf);
+    } catch (error) {
+      const pdf = encodeURIComponent(`\\\\10.10.0.25\\PDFDataTecnica\\pdfprueba.pdf`);
+      const pdfBase64 = await getPDFDataTecnica(pdf);
+      const urlPdf = `data:application/pdf;base64,${pdfBase64}`;
+      setPdfUrl(urlPdf);
+    }
+  };
+  useEffect(() => {
+    if (cartItems.length > 0) {
+      handleClick(cartItems[0],0); // Selecciona el primer elemento al cargar
+      obtenerPdf(cartItems[0].codigoArticulo.trim());
+    }
+  }, []);
+
+  useEffect(() => {
+    if (codigo && selectedItem !== null) {
+      obtenerPdf(codigo);
+    }
+  }, [codigo]);
 
   return (
     <div style={{ display: "flex", width: "100%" }}>
@@ -67,7 +100,7 @@ function ListaProductos({ cartItems, pdfData }) {
                   key={index}
                   onMouseEnter={() => handleMouseEnter(index)}
                   onMouseLeave={handleMouseLeave}
-                  onClick={() => handleClick(index)}
+                  onClick={() => handleClick(item,index)}
                   style={{
                     height: 80,
                     width: 520,
@@ -140,7 +173,7 @@ function ListaProductos({ cartItems, pdfData }) {
             {/* Visualizador de PDF */}
             {selectedItem !== null && cartItems.length !== 0 && (
               <embed
-                src={`data:application/pdf;base64,${pdfData}`}
+                src={pdfUrl}
                 type="application/pdf"
                 width="100%"
                 height="580px"

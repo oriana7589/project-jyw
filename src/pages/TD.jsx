@@ -32,19 +32,20 @@ export default function TD({
   setCodigoSeleccionado,
   handleItemClick,
   isChecked,
-  handleCheckBox ,
+  handleCheckBox,
   calcularPrecioFinal,
   total,
   handlPrecioFinalChange,
   calcularUtilidad,
   cartItems,
-  setTabValue ,
+  setTabValue,
   isAddToCartVisible,
   isEditToCartVisible,
   handleItemSugeridoClick,
-  articuloSugeridoClientePorMonto
+  articuloSugeridoClientePorMonto,
+  urlImagen,
+  setUrlImagen,
 }) {
-  const [urlImagen, setUrlImagen] = useState(imagenNoDisponible);
   const [chartData, setChartData] = useState({
     labels: [],
     datasets: [
@@ -62,19 +63,21 @@ export default function TD({
 
   const fetchImagen = async () => {
     try {
-      const urlGetRequest = encodeURIComponent(`\\\\10.10.0.25\\fotos\\${detalleProducto.codigoArticulo}-1.jpg`);
+      const urlGetRequest = encodeURIComponent(
+        `\\\\10.10.0.25\\imagenes\\webp\\${detalleProducto.codigoArticulo}-1.jpg`
+      );
       const imagenBase64 = await getImagenArticulo(urlGetRequest);
       const urlImagen = `data:image/jpeg;base64,${imagenBase64}`;
       setUrlImagen(urlImagen);
-    } catch(error) {
-      console.log('no se encuentra la imagen')
+    } catch (error) {
+      console.log("no se encuentra la imagen");
       setUrlImagen(imagenNoDisponible);
-      };
+    }
   };
 
   useEffect(() => {
     fetchImagen();
-  }, [detalleProducto.codigoArticulo]);  
+  }, [detalleProducto.codigoArticulo]);
 
   return (
     <React.Fragment>
@@ -88,10 +91,8 @@ export default function TD({
           height: "calc(100vh - 9.25rem)",
         }}
       >
-        <div style={{ flex: 2 , height: '100%'}}>
-          <div
-            style={{ display: "flex", justifyContent: "center" }}
-          >
+        <div style={{ flex: 2, height: "100%" }}>
+          <div style={{ display: "flex", justifyContent: "center" }}>
             <img
               src={urlImagen}
               alt="Imagen de carrito de compras"
@@ -101,17 +102,17 @@ export default function TD({
           <TableItems
             loading={loading}
             articuloSugeridoCliente={articuloSugeridoCliente}
-            articuloSugeridoClientePorMonto = {articuloSugeridoClientePorMonto}
+            articuloSugeridoClientePorMonto={articuloSugeridoClientePorMonto}
             articuloSugerido={articuloSugerido}
             codigoSeleccionado={codigoSeleccionado}
             setCodigoSeleccionado={setCodigoSeleccionado}
-            handleItemClick = {handleItemClick}
+            handleItemClick={handleItemClick}
           />
         </div>
         <div style={{ flex: 1 }}>
           <TableDescripcionItems
             addToCart={addToCart}
-            editCartItem = {editCartItem}
+            editCartItem={editCartItem}
             detalleProducto={detalleProducto}
             fechaLlegada={fechaLlegada}
             historialPrecios={historialPrecios}
@@ -127,17 +128,17 @@ export default function TD({
             tipoMoneda={tipoMoneda}
             monedaValue={monedaValue}
             setMonedaValue={setMonedaValue}
-            isChecked = {isChecked}
-            handleCheckBox= {handleCheckBox}
-            calcularPrecioFinal = {calcularPrecioFinal}
-            total= {total}
-            handlPrecioFinalChange = {handlPrecioFinalChange}
-            calcularUtilidad = {calcularUtilidad}
+            isChecked={isChecked}
+            handleCheckBox={handleCheckBox}
+            calcularPrecioFinal={calcularPrecioFinal}
+            total={total}
+            handlPrecioFinalChange={handlPrecioFinalChange}
+            calcularUtilidad={calcularUtilidad}
             cartItems={cartItems}
-            setTabValue = {setTabValue}
-            isAddToCartVisible= {isAddToCartVisible}
-            isEditToCartVisible = {isEditToCartVisible}
-            handleItemSugeridoClick = {handleItemSugeridoClick}
+            setTabValue={setTabValue}
+            isAddToCartVisible={isAddToCartVisible}
+            isEditToCartVisible={isEditToCartVisible}
+            handleItemSugeridoClick={handleItemSugeridoClick}
           />
         </div>
       </Container>

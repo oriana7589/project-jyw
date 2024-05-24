@@ -28,20 +28,22 @@ const TableVentasMensuales = ({ resumenVentas, filaSeleccionada }) => {
   const handleRowDoubleClick = (datosCliente) => {
     //setSelectedClient(datosCliente);
     //setNumeroProforma(datosCliente.numProforma)
-    console.log("Numero de proforma" + datosCliente.numProforma);
     //handleBuscarProforma()
   };
 
-  const VentaAnual = ()=>{
-   // Suma de las ventas anuales
-   const totalAnual = resumenVentas.reduce((total, item) => total + item.cantidad, 0);
-   return totalAnual;
-  }
-  const PromedioVentasMensual = () =>{
-   const ventaAnual = VentaAnual()
-   const promedio = new Decimal(ventaAnual).dividedBy(13).toDecimalPlaces(0) 
-   return parseInt(promedio)
-  }
+  const VentaAnual = () => {
+    // Suma de las ventas anuales
+    const totalAnual = resumenVentas.reduce(
+      (total, item) => total + item.cantidad,
+      0
+    );
+    return totalAnual;
+  };
+  const PromedioVentasMensual = () => {
+    const ventaAnual = VentaAnual();
+    const promedio = new Decimal(ventaAnual).dividedBy(13).toDecimalPlaces(0);
+    return parseInt(promedio);
+  };
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -64,9 +66,9 @@ const TableVentasMensuales = ({ resumenVentas, filaSeleccionada }) => {
       }}
     >
       {resumenVentas.length > 0 ? (
-        <div style={{ display: "flex", flexDirection: "column", overflow:"auto" , height:445 }}>
-          <div style={{ overflow:"auto", height:345 }}>
-            <TableContainer style={{  }}>
+        <div style={{ display: "flex", flexDirection: "column" }}>
+          <div style={{ height: 360 }}>
+            <TableContainer style={{ maxHeight: 350 }}>
               <Table
                 stickyHeader
                 sx={{
@@ -131,12 +133,27 @@ const TableVentasMensuales = ({ resumenVentas, filaSeleccionada }) => {
               </Table>
             </TableContainer>
           </div>
+          <Paper
+              elevation={3}
+              style={{
+                margin: "2px",
+                display: "flex",
+                flexDirection: "column",
+                paddingRight:10,
+                paddingBottom:5
+              }}
+            >
           <table
-            style={{ textAlign: "left", fontSize: "0.9rem", marginLeft: 10, paddingTop:50 }}
+            style={{
+              textAlign: "left",
+              fontSize: "0.9rem",
+              marginLeft: 10,
+              paddingTop: 10,
+            }}
           >
             <tbody>
               <tr>
-                <td colSpan="1" style={{ fontSize: 15,fontWeight:"bold" }}>
+                <td colSpan="1" style={{ fontSize: 15, fontWeight: "bold" }}>
                   VENTA ANUAL
                 </td>
                 <td style={{ fontSize: 19, fontWeight: "bold", padding: 2 }}>
@@ -148,16 +165,23 @@ const TableVentasMensuales = ({ resumenVentas, filaSeleccionada }) => {
                       textAlign: "center",
                     }}
                   >
-                  {VentaAnual()}
+                    {VentaAnual()}
                   </div>
                 </td>
               </tr>
 
               <tr>
-                <td colSpan="1" style={{ fontSize: 15, fontWeight:"bold" }}>
+                <td colSpan="1" style={{ fontSize: 15, fontWeight: "bold" }}>
                   PROMEDIO DE VENTA MENSUAL
                 </td>
-                <td style={{ fontSize: 19, fontWeight: "bold", padding: 2, width:50 }}>
+                <td
+                  style={{
+                    fontSize: 19,
+                    fontWeight: "bold",
+                    padding: 2,
+                    width: 50,
+                  }}
+                >
                   <div
                     style={{
                       background: "rgb(12,55,100)",
@@ -166,15 +190,28 @@ const TableVentasMensuales = ({ resumenVentas, filaSeleccionada }) => {
                       textAlign: "center",
                     }}
                   >
-                   {PromedioVentasMensual()}
+                    {PromedioVentasMensual()}
                   </div>
                 </td>
               </tr>
             </tbody>
           </table>
+          </Paper>
         </div>
       ) : (
-        <div>No hay ventas</div>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            flexDirection: "column",
+            height: 450,
+            paddingLeft: 170,
+          }}
+        >
+          <Typography style={{ fontSize: 18, fontWeight: "bold" }}>
+            No hay ventas
+          </Typography>
+        </div>
       )}
     </div>
   );

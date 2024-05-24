@@ -3,6 +3,7 @@ import { Grid, Paper, Typography } from "@mui/material";
 import repuest from "../image/request1.png";
 import CssBaseline from "@mui/material/CssBaseline";
 import Container from "@mui/material/Container";
+import LazyImagen from "../components/LazyImagen";
 
 const SI = ({
   articuloSugeridoCliente,
@@ -72,7 +73,7 @@ const SI = ({
               <div
                 style={{
                   maxWidth: "165vh",
-                  maxHeight: "210px",
+                  maxHeight: "260px",
                   overflowX: "auto",
                   display: "flex",
                 }}
@@ -98,14 +99,7 @@ const SI = ({
                     onMouseEnter={() => handleItemHover(item.codigoInterno)}
                     onMouseLeave={handleItemLeave}
                   >
-                    <img
-                      src={repuest}
-                      style={{
-                        width: "60%",
-                        height: "60%",
-                        margin: "0.2rem",
-                      }}
-                    />
+                    <LazyImagen codigoArticulo={item.codigoArticulo.trim()} />
                     <Typography
                       fontSize="0.9rem"
                       width={"90%"}
@@ -163,7 +157,7 @@ const SI = ({
               <div
                 style={{
                   maxWidth: "165vh",
-                  maxHeight: "210px",
+                  maxHeight: "260px",
                   overflowX: "auto",
                   display: "flex",
                 }}
@@ -189,14 +183,7 @@ const SI = ({
                     onMouseEnter={() => handleItemHover(item.codigoInterno)}
                     onMouseLeave={handleItemLeave}
                   >
-                    <img
-                      src={repuest}
-                      style={{
-                        width: "60%",
-                        height: "60%",
-                        margin: "0.2rem",
-                      }}
-                    />
+                    <LazyImagen codigoArticulo={item.codigoArticulo.trim()} />
                     <Typography
                       fontSize="0.9rem"
                       width={"90%"}
@@ -254,7 +241,7 @@ const SI = ({
               <div
                 style={{
                   maxWidth: "165vh",
-                  maxHeight: "210px",
+                  maxHeight: "260px",
                   overflowX: "auto",
                   display: "flex",
                 }}
@@ -280,14 +267,7 @@ const SI = ({
                     onMouseEnter={() => handleItemHover(item.codigoInterno)}
                     onMouseLeave={handleItemLeave}
                   >
-                    <img
-                      src={repuest}
-                      style={{
-                        width: "60%",
-                        height: "60%",
-                        margin: "0.2rem",
-                      }}
-                    />
+                    <LazyImagen codigoArticulo={item.codigoArticulo.trim()} />
                     <Typography
                       fontSize="0.9rem"
                       width={"90%"}
@@ -342,78 +322,71 @@ const SI = ({
             </Typography>
 
             {lista2Filtrada75.length > 0 ? (
-                <div
-                  style={{
-                    maxWidth: "165vh",
-                    maxHeight: "210px",
-                    overflowX: "auto",
-                    display: "flex",
-                  }}
-                >
-                  {lista2Filtrada75.map((item, index) => (
-                    <Paper
-                      elevation={3}
+              <div
+                style={{
+                  maxWidth: "165vh",
+                  maxHeight: "260px",
+                  overflowX: "auto",
+                  display: "flex",
+                }}
+              >
+                {lista2Filtrada75.map((item, index) => (
+                  <Paper
+                    elevation={3}
+                    style={{
+                      display: "flex",
+                      flexShrink: 0,
+                      flexDirection: "column",
+                      alignItems: "center",
+                      width: 145,
+                      margin: "0.5rem",
+                      backgroundColor:
+                        codigoSeleccionado === item.codigoInterno
+                          ? "rgb(237, 237, 237)"
+                          : codigoHover === item.codigoInterno
+                          ? "rgba(0, 0, 0, 0.1)" // Color de fondo cuando el mouse está sobre el elemento
+                          : "white",
+                    }}
+                    onClick={() => handleItemSIClick(item.codigoInterno)}
+                    onMouseEnter={() => handleItemHover(item.codigoInterno)}
+                    onMouseLeave={handleItemLeave}
+                  >
+                    <LazyImagen codigoArticulo={item.codigoArticulo.trim()} />
+                    <Typography
+                      fontSize="0.9rem"
+                      width={"90%"}
                       style={{
-                        display: "flex",
-                        flexShrink: 0,
-                        flexDirection: "column",
-                        alignItems: "center",
-                        width: 145,
-                        margin: "0.5rem",
-                        backgroundColor:
-                          codigoSeleccionado === item.codigoInterno
-                            ? "rgb(237, 237, 237)"
-                            : codigoHover === item.codigoInterno
-                            ? "rgba(0, 0, 0, 0.1)" // Color de fondo cuando el mouse está sobre el elemento
-                            : "white",
+                        fontWeight: "bold",
+                        whiteSpace: "nowrap",
+                        overflow: "hidden",
                       }}
-                      onClick={() => handleItemSIClick(item.codigoInterno)}
-                      onMouseEnter={() => handleItemHover(item.codigoInterno)}
-                      onMouseLeave={handleItemLeave}
                     >
-                      <img
-                        src={repuest}
-                        style={{
-                          width: "60%",
-                          height: "60%",
-                          margin: "0.2rem",
-                        }}
-                      />
-                      <Typography
-                        fontSize="0.9rem"
-                        width={"90%"}
-                        style={{
-                          fontWeight: "bold",
-                          whiteSpace: "nowrap",
-                          overflow: "hidden",
-                        }}
-                      >
-                        {item.codigoArticulo}
-                      </Typography>
-                      <Typography
-                        fontSize="0.9rem"
-                        width={"90%"}
-                        style={{ borderTop: "0.01rem solid #888" }}
-                      >
-                        {item.marca}
-                      </Typography>
-                      <Typography
-                        fontSize="0.9rem"
-                        width={"90%"}
-                        style={{ borderTop: "0.01rem solid #888" }}
-                      >
-                        {item.codigoLinea}
-                      </Typography>
-                    </Paper>
-                  ))}
-                </div>
+                      {item.codigoArticulo}
+                    </Typography>
+                    <Typography
+                      fontSize="0.9rem"
+                      width={"90%"}
+                      style={{ borderTop: "0.01rem solid #888" }}
+                    >
+                      {item.marca}
+                    </Typography>
+                    <Typography
+                      fontSize="0.9rem"
+                      width={"90%"}
+                      style={{ borderTop: "0.01rem solid #888" }}
+                    >
+                      {item.codigoLinea}
+                    </Typography>
+                  </Paper>
+                ))}
+              </div>
             ) : (
               <div
                 style={{
                   fontSize: 18,
                   paddingLeft: 8,
                   paddingTop: 45,
-                  paddingBottom:20,
+                  paddingBottom: 20,
                   width: "100%",
                   textAlign: "center",
                 }}
@@ -462,18 +435,11 @@ const SI = ({
                             ? "rgba(0, 0, 0, 0.1)" // Color de fondo cuando el mouse está sobre el elemento
                             : "white",
                       }}
-                      onClick={() => handleItemsSelect(item.codigoInterno)}
+                      onClick={() => handleItemSIClick(item.codigoInterno)}
                       onMouseEnter={() => handleItemHover(item.codigoInterno)}
                       onMouseLeave={handleItemLeave}
                     >
-                      <img
-                        src={repuest}
-                        style={{
-                          width: "60%",
-                          height: "60%",
-                          margin: "0.2rem",
-                        }}
-                      />
+                      <LazyImagen codigoArticulo={item.codigoArticulo.trim()} />
                       <Typography
                         fontSize="0.9rem"
                         width={"90%"}

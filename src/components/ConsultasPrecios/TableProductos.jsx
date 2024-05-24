@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-import { Typography } from "@mui/material";
+import { CircularProgress, Typography } from "@mui/material";
 import SquareSharpIcon from "@mui/icons-material/SquareSharp";
 
 const TableProductos = ({
@@ -10,7 +10,7 @@ const TableProductos = ({
   setFilaSeleccionada,
 }) => {
   const [highlightedRow, setHighlightedRow] = useState(null);
-  const [isLoading, setIsLoading] = useState(true); // Estado de carga
+  const [isLoading, setIsLoading] = useState(false); // Estado de carga
 
   useEffect(() => {
     // Simular una carga de datos con un retraso de 1.5 segundos
@@ -29,8 +29,13 @@ const TableProductos = ({
   }, [productos]);
 
   const handleRowDoubleClick = (datosItems, index) => {
-    setFilaSeleccionada(datosItems);
-    onProductSelect(datosItems);
+    if(datosItems){
+      setFilaSeleccionada(datosItems);
+      onProductSelect(datosItems);
+      setIsLoading(false);
+    }else{
+      setIsLoading(true);
+    }
   };
 
   const handleMouseEnter = (index) => {
@@ -203,6 +208,24 @@ const TableProductos = ({
             height: 500,
           }}
         >
+          {isLoading &&  (
+            <div
+              style={{
+                position: "absolute",
+                top: 0,
+                left: 0,
+                right: 0,
+                bottom: 0,
+                zIndex: 2,
+                background: "rgba(255, 255, 255, 0.5)",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <CircularProgress />
+            </div>
+          )}
           <table style={{ borderCollapse: "collapse", width: "100%" }}>
             <thead
               style={{

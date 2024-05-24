@@ -165,7 +165,6 @@ export function getSugeridosPorClientePorCantidad(codigoCliente, diasSinComprar)
   const ArticuloSugeridoCliente = axios
     .get(`${baseUrlCliente()}/SugeridosPorClientePorCantidad?CodigoCliente=${codigoCliente}&dias=${diasSinComprar}`)
     .then((res) => {
-      console.log('sugeridoCantidad', res.data)
       return res.data;
     });
   return ArticuloSugeridoCliente;
@@ -184,7 +183,6 @@ export function getSugeridosPorClientePorMonto(codigoCliente, diasSinComprar) {
   const ArticuloSugeridoClientePorMonto = axios
     .get(`${baseUrlCliente()}/SugeridosPorClientePorMonto?CodigoCliente=${codigoCliente}&dias=${diasSinComprar}`)
     .then((res) => {
-      console.log("filtrado por monto", res.data)
       return res.data;
     });
   return ArticuloSugeridoClientePorMonto;

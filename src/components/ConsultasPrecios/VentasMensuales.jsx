@@ -40,7 +40,6 @@ export default function VentasMensuales({
             display: "flex",
             justifyContent: "space-between",
             bgcolor: "#ffffff",
-            height: "calc(100vh - 9.25rem)",
             flexDirection: "column",
           }}
         >
