@@ -90,12 +90,12 @@ export default function TD({
       >
         <div style={{ flex: 2 , height: '100%'}}>
           <div
-            style={{ display: "flex", margin: "5px", justifyContent: "center" }}
+            style={{ display: "flex", justifyContent: "center" }}
           >
             <img
               src={urlImagen}
               alt="Imagen de carrito de compras"
-              style={{ width: "75%", height: "68%" }}
+              style={{ width: 350, height: 350 }}
             />
           </div>
           <TableItems

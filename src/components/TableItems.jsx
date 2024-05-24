@@ -38,7 +38,7 @@ const TableItems = ({
          display: "flex",
          flexDirection: "column",
          alignItems: "center",
-         width: 130,
+         width: 100,
          backgroundColor:
          codigoSeleccionado === item.codigoInterno
            ? "rgb(237, 237, 237)"
