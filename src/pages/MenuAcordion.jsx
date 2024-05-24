@@ -149,8 +149,8 @@ const TuComponente = () => {
 
   const handleClientSelect = (cliente) => {
     const diasSinComprar1 = 0; // Los productos sugeridos en este punto tienen 0 días sin comprar
-    const diasSinComprar2 = 45; // Los productos sugeridos en este punto tienen 60 días sin comprar
-    const diasSinComprar3 = 75;
+    const diasSinComprar2 = 45; // Los productos sugeridos en este punto tienen 45 días sin comprar
+    const diasSinComprar3 = 75; // Los productos sugeridos en este punto tienen 75 días sin comprar
     setSelectedClient(cliente);
     setIsAddToCartVisible(true);
     setIsEditToCartVisible(false);

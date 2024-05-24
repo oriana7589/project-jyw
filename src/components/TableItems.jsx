@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import {  Grid, Paper, Typography } from "@mui/material";
 import repuest from "../image/request1.png";
+import LazyImagen from "./LazyImagen";
 
 const TableItems = ({
   articuloSugeridoCliente,
@@ -37,7 +38,7 @@ const TableItems = ({
          display: "flex",
          flexDirection: "column",
          alignItems: "center",
-         width: 90,
+         width: 130,
          backgroundColor:
          codigoSeleccionado === item.codigoInterno
            ? "rgb(237, 237, 237)"
@@ -49,12 +50,13 @@ const TableItems = ({
      onMouseEnter={() => handleItemHover(item.codigoInterno)}
      onMouseLeave={handleItemLeave}
      >
-       <img
+      <LazyImagen codigoArticulo={item.codigoArticulo.trim()} />
+       {/* <img
          src={repuest}
          style={{ width: "60%", height: "60%", margin: "0.2rem" }}
-       />
+       /> */}
        <Typography
-         fontSize="0.54rem"
+         fontSize="0.9rem"
          width={"90%"}
          style={{
            fontWeight: "bold",
@@ -65,14 +67,14 @@ const TableItems = ({
          {item.codigoArticulo}
        </Typography>
        <Typography
-         fontSize="0.54rem"
+         fontSize="0.7rem"
          width={"90%"}
          style={{ borderTop: "0.01rem solid #888" }}
        >
          {item.marca}
        </Typography>
        <Typography
-         fontSize="0.54rem"
+         fontSize="0.7rem"
          width={"90%"}
          style={{ borderTop: "0.01rem solid #888" }}
        >
@@ -92,7 +94,7 @@ const TableItems = ({
          display: "flex",
          flexDirection: "column",
          alignItems: "center",
-         width: 90,
+         width: 100,
          backgroundColor:
          codigoSeleccionado === item.codigoInterno
            ? "rgb(237, 237, 237)"
@@ -104,12 +106,13 @@ const TableItems = ({
        onMouseEnter={() => handleItemHover(item.codigoInterno)}
        onMouseLeave={handleItemLeave}
      >
-       <img
+        <LazyImagen codigoArticulo={item.codigoArticulo.trim()} />
+       {/* <img
          src={repuest}
          style={{ width: "60%", height: "60%", margin: "0.2rem" }}
-       />
+       /> */}
        <Typography
-         fontSize="0.54rem"
+         fontSize="0.9rem"
          width={"90%"}
          style={{
            fontWeight: "bold",
@@ -120,14 +123,14 @@ const TableItems = ({
          {item.codigoArticulo}
        </Typography>
        <Typography
-         fontSize="0.54rem"
+         fontSize="0.7rem"
          width={"90%"}
          style={{ borderTop: "0.01rem solid #888" }}
        >
          {item.marca}
        </Typography>
        <Typography
-         fontSize="0.54rem"
+         fontSize="0.7rem"
          width={"90%"}
          style={{ borderTop: "0.01rem solid #888" }}
        >
@@ -149,7 +152,7 @@ const TableItems = ({
          display: "flex",
          flexDirection: "column",
          alignItems: "center",
-         width: 90,
+         width: 120,
          backgroundColor:
          codigoSeleccionado === item.codigoInterno
            ? "rgb(237, 237, 237)"
@@ -161,12 +164,13 @@ const TableItems = ({
        onMouseEnter={() => handleItemHover(item.codigoInterno)}
        onMouseLeave={handleItemLeave}
      >
-       <img
+        <LazyImagen codigoArticulo={item.codigoArticulo.trim()} />
+       {/* <img
          src={repuest}
          style={{ width: "60%", height: "60%", margin: "0.2rem" }}
-       />
+       /> */}
        <Typography
-         fontSize="0.54rem"
+         fontSize="0.9rem"
          width={"90%"}
          style={{
            fontWeight: "bold",
@@ -177,14 +181,14 @@ const TableItems = ({
          {item.codigoArticulo}
        </Typography>
        <Typography
-         fontSize="0.54rem"
+         fontSize="0.7rem"
          width={"90%"}
          style={{ borderTop: "0.01rem solid #888" }}
        >
          {item.marca}
        </Typography>
        <Typography
-         fontSize="0.54rem"
+         fontSize="0.7rem"
          width={"90%"}
          style={{ borderTop: "0.01rem solid #888" }}
        >

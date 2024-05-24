@@ -95,7 +95,7 @@ export default function TD({
             <img
               src={urlImagen}
               alt="Imagen de carrito de compras"
-              style={{ width: "68%", height: "68%" }}
+              style={{ width: "75%", height: "68%" }}
             />
           </div>
           <TableItems
