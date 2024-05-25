@@ -5,16 +5,21 @@ import TableHead from "@mui/material/TableHead";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
 import TableRow from "@mui/material/TableRow";
-import { Typography, Paper } from "@mui/material";
+import { Typography, Paper, TablePagination } from "@mui/material";
 import Logo from "../../image/logo.png";
 import LogoCom from "../../image/logoCompleto.png";
 import Decimal from "decimal.js";
 
-const TableUltimasVentas = ({ ultimasVentas, filaSeleccionada }) => {
+const TableUltimasVentas = ({
+  ultimasVentas,
+  itemsPerPage,
+  filaSeleccionada,
+}) => {
   const [selectedClient, setSelectedClient] = useState(null);
   const [highlightedRow, setHighlightedRow] = useState(null);
   const [isLoading, setIsLoading] = useState(true); // Estado de carga
   const [page, setPage] = useState(0);
+  itemsPerPage = 12;
 
   useEffect(() => {
     // Simular una carga de datos con un retraso de 1.5 segundos
@@ -82,7 +87,7 @@ const TableUltimasVentas = ({ ultimasVentas, filaSeleccionada }) => {
                   marginBottom: "10px",
                 }}
               >
-                <div style={{ display: "flex", paddingTop:5 }}>
+                <div style={{ display: "flex", paddingTop: 5 }}>
                   <Typography>
                     <strong>Linea:</strong> {filaSeleccionada.CodigoLinea}
                   </Typography>
@@ -103,7 +108,7 @@ const TableUltimasVentas = ({ ultimasVentas, filaSeleccionada }) => {
               </div>
             </Paper>
           </div>
-          <TableContainer style={{ maxHeight: 460, width: "1300px" }}>
+          <TableContainer style={{ maxHeight: 410, width: "1300px" }}>
             <Table
               stickyHeader
               sx={{
@@ -228,81 +233,103 @@ const TableUltimasVentas = ({ ultimasVentas, filaSeleccionada }) => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {ultimasVentas.map((item, index) => (
-                  <TableRow
-                    key={index}
-                    sx={{
-                      cursor: "pointer",
-                      backgroundColor:
-                        selectedClient === item
-                          ? "#B8B8B8"
-                          : highlightedRow === index
-                          ? "#F0F0F0"
-                          : "white",
-                    }}
-                    onDoubleClick={() => handleRowDoubleClick(item)}
-                    onMouseEnter={() => handleMouseEnter(index)}
-                    onMouseLeave={handleMouseLeave}
-                  >
-                    <TableCell
-                      style={{ textAlign: "left", fontSize: "0.85rem" }}
-                    >
-                      {item.tipoDocumento}-{item.numeroSerieSunat}-
-                      {item.numeroDocumentoSunat} {}{" "}
-                      {new Date(item.fechaEmision).toLocaleDateString("es-ES", {
-                        day: "2-digit",
-                        month: "2-digit",
-                        year: "numeric",
-                      })}
-                    </TableCell>
-                    <TableCell
-                      style={{ textAlign: "left", fontSize: "0.85rem" }}
-                    >
-                      {item.tipoDocumentoIdentidad}
-                    </TableCell>
-                    <TableCell style={{ fontSize: "0.85rem" }}>
-                      {item.numeroDocumentoIdentidad}
-                    </TableCell>
-                    <TableCell
-                      style={{
-                        fontSize: "0.85rem",
-                        whiteSpace: "nowrap",
-                        maxWidth: "280px",
-                        overflow: "hidden",
+                {ultimasVentas
+                  .slice(page * itemsPerPage, (page + 1) * itemsPerPage)
+                  .map((item, index) => (
+                    <TableRow
+                      key={index}
+                      sx={{
+                        cursor: "pointer",
+                        backgroundColor:
+                          selectedClient === item
+                            ? "#B8B8B8"
+                            : highlightedRow === index
+                            ? "#F0F0F0"
+                            : "white",
                       }}
+                      onDoubleClick={() => handleRowDoubleClick(item)}
+                      onMouseEnter={() => handleMouseEnter(index)}
+                      onMouseLeave={handleMouseLeave}
                     >
-                      {item.razonSocial}
-                    </TableCell>
-                    <TableCell style={{ fontSize: "0.85rem" }}>
-                      {item.codigoMoneda}
-                    </TableCell>
-                    <TableCell style={{ fontSize: "0.85rem" }}>
-                      {item.cantidad}
-                    </TableCell>
-                    <TableCell style={{ fontSize: "0.85rem" }}>
-                      {item.precioVenta}
-                    </TableCell>
-                    <TableCell style={{ fontSize: "0.85rem" }}>
-                      {item.descuentoUno}
-                    </TableCell>
-                    <TableCell style={{ fontSize: "0.85rem" }}>
-                      {item.descuentoDos}
-                    </TableCell>
-                    <TableCell style={{ fontSize: "0.85rem" }}>
-                      {item.totalItem}
-                    </TableCell>
-                    <TableCell style={{ fontSize: "0.85rem" }}>
-                      {parseFloat(
-                        new Decimal(item.totalItem)
-                          .times(1.18)
-                          .toDecimalPlaces(2)
-                      )}
-                    </TableCell>
-                  </TableRow>
-                ))}
+                      <TableCell
+                        style={{ textAlign: "left", fontSize: "0.85rem" }}
+                      >
+                        {item.tipoDocumento}-{item.numeroSerieSunat}-
+                        {item.numeroDocumentoSunat} {}{" "}
+                        {new Date(item.fechaEmision).toLocaleDateString(
+                          "es-ES",
+                          {
+                            day: "2-digit",
+                            month: "2-digit",
+                            year: "numeric",
+                          }
+                        )}
+                      </TableCell>
+                      <TableCell
+                        style={{ textAlign: "left", fontSize: "0.85rem" }}
+                      >
+                        {item.tipoDocumentoIdentidad}
+                      </TableCell>
+                      <TableCell style={{ fontSize: "0.85rem" }}>
+                        {item.numeroDocumentoIdentidad}
+                      </TableCell>
+                      <TableCell
+                        style={{
+                          fontSize: "0.85rem",
+                          whiteSpace: "nowrap",
+                          maxWidth: "280px",
+                          overflow: "hidden",
+                        }}
+                      >
+                        {item.razonSocial}
+                      </TableCell>
+                      <TableCell style={{ fontSize: "0.85rem" }}>
+                        {item.codigoMoneda}
+                      </TableCell>
+                      <TableCell style={{ fontSize: "0.85rem" }}>
+                        {item.cantidad}
+                      </TableCell>
+                      <TableCell style={{ fontSize: "0.85rem" }}>
+                        {item.precioVenta}
+                      </TableCell>
+                      <TableCell style={{ fontSize: "0.85rem" }}>
+                        {item.descuentoUno}
+                      </TableCell>
+                      <TableCell style={{ fontSize: "0.85rem" }}>
+                        {item.descuentoDos}
+                      </TableCell>
+                      <TableCell style={{ fontSize: "0.85rem" }}>
+                        {item.totalItem}
+                      </TableCell>
+                      <TableCell style={{ fontSize: "0.85rem" }}>
+                        {parseFloat(
+                          new Decimal(item.totalItem)
+                            .times(1.18)
+                            .toDecimalPlaces(2)
+                        )}
+                      </TableCell>
+                    </TableRow>
+                  ))}
               </TableBody>
             </Table>
           </TableContainer>
+          <div
+            style={{
+              position: "sticky",
+              bottom: 0,
+              backgroundColor: "white",
+              zIndex: 1,
+            }}
+          >
+            <TablePagination
+              component="div"
+              count={ultimasVentas.length}
+              page={page}
+              onPageChange={handleChangePage}
+              rowsPerPage={itemsPerPage}
+              rowsPerPageOptions={[itemsPerPage]}
+            />
+          </div>
         </div>
       ) : (
         <div

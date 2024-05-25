@@ -12,11 +12,12 @@ import Result from "../image/result.png";
 import { Typography } from "@mui/material";
 import SquareSharpIcon from '@mui/icons-material/SquareSharp';
 
-const TableComponent = ({ items, onProductSelect }) => {
+const TableComponent = ({ items, onProductSelect,itemsPerPage }) => {
   const [selectProductos, setSelectedProductos] = useState(null);
   const [highlightedRow, setHighlightedRow] = useState(null);
   const [isLoading, setIsLoading] = useState(true); // Estado de carga
- 
+  const [page, setPage] = useState(0);
+  itemsPerPage = 13;
    
   useEffect(() => {
     // Simular una carga de datos con un retraso de 1.5 segundos
@@ -45,6 +46,10 @@ const TableComponent = ({ items, onProductSelect }) => {
 
   const handleMouseLeave = () => {
     setHighlightedRow(null);
+  };
+
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
   };
 
   const handleCellClick = (index) => {
@@ -174,7 +179,7 @@ const TableComponent = ({ items, onProductSelect }) => {
           </tr>
         </thead>
         <tbody >
-          {items.map((item, index) => (
+          {items .slice(page * itemsPerPage, (page + 1) * itemsPerPage).map((item, index) => (
             <tr key={index}
             onMouseEnter={() => handleMouseEnter(index)}
             onMouseLeave={handleMouseLeave}
@@ -209,6 +214,23 @@ const TableComponent = ({ items, onProductSelect }) => {
           ))}
         </tbody>
       </table>
+      <div
+            style={{
+              position: "sticky",
+              bottom: 0,
+              backgroundColor: "white",
+              zIndex: 1,
+            }}
+          >
+            <TablePagination
+              component="div"
+              count={items.length}
+              page={page}
+              onPageChange={handleChangePage}
+              rowsPerPage={itemsPerPage}
+              rowsPerPageOptions={[itemsPerPage]}
+            />
+          </div>
      </div>  
   </div>
       ) : (

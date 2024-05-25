@@ -7,14 +7,19 @@ import TableCell from "@mui/material/TableCell";
 import TableRow from "@mui/material/TableRow";
 import Logo from "../../image/logo.png";
 import LogoCom from "../../image/logoCompleto.png";
-import { Typography , Paper} from "@mui/material";
+import { Typography, Paper, TablePagination } from "@mui/material";
 import TableUltimasCompras from "../TableUltimasCompras";
 
-const TableUltimasComprasItems = ({ ultimasCompras, filaSeleccionada }) => {
+const TableUltimasComprasItems = ({
+  ultimasCompras,
+  itemsPerPage,
+  filaSeleccionada,
+}) => {
   const [selectedClient, setSelectedClient] = useState(null);
   const [highlightedRow, setHighlightedRow] = useState(null);
   const [isLoading, setIsLoading] = useState(true); // Estado de carga
   const [page, setPage] = useState(0);
+  itemsPerPage = 12;
 
   useEffect(() => {
     // Simular una carga de datos con un retraso de 1.5 segundos
@@ -55,7 +60,7 @@ const TableUltimasComprasItems = ({ ultimasCompras, filaSeleccionada }) => {
     >
       {filaSeleccionada ? (
         <div style={{ overflow: "auto" }}>
-           <div
+          <div
             style={{
               width: "100%",
               display: "flex",
@@ -82,7 +87,7 @@ const TableUltimasComprasItems = ({ ultimasCompras, filaSeleccionada }) => {
                   marginBottom: "10px",
                 }}
               >
-                <div style={{ display: "flex", paddingTop:5 }}>
+                <div style={{ display: "flex", paddingTop: 5 }}>
                   <Typography>
                     <strong>Linea:</strong> {filaSeleccionada.CodigoLinea}
                   </Typography>
@@ -103,7 +108,7 @@ const TableUltimasComprasItems = ({ ultimasCompras, filaSeleccionada }) => {
               </div>
             </Paper>
           </div>
-          <TableContainer style={{ maxHeight: 455, width: "2000px" }}>
+          <TableContainer style={{ maxHeight: 410, width: "2000px" }}>
             <Table
               stickyHeader
               sx={{
@@ -283,87 +288,97 @@ const TableUltimasComprasItems = ({ ultimasCompras, filaSeleccionada }) => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {ultimasCompras.map((item, index) => (
-                  <TableRow
-                    key={index}
-                    sx={{
-                      cursor: "pointer",
-                      backgroundColor:
-                        selectedClient === item
-                          ? "#B8B8B8"
-                          : highlightedRow === index
-                          ? "#F0F0F0"
-                          : "white",
-                    }}
-                    onDoubleClick={() => handleRowDoubleClick(item)}
-                    onMouseEnter={() => handleMouseEnter(index)}
-                    onMouseLeave={handleMouseLeave}
-                  >
-                    <TableCell
-                      style={{ textAlign: "left", fontSize: "0.85rem" }}
+                {ultimasCompras
+                  .slice(page * itemsPerPage, (page + 1) * itemsPerPage)
+                  .map((item, index) => (
+                    <TableRow
+                      key={index}
+                      sx={{
+                        cursor: "pointer",
+                        backgroundColor:
+                          selectedClient === item
+                            ? "#B8B8B8"
+                            : highlightedRow === index
+                            ? "#F0F0F0"
+                            : "white",
+                      }}
+                      onDoubleClick={() => handleRowDoubleClick(item)}
+                      onMouseEnter={() => handleMouseEnter(index)}
+                      onMouseLeave={handleMouseLeave}
                     >
-                      {item.documento}
-                    </TableCell>
-                    <TableCell
-                      style={{ textAlign: "left", fontSize: "0.85rem" }}
-                    >
-                      {item.tipoDocumentoIdentidad}
-                    </TableCell>
-                    <TableCell
-                      style={{ textAlign: "left", fontSize: "0.85rem" }}
-                    >
-                      {item.numeroDocumentoIdentidad}
-                    </TableCell>
-                    <TableCell
-                    style={{
-                      fontSize: "0.85rem",
-                      whiteSpace: "nowrap",
-                      maxWidth: "250px",
-                      overflow: "hidden",
-                    }}
-                  >
-                      {item.razonSocial}
-                    </TableCell>
-                    <TableCell style={{ fontSize: "0.85rem" }}>
-                      {item.cantidad}
-                    </TableCell>
-                    <TableCell
-                      style={{ textAlign: "left", fontSize: "0.85rem" }}
-                    >
-                      {item.codigoMonedaOriginalOrdenCompra}
-                    </TableCell>
-                    <TableCell style={{ fontSize: "0.85rem" }}>
-                      {item.precioMonedaOriginal}
-                    </TableCell>
-                    <TableCell style={{ fontSize: "0.85rem" }}>
-                      {item.descuentoUno}
-                    </TableCell>
-                    <TableCell style={{ fontSize: "0.85rem" }}>
-                      {item.descuentoDos}
-                    </TableCell>
-                    <TableCell style={{ fontSize: "0.85rem" }}>
-                      {item.tipoCambio}
-                    </TableCell>
-                    <TableCell style={{ fontSize: "0.85rem" }}>
-                      {item.precio}
-                    </TableCell>
-                    <TableCell style={{ fontSize: "0.85rem" }}>
-                      {item.totalItem}
-                    </TableCell>
-                    <TableCell style={{ fontSize: "0.85rem" }}>
-                      {item.promedioGastosOperativos}
-                    </TableCell>
-                    <TableCell style={{ fontSize: "0.85rem" }}>
-                      {item.precioCompraIncluyendoGastos}
-                    </TableCell>
-                    <TableCell style={{ fontSize: "0.85rem" }}>
-                      {item.precioCompraIncluyendoGastosMasIGV}
-                    </TableCell>
-                  </TableRow>
-                ))}
+                      <TableCell
+                        style={{ textAlign: "left", fontSize: "0.85rem" }}
+                      >
+                        {item.documento}
+                      </TableCell>
+                      <TableCell
+                        style={{ textAlign: "left", fontSize: "0.85rem" }}
+                      >
+                        {item.tipoDocumentoIdentidad}
+                      </TableCell>
+                      <TableCell
+                        style={{ textAlign: "left", fontSize: "0.85rem" }}
+                      >
+                        {item.numeroDocumentoIdentidad}
+                      </TableCell>
+                      <TableCell
+                        style={{
+                          fontSize: "0.85rem",
+                          whiteSpace: "nowrap",
+                          maxWidth: "250px",
+                          overflow: "hidden",
+                        }}
+                      >
+                        {item.razonSocial}
+                      </TableCell>
+                      <TableCell style={{ fontSize: "0.85rem" }}>
+                        {item.cantidad}
+                      </TableCell>
+                      <TableCell
+                        style={{ textAlign: "left", fontSize: "0.85rem" }}
+                      >
+                        {item.codigoMonedaOriginalOrdenCompra}
+                      </TableCell>
+                      <TableCell style={{ fontSize: "0.85rem" }}>
+                        {item.precioMonedaOriginal}
+                      </TableCell>
+                      <TableCell style={{ fontSize: "0.85rem" }}>
+                        {item.descuentoUno}
+                      </TableCell>
+                      <TableCell style={{ fontSize: "0.85rem" }}>
+                        {item.descuentoDos}
+                      </TableCell>
+                      <TableCell style={{ fontSize: "0.85rem" }}>
+                        {item.tipoCambio}
+                      </TableCell>
+                      <TableCell style={{ fontSize: "0.85rem" }}>
+                        {item.precio}
+                      </TableCell>
+                      <TableCell style={{ fontSize: "0.85rem" }}>
+                        {item.totalItem}
+                      </TableCell>
+                      <TableCell style={{ fontSize: "0.85rem" }}>
+                        {item.promedioGastosOperativos}
+                      </TableCell>
+                      <TableCell style={{ fontSize: "0.85rem" }}>
+                        {item.precioCompraIncluyendoGastos}
+                      </TableCell>
+                      <TableCell style={{ fontSize: "0.85rem" }}>
+                        {item.precioCompraIncluyendoGastosMasIGV}
+                      </TableCell>
+                    </TableRow>
+                  ))}
               </TableBody>
             </Table>
           </TableContainer>
+          <TablePagination
+            component="div"
+            count={ultimasCompras.length}
+            page={page}
+            onPageChange={handleChangePage}
+            rowsPerPage={itemsPerPage}
+            rowsPerPageOptions={[itemsPerPage]}
+          />
         </div>
       ) : (
         <div

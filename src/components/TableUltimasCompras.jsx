@@ -13,7 +13,7 @@ const TableUltimasCompras = ({ ultimasCompras, itemsPerPage, setNumeroProforma, 
   const [highlightedRow, setHighlightedRow] = useState(null);
   const [isLoading, setIsLoading] = useState(true); // Estado de carga
   const [page, setPage] = useState(0);
-  itemsPerPage = 12;
+  itemsPerPage = 10;
   
   useEffect(() => {
     // Simular una carga de datos con un retraso de 1.5 segundos
@@ -54,7 +54,7 @@ const TableUltimasCompras = ({ ultimasCompras, itemsPerPage, setNumeroProforma, 
       }}
     >
         <div style={{ overflow: "auto" }}>
-          <TableContainer style={{ maxHeight: 515 }}>
+          <TableContainer style={{ maxHeight: 410 }}>
             <Table
               stickyHeader
               sx={{

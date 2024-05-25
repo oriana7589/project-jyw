@@ -54,7 +54,7 @@ const TableItemsCliente = ({ itemsComprados, itemsPerPage }) => {
       }}
     >
         <div style={{ overflow: "auto" }}>
-          <TableContainer style={{ maxHeight: 515 }}>
+          <TableContainer style={{ maxHeight: 410 }}>
             <Table
               stickyHeader
               sx={{

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-import { CircularProgress, Typography } from "@mui/material";
+import { CircularProgress, TablePagination, Typography } from "@mui/material";
 import SquareSharpIcon from "@mui/icons-material/SquareSharp";
 
 const TableProductos = ({
@@ -8,10 +8,12 @@ const TableProductos = ({
   onProductSelect,
   filaSeleccionada,
   setFilaSeleccionada,
+  itemsPerPage,
 }) => {
   const [highlightedRow, setHighlightedRow] = useState(null);
   const [isLoading, setIsLoading] = useState(false); // Estado de carga
-
+  const [page, setPage] = useState(0);
+  itemsPerPage = 13;
   useEffect(() => {
     // Simular una carga de datos con un retraso de 1.5 segundos
     const timer = setTimeout(() => {
@@ -29,13 +31,16 @@ const TableProductos = ({
   }, [productos]);
 
   const handleRowDoubleClick = (datosItems, index) => {
-    if(datosItems){
+    if (datosItems) {
       setFilaSeleccionada(datosItems);
       onProductSelect(datosItems);
       setIsLoading(false);
-    }else{
+    } else {
       setIsLoading(true);
     }
+  };
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
   };
 
   const handleMouseEnter = (index) => {
@@ -53,7 +58,8 @@ const TableProductos = ({
   return (
     <div
       style={{
-        padding: 10,
+        paddingLeft: 10,
+        paddingTop: 10,
         overflow: "hidden",
         display: "grid",
         height: "100%",
@@ -67,7 +73,7 @@ const TableProductos = ({
               borderCollapse: "collapse",
               border: 1,
               borderSpacing: "25px",
-              marginBottom: 10,
+              marginBottom: 5,
             }}
           >
             <thead style={{ position: "sticky", top: 0, zIndex: 1 }}>
@@ -204,11 +210,10 @@ const TableProductos = ({
           style={{
             overflow: "auto",
             width: 1090,
-            maxHeight: 500,
-            height: 500,
+            maxHeight: 550,
           }}
         >
-          {isLoading &&  (
+          {isLoading && (
             <div
               style={{
                 position: "absolute",
@@ -559,255 +564,274 @@ const TableProductos = ({
               </tr>
             </thead>
             <tbody>
-              {productos.map((item, index) => (
-                <tr
-                  key={index}
-                  onMouseEnter={() => handleMouseEnter(index)}
-                  onMouseLeave={handleMouseLeave}
-                  style={{
-                    backgroundColor:
-                      filaSeleccionada === item
-                        ? "#B8B8B8"
-                        : highlightedRow === index
-                        ? "#F0F0F0"
-                        : "white",
-                    cursor: "pointer",
-                  }}
-                  onDoubleClick={() => handleRowDoubleClick(item)}
-                >
-                  <td
+              {productos
+                .slice(page * itemsPerPage, (page + 1) * itemsPerPage)
+                .map((item, index) => (
+                  <tr
+                    key={index}
+                    onMouseEnter={() => handleMouseEnter(index)}
+                    onMouseLeave={handleMouseLeave}
                     style={{
-                      fontSize: "0.7rem",
-                      padding: 0.5,
-                      border: "1px solid black",
-                      whiteSpace: "nowrap",
-                      overflow: "hidden",
+                      backgroundColor:
+                        filaSeleccionada === item
+                          ? "#B8B8B8"
+                          : highlightedRow === index
+                          ? "#F0F0F0"
+                          : "white",
+                      cursor: "pointer",
                     }}
+                    onDoubleClick={() => handleRowDoubleClick(item)}
                   >
-                    {" "}
-                    <SquareSharpIcon
+                    <td
                       style={{
-                        color:
-                          item.OrdenCompra === -1
-                            ? "rgb(179,180,177)"
-                            : item.OrdenCompra === 1
-                            ? "rgb(128,247,60)"
-                            : "rgb(255,17,17)",
+                        fontSize: "0.7rem",
+                        padding: 0.5,
+                        border: "1px solid black",
+                        whiteSpace: "nowrap",
+                        overflow: "hidden",
                       }}
-                    />
-                  </td>
-                  <td
-                    style={{
-                      fontSize: "0.7rem",
-                      padding: 0.5,
-                      border: "1px solid black",
-                      whiteSpace: "nowrap",
-                      overflow: "hidden",
-                      paddingLeft: 5,
-                    }}
-                  >
-                    {item.CodigoLinea}
-                  </td>
-                  <td
-                    style={{
-                      fontSize: "0.7rem",
-                      padding: 0.5,
-                      border: "1px solid black",
-                      whiteSpace: "nowrap",
-                      overflow: "hidden",
-                      maxWidth: "75px",
-                    }}
-                  >
-                    {item.CodigoArticulo}
-                  </td>
-                  <td
-                    style={{
-                      fontSize: "0.7rem",
-                      padding: 0.5,
-                      border: "1px solid black",
-                      whiteSpace: "nowrap",
-                      overflow: "hidden",
-                      maxWidth: "75px",
-                    }}
-                  >
-                    {item.CodigoInternoMarca}
-                  </td>
-                  <td
-                    style={{
-                      fontSize: "0.7rem",
-                      padding: 0.5,
-                      textAlign: "left",
-                      border: "1px solid black",
-                      paddingRight: 3.5,
-                      whiteSpace: "nowrap",
-                      overflow: "hidden",
-                      paddingLeft: 5,
-                      background:
-                        item.TipoCompra === "ORI"
-                          ? "rgb(67,240,42)"
-                          : item.TipoCompra === "IMP"
-                          ? "rgb(227,216,249)"
-                          : item.TipoCompra === "LOC"
-                          ? "rgb(251,255,170)"
-                          : "rgb(255,255,255)",
-                    }}
-                  >
-                    {item.TipoCompra}
-                  </td>
-                  <td
-                    style={{
-                      fontSize: "0.7rem",
-                      padding: 0.5,
-                      border: "1px solid black",
-                      maxWidth: "315px",
-                      whiteSpace: "nowrap",
-                      overflow: "hidden",
-                      paddingLeft: 5,
-                    }}
-                  >
-                    {item.DescripcionArticulo}
-                  </td>
-                  <td
-                    style={{
-                      fontSize: "0.7rem",
-                      padding: 0.5,
-                      border: "1px solid black",
-                      whiteSpace: "nowrap",
-                      maxWidth: "75px",
-                      overflow: "hidden",
-                      paddingLeft: 5,
-                    }}
-                  >
-                    {item.DescripcionPais}
-                  </td>
-                  <td
-                    style={{
-                      fontSize: "0.7rem",
-                      padding: 0.5,
-                      border: "1px solid black",
-                      maxWidth: "85px",
-                      whiteSpace: "nowrap",
-                      overflow: "hidden",
-                      paddingLeft: 5,
-                    }}
-                  >
-                    {item.DescripcionMarca}
-                  </td>
-                  <td
-                    style={{
-                      fontSize: "0.7rem",
-                      padding: 0.5,
-                      border: "1px solid black",
-                      whiteSpace: "nowrap",
-                      overflow: "hidden",
-                      paddingLeft: 5,
-                      textAlign: "end",
-                    }}
-                  >
-                    {item.PrecioVenta}
-                  </td>
-                  <td
-                    style={{
-                      fontSize: "0.7rem",
-                      padding: 0.5,
-                      border: "1px solid black",
-                      maxWidth: "55px",
-                      whiteSpace: "nowrap",
-                      overflow: "hidden",
-                      paddingLeft: 5,
-                      textAlign: "end",
-                      background: "rgb(29,241,255)",
-                    }}
-                  >
-                    {item.PrecioDescuento}
-                  </td>
-                  <td
-                    style={{
-                      fontSize: "0.7rem",
-                      padding: 0.5,
-                      border: "1px solid black",
-                      maxWidth: "30px",
-                      whiteSpace: "nowrap",
-                      overflow: "hidden",
-                      textAlign: "end",
-                      paddingLeft: 6.8,
-                    }}
-                  >
-                    {item.Stock01P1}
-                  </td>
-                  <td
-                    style={{
-                      fontSize: "0.7rem",
-                      padding: 0.5,
-                      border: "1px solid black",
-                      maxWidth: "30px",
-                      whiteSpace: "nowrap",
-                      overflow: "hidden",
-                      textAlign: "end",
-                      paddingLeft: 6.8,
-                    }}
-                  >
-                    {item.Stock01P3}
-                  </td>
-                  <td
-                    style={{
-                      fontSize: "0.7rem",
-                      padding: 0.5,
-                      border: "1px solid black",
-                      maxWidth: "30px",
-                      whiteSpace: "nowrap",
-                      overflow: "hidden",
-                      textAlign: "end",
-                      paddingLeft: 6.8,
-                    }}
-                  >
-                    {item.Stock01P4}
-                  </td>
-                  <td
-                    style={{
-                      fontSize: "0.7rem",
-                      padding: 0.5,
-                      border: "1px solid black",
-                      maxWidth: "30px",
-                      whiteSpace: "nowrap",
-                      overflow: "hidden",
-                      textAlign: "end",
-                    }}
-                  >
-                    {item.Stock02P1}
-                  </td>
-                  <td
-                    style={{
-                      fontSize: "0.7rem",
-                      padding: 0.5,
-                      border: "1px solid black",
-                      maxWidth: "30px",
-                      whiteSpace: "nowrap",
-                      overflow: "hidden",
-                      textAlign: "end",
-                      paddingLeft: 6.8,
-                    }}
-                  >
-                    {item.StockT1P1}
-                  </td>
-                  <td
-                    style={{
-                      fontSize: "0.7rem",
-                      padding: 0.5,
-                      border: "1px solid black",
-                      whiteSpace: "nowrap",
-                      overflow: "hidden",
-                      paddingLeft: 5,
-                      background: "rgb(29,241,255)",
-                      textAlign: "end",
-                    }}
-                  >
-                    {item.StockTotal}
-                  </td>
-                </tr>
-              ))}
+                    >
+                      {" "}
+                      <SquareSharpIcon
+                        style={{
+                          color:
+                            item.OrdenCompra === -1
+                              ? "rgb(179,180,177)"
+                              : item.OrdenCompra === 1
+                              ? "rgb(128,247,60)"
+                              : "rgb(255,17,17)",
+                        }}
+                      />
+                    </td>
+                    <td
+                      style={{
+                        fontSize: "0.7rem",
+                        padding: 0.5,
+                        border: "1px solid black",
+                        whiteSpace: "nowrap",
+                        overflow: "hidden",
+                        paddingLeft: 5,
+                      }}
+                    >
+                      {item.CodigoLinea}
+                    </td>
+                    <td
+                      style={{
+                        fontSize: "0.7rem",
+                        padding: 0.5,
+                        border: "1px solid black",
+                        whiteSpace: "nowrap",
+                        overflow: "hidden",
+                        maxWidth: "75px",
+                      }}
+                    >
+                      {item.CodigoArticulo}
+                    </td>
+                    <td
+                      style={{
+                        fontSize: "0.7rem",
+                        padding: 0.5,
+                        border: "1px solid black",
+                        whiteSpace: "nowrap",
+                        overflow: "hidden",
+                        maxWidth: "75px",
+                      }}
+                    >
+                      {item.CodigoInternoMarca}
+                    </td>
+                    <td
+                      style={{
+                        fontSize: "0.7rem",
+                        padding: 0.5,
+                        textAlign: "left",
+                        border: "1px solid black",
+                        paddingRight: 3.5,
+                        whiteSpace: "nowrap",
+                        overflow: "hidden",
+                        paddingLeft: 5,
+                        background:
+                          item.TipoCompra === "ORI"
+                            ? "rgb(67,240,42)"
+                            : item.TipoCompra === "IMP"
+                            ? "rgb(227,216,249)"
+                            : item.TipoCompra === "LOC"
+                            ? "rgb(251,255,170)"
+                            : "rgb(255,255,255)",
+                      }}
+                    >
+                      {item.TipoCompra}
+                    </td>
+                    <td
+                      style={{
+                        fontSize: "0.7rem",
+                        padding: 0.5,
+                        border: "1px solid black",
+                        maxWidth: "315px",
+                        whiteSpace: "nowrap",
+                        overflow: "hidden",
+                        paddingLeft: 5,
+                      }}
+                    >
+                      {item.DescripcionArticulo}
+                    </td>
+                    <td
+                      style={{
+                        fontSize: "0.7rem",
+                        padding: 0.5,
+                        border: "1px solid black",
+                        whiteSpace: "nowrap",
+                        maxWidth: "75px",
+                        overflow: "hidden",
+                        paddingLeft: 5,
+                      }}
+                    >
+                      {item.DescripcionPais}
+                    </td>
+                    <td
+                      style={{
+                        fontSize: "0.7rem",
+                        padding: 0.5,
+                        border: "1px solid black",
+                        maxWidth: "85px",
+                        whiteSpace: "nowrap",
+                        overflow: "hidden",
+                        paddingLeft: 5,
+                      }}
+                    >
+                      {item.DescripcionMarca}
+                    </td>
+                    <td
+                      style={{
+                        fontSize: "0.7rem",
+                        padding: 0.5,
+                        border: "1px solid black",
+                        whiteSpace: "nowrap",
+                        overflow: "hidden",
+                        paddingLeft: 5,
+                        textAlign: "end",
+                      }}
+                    >
+                      {item.PrecioVenta}
+                    </td>
+                    <td
+                      style={{
+                        fontSize: "0.7rem",
+                        padding: 0.5,
+                        border: "1px solid black",
+                        maxWidth: "55px",
+                        whiteSpace: "nowrap",
+                        overflow: "hidden",
+                        paddingLeft: 5,
+                        textAlign: "end",
+                        background: "rgb(29,241,255)",
+                      }}
+                    >
+                      {item.PrecioDescuento}
+                    </td>
+                    <td
+                      style={{
+                        fontSize: "0.7rem",
+                        padding: 0.5,
+                        border: "1px solid black",
+                        maxWidth: "30px",
+                        whiteSpace: "nowrap",
+                        overflow: "hidden",
+                        textAlign: "end",
+                        paddingLeft: 6.8,
+                      }}
+                    >
+                      {item.Stock01P1}
+                    </td>
+                    <td
+                      style={{
+                        fontSize: "0.7rem",
+                        padding: 0.5,
+                        border: "1px solid black",
+                        maxWidth: "30px",
+                        whiteSpace: "nowrap",
+                        overflow: "hidden",
+                        textAlign: "end",
+                        paddingLeft: 6.8,
+                      }}
+                    >
+                      {item.Stock01P3}
+                    </td>
+                    <td
+                      style={{
+                        fontSize: "0.7rem",
+                        padding: 0.5,
+                        border: "1px solid black",
+                        maxWidth: "30px",
+                        whiteSpace: "nowrap",
+                        overflow: "hidden",
+                        textAlign: "end",
+                        paddingLeft: 6.8,
+                      }}
+                    >
+                      {item.Stock01P4}
+                    </td>
+                    <td
+                      style={{
+                        fontSize: "0.7rem",
+                        padding: 0.5,
+                        border: "1px solid black",
+                        maxWidth: "30px",
+                        whiteSpace: "nowrap",
+                        overflow: "hidden",
+                        textAlign: "end",
+                      }}
+                    >
+                      {item.Stock02P1}
+                    </td>
+                    <td
+                      style={{
+                        fontSize: "0.7rem",
+                        padding: 0.5,
+                        border: "1px solid black",
+                        maxWidth: "30px",
+                        whiteSpace: "nowrap",
+                        overflow: "hidden",
+                        textAlign: "end",
+                        paddingLeft: 6.8,
+                      }}
+                    >
+                      {item.StockT1P1}
+                    </td>
+                    <td
+                      style={{
+                        fontSize: "0.7rem",
+                        padding: 0.5,
+                        border: "1px solid black",
+                        whiteSpace: "nowrap",
+                        overflow: "hidden",
+                        paddingLeft: 5,
+                        background: "rgb(29,241,255)",
+                        textAlign: "end",
+                      }}
+                    >
+                      {item.StockTotal}
+                    </td>
+                  </tr>
+                ))}
             </tbody>
           </table>
+          <div
+            style={{
+              position: "sticky",
+              bottom: 0,
+              backgroundColor: "white",
+              zIndex: 1,
+            }}
+          >
+            <TablePagination
+              component="div"
+              count={productos.length}
+              page={page}
+              onPageChange={handleChangePage}
+              rowsPerPage={itemsPerPage}
+              rowsPerPageOptions={[itemsPerPage]}
+            />
+          </div>
         </div>
       </div>
     </div>

@@ -207,7 +207,7 @@ const TuComponente = () => {
     }
   };
 
-  const handleItemSIClick = (codigoInterno) => {
+  const handleItemSIClick = (codigoInterno, codigoArticulo) => {
     if (codigoInterno) {
       setCodigoSeleccionado(codigoInterno);
       setIsAddToCartVisible(true);

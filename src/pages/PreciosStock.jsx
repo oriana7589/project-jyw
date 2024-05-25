@@ -126,8 +126,8 @@ const PreciosStock = ({
         sx={{
           width: "100%",
           display: "flex",
+          height:"100%",
           flexDirection: "column",
-          marginTop: "5px",
         }}
       >
         <CustomTabs
