@@ -149,53 +149,104 @@ const TuComponente = () => {
     }
   };
 
-  const handleClientSelect = (cliente) => {
-    const diasSinComprar1 = 0; // Los productos sugeridos en este punto tienen 0 días sin comprar
-    const diasSinComprar2 = 45; // Los productos sugeridos en este punto tienen 45 días sin comprar
-    const diasSinComprar3 = 75; // Los productos sugeridos en este punto tienen 75 días sin comprar
-    setSelectedClient(cliente);
-    setIsAddToCartVisible(true);
-    setIsEditToCartVisible(false);
-    setDialogOpen(false);
+  // const handleClientSelect = (cliente) => {
+  //   const diasSinComprar1 = 0; // Los productos sugeridos en este punto tienen 0 días sin comprar
+  //   const diasSinComprar2 = 45; // Los productos sugeridos en este punto tienen 45 días sin comprar
+  //   const diasSinComprar3 = 75; // Los productos sugeridos en este punto tienen 75 días sin comprar
+  //   setSelectedClient(cliente);
+  //   setIsAddToCartVisible(true);
+  //   setIsEditToCartVisible(false);
+  //   setDialogOpen(false);
 
-    getArticulosSugeridos(
-    ).then((articuloSugerido) => {
-      setArticuloSugerido(articuloSugerido); //Productos sugeridos en donde se eligen los items
-    });
+  //   getArticulosSugeridos(
+  //   ).then((articuloSugerido) => {
+  //     setArticuloSugerido(articuloSugerido); //Productos sugeridos en donde se eligen los items
+  //   });
 
-    getSugeridosPorClientePorCantidad(
-      cliente.codigoCliente,
-      diasSinComprar1
-    ).then((produtosSugeridosCliente) => {
-      setProductosSugeridosCliente(produtosSugeridosCliente); //Productos sugeridos al encontrar un cliente - primera sugerencia
-    });
+  //   getSugeridosPorClientePorCantidad(
+  //     cliente.codigoCliente,
+  //     diasSinComprar1
+  //   ).then((produtosSugeridosCliente) => {
+  //     setProductosSugeridosCliente(produtosSugeridosCliente); //Productos sugeridos al encontrar un cliente - primera sugerencia
+  //   });
 
-    getSugeridosPorClientePorCantidad(
-      cliente.codigoCliente,
-      diasSinComprar2
-    ).then((articuloSugeridoCliente) => {
-      setArticuloSugeridoCliente(articuloSugeridoCliente); //Productos sugeridos en donde se eligen los items
-    });
+  //   getSugeridosPorClientePorCantidad(
+  //     cliente.codigoCliente,
+  //     diasSinComprar2
+  //   ).then((articuloSugeridoCliente) => {
+  //     setArticuloSugeridoCliente(articuloSugeridoCliente); //Productos sugeridos en donde se eligen los items
+  //   });
     
 
-    getSugeridosPorClientePorMonto(cliente.codigoCliente, diasSinComprar2).then(
-      (articuloSugeridoClientePorMonto) => {
-        setArticuloSugeridoClientePorMonto(articuloSugeridoClientePorMonto); //Productos sugeridos en donde se eligen los items
-      }
-    );
+  //   getSugeridosPorClientePorMonto(cliente.codigoCliente, diasSinComprar2).then(
+  //     (articuloSugeridoClientePorMonto) => {
+  //       setArticuloSugeridoClientePorMonto(articuloSugeridoClientePorMonto); //Productos sugeridos en donde se eligen los items
+  //     }
+  //   );
 
-    getSugeridosPorClientePorCantidad(
-      cliente.codigoCliente,
-      diasSinComprar3
-    ).then((articuloSugeridoCliente) => {
-      setArticuloSugeridoCliente75(articuloSugeridoCliente); //Productos sugeridos en donde se eligen los items
-    });
+  //   getSugeridosPorClientePorCantidad(
+  //     cliente.codigoCliente,
+  //     diasSinComprar3
+  //   ).then((articuloSugeridoCliente) => {
+  //     setArticuloSugeridoCliente75(articuloSugeridoCliente); //Productos sugeridos en donde se eligen los items
+  //   });
 
-    getSugeridosPorClientePorMonto(cliente.codigoCliente, diasSinComprar3).then(
-      (articuloSugeridoClientePorMonto) => {
-        setArticuloSugeridoClientePorMonto75(articuloSugeridoClientePorMonto); //Productos sugeridos en donde se eligen los items
-      }
-    );
+  //   getSugeridosPorClientePorMonto(cliente.codigoCliente, diasSinComprar3).then(
+  //     (articuloSugeridoClientePorMonto) => {
+  //       setArticuloSugeridoClientePorMonto75(articuloSugeridoClientePorMonto); //Productos sugeridos en donde se eligen los items
+  //     }
+  //   );
+  // };
+
+  useEffect(() => {
+    if (selectedClient) {      
+      const diasSinComprar1 = 0; // Los productos sugeridos en este punto tienen 0 días sin comprar
+      const diasSinComprar2 = 45; // Los productos sugeridos en este punto tienen 45 días sin comprar
+      const diasSinComprar3 = 75; // Los productos sugeridos en este punto tienen 75 días sin comprar      
+      setIsAddToCartVisible(true);
+      setIsEditToCartVisible(false);
+      setDialogOpen(false);
+  
+      getSugeridosPorClientePorCantidad(selectedClient.codigoCliente, diasSinComprar1)
+        .then((produtosSugeridosCliente) => {
+          setProductosSugeridosCliente(produtosSugeridosCliente); //Productos sugeridos al encontrar un cliente - primera sugerencia
+        }
+      );      
+  
+      getSugeridosPorClientePorCantidad(selectedClient.codigoCliente, diasSinComprar2)
+        .then((articuloSugeridoCliente) => {
+          setArticuloSugeridoCliente(articuloSugeridoCliente); //Productos sugeridos en donde se eligen los items
+        }
+      );      
+  
+      getSugeridosPorClientePorMonto(selectedClient.codigoCliente, diasSinComprar2)
+      .then((articuloSugeridoClientePorMonto) => {
+          setArticuloSugeridoClientePorMonto(articuloSugeridoClientePorMonto); //Productos sugeridos en donde se eligen los items
+        }
+      );
+  
+      getSugeridosPorClientePorCantidad(selectedClient.codigoCliente, diasSinComprar3)
+        .then((articuloSugeridoCliente) => {
+          setArticuloSugeridoCliente75(articuloSugeridoCliente); //Productos sugeridos en donde se eligen los items
+        }
+      );
+  
+      getSugeridosPorClientePorMonto(selectedClient.codigoCliente, diasSinComprar3)
+      .then((articuloSugeridoClientePorMonto) => {
+          setArticuloSugeridoClientePorMonto75(articuloSugeridoClientePorMonto); //Productos sugeridos en donde se eligen los items
+        }
+      );
+      
+      // getArticulosSugeridos()
+      //   .then((articuloSugerido) => {
+      //     setArticuloSugerido(articuloSugerido); //Productos sugeridos en donde se eligen los items
+      //   }
+      // );
+    };
+  }, [selectedClient]);
+
+  const handleClientSelect = (cliente) => {
+    setSelectedClient(cliente);
   };
 
   const handleItemClick = (codigoInterno) => {
@@ -203,7 +254,7 @@ const TuComponente = () => {
       setCodigoSeleccionado(codigoInterno);
       setIsAddToCartVisible(true);
       setIsEditToCartVisible(false);
-      fetchData(codigoInterno);
+      //fetchData(codigoInterno);
     }
   };
 
@@ -212,7 +263,7 @@ const TuComponente = () => {
       setCodigoSeleccionado(codigoInterno);
       setIsAddToCartVisible(true);
       setIsEditToCartVisible(false);
-      fetchData(codigoInterno);
+      //fetchData(codigoInterno);
       setTabValue(0);
     }
   };
@@ -358,8 +409,8 @@ const TuComponente = () => {
     if (codigoInterno) {
       // setSelectedItems(productos);
       setDialogProductOpen(false);
-      setCodigoSeleccionado(null);
-      fetchData(codigoInterno);
+      setCodigoSeleccionado(codigoInterno);
+      // fetchData(codigoInterno);
     }
 
     getFechaLlegadaProductoSeleccionado(productos.CodigoInterno).then(
@@ -423,6 +474,12 @@ const TuComponente = () => {
       );
     }
   };
+  useEffect(() => {
+    if (codigoSeleccionado) {
+      fetchData(codigoSeleccionado);
+    }
+  }, [codigoSeleccionado]);
+
 
   const handleDescuentoAChange = (event) => {
     const value = event.target.value.trim();
@@ -1135,7 +1192,7 @@ const TuComponente = () => {
       setCodigoSeleccionado(primerItem);
       setIsAddToCartVisible(true);
       setIsEditToCartVisible(false);
-      fetchData(primerItem);
+      //fetchData(primerItem);
 
       getFechaLlegadaProductoSeleccionado(primerItem).then((fechaLlegada) => {
         setfechaLlegada(fechaLlegada);

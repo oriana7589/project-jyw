@@ -59,7 +59,7 @@ const ProductosSugeridosCliente = ({
                     onMouseEnter={() => handleItemHover(item.codigoInterno)}
                     onMouseLeave={handleItemLeave}
                   >
-                    <LazyImagen codigoArticulo={item.codigoArticulo.trim()} />
+                    <LazyImagen codigoArticulo={item.codigoArticulo} isLazy={false} />
                     <Typography
                       fontSize="0.9rem"
                       width={"90%"}
@@ -120,7 +120,7 @@ const ProductosSugeridosCliente = ({
                     onMouseLeave={handleItemLeave}
                   >
                     <LazyImagen
-                      codigoArticulo={item.codigoArticulo.trim()}
+                      codigoArticulo={item.codigoArticulo}
                       isLazy={false}
                     />
                     <Typography

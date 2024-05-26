@@ -242,11 +242,12 @@ export function getPDFDataTecnica(url) {
   return PDF;
 }
 
-export function getImagenArticulo(url) {
+export function getImagenArticulo(codigoArticulo) {
   const imagen = axios
-    .get(`${baseUrlGeneral()}/ObtenerImagenArticulo/${url}`)
+    .get(`${baseUrlGeneral()}/ObtenerImagenArticulo/${codigoArticulo}`, {responseType: 'blob'})
     .then((res) => {
-      return res.data;
+      const urlImagen = URL.createObjectURL(res.data);
+      return urlImagen;
     });
   return imagen;
 }

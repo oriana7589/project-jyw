@@ -9,28 +9,29 @@ import LogoCom from "../../image/logoCompleto.png";
 import { Typography , Paper} from "@mui/material";
 import imagenNoDisponible from "../../image/imagen-no-disponible.jpeg";
 import { getImagenArticulo } from "../../Services/ApiService.jsx";
+import LazyImagen from "../LazyImagen.jsx";
 
 export default function GraficaArticulo({
   filaSeleccionada,
 }) {
-    const [urlImagen, setUrlImagen] = useState(imagenNoDisponible);
+    const [urlImagen, setUrlImagen] = useState("");
 
-    const fetchImagen = async () => {
-        try {
-          const urlGetRequest = encodeURIComponent(`\\\\10.10.0.25\\fotos\\${filaSeleccionada.CodigoArticulo.trim()}-1.jpg`);
-          console.log('urlGetRequest', urlGetRequest)
-          const imagenBase64 = await getImagenArticulo(urlGetRequest);
-          const urlImagen = `data:image/jpeg;base64,${imagenBase64}`;
-          setUrlImagen(urlImagen);
-        } catch(error) {
-          console.log('no se encuentra la imagen')
-          setUrlImagen(imagenNoDisponible);
-          };
-      };
+    // const fetchImagen = async () => {
+    //     try {
+    //       const urlGetRequest = encodeURIComponent(`\\\\10.10.0.25\\imagenes\\webp\\${filaSeleccionada.CodigoArticulo.trim()}-1.jpg`);
+    //       console.log('urlGetRequest', urlGetRequest)
+    //       const imagenBase64 = await getImagenArticulo(urlGetRequest);
+    //       const urlImagen = `data:image/jpeg;base64,${imagenBase64}`;
+    //       setUrlImagen(urlImagen);
+    //     } catch(error) {
+    //       console.log('no se encuentra la imagen')
+    //       setUrlImagen(imagenNoDisponible);
+    //       };
+    //   };
     
-      useEffect(() => {
-        fetchImagen();
-      }, [filaSeleccionada.CodigoArticulo]);  
+    //   useEffect(() => {
+    //     fetchImagen();
+    //   }, [filaSeleccionada.CodigoArticulo]);  
 
   return (
     <React.Fragment>
@@ -46,13 +47,12 @@ export default function GraficaArticulo({
           }}
         >
             <div
-            style={{ display: "flex", margin: "5px", justifyContent: "center" }}
+            style={{ display: "flex", margin: "5px", justifyContent: "center", height: "100%"}}
             >
-                <img
-                src={urlImagen}
-                alt="Imagen de carrito de compras"
-                style={{ width: "70%", height: "70%" }}
-                />
+              <LazyImagen 
+                codigoArticulo={filaSeleccionada.CodigoArticulo}
+                isLazy={true}              
+              />
             </div>
         
         </Container>      
