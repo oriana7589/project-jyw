@@ -8,8 +8,9 @@ import CircleIcon from "@mui/icons-material/Circle";
 import es from "date-fns/locale/es";
 import TableCliente from "../components/TableCliente";
 import ChartCliente from "../components/ChartCliente";
+import { CircularProgress } from "@mui/material";
 
-export default function DashboardCliente({ dataGraficaActual, dataGraficaAnterior, dataDocumentos, promedioCompra, promedioItems, promedioComprasAlMes, onCambiarFechaGrafica } ) {
+export default function DashboardCliente({isLoading, dataGraficaActual, dataGraficaAnterior, dataDocumentos, promedioCompra, promedioItems, promedioComprasAlMes, onCambiarFechaGrafica } ) {
   const [selectedDate1, setSelectedDate1] = useState(new Date(new Date().getFullYear() - 1, 0, 1));
   const [selectedDate2, setSelectedDate2] = useState(new Date());
   const [calendarOpen1, setCalendarOpen1] = useState(false);
@@ -96,6 +97,24 @@ export default function DashboardCliente({ dataGraficaActual, dataGraficaAnterio
           height: "calc(100vh - 17.6rem)",
         }}
       >
+        {isLoading && (
+            <div
+              style={{
+                position: "absolute",
+                top: 0,
+                left: 0,
+                right: 0,
+                bottom: 0,
+                zIndex: 2,
+                background: "rgba(255, 255, 255, 0.5)",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <CircularProgress />
+            </div>
+          )}
         <div style={{ flex: 1 }}>
           <div style={{ display: "flex", alignItems: "center", margin:"5px" }}>
             <CircleIcon

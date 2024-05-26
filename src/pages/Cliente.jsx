@@ -54,7 +54,8 @@ const PestañaContenido = ({
   ultimasCompras,
   itemsComprados,
   handleBuscarProforma,
-  setNumeroProforma
+  setNumeroProforma,
+  isLoading
 }) => {
   switch (value) {
     case 0:
@@ -67,6 +68,7 @@ const PestañaContenido = ({
           promedioItems={promedioItems}
           promedioComprasAlMes={promedioComprasAlMes}
           onCambiarFechaGrafica={onCambiarFechaGrafica}
+          isLoading = {isLoading}
         />
       );
     case 1:
@@ -107,7 +109,9 @@ const Cliente = ({
   onCambiarFechaGrafica,
   hayDatosDisponibles,
   handleBuscarProforma,
-  setNumeroProforma 
+  setNumeroProforma,
+  isLoading,
+  setIsLoading
 }) => {
   const [tabValue, setTabValue] = useState(0);
 
@@ -123,6 +127,7 @@ const Cliente = ({
     //   // Si el cliente es nulo o indefinido, se considera que no hay datos disponibles
     //   setDatosDisponibles(false);
     // }
+    
     onValidarButtonClick();
   };
 
@@ -329,6 +334,7 @@ const Cliente = ({
             onCambiarFechaGrafica={onCambiarFechaGrafica}
             handleBuscarProforma={handleBuscarProforma}
             setNumeroProforma = {setNumeroProforma}
+            isLoading = {isLoading}
           />
         ) : (
           <div

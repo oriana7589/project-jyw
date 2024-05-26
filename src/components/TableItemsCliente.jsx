@@ -1,48 +1,218 @@
-
-import React, { useState, useEffect } from "react";
-import TableContainer from "@mui/material/TableContainer";
+import * as React from "react";
+import PropTypes from "prop-types";
+import Box from "@mui/material/Box";
 import Table from "@mui/material/Table";
-import TableHead from "@mui/material/TableHead";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
-import TableRow from "@mui/material/TableRow";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
 import TablePagination from "@mui/material/TablePagination";
+import TableRow from "@mui/material/TableRow";
+import TableSortLabel from "@mui/material/TableSortLabel";
+import { visuallyHidden } from "@mui/utils";
 
-const TableItemsCliente = ({ itemsComprados, itemsPerPage }) => {
-  const [selectedClient, setSelectedClient] = useState(null);
-  const [highlightedRow, setHighlightedRow] = useState(null);
-  const [isLoading, setIsLoading] = useState(true); // Estado de carga
-  const [page, setPage] = useState(0);
+function descendingComparator(a, b, orderBy) {
+  if (b[orderBy] < a[orderBy]) {
+    return -1;
+  }
+  if (b[orderBy] > a[orderBy]) {
+    return 1;
+  }
+  return 0;
+}
+
+function getComparator(order, orderBy) {
+  return order === "asc"
+    ? (a, b) => -descendingComparator(a, b, orderBy)
+    : (a, b) => descendingComparator(a, b, orderBy);
+}
+
+function stableSort(array, comparator) {
+  const stabilizedThis = array.map((el, index) => [el, index]);
+  stabilizedThis.sort((a, b) => {
+    const order = comparator(a[0], b[0]);
+    if (order !== 0) {
+      return order;
+    }
+    return a[1] - b[1];
+  });
+  return stabilizedThis.map((el) => el[0]);
+}
+
+const headCells = [
+  {
+    id: "codigoArticulo",
+    numeric: true,
+    disablePadding: false,
+    label: "Cod.",
+  },
+  {
+    id: "descripcion",
+    numeric: true,
+    disablePadding: false,
+    label: "Descripción",
+  },
+  {
+    id: "marca",
+    numeric: true,
+    disablePadding: false,
+    label: "Marca",
+  },
+  {
+    id: "linea",
+    numeric: true,
+    disablePadding: false,
+    label: "Linea",
+  },
+  {
+    id: "cantidad",
+    numeric: true,
+    disablePadding: false,
+    label: "Cantidad",
+  },
+  {
+    id: "total",
+    numeric: true,
+    disablePadding: false,
+    label: "Total",
+  },
+];
+
+function EnhancedTableHead(props) {
+  const {
+    onSelectAllClick,
+    order,
+    orderBy,
+    numSelected,
+    rowCount,
+    onRequestSort,
+  } = props;
+  const createSortHandler = (property) => (event) => {
+    onRequestSort(event, property);
+  };
+
+  return (
+    <TableHead>
+      <TableRow>
+        {headCells.map((headCell) => (
+          <TableCell
+            key={headCell.id}
+            align={headCell.numeric ? "right" : "left"}
+            padding={headCell.disablePadding ? "none" : "normal"}
+            sortDirection={orderBy === headCell.id ? order : false}
+            style={{
+              textAlign: "left",
+              padding: "8px",
+              fontSize: "0.9rem",
+              fontWeight: "bold",
+            }}
+          >
+            {headCell.id == "cantidad" || headCell.id == "total" ? (
+              <TableSortLabel
+                active={orderBy === headCell.id}
+                direction={orderBy === headCell.id ? order : "asc"}
+                onClick={createSortHandler(headCell.id)}
+              >
+                {headCell.label}
+                {orderBy === headCell.id ? (
+                  <Box component="span" sx={visuallyHidden}>
+                    {order === "desc"
+                      ? "sorted descending"
+                      : "sorted ascending"}
+                  </Box>
+                ) : null}
+              </TableSortLabel>
+            ) : (
+              <div>{headCell.label}</div>
+            )}
+          </TableCell>
+        ))}
+      </TableRow>
+    </TableHead>
+  );
+}
+
+EnhancedTableHead.propTypes = {
+  numSelected: PropTypes.number.isRequired,
+  onRequestSort: PropTypes.func.isRequired,
+  onSelectAllClick: PropTypes.func.isRequired,
+  order: PropTypes.oneOf(["asc", "desc"]).isRequired,
+  orderBy: PropTypes.string.isRequired,
+  rowCount: PropTypes.number.isRequired,
+};
+
+export default function TableItemsCliente({ itemsComprados, itemsPerPage }) {
+  const [order, setOrder] = React.useState("desc");
+  const [orderBy, setOrderBy] = React.useState("calories");
+  const [selected, setSelected] = React.useState([]);
+  const [page, setPage] = React.useState(0);
+  const [dense, setDense] = React.useState(false);
   itemsPerPage = 12;
+  const [rowsPerPage, setRowsPerPage] = React.useState(itemsPerPage);
 
-  const itemsOrdenadosPorCantidad = itemsComprados.sort((a, b) => b.cantidad - a.cantidad);
-  
-  useEffect(() => {
-    // Simular una carga de datos con un retraso de 1.5 segundos
-    const timer = setTimeout(() => {
-      setIsLoading(false);
-    }, 2500);
-  
-    // Limpia el temporizador en caso de que el componente se desmonte antes de que se complete la carga
-    return () => clearTimeout(timer);
-  }, []);
+  const handleRequestSort = (event, property) => {
+    const isAsc = orderBy === property && order === "desc";
+    setOrder(isAsc ? "asc" : "desc");
+    setOrderBy(property);
+  };
 
-  const handleRowDoubleClick = (datosCliente) => {
-    setSelectedClient(datosCliente);
-    onClientSelect(datosCliente);
+  const handleSelectAllClick = (event) => {
+    if (event.target.checked) {
+      const newSelected = ite.map((n) => n.id);
+      setSelected(newSelected);
+      return;
+    }
+    setSelected([]);
+  };
+
+  const handleClick = (event, id) => {
+    const selectedIndex = selected.indexOf(id);
+    let newSelected = [];
+
+    if (selectedIndex === -1) {
+      newSelected = newSelected.concat(selected, id);
+    } else if (selectedIndex === 0) {
+      newSelected = newSelected.concat(selected.slice(1));
+    } else if (selectedIndex === selected.length - 1) {
+      newSelected = newSelected.concat(selected.slice(0, -1));
+    } else if (selectedIndex > 0) {
+      newSelected = newSelected.concat(
+        selected.slice(0, selectedIndex),
+        selected.slice(selectedIndex + 1)
+      );
+    }
+    setSelected(newSelected);
   };
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
 
-  const handleMouseEnter = (index) => {
-    setHighlightedRow(index);
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
   };
 
-  const handleMouseLeave = () => {
-    setHighlightedRow(null);
+  const handleChangeDense = (event) => {
+    setDense(event.target.checked);
   };
+
+  const isSelected = (id) => selected.indexOf(id) !== -1;
+
+  // Avoid a layout jump when reaching the last page with empty rows.
+  const emptyRows =
+    page > 0
+      ? Math.max(0, (1 + page) * rowsPerPage - itemsComprados.length)
+      : 0;
+
+  const visibleRows = React.useMemo(
+    () =>
+      stableSort(itemsComprados, getComparator(order, orderBy)).slice(
+        page * rowsPerPage,
+        page * rowsPerPage + rowsPerPage
+      ),
+    [order, orderBy, page, rowsPerPage]
+  );
 
   return (
     <div
@@ -53,122 +223,98 @@ const TableItemsCliente = ({ itemsComprados, itemsPerPage }) => {
         gridTemplateRows: "1fr auto",
       }}
     >
-        <div style={{ overflow: "auto" }}>
-          <TableContainer style={{ maxHeight: 410 }}>
-            <Table
-              stickyHeader
-              sx={{
-                borderCollapse: "collapse",
-                width: "100%",
-                height: "100%",
-                border: "1px solid gis",
-              }}
-            >
-              <TableHead>
-                <TableRow>
-                  <TableCell
-                    style={{
-                      textAlign: "left",
-                      fontSize: "0.9rem",
-                      whiteSpace: "nowrap",
-                      fontWeight: "bold",
-                    }}
-                  >
-                  Cod.
-                  </TableCell>
-                  <TableCell
-                    style={{
-                      textAlign: "left",
-                      padding: "8px",
-                      fontSize: "0.9rem",
-                      fontWeight: "bold",
-                    }}
-                  >
-                 Descripción
-                  </TableCell>
-                  <TableCell
-                    style={{
-                      textAlign: "left",
-                      padding: "8px",
-                      fontSize: "0.9rem",
-                      fontWeight: "bold",
-                    }}
-                  >
-                  Marca
-                  </TableCell>
-                  <TableCell
-                    style={{
-                      textAlign: "left",
-                      padding: "8px",
-                      fontSize: "0.9rem",
-                      fontWeight: "bold",
-                    }}
-                  >
-                  Linea
-                  </TableCell>
-                  <TableCell
-                    style={{
-                      textAlign: "left",
-                      padding: "8px",
-                      fontSize: "0.9rem",
-                      fontWeight: "bold",
-                    }}
-                  >
-                  Cantidad
-                  </TableCell>
-                  <TableCell
-                    style={{
-                      textAlign: "left",
-                      padding: "8px",
-                      fontSize: "0.9rem",
-                      fontWeight: "bold",
-                    }}
-                  >
-                   Total
-                  </TableCell>                  
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {itemsOrdenadosPorCantidad
-                  .slice(page * itemsPerPage, (page + 1) * itemsPerPage)
-                  .map((item, index) => (
-                    <TableRow
-                      key={index}
-                      sx={{
-                        cursor: "pointer",
-                        backgroundColor:
-                          selectedClient === item
-                            ? "#B8B8B8"
-                            : highlightedRow === index
-                            ? "#F0F0F0"
-                            : "white",
-                      }}
-                      onDoubleClick={() => handleRowDoubleClick(item)}
-                      onMouseEnter={() => handleMouseEnter(index)}
-                      onMouseLeave={handleMouseLeave}
-                    >
-                      <TableCell style={{textAlign: "left",fontSize: "0.8rem"}}>{item.codigoArticulo}</TableCell>
-                      <TableCell style={{textAlign: "left",padding: "8px",fontSize: "0.8rem"}}>{item.descripcionArticulo}</TableCell>
-                      <TableCell style={{textAlign: "left",padding: "8px",fontSize: "0.8rem"}}>{item.descripcionMarca}</TableCell>
-                      <TableCell style={{textAlign: "left",padding: "8px",fontSize: "0.8rem"}}>{item.codigoLinea}</TableCell>
-                      <TableCell style={{textAlign: "left",padding: "8px",fontSize: "0.8rem"}}>{item.cantidad}</TableCell>
-                      <TableCell style={{textAlign: "left",padding: "8px",fontSize: "0.8rem"}}>{item.total}</TableCell>
-                    </TableRow>
-                  ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
-          <TablePagination
-            component="div"
-            count={itemsComprados.length}
-            page={page}
-            onPageChange={handleChangePage}
-            rowsPerPage={itemsPerPage}
-            rowsPerPageOptions={[itemsPerPage]}
+      <TableContainer style={{ maxHeight: 410 }}>
+        <Table
+          stickyHeader
+          sx={{ minWidth: 750 }}
+          aria-labelledby="tableTitle"
+          size={dense ? "small" : "medium"}
+        >
+          <EnhancedTableHead
+            numSelected={selected.length}
+            order={order}
+            orderBy={orderBy}
+            onSelectAllClick={handleSelectAllClick}
+            onRequestSort={handleRequestSort}
+            rowCount={itemsComprados.length}
           />
-        </div>
+          <TableBody>
+            {visibleRows.map((row, index) => {
+              const isItemSelected = isSelected(row.id);
+              const labelId = `enhanced-table-checkbox-${index}`;
+              return (
+                <TableRow key={row.id}>
+                  <TableCell style={{ textAlign: "left", fontSize: "0.8rem" }}>
+                    {row.codigoArticulo}
+                  </TableCell>
+                  <TableCell
+                    style={{
+                      textAlign: "left",
+                      padding: "8px",
+                      fontSize: "0.8rem",
+                    }}
+                  >
+                    {row.descripcionArticulo}
+                  </TableCell>
+                  <TableCell
+                    style={{
+                      textAlign: "center",
+                      padding: "8px",
+                      fontSize: "0.8rem",
+                    }}
+                  >
+                    {row.descripcionMarca}
+                  </TableCell>
+                  <TableCell
+                    style={{
+                      textAlign: "center",
+                      padding: "8px",
+                      fontSize: "0.8rem",
+                    }}
+                  >
+                    {row.codigoLinea}
+                  </TableCell>
+                  <TableCell
+                    style={{
+                      textAlign: "center",
+                      padding: "8px",
+                      fontSize: "0.8rem",
+                    }}
+                  >
+                    {row.cantidad}
+                  </TableCell>
+                  <TableCell
+                    style={{
+                      textAlign: "center",
+                      padding: "8px",
+                      fontSize: "0.8rem",
+                    }}
+                  >
+                    {row.total}
+                  </TableCell>
+                </TableRow>
+              );
+            })}
+          </TableBody>
+        </Table>
+      </TableContainer>
+      <div
+        style={{
+          position: "sticky",
+          bottom: 0,
+          backgroundColor: "white",
+          zIndex: 1,
+        }}
+      >
+        <TablePagination
+          component="div"
+          count={itemsComprados.length}
+          page={page}
+          onPageChange={handleChangePage}
+          rowsPerPage={itemsPerPage}
+          rowsPerPageOptions={[itemsPerPage]}
+        />
+      </div>
     </div>
   );
-};
-
-export default TableItemsCliente;
+}
