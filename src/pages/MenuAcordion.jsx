@@ -821,6 +821,7 @@ const TuComponente = () => {
 
     getPromedioComprasAlMesCliente(selectedClient.codigoCliente).then(
       (promedioComprasAlMes) => {
+        setIsLoading(false)
         setPromedioComprasAlMes(promedioComprasAlMes);
       }
     );
@@ -1433,6 +1434,7 @@ const TuComponente = () => {
             hayDatosDisponibles={hayDatosDisponibles}
             handleBuscarProforma={handleBuscarProforma}
             setNumeroProforma={setNumeroProforma}
+            isLoading={isLoading}
           />
         </Collapse>
       </Card>
