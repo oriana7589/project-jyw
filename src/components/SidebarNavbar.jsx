@@ -39,7 +39,7 @@ const SiderbarNavbar = ({ open }) => {
         }}
       >
         <Toolbar sx={{ justifyContent: "flex-end" }}>
-          <Avatar {...stringAvatar("Diego Delgado Quispe")} />
+          <Avatar {...stringAvatar("J W")} />
           <div>
             <Typography
               fontSize={"1rem"}
@@ -52,7 +52,7 @@ const SiderbarNavbar = ({ open }) => {
                 display: "block",
               }}
             >
-              Diego Delgado Quispe
+              J Y W Repuestos SAC
             </Typography>
           </div>
         </Toolbar>

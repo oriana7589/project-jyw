@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import {useNavigate} from "react-router-dom";
 import { styled, useTheme } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import MuiDrawer from "@mui/material/Drawer";
@@ -82,6 +83,10 @@ const Drawer = styled(MuiDrawer, {
   }),
 }));
 
+
+//const url = "http://localhost:5173/consultaPreciosYStock"; //url para desarrollo
+const url = "http://10.10.0.25:9697/consultaPreciosYStock"; //url para produccion
+
 export default function DrawerModel() {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
@@ -89,7 +94,7 @@ export default function DrawerModel() {
   const [menuKey, setMenuKey] = useState(0);
 
   const [dialogOpen, setDialogOpen] = useState(false);
-
+  const navigate = useNavigate();
   const handleOpenDialog = () => {
     setDialogOpen(true);
   };
@@ -213,11 +218,13 @@ export default function DrawerModel() {
                   const left = (window.innerWidth - width) / 2;
                   const top = (window.innerHeight - height) / 2;
                   const windowFeatures = `width=${width},height=${height},left=${left},top=${top}`;
+                  // navigate("/consultaPreciosYStock");
                   window.open(
-                    "http://localhost:5173/consultaPreciosYStock",
+                    url,
                     "_blank",
                     windowFeatures
                   );
+
                 }}
               />
             </ListItemButton>

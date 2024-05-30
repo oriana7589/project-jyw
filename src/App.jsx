@@ -4,7 +4,7 @@ import RouterApp from "./routers/RouterApp";
 
 function App() {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename="/">
       <RouterApp />
     </BrowserRouter>
   );
