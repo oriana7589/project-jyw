@@ -26,12 +26,10 @@ const LazyImagen = ({ codigoArticulo, isLazy }) => {
     setPosition({ x, y });
   };
 
-  const fetchImagen = async () => {
-    
-      console.log("codigoArticulo lazy", codigoArticulo);        
-      const imagenArticulo = await getImagenArticulo(codigoArticulo);      
-      setImagenArticulo(imagenArticulo);
-    
+  const fetchImagen = async () => {    
+    console.log("codigoArticulo lazy", codigoArticulo);        
+    const imagenArticulo = await getImagenArticulo(codigoArticulo);     
+    setImagenArticulo(imagenArticulo);    
   };
 
   useEffect(() => {

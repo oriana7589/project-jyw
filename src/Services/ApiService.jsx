@@ -243,6 +243,7 @@ export function getPDFDataTecnica(url) {
 }
 
 export function getImagenArticulo(codigoArticulo) {
+  codigoArticulo = codigoArticulo.replace('/', '-');
   const imagen = axios
     .get(`${baseUrlGeneral()}/ObtenerImagenArticulo/${codigoArticulo}`, {responseType: 'blob'})
     .then((res) => {

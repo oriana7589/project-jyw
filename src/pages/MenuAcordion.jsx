@@ -147,145 +147,47 @@ const TuComponente = () => {
       setDescuentoA(0);
       setDescuentoB(0);
     }
-  };
+  }; 
 
-  // const handleClientSelect = (cliente) => {
-  //   const diasSinComprar1 = 0; // Los productos sugeridos en este punto tienen 0 días sin comprar
-  //   const diasSinComprar2 = 45; // Los productos sugeridos en este punto tienen 45 días sin comprar
-  //   const diasSinComprar3 = 75; // Los productos sugeridos en este punto tienen 75 días sin comprar
-  //   setSelectedClient(cliente);
-  //   setIsAddToCartVisible(true);
-  //   setIsEditToCartVisible(false);
-  //   setDialogOpen(false);
-
-  //   getArticulosSugeridos(
-  //   ).then((articuloSugerido) => {
-  //     setArticuloSugerido(articuloSugerido); //Productos sugeridos en donde se eligen los items
-  //   });
-
-  //   getSugeridosPorClientePorCantidad(
-  //     cliente.codigoCliente,
-  //     diasSinComprar1
-  //   ).then((produtosSugeridosCliente) => {
-  //     setProductosSugeridosCliente(produtosSugeridosCliente); //Productos sugeridos al encontrar un cliente - primera sugerencia
-  //   });
-
-  //   getSugeridosPorClientePorCantidad(
-  //     cliente.codigoCliente,
-  //     diasSinComprar2
-  //   ).then((articuloSugeridoCliente) => {
-  //     setArticuloSugeridoCliente(articuloSugeridoCliente); //Productos sugeridos en donde se eligen los items
-  //   });
-    
-
-  //   getSugeridosPorClientePorMonto(cliente.codigoCliente, diasSinComprar2).then(
-  //     (articuloSugeridoClientePorMonto) => {
-  //       setArticuloSugeridoClientePorMonto(articuloSugeridoClientePorMonto); //Productos sugeridos en donde se eligen los items
-  //     }
-  //   );
-
-  //   getSugeridosPorClientePorCantidad(
-  //     cliente.codigoCliente,
-  //     diasSinComprar3
-  //   ).then((articuloSugeridoCliente) => {
-  //     setArticuloSugeridoCliente75(articuloSugeridoCliente); //Productos sugeridos en donde se eligen los items
-  //   });
-
-  //   getSugeridosPorClientePorMonto(cliente.codigoCliente, diasSinComprar3).then(
-  //     (articuloSugeridoClientePorMonto) => {
-  //       setArticuloSugeridoClientePorMonto75(articuloSugeridoClientePorMonto); //Productos sugeridos en donde se eligen los items
-  //     }
-  //   );
-  // };
   useEffect(() => {
-    if (selectedClient) {
-      const diasSinComprar1 = 0;
-      const diasSinComprar2 = 45;
-      const diasSinComprar3 = 75;
-
-      
+    if (selectedClient) {      
+      const diasSinComprar1 = 0; // Los productos sugeridos en este punto tienen 0 días sin comprar
+      const diasSinComprar2 = 45; // Los productos sugeridos en este punto tienen 45 días sin comprar
+      const diasSinComprar3 = 75; // Los productos sugeridos en este punto tienen 75 días sin comprar      
       setIsAddToCartVisible(true);
       setIsEditToCartVisible(false);
       setDialogOpen(false);
-
-      Promise.all([
-        getSugeridosPorClientePorCantidad(selectedClient.codigoCliente, diasSinComprar1),
-        getSugeridosPorClientePorCantidad(selectedClient.codigoCliente, diasSinComprar2),
-        getSugeridosPorClientePorMonto(selectedClient.codigoCliente, diasSinComprar2),
-        getSugeridosPorClientePorCantidad(selectedClient.codigoCliente, diasSinComprar3),
-        getSugeridosPorClientePorMonto(selectedClient.codigoCliente, diasSinComprar3)
-      ])
-      .then(([
-        produtosSugeridosCliente,
-        articuloSugeridoCliente,
-        articuloSugeridoClientePorMonto,
-        articuloSugeridoCliente75,
-        articuloSugeridoClientePorMonto75
-      ]) => {
-        setProductosSugeridosCliente(produtosSugeridosCliente);
-        setArticuloSugeridoCliente(articuloSugeridoCliente);
-        setArticuloSugeridoClientePorMonto(articuloSugeridoClientePorMonto);
-        setArticuloSugeridoCliente75(articuloSugeridoCliente75);
-        setArticuloSugeridoClientePorMonto75(articuloSugeridoClientePorMonto75);
-        
-      })
-      .catch((error) => {
-        console.error('Error al cargar los datos', error);
-        
-      });
-    }
+  
+      // getSugeridosPorClientePorCantidad(selectedClient.codigoCliente, diasSinComprar1)
+      //   .then((produtosSugeridosCliente) => {
+      //     setProductosSugeridosCliente(produtosSugeridosCliente); //Productos sugeridos al encontrar un cliente - primera sugerencia
+      //   });      
+  
+      getSugeridosPorClientePorCantidad(selectedClient.codigoCliente, diasSinComprar2)
+        .then((articuloSugeridoCliente) => {
+          setArticuloSugeridoCliente(articuloSugeridoCliente); //Productos sugeridos en donde se eligen los items
+        });      
+  
+      getSugeridosPorClientePorMonto(selectedClient.codigoCliente, diasSinComprar2)
+        .then((articuloSugeridoClientePorMonto) => {
+          setArticuloSugeridoClientePorMonto(articuloSugeridoClientePorMonto); //Productos sugeridos en donde se eligen los items
+        });
+  
+      getSugeridosPorClientePorCantidad(selectedClient.codigoCliente, diasSinComprar3)
+        .then((articuloSugeridoCliente) => {
+          setArticuloSugeridoCliente75(articuloSugeridoCliente); //Productos sugeridos en donde se eligen los items
+        });
+  
+      getSugeridosPorClientePorMonto(selectedClient.codigoCliente, diasSinComprar3)
+        .then((articuloSugeridoClientePorMonto) => {
+          setArticuloSugeridoClientePorMonto75(articuloSugeridoClientePorMonto); //Productos sugeridos en donde se eligen los items
+        });      
+    };
   }, [selectedClient]);
 
-  // useEffect(() => {
-  //   if (selectedClient) {      
-  //     const diasSinComprar1 = 0; // Los productos sugeridos en este punto tienen 0 días sin comprar
-  //     const diasSinComprar2 = 45; // Los productos sugeridos en este punto tienen 45 días sin comprar
-  //     const diasSinComprar3 = 75; // Los productos sugeridos en este punto tienen 75 días sin comprar      
-  //     setIsAddToCartVisible(true);
-  //     setIsEditToCartVisible(false);
-  //     setDialogOpen(false);
-  
-  //     getSugeridosPorClientePorCantidad(selectedClient.codigoCliente, diasSinComprar1)
-  //       .then((produtosSugeridosCliente) => {
-  //         setProductosSugeridosCliente(produtosSugeridosCliente); //Productos sugeridos al encontrar un cliente - primera sugerencia
-  //       }
-  //     );      
-  
-  //     getSugeridosPorClientePorCantidad(selectedClient.codigoCliente, diasSinComprar2)
-  //       .then((articuloSugeridoCliente) => {
-  //         setArticuloSugeridoCliente(articuloSugeridoCliente); //Productos sugeridos en donde se eligen los items
-  //       }
-  //     );      
-  
-  //     getSugeridosPorClientePorMonto(selectedClient.codigoCliente, diasSinComprar2)
-  //     .then((articuloSugeridoClientePorMonto) => {
-  //         setArticuloSugeridoClientePorMonto(articuloSugeridoClientePorMonto); //Productos sugeridos en donde se eligen los items
-  //       }
-  //     );
-  
-  //     getSugeridosPorClientePorCantidad(selectedClient.codigoCliente, diasSinComprar3)
-  //       .then((articuloSugeridoCliente) => {
-  //         setArticuloSugeridoCliente75(articuloSugeridoCliente); //Productos sugeridos en donde se eligen los items
-  //       }
-  //     );
-  
-  //     getSugeridosPorClientePorMonto(selectedClient.codigoCliente, diasSinComprar3)
-  //     .then((articuloSugeridoClientePorMonto) => {
-  //         setArticuloSugeridoClientePorMonto75(articuloSugeridoClientePorMonto); //Productos sugeridos en donde se eligen los items
-  //       }
-  //     );
-      
-  //     // getArticulosSugeridos()
-  //     //   .then((articuloSugerido) => {
-  //     //     setArticuloSugerido(articuloSugerido); //Productos sugeridos en donde se eligen los items
-  //     //   }
-  //     // );
-  //   };
-  // }, [selectedClient]);
-
   const handleClientSelect = (cliente) => {
-    setSelectedClient(cliente);
-  };
+    setSelectedClient(cliente);    
+  }; 
 
   const handleItemClick = (codigoInterno) => {
     if (codigoInterno) {
@@ -738,8 +640,6 @@ const TuComponente = () => {
       setArticuloSugeridoClientePorMonto(articuloSugeridoClientePorMonto); //Productos sugeridos en donde se eligen los items
     });
 
-
-
     getArticulosSugeridos().then((articuloSugerido) => {
       setArticuloSugerido(articuloSugerido);
     });
@@ -1102,10 +1002,7 @@ const TuComponente = () => {
     if (criterioBusqueda !== "") {
       getClientes(criterioBusqueda).then((tablaClientes) => {
         setClientes(tablaClientes);
-      });
-      // getArticulosSugeridos().then((articuloSugerido) => {
-      //   setArticuloSugerido(articuloSugerido);
-      // });
+      });      
     } else {
       setClientes([]);
     }
