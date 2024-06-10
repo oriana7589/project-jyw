@@ -18,6 +18,8 @@ import "react-toastify/dist/ReactToastify.css";
 import IconCarrito from "../image/carritoCompras.png";
 import Decimal from "decimal.js";
 import LazyImagen from "../components/LazyImagen";
+import html2canvas from "html2canvas";
+import jsPDF from "jspdf";
 
 function ItemsProductos({
   cartItems,
@@ -144,6 +146,17 @@ function ItemsProductos({
     setHoveredCard(null);
   };
 
+  const handleDownloadPDF = () => {
+    const pdfUrl = 'URL_DEL_ARCHIVO.pdf'; // Reemplaza con la URL del archivo PDF
+    const link = document.createElement('a');
+    link.href = pdfUrl;
+    link.target = '_blank'; // Abre el archivo en una nueva pestaña
+    link.download = 'NOMBRE_DEL_ARCHIVO.pdf'; // Reemplaza con el nombre con el que deseas guardar el archivo
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   return (
     <div>
       <div style={{ display: "flex", alignItems: "center", marginBottom: 10 }}>
@@ -191,7 +204,28 @@ function ItemsProductos({
             <label htmlFor="checkbox2" style={{ paddingTop: 10 }}>
               Emitido
             </label>
-            <div style={{ paddingLeft: 240, paddingTop: 5 }}>
+            <div style={{ paddingLeft: 50, paddingTop: 5, display:"flex"}}>
+             <IconButton
+                  style={{
+                    borderRadius: "0px",
+                    height: "35px",
+                    width: "180px",
+                    marginRight: 8,
+                    borderColor: "rgb(226, 52, 48)",
+                    border: "1px solid rgb(226, 52, 48)"
+                  }}
+                  
+                  onClick={handleDownloadPDF}
+                >
+                  <Typography
+                    style={{
+                      color: "rgb(226, 52, 48)",
+                      borderRadius: "0",
+                    }}
+                  >
+                    Descargar PDF
+                  </Typography>
+                </IconButton>
               {isEditProformaVisible ? (
                 <IconButton
                   style={{

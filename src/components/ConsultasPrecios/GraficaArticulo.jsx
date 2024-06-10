@@ -35,8 +35,9 @@ export default function GraficaArticulo({
 
   return (
     <React.Fragment>
-      <CssBaseline />    
-        <Container
+      <CssBaseline /> 
+      {filaSeleccionada ? (
+          <Container
           maxWidth="false"
           sx={{
             display: "flex",
@@ -45,7 +46,7 @@ export default function GraficaArticulo({
             height: "calc(100vh - 9.25rem)",
             flexDirection: "column",
           }}
-        >
+          >
             <div
             style={{ display: "flex", margin: "5px", justifyContent: "center", height: "100%"}}
             >
@@ -54,8 +55,32 @@ export default function GraficaArticulo({
                 isLazy={true}              
               />
             </div>
-        
-        </Container>      
+
+          </Container>      
+      )  : (
+        <div
+        style={{
+          height: "550px",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          width: "100%",
+          justifyContent: "center",
+        }}
+      >
+        <img
+          src={Logo}
+          alt="Logo"
+          style={{ width: 650, height: 175, marginTop: 5, opacity: 0.8 }}
+        />
+        <img
+          src={LogoCom}
+          alt="LogoCompleto"
+          style={{ width: 360, height: 75, opacity: 0.5 }}
+        />
+      </div>
+      ) }
+       
     </React.Fragment>
   );
 }

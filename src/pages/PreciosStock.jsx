@@ -13,6 +13,7 @@ import TableUltimasComprasItems from "../components/ConsultasPrecios/TableUltima
 import LlegadaProducto from "../components/ConsultasPrecios/LlegadaProducto";
 import VentasMensuales from "../components/ConsultasPrecios/VentasMensuales";
 import GraficaArticulo from "../components/ConsultasPrecios/GraficaArticulo";
+import DataTecnica from "../components/ConsultasPrecios/DataTecnica";
 
 const CustomClickableTab = styled(Tab)(({ theme, selected, clickable }) => ({
   color: selected
@@ -78,13 +79,18 @@ const PestañaContenido = ({
     );
     case 4:
       return (
+        <DataTecnica
+          filaSeleccionada={filaSeleccionada}/>
+    );
+    case 5:
+      return (
         <VentasMensuales
           filaSeleccionada={filaSeleccionada}
           resumenVentas={resumenVentas}
           resumenDevoluciones={resumenDevoluciones}
         />
       );
-    case 5:
+    case 6:
       return (
         <LlegadaProducto
           llegadaProducto={llegadaProducto}
@@ -167,6 +173,15 @@ const PreciosStock = ({
           
           <CustomClickableTab
             label="GRAFICA "
+            style={{
+              minHeight: "25px",
+              fontSize: "0.7rem",
+              marginRight: "4px",
+            }}
+            clickable="true"
+          />
+          <CustomClickableTab
+            label="TD "
             style={{
               minHeight: "25px",
               fontSize: "0.7rem",
