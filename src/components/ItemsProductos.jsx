@@ -18,8 +18,6 @@ import "react-toastify/dist/ReactToastify.css";
 import IconCarrito from "../image/carritoCompras.png";
 import Decimal from "decimal.js";
 import LazyImagen from "../components/LazyImagen";
-import html2canvas from "html2canvas";
-import jsPDF from "jspdf";
 
 function ItemsProductos({
   cartItems,
@@ -159,7 +157,7 @@ function ItemsProductos({
 
   return (
     <div>
-      <div style={{ display: "flex", alignItems: "center", marginBottom: 10 }}>
+      <div style={{ display: "flex", alignItems: "center", marginBottom: 10}}>
         {proformaSeleccionada.estado === "FAC" ? (
           <div style={{ paddingRight: 315 }}>
             <Typography
@@ -172,6 +170,29 @@ function ItemsProductos({
             >
               FACTURADO
             </Typography>
+            {/* <div style={{ paddingLeft: 50, paddingTop: 5, display:"flex"}}> */}
+             <IconButton
+                  style={{
+                    borderRadius: "0px",
+                    height: "35px",
+                    width: "180px",
+                    marginRight: 8,
+                    borderColor: "rgb(226, 52, 48)",
+                    border: "1px solid rgb(226, 52, 48)"
+                  }}
+                  
+                  onClick={handleDownloadPDF}
+              >
+                <Typography
+                  style={{
+                    color: "rgb(226, 52, 48)",
+                    borderRadius: "0",
+                  }}
+                >
+                  Descargar PDF
+                </Typography>
+              </IconButton>
+            {/* </div> */}
           </div>
         ) : (
           <div style={{ display: "flex", width: "100%" }}>

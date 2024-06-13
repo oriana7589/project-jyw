@@ -19,6 +19,10 @@ const baseUrlProforma = () => {
   return "http://10.10.0.25:9696/api/Proforma";
 };
 
+const baseUrlTransportista = () => {
+  return "http://10.10.0.25:9696/api/Transportista"
+}
+
 export function getClientes(criterioBusqueda) {
   const listaClientesFiltrados = axios
     .get(`${baseUrlCliente()}/filtrados/${criterioBusqueda}`)
@@ -226,8 +230,9 @@ export function getTipoMonedas() {
 
 export function getTransportistas() {
   const transportistas = axios
-    .get(`${baseUrlGeneral()}/Transportistas`)
+    .get(`${baseUrlTransportista()}/Transportistas`)
     .then((res) => {
+      console.log('transportistas', res.data)
       return res.data;
     });
   return transportistas;
