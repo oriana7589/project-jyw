@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import {useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { styled, useTheme } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import MuiDrawer from "@mui/material/Drawer";
@@ -22,6 +22,7 @@ import {
   Typography,
   Button,
 } from "@mui/material";
+import PersonIcon from '@mui/icons-material/Person';
 
 const drawerWidth = 240;
 
@@ -83,9 +84,9 @@ const Drawer = styled(MuiDrawer, {
   }),
 }));
 
-
 //const url = "http://localhost:5173/consultaPreciosYStock"; //url para desarrollo
 const url = "http://10.10.0.25:9697/consultaPreciosYStock"; //url para produccion
+const urlClientes = "http://localhost:5173/clientes";
 
 export default function DrawerModel() {
   const theme = useTheme();
@@ -219,12 +220,41 @@ export default function DrawerModel() {
                   const top = (window.innerHeight - height) / 2;
                   const windowFeatures = `width=${width},height=${height},left=${left},top=${top}`;
                   // navigate("/consultaPreciosYStock");
-                  window.open(
-                    url,
-                    "_blank",
-                    windowFeatures
-                  );
+                  window.open(url, "_blank", windowFeatures);
+                }}
+              />
+            </ListItemButton>
 
+            <ListItemButton
+              sx={{
+                minHeight: 48,
+                px: 0,
+              }}
+            >
+              <ListItemIcon
+                sx={{
+                  minWidth: 65,
+                  mr: open ? 1 : "auto",
+                  justifyContent: "center",
+                }}
+              >
+                <PersonIcon sx={{ color: "rgb(12,55,100)" }} />
+              </ListItemIcon>
+              <ListItemText
+                primary="Clientes"
+                sx={{
+                  opacity: open ? 3 : 0,
+                  color: "rgb(12,55,100)",
+                  overflow: "hidden",
+                }}
+                onClick={() => {
+                  const width = 1090; // Ancho de la ventana emergente
+                  const height = 650; // Altura de la ventana emergente
+                  const left = (window.innerWidth - width) / 2;
+                  const top = (window.innerHeight - height) / 2;
+                  const windowFeatures = `width=${width},height=${height},left=${left},top=${top}`;
+                  // navigate("/consultaPreciosYStock");
+                  window.open(urlClientes, "_blank", windowFeatures);
                 }}
               />
             </ListItemButton>

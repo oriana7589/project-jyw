@@ -414,3 +414,4 @@ export function getResumenDevolucionesAnualArticulo(codInterno) {
 
   return devolucionAnual;
 }
+
