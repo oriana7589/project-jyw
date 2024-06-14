@@ -362,9 +362,7 @@ export function getSeleccionarProformaCabecera(NumeroProforma) {
 
 export function getGenerarPdfProforma(NumeroProforma) {
   const generarPdf = axios
-    .get(`${baseUrlProforma()}/GenerarPdfProforma/${NumeroProforma}`, {
- responseType: 'arraybuffer'
-    })
+    .get(`${baseUrlProforma()}/GenerarPdfProforma/${NumeroProforma}`, { responseType: 'blob' })
     .then((res) => {
       return res.data;
     });

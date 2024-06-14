@@ -145,18 +145,22 @@ function ItemsProductos({
     setHoveredCard(null);
   };
 
-  const handleDownloadPDF = (proformaSeleccionada) => {
-    getGenerarPdfProforma(proformaSeleccionada).then((generarPDF) => {
-      setGenerarPdf(generarPDF)
-    })
-    const pdfUrl = generarPDF; // Reemplaza con la URL del archivo PDF
+  const handleDownloadPDF = async (proformaSeleccionada) => {
+    // getGenerarPdfProforma(proformaSeleccionada).then((generarPDF) => {
+    //   setGenerarPdf(generarPDF)
+    // })
+    const pdfBlob = await getGenerarPdfProforma(proformaSeleccionada);
+    const blobUrl = URL.createObjectURL(pdfBlob);
+
+    //const pdfUrl = URL.createObjectURL(generarPDF); // Reemplaza con la URL del archivo PDF
     const link = document.createElement('a');
-    link.href = pdfUrl;
-    link.target = '_blank'; // Abre el archivo en una nueva pestaña
+    link.href = blobUrl;
+    //link.target = '_blank'; // Abre el archivo en una nueva pestaña
     link.download = "Proforma"+ proformaSeleccionada+".pdf"; // Reemplaza con el nombre con el que deseas guardar el archivo
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
+    URL.revokeObjectURL(blobUrl);
   };
 
 
