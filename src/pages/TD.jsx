@@ -79,7 +79,7 @@ export default function TD({
         }}
       >
         <div style={{ flex: 2, height: "100%" }}>
-          <div style={{ display: "flex", justifyContent: "center", height: 350 }}>
+          <div style={{ display: "flex", justifyContent: "center", height: 390 }}>
             {/* <img
               src={urlImagen}
               alt="Imagen de carrito de compras"

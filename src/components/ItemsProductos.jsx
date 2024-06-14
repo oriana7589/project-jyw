@@ -339,7 +339,7 @@ function ItemsProductos({
         </div>
       ) : (
         <>
-          <div style={{ padding: 5, maxHeight: "550px", overflowY: "auto" }}>
+          <div style={{ padding: 5, maxHeight: "700px", overflowY: "auto" }}>
             {cartItems.map((item, index) => (
               <Card
                 key={index}

@@ -13,7 +13,7 @@ const TableProductos = ({
   const [highlightedRow, setHighlightedRow] = useState(null);
   const [isLoading, setIsLoading] = useState(false); // Estado de carga
   const [page, setPage] = useState(0);
-  itemsPerPage = 13;
+  itemsPerPage = 14;
   useEffect(() => {
     // Simular una carga de datos con un retraso de 1.5 segundos
     const timer = setTimeout(() => {
@@ -62,7 +62,7 @@ const TableProductos = ({
         paddingTop: 10,
         overflow: "hidden",
         display: "grid",
-        height: "100%",
+        height: "630px",
         gridTemplateRows: "1fr auto",
       }}
     >
@@ -210,7 +210,7 @@ const TableProductos = ({
           style={{
             overflow: "auto",
             width: 1090,
-            maxHeight: 550,
+            maxHeight: 580,
           }}
         >
           {isLoading && (
@@ -819,6 +819,7 @@ const TableProductos = ({
             style={{
               position: "sticky",
               bottom: 0,
+              top:5,
               backgroundColor: "white",
               zIndex: 1,
             }}

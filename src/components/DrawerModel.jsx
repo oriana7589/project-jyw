@@ -214,8 +214,8 @@ export default function DrawerModel() {
                   overflow: "hidden",
                 }}
                 onClick={() => {
-                  const width = 1090; // Ancho de la ventana emergente
-                  const height = 650; // Altura de la ventana emergente
+                  const width = 1110; // Ancho de la ventana emergente
+                  const height = 725; // Altura de la ventana emergente
                   const left = (window.innerWidth - width) / 2;
                   const top = (window.innerHeight - height) / 2;
                   const windowFeatures = `width=${width},height=${height},left=${left},top=${top}`;
@@ -240,7 +240,7 @@ export default function DrawerModel() {
               >
                 <PersonIcon sx={{ color: "rgb(12,55,100)" }} />
               </ListItemIcon>
-              <ListItemText
+              {/* <ListItemText
                 primary="Clientes"
                 sx={{
                   opacity: open ? 3 : 0,
@@ -248,15 +248,15 @@ export default function DrawerModel() {
                   overflow: "hidden",
                 }}
                 onClick={() => {
-                  const width = 1090; // Ancho de la ventana emergente
-                  const height = 650; // Altura de la ventana emergente
+                  const width = 1100; // Ancho de la ventana emergente
+                  const height = 680; // Altura de la ventana emergente
                   const left = (window.innerWidth - width) / 2;
                   const top = (window.innerHeight - height) / 2;
                   const windowFeatures = `width=${width},height=${height},left=${left},top=${top}`;
                   // navigate("/consultaPreciosYStock");
                   window.open(urlClientes, "_blank", windowFeatures);
                 }}
-              />
+              /> */}
             </ListItemButton>
           </ListItem>
         </List>

@@ -94,7 +94,7 @@ function ListaProductos({ cartItems, pdfData }) {
             >
               Productos seleccionados en el carrito de compras
             </Typography>
-            <div style={{ padding: 5, maxHeight: "570px", overflowY: "auto" }}>
+            <div style={{ padding: 5, maxHeight: "730px", overflowY: "auto" }}>
               {cartItems.map((item, index) => (
                 <Card
                   key={index}
@@ -176,7 +176,7 @@ function ListaProductos({ cartItems, pdfData }) {
                 src={pdfUrl}
                 type="application/pdf"
                 width="100%"
-                height="580px"
+                height="765px"
               />
             )}
           </div>

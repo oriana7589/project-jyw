@@ -41,7 +41,7 @@ const LazyImagen = ({ codigoArticulo, isLazy }) => {
       {isLazy ? (
         <LazyLoad 
           offset={100}
-          style={{display: "flex"}}
+          style={{display: "flex", width:"auto"}}
           className="image-container"
           
           >

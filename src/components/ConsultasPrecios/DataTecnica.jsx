@@ -52,7 +52,7 @@ export default function DataTecnica({
                 src={pdfUrl}
                 type="application/pdf"
                 width="100%"
-                height="580px"
+                height="620px"
               />
           </div>
           </Container>      

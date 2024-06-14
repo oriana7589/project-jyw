@@ -223,7 +223,7 @@ export default function TableItemsCliente({ itemsComprados, itemsPerPage }) {
         gridTemplateRows: "1fr auto",
       }}
     >
-      <TableContainer style={{ maxHeight: 410 }}>
+      <TableContainer style={{ maxHeight: 580 }}>
         <Table
           stickyHeader
           sx={{ minWidth: 750 }}

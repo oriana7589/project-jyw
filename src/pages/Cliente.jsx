@@ -339,7 +339,7 @@ const Cliente = ({
         ) : (
           <div
             style={{
-              height: "calc(100vh - 17.6rem)",
+              height: "calc(100vh - 17.5rem)",
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
