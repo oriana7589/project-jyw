@@ -360,6 +360,18 @@ export function getSeleccionarProformaCabecera(NumeroProforma) {
   return seleccionarProformaCabecera;
 }
 
+export function getGenerarPdfProforma(NumeroProforma) {
+  const generarPdf = axios
+    .get(`${baseUrlProforma()}/GenerarPdfProforma/${NumeroProforma}`, {
+ responseType: 'arraybuffer'
+    })
+    .then((res) => {
+      return res.data;
+    });
+  return generarPdf;
+}
+
+
 export function getSeleccionarProformaDetalle(NumeroProforma) {
   const seleccionarProformaDetalle = axios
     .get(`${baseUrlProforma()}/SeleccionarProformaDetalle/${NumeroProforma}`)

@@ -166,7 +166,7 @@ const ConsultasPrecios = () => {
               }}
               InputLabelProps={{ style: { color: "rgb(255,255,255)" } }}
               style={{ marginLeft: "10px" }}
-              placeholder="Marco-País"
+              placeholder="Marca-País"
               autoComplete="off"
               onChange={(e) => setMarca(e.target.value)}
               onClick={(event) => {

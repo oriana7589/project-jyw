@@ -18,6 +18,7 @@ import "react-toastify/dist/ReactToastify.css";
 import IconCarrito from "../image/carritoCompras.png";
 import Decimal from "decimal.js";
 import LazyImagen from "../components/LazyImagen";
+import { getGenerarPdfProforma } from "../Services/ApiService";
 
 function ItemsProductos({
   cartItems,
@@ -39,9 +40,9 @@ function ItemsProductos({
   actualizarProforma,
 }) {
   const [hoveredCard, setHoveredCard] = useState(null);
-
+  const [base64, setBase64] = useState('');
   const [dialogOpen, setDialogOpen] = useState(false);
-
+  const [generarPDF, setGenerarPdf] = useState("");
   const handlePosition = () => {
     const position = cartItems.reduce((item, index) => {
       const numeroItems = index + 1;
@@ -144,22 +145,26 @@ function ItemsProductos({
     setHoveredCard(null);
   };
 
-  const handleDownloadPDF = () => {
-    const pdfUrl = 'URL_DEL_ARCHIVO.pdf'; // Reemplaza con la URL del archivo PDF
+  const handleDownloadPDF = (proformaSeleccionada) => {
+    getGenerarPdfProforma(proformaSeleccionada).then((generarPDF) => {
+      setGenerarPdf(generarPDF)
+    })
+    const pdfUrl = generarPDF; // Reemplaza con la URL del archivo PDF
     const link = document.createElement('a');
     link.href = pdfUrl;
     link.target = '_blank'; // Abre el archivo en una nueva pestaña
-    link.download = 'NOMBRE_DEL_ARCHIVO.pdf'; // Reemplaza con el nombre con el que deseas guardar el archivo
+    link.download = "Proforma"+ proformaSeleccionada+".pdf"; // Reemplaza con el nombre con el que deseas guardar el archivo
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
   };
 
+
   return (
     <div>
-      <div style={{ display: "flex", alignItems: "center", marginBottom: 10}}>
+      <div style={{ display: "flex", alignItems: "center", marginBottom: 10 }}>
         {proformaSeleccionada.estado === "FAC" ? (
-          <div style={{ paddingRight: 315 }}>
+          <div style={{ paddingLeft: 5, paddingTop: 5, display: "flex" }}>
             <Typography
               style={{
                 fontWeight: "bold",
@@ -170,29 +175,28 @@ function ItemsProductos({
             >
               FACTURADO
             </Typography>
-            {/* <div style={{ paddingLeft: 50, paddingTop: 5, display:"flex"}}> */}
-             <IconButton
-                  style={{
-                    borderRadius: "0px",
-                    height: "35px",
-                    width: "180px",
-                    marginRight: 8,
-                    borderColor: "rgb(226, 52, 48)",
-                    border: "1px solid rgb(226, 52, 48)"
-                  }}
-                  
-                  onClick={handleDownloadPDF}
+            <IconButton
+              style={{
+                borderRadius: "0px",
+                height: "35px",
+                width: "180px",
+                marginLeft: 305,
+                borderColor: "rgb(226, 52, 48)",
+                border: "1px solid rgb(226, 52, 48)",
+              }}
+              onClick={() =>
+                handleDownloadPDF(proformaSeleccionada.numeroProforma)
+              }
+            >
+              <Typography
+                style={{
+                  color: "rgb(226, 52, 48)",
+                  borderRadius: "0",
+                }}
               >
-                <Typography
-                  style={{
-                    color: "rgb(226, 52, 48)",
-                    borderRadius: "0",
-                  }}
-                >
-                  Descargar PDF
-                </Typography>
-              </IconButton>
-            {/* </div> */}
+                Descargar PDF
+              </Typography>
+            </IconButton>
           </div>
         ) : (
           <div style={{ display: "flex", width: "100%" }}>
@@ -205,9 +209,10 @@ function ItemsProductos({
                   color: "rgb(226, 52, 48)",
                 },
               }}
+              style={{ paddingTop: 16 }}
               onChange={() => handleCheckboxChange(1)}
             />
-            <label htmlFor="checkbox1" style={{ paddingTop: 10 }}>
+            <label htmlFor="checkbox1" style={{ paddingTop: 16 }}>
               Por facturar
             </label>
             <Checkbox
@@ -220,72 +225,79 @@ function ItemsProductos({
                 },
               }}
               onChange={() => handleCheckboxChange(2)}
-              style={{ marginLeft: 10 }}
+              style={{ marginLeft: 10, paddingTop: 16 }}
             />
-            <label htmlFor="checkbox2" style={{ paddingTop: 10 }}>
+            <label htmlFor="checkbox2" style={{ paddingTop: 16 }}>
               Emitido
             </label>
-            <div style={{ paddingLeft: 50, paddingTop: 5, display:"flex"}}>
-             <IconButton
-                  style={{
-                    borderRadius: "0px",
-                    height: "35px",
-                    width: "180px",
-                    marginRight: 8,
-                    borderColor: "rgb(226, 52, 48)",
-                    border: "1px solid rgb(226, 52, 48)"
-                  }}
-                  
-                  onClick={handleDownloadPDF}
-                >
-                  <Typography
-                    style={{
-                      color: "rgb(226, 52, 48)",
-                      borderRadius: "0",
-                    }}
-                  >
-                    Descargar PDF
-                  </Typography>
-                </IconButton>
+            <div style={{ paddingLeft: 50, paddingTop: 5, display: "flex" }}>
               {isEditProformaVisible ? (
-                <IconButton
-                  style={{
-                    backgroundColor: "rgb(182, 205, 229)",
-                    borderRadius: "0",
-                    height: "35px",
-                    width: "180px",
-                  }}
-                  disabled={proformaSeleccionada.estado === "FAC"}
-                  onClick={handleOpenDialog}
-                >
-                  <Typography
+                <div style={{ paddingTop: 5, display: "flex" }}>
+                  <IconButton
                     style={{
-                      color: "rgb(12, 55, 100)",
-                      borderRadius: "0",
+                      borderRadius: "0px",
+                      height: "35px",
+                      width: "180px",
+                      marginRight: 8,
+                      borderColor: "rgb(226, 52, 48)",
+                      border: "1px solid rgb(226, 52, 48)",
                     }}
+                    onClick={() =>
+                      handleDownloadPDF(proformaSeleccionada.numeroProforma)
+                    }
                   >
-                    Editar proforma
-                  </Typography>
-                </IconButton>
+                    <Typography
+                      style={{
+                        color: "rgb(226, 52, 48)",
+                        borderRadius: "0",
+                      }}
+                    >
+                      Descargar PDF
+                    </Typography>
+                  </IconButton>
+                  <IconButton
+                    style={{
+                      backgroundColor: "rgb(182, 205, 229)",
+                      borderRadius: "0",
+                      height: "35px",
+                      width: "180px",
+                    }}
+                    disabled={proformaSeleccionada.estado === "FAC"}
+                    onClick={handleOpenDialog}
+                  >
+                    <Typography
+                      style={{
+                        color: "rgb(12, 55, 100)",
+                        borderRadius: "0",
+                      }}
+                    >
+                      Editar proforma
+                    </Typography>
+                  </IconButton>
+                </div>
               ) : isAddProformaVisible ? (
-                <IconButton
-                  style={{
-                    backgroundColor: "rgb(226, 52, 48)",
-                    borderRadius: "0",
-                    height: "35px",
-                    width: "180px",
-                  }}
-                  onClick={handlProformaClick}
+                <div
+                  style={{ paddingLeft: 185, paddingTop: 5, display: "flex" }}
                 >
-                  <Typography
+                  <IconButton
                     style={{
-                      color: "rgb(255, 255, 255)",
+                      backgroundColor: "rgb(226, 52, 48)",
                       borderRadius: "0",
+                      height: "35px",
+                      width: "180px",
                     }}
+                    onClick={handlProformaClick}
                   >
-                    Guardar proforma
-                  </Typography>
-                </IconButton>
+                    <Typography
+                      style={{
+                        color: "rgb(255, 255, 255)",
+                        borderRadius: "0",
+                      }}
+                    >
+                      Guardar proforma
+                    </Typography>
+                  </IconButton>
+                </div>
               ) : (
                 <></>
               )}

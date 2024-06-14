@@ -134,7 +134,7 @@ const PestañaContenido = ({
   articuloSugeridoClientePorMonto,
   handleBuscarProforma,
   urlImagen,
-            setUrlImagen 
+  setUrlImagen,
 }) => {
   switch (value) {
     case 0:
