@@ -113,11 +113,17 @@ export function getItemsMasComprados(codCliente) {
   return listaCompras;
 }
 
-export function getProdutosFiltrados(
-  criterio1,
-  criterio2 = "",
-  criterio3 = ""
-) {
+function convertirMasEnUrl(cadena) {
+  return cadena.replace('+',"%2B")
+};
+
+// function convertirCadenaEnUrl(cadena) {
+//   return encodeURIComponent(cadena);
+// };
+
+export function getProdutosFiltrados( criterio1, criterio2 = "", criterio3 = "" ) {
+
+
   let queryString = `?Criterio1=${criterio1}`;
   if (criterio2 !== "") {
     queryString += `&Criterio2=${criterio2}`;
@@ -126,8 +132,10 @@ export function getProdutosFiltrados(
     queryString += `&Criterio3=${criterio3}`;
   }
 
+  const cadenaUrl = convertirMasEnUrl(queryString);
+
   const ProductosFiltrados = axios
-    .get(`${baseUrlProductos()}/ProductosFiltrados${queryString}`)
+    .get(`${baseUrlProductos()}/ProductosFiltrados${cadenaUrl}`)
     .then((res) => {
       return res.data;
     });
