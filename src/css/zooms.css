@@ -19,7 +19,7 @@
 
 .zoom {
     position: relative;
-    transition: transform 0.2s ease;
+    transition: transform 0.9s ease, transform-origin 0s ease;
     transform: scale(1.5); /* Ajusta el nivel de zoom */
     cursor: zoom-in;
   }

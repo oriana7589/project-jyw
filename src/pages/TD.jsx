@@ -110,17 +110,18 @@ export default function TD({
                 <Card
                   key={index}
                   elevation={0}
-                  className={isZoomed ? 'zoom' : ''}
-                  style={{ width: "100%", height: "100%", margin: "0.0rem", transformOrigin: `${position.x}% ${position.y}%` }}
-                  onMouseEnter={handleMouseEnter}
-                  onMouseLeave={handleMouseLeave}
-                  onMouseMove={isZoomed ? handleMouseMove : null}
+                  className="zoom-container"
                 >
                   <CardMedia
                     component="img"
                     height="400"
                     image={image}
                     alt={`slide-${index}`}
+                    className={isZoomed ? 'zoom' : ''}
+                    style={{ width: "100%", height: "100%", margin: "0.0rem", transformOrigin: `${position.x}% ${position.y}%` }}
+                    onMouseEnter={handleMouseEnter}
+                    onMouseLeave={handleMouseLeave}
+                    onMouseMove={isZoomed ? handleMouseMove : null}
                   />
                 </Card>
               ))}
