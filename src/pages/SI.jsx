@@ -39,15 +39,13 @@ const SI = ({
     <React.Fragment>
       <CssBaseline />
       <Container
-        maxWidth="false"
-        sx={{
-          display: "flex",
-          justifyContent: "space-between",
-          flexDirection: "column",
-          bgcolor: "#ffffff",
-          overflow: "auto",
-          height: "calc(100vh - 9.25rem)",
-        }}
+         maxWidth="false"
+         sx={{
+           display: "flex",
+           justifyContent: "space-between",
+           bgcolor: "#ffffff",
+           height: "calc(100vh - 9.25rem)",
+         }}
       >
         {articuloSugeridoCliente.length > 0 &&
         articuloSugeridoCliente75.length > 0 &&
@@ -56,7 +54,8 @@ const SI = ({
           <div
             style={{
               flexDirection: "column",
-              width: "100%",
+              height:"100%",
+              overflowY:"auto",
               paddingLeft: 20,
             }}
           >
@@ -65,7 +64,7 @@ const SI = ({
               fontWeight: "bold",
               fontSize: 23,
               paddingLeft: 8,
-              paddingTop: 45,
+              paddingTop: 25,
             }}
           >
             ARTICULOS MÁS VENDIDOS
@@ -133,7 +132,7 @@ const SI = ({
                 fontWeight: "bold",
                 fontSize: 23,
                 paddingLeft: 8,
-                paddingTop: 45,
+                paddingTop: 25,
               }}
             >
               ARTICULOS SUGERIDOS MAYOR A 45 DIAS(CANTIDAD)
@@ -202,7 +201,7 @@ const SI = ({
                 style={{
                   fontSize: 18,
                   paddingLeft: 8,
-                  paddingTop: 45,
+                  paddingTop: 25,
                   width: "100%",
                   textAlign: "center",
                 }}
@@ -216,7 +215,7 @@ const SI = ({
                 fontWeight: "bold",
                 fontSize: 23,
                 paddingLeft: 8,
-                paddingTop: 45,
+                paddingTop: 25,
               }}
             >
               ARTICULOS SUGERIDOS MAYOR A 45 DIAS(MONTO)
@@ -286,7 +285,7 @@ const SI = ({
                 style={{
                   fontSize: 18,
                   paddingLeft: 8,
-                  paddingTop: 45,
+                  paddingTop: 25,
                   width: "100%",
                   textAlign: "center",
                 }}
@@ -300,7 +299,7 @@ const SI = ({
                 fontWeight: "bold",
                 fontSize: 23,
                 paddingLeft: 8,
-                paddingTop: 45,
+                paddingTop: 25,
               }}
             >
               ARTICULOS SUGERIDOS MAYOR A 75 DIAS(CANTIDAD)
@@ -370,7 +369,7 @@ const SI = ({
                 style={{
                   fontSize: 18,
                   paddingLeft: 8,
-                  paddingTop: 45,
+                  paddingTop: 25,
                   width: "100%",
                   textAlign: "center",
                 }}
@@ -384,7 +383,7 @@ const SI = ({
                 fontWeight: "bold",
                 fontSize: 23,
                 paddingLeft: 8,
-                paddingTop: 45,
+                paddingTop: 25,
               }}
             >
               ARTICULOS SUGERIDOS MAYOR A 75 DIAS(MONTO)
