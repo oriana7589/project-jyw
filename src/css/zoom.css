@@ -10,6 +10,6 @@
   }
   
   .image-container img.zoom {
-    transform: scale(3); /* Ajusta el nivel de zoom según sea necesario */
+    transform: scale(1.5); /* Ajusta el nivel de zoom según sea necesario */
     cursor: move;
   }
