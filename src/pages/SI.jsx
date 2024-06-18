@@ -49,15 +49,18 @@ const SI = ({
           height: "calc(100vh - 9.25rem)",
         }}
       >
-        <div
-          style={{
-            flexDirection: "column",
-            width: "100%",
-            paddingLeft: 20,
-          }}
-        >
-          {" "}
-          <Typography
+        {articuloSugeridoCliente.length > 0 &&
+        articuloSugeridoCliente75.length > 0 &&
+        articuloSugeridoClientePorMonto.length > 0 &&
+        articuloSugeridoClientePorMonto75.length > 0 ? (
+          <div
+            style={{
+              flexDirection: "column",
+              width: "100%",
+              paddingLeft: 20,
+            }}
+          >
+             <Typography
             style={{
               fontWeight: "bold",
               fontSize: 23,
@@ -125,18 +128,6 @@ const SI = ({
                   </Paper>
                 ))}
               </div>
-        </div>
-        {articuloSugeridoCliente.length > 0 &&
-        articuloSugeridoCliente75.length > 0 &&
-        articuloSugeridoClientePorMonto.length > 0 &&
-        articuloSugeridoClientePorMonto75.length > 0 ? (
-          <div
-            style={{
-              flexDirection: "column",
-              width: "100%",
-              paddingLeft: 20,
-            }}
-          >
             <Typography
               style={{
                 fontWeight: "bold",
