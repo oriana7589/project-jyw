@@ -10,8 +10,17 @@ import {
   getImagenesArticulos,
 } from "../Services/ApiService.jsx";
 import LazyImagen from "../components/LazyImagen.jsx";
-import { Box, Card, CardMedia, Pagination, Slider } from "@mui/material";
+import {
+  Box,
+  Card,
+  CardMedia,
+  IconButton,
+  Pagination,
+  Slider,
+} from "@mui/material";
 import "../css/zooms.css";
+import { SearchOffOutlined, SearchOutlined } from "@mui/icons-material";
+import DialogImage from "../components/dialogImage.jsx";
 export default function TD({
   addToCart,
   editCartItem,
@@ -68,6 +77,15 @@ export default function TD({
   const handleMouseLeave = () => {
     setIsZoomed(false);
   };
+  const [open, setOpen] = useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   const handleMouseMove = (e) => {
     if (!isZoomed) return;
@@ -87,6 +105,7 @@ export default function TD({
   const images = [imagenArticulo];
 
   useEffect(() => {
+    setPage(1)
     fetchImagen();
   }, [detalleProducto.codigoArticulo]);
 
@@ -107,18 +126,19 @@ export default function TD({
             {imagenArticulo
               .slice((page - 1) * itemsPerPage, page * itemsPerPage)
               .map((image, index) => (
-                <Card
-                  key={index}
-                  elevation={0}
-                  className="zoom-container"
-                >
+                <Card key={index} elevation={0} className="zoom-container">
                   <CardMedia
                     component="img"
                     height="400"
                     image={image}
                     alt={`slide-${index}`}
-                    className={isZoomed ? 'zoom' : ''}
-                    style={{ width: "100%", height: "100%", margin: "0.0rem", transformOrigin: `${position.x}% ${position.y}%` }}
+                    className={isZoomed ? "zoom" : ""}
+                    style={{
+                      width: "100%",
+                      height: "100%",
+                      margin: "0.0rem",
+                      transformOrigin: `${position.x}% ${position.y}%`,
+                    }}
                     onMouseEnter={handleMouseEnter}
                     onMouseLeave={handleMouseLeave}
                     onMouseMove={isZoomed ? handleMouseMove : null}
@@ -131,6 +151,9 @@ export default function TD({
                 page={page}
                 onChange={handleChange}
               />
+              <IconButton onClick={handleClickOpen} sx={{ marginLeft: 2 }}>
+                <SearchOutlined />
+              </IconButton>
             </Box>
           </Box>
           <TableItems
@@ -176,6 +199,22 @@ export default function TD({
           />
         </div>
       </Container>
+      <DialogImage
+        open={open}
+        handleClose={handleClose}
+        onBackdropClick={handleClose}
+        imagenArticulo = {imagenArticulo}
+        page = {page}
+        handleChange = {handleChange}
+        itemsPerPage = {itemsPerPage}
+        handleMouseEnter = {handleMouseEnter}
+        handleMouseLeave = {handleMouseLeave}
+        isZoomed= {isZoomed}
+        position= {position}
+        handleMouseMove= {handleMouseMove}
+
+      />
     </React.Fragment>
+    
   );
 }
