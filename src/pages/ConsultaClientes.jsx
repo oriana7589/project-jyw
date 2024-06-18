@@ -5,6 +5,7 @@ import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Box from "@mui/material/Box";
 import TablaDeClientes from "../components/CrudClientes/TablaDeClientes";
+import EditarCliente from "../components/CrudClientes/EditarCliente";
 
 const CustomClickableTab = styled(Tab)(({ theme, selected, clickable }) => ({
   color: selected
@@ -31,17 +32,22 @@ const PestañaContenido = ({
   value,
   clientes,
   setTabValue,
-  handleEditClick
+  handleEditClick,
+  handleAgregarClick,
+  selectCliente
 }) => {
   switch (value) {
     case 0:
       return (
-       <TablaDeClientes handleEditClick = {handleEditClick} setTabValue = {setTabValue} clientes = {clientes} />
+        <TablaDeClientes
+          handleAgregarClick={handleAgregarClick}
+          handleEditClick={handleEditClick}
+          setTabValue={setTabValue}
+          clientes={clientes}
+        />
       );
     case 1:
-      return (
-        <div>hola</div>
-      );
+      return <EditarCliente selectCliente = {selectCliente}></EditarCliente>;
     default:
       return null;
   }
@@ -57,9 +63,10 @@ const ConsultaClientes = ({
   clientes,
   tabValue,
   setTabValue,
-  handleEditClick
+  handleEditClick,
+  handleAgregarClick,
+  selectCliente
 }) => {
-
   const handleChangeTab = (event, newValue) => {
     setTabValue(newValue);
   };
@@ -71,7 +78,7 @@ const ConsultaClientes = ({
         sx={{
           width: "100%",
           display: "flex",
-          height:"100%",
+          height: "100%",
           flexDirection: "column",
         }}
       >
@@ -81,8 +88,7 @@ const ConsultaClientes = ({
           indicatorColor="primary"
           textColor="primary"
           variant="fullWidth"
-          style={{paddingLeft:250, paddingRight:250, paddingTop:5}}
-
+          style={{ paddingLeft: 250, paddingRight: 250, paddingTop: 5 }}
         >
           <CustomClickableTab
             label="BUSCAR"
@@ -104,11 +110,13 @@ const ConsultaClientes = ({
           />
         </CustomTabs>
         <PestañaContenido
-            value={tabValue}
-            setTabValue = {setTabValue}
-            clientes = {clientes}
-            handleEditClick = {handleEditClick}
-          />
+          value={tabValue}
+          setTabValue={setTabValue}
+          clientes={clientes}
+          selectCliente = {selectCliente}
+          handleAgregarClick={handleAgregarClick}
+          handleEditClick={handleEditClick}
+        />
       </Box>
     </React.Fragment>
   );

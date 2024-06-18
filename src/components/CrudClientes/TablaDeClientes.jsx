@@ -8,10 +8,10 @@ import TableRow from "@mui/material/TableRow";
 import TablePagination from "@mui/material/TablePagination";
 import Logo from "../../image/logo.png";
 import LogoCom from "../../image/logoCompleto.png";
-import { IconButton } from "@mui/material";
+import { IconButton, Typography } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 
-const TablaDeClientes = ({handleEditClick, clientes, itemsPerPage }) => {
+const TablaDeClientes = ({ handleEditClick, clientes, itemsPerPage, handleAgregarClick }) => {
   const [selectedClient, setSelectedClient] = useState(null);
   const [highlightedRow, setHighlightedRow] = useState(null);
   const [isLoading, setIsLoading] = useState(true); // Estado de carga
@@ -34,24 +34,11 @@ const TablaDeClientes = ({handleEditClick, clientes, itemsPerPage }) => {
     }
   }, [clientes]);
 
-
-
-  const handleRowDoubleClick = (datosCliente) => {
-    setSelectedClient(datosCliente);
-    onClientSelect(datosCliente);
-  };
-
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
 
-  const handleMouseEnter = (index) => {
-    setHighlightedRow(index);
-  };
 
-  const handleMouseLeave = () => {
-    setHighlightedRow(null);
-  };
 
   return (
     <div
@@ -64,6 +51,25 @@ const TablaDeClientes = ({handleEditClick, clientes, itemsPerPage }) => {
     >
       {clientes.length > 0 ? (
         <div style={{ overflow: "auto" }}>
+          <IconButton
+            style={{
+              backgroundColor: "rgb(226, 52, 48)",
+              borderRadius: "0",
+              marginLeft: "950px",
+              width: 100,
+              height: "40px",
+            }}
+            onClick={handleAgregarClick}
+          >
+            <Typography
+              style={{
+                color: "rgb(255, 255, 255)",
+                fontSize: "0.9rem",
+              }}
+            >
+             Agregar
+            </Typography>
+          </IconButton>
           <TableContainer style={{ maxHeight: 510 }}>
             <Table
               stickyHeader
@@ -88,7 +94,7 @@ const TablaDeClientes = ({handleEditClick, clientes, itemsPerPage }) => {
                   </TableCell>
                   <TableCell
                     style={{
-                        paddingLeft: 10,
+                      paddingLeft: 10,
                       textAlign: "left",
                       fontSize: "1rem",
                       whiteSpace: "nowrap",
@@ -99,7 +105,7 @@ const TablaDeClientes = ({handleEditClick, clientes, itemsPerPage }) => {
                   </TableCell>
                   <TableCell
                     style={{
-                        paddingLeft: 10,
+                      paddingLeft: 10,
                       textAlign: "left",
                       fontSize: "1rem",
                       fontWeight: "bold",
@@ -162,11 +168,11 @@ const TablaDeClientes = ({handleEditClick, clientes, itemsPerPage }) => {
                       </TableCell>
                       <TableCell
                         style={{
-                            fontSize: "0.85rem",
-                            whiteSpace: "nowrap",
-                            maxWidth: "500px",
-                            overflow: "hidden",
-                          }}
+                          fontSize: "0.85rem",
+                          whiteSpace: "nowrap",
+                          maxWidth: "500px",
+                          overflow: "hidden",
+                        }}
                       >
                         {item.razonSocial}
                       </TableCell>
@@ -178,7 +184,7 @@ const TablaDeClientes = ({handleEditClick, clientes, itemsPerPage }) => {
                             width: "30px",
                             height: "30px",
                           }}
-                          onClick={handleEditClick}
+                          onClick={()=>handleEditClick(item)}
                         >
                           <EditIcon
                             style={{

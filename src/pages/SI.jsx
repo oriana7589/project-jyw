@@ -43,10 +43,89 @@ const SI = ({
         sx={{
           display: "flex",
           justifyContent: "space-between",
+          flexDirection: "column",
           bgcolor: "#ffffff",
+          overflow: "auto",
           height: "calc(100vh - 9.25rem)",
         }}
       >
+        <div
+          style={{
+            flexDirection: "column",
+            width: "100%",
+            paddingLeft: 20,
+          }}
+        >
+          {" "}
+          <Typography
+            style={{
+              fontWeight: "bold",
+              fontSize: 23,
+              paddingLeft: 8,
+              paddingTop: 45,
+            }}
+          >
+            ARTICULOS MÁS VENDIDOS
+          </Typography>
+          <div
+                style={{
+                  maxWidth: "165vh",
+                  maxHeight: "260px",
+                  overflowX: "auto",
+                  display: "flex",
+                }}
+              >
+                {articuloSugerido.map((item, index) => (
+                  <Paper
+                    elevation={3}
+                    style={{
+                      display: "flex",
+                      flexShrink: 0,
+                      flexDirection: "column",
+                      alignItems: "center",
+                      width: 145,
+                      margin: "0.5rem",
+                      backgroundColor:
+                        codigoSeleccionado === item.codigoInterno
+                          ? "rgb(237, 237, 237)"
+                          : codigoHover === item.codigoInterno
+                          ? "rgba(0, 0, 0, 0.1)" // Color de fondo cuando el mouse está sobre el elemento
+                          : "white",
+                    }}
+                    onClick={() => handleItemSIClick(item.codigoInterno)}
+                    onMouseEnter={() => handleItemHover(item.codigoInterno)}
+                    onMouseLeave={handleItemLeave}
+                  >
+                    <LazyImagen codigoArticulo={item.codigoArticulo.trim()} />
+                    <Typography
+                      fontSize="0.9rem"
+                      width={"90%"}
+                      style={{
+                        fontWeight: "bold",
+                        whiteSpace: "nowrap",
+                        overflow: "hidden",
+                      }}
+                    >
+                      {item.codigoArticulo}
+                    </Typography>
+                    <Typography
+                      fontSize="0.9rem"
+                      width={"90%"}
+                      style={{ borderTop: "0.01rem solid #888" }}
+                    >
+                      {item.marca}
+                    </Typography>
+                    <Typography
+                      fontSize="0.9rem"
+                      width={"90%"}
+                      style={{ borderTop: "0.01rem solid #888" }}
+                    >
+                      {item.codigoLinea}
+                    </Typography>
+                  </Paper>
+                ))}
+              </div>
+        </div>
         {articuloSugeridoCliente.length > 0 &&
         articuloSugeridoCliente75.length > 0 &&
         articuloSugeridoClientePorMonto.length > 0 &&
@@ -56,7 +135,6 @@ const SI = ({
               flexDirection: "column",
               width: "100%",
               paddingLeft: 20,
-              overflow: "auto",
             }}
           >
             <Typography

@@ -22,7 +22,7 @@ import {
   Typography,
   Button,
 } from "@mui/material";
-import PersonIcon from '@mui/icons-material/Person';
+import PersonIcon from "@mui/icons-material/Person";
 
 const drawerWidth = 240;
 
@@ -240,7 +240,7 @@ export default function DrawerModel() {
               >
                 <PersonIcon sx={{ color: "rgb(12,55,100)" }} />
               </ListItemIcon>
-              {/* <ListItemText
+              <ListItemText
                 primary="Clientes"
                 sx={{
                   opacity: open ? 3 : 0,
@@ -248,7 +248,7 @@ export default function DrawerModel() {
                   overflow: "hidden",
                 }}
                 onClick={() => {
-                  const width = 1100; // Ancho de la ventana emergente
+                  const width = 1115; // Ancho de la ventana emergente
                   const height = 680; // Altura de la ventana emergente
                   const left = (window.innerWidth - width) / 2;
                   const top = (window.innerHeight - height) / 2;
@@ -256,7 +256,7 @@ export default function DrawerModel() {
                   // navigate("/consultaPreciosYStock");
                   window.open(urlClientes, "_blank", windowFeatures);
                 }}
-              /> */}
+              />
             </ListItemButton>
           </ListItem>
         </List>

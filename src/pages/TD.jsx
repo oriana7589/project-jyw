@@ -7,6 +7,10 @@ import TableItems from "../components/TableItems";
 import TableDescripcionItems from "../components/TableDescriptionItems";
 import { getImagenArticulo } from "../Services/ApiService.jsx";
 import LazyImagen from "../components/LazyImagen.jsx";
+import { Box, Card, CardMedia, Pagination, Slider } from "@mui/material";
+import Logo from "../image/logo.png";
+import respuest1 from "../image/repuest1.png";
+import repuest from "../image/repuest.png";
 
 export default function TD({
   addToCart,
@@ -46,8 +50,15 @@ export default function TD({
   articuloSugeridoClientePorMonto,
   urlImagen,
   setUrlImagen,
-}) {  
+}) {
 
+  const images = [Logo, respuest1, repuest];
+  const [page, setPage] = useState(1);
+  const itemsPerPage = 1;
+
+  const handleChange = (event, value) => {
+    setPage(value);
+  };
   // useEffect(() => {
   //   const fetchImagen = async () => {
   //     try {
@@ -79,17 +90,25 @@ export default function TD({
         }}
       >
         <div style={{ flex: 2, height: "100%" }}>
-          <div style={{ display: "flex", justifyContent: "center", height: 390 }}>
-            {/* <img
-              src={urlImagen}
-              alt="Imagen de carrito de compras"
-              style={{ width: 350, height: 350 }}
-            /> */}
-            <LazyImagen 
-              codigoArticulo={detalleProducto.codigoArticulo}
-              isLazy={true}              
-            />
-          </div>
+        <Box sx={{ width: '100%', maxWidth: 800, margin: '0 auto' }}>
+      {images.slice((page - 1) * itemsPerPage, page * itemsPerPage).map((image, index) => (
+        <Card key={index}>
+          <CardMedia
+            component="img"
+            height="400"
+            image={image}
+            alt={`slide-${index}`}
+          />
+        </Card>
+      ))}
+      <Box display="flex" justifyContent="center" mt={2}>
+        <Pagination
+          count={Math.ceil(images.length / itemsPerPage)}
+          page={page}
+          onChange={handleChange}
+        />
+      </Box>
+    </Box>
           <TableItems
             loading={loading}
             articuloSugeridoCliente={articuloSugeridoCliente}
