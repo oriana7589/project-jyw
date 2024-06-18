@@ -266,6 +266,14 @@ export function getImagenArticulo(codigoArticulo) {
   return imagen;
 }
 
+export async function getImagenesArticulos(codigoArticulo) {
+  codigoArticulo = codigoArticulo.replace('/', '-');
+  const response = await axios.get(`${baseUrlGeneral()}/ObtenerImagenesArticulo/${codigoArticulo}`);
+  const base64Images = response.data; // Asume que response.data es el arreglo de imágenes en base64
+  const urlImagenes = base64Images.map(base64 => `data:image/jpeg;base64,${base64}`);
+  return urlImagenes;
+}
+
 export function postPGenerarProforma(
   fechaEmision,
   listaDetalle,

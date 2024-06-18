@@ -5,13 +5,13 @@ import "react-datepicker/dist/react-datepicker.css";
 import imagenNoDisponible from "../image/imagen-no-disponible.jpeg";
 import TableItems from "../components/TableItems";
 import TableDescripcionItems from "../components/TableDescriptionItems";
-import { getImagenArticulo } from "../Services/ApiService.jsx";
+import {
+  getImagenArticulo,
+  getImagenesArticulos,
+} from "../Services/ApiService.jsx";
 import LazyImagen from "../components/LazyImagen.jsx";
 import { Box, Card, CardMedia, Pagination, Slider } from "@mui/material";
-import Logo from "../image/logo.png";
-import respuest1 from "../image/repuest1.png";
-import repuest from "../image/repuest.png";
-
+import "../css/zooms.css";
 export default function TD({
   addToCart,
   editCartItem,
@@ -51,31 +51,44 @@ export default function TD({
   urlImagen,
   setUrlImagen,
 }) {
-
-  const images = [Logo, respuest1, repuest];
   const [page, setPage] = useState(1);
+  const [imagenArticulo, setImagenArticulo] = useState([]);
   const itemsPerPage = 1;
 
   const handleChange = (event, value) => {
     setPage(value);
   };
-  // useEffect(() => {
-  //   const fetchImagen = async () => {
-  //     try {
-  //       const urlGetRequest = encodeURIComponent(
-  //         `\\\\10.10.0.25\\imagenes\\webp\\${detalleProducto.codigoArticulo}-1.jpg`
-  //       );
-  //       const imagenBase64 = await getImagenArticulo(urlGetRequest);
-  //       const urlImagen = `data:image/jpeg;base64,${imagenBase64}`;
-  //       setUrlImagen(urlImagen);
-  //     } catch (error) {
-  //       console.log("no se encuentra la imagen");
-  //       setUrlImagen(imagenNoDisponible);
-  //     }
-  //   };
+  const [isZoomed, setIsZoomed] = useState(false);
+  const [position, setPosition] = useState({ x: 0, y: 0 });
 
-  //   fetchImagen();
-  // }, [detalleProducto]);
+  const handleMouseEnter = () => {
+    setIsZoomed(true);
+  };
+
+  const handleMouseLeave = () => {
+    setIsZoomed(false);
+  };
+
+  const handleMouseMove = (e) => {
+    if (!isZoomed) return;
+    const { left, top, width, height } = e.target.getBoundingClientRect();
+    const x = ((e.pageX - left) / width) * 100;
+    const y = ((e.pageY - top) / height) * 100;
+    setPosition({ x, y });
+  };
+
+  const fetchImagen = async () => {
+    console.log("codigoArticulo ", detalleProducto.codigoArticulo);
+    const imagenesArticulo = await getImagenesArticulos(
+      detalleProducto.codigoArticulo
+    );
+    setImagenArticulo(imagenesArticulo);
+  };
+  const images = [imagenArticulo];
+
+  useEffect(() => {
+    fetchImagen();
+  }, [detalleProducto.codigoArticulo]);
 
   return (
     <React.Fragment>
@@ -90,25 +103,35 @@ export default function TD({
         }}
       >
         <div style={{ flex: 2, height: "100%" }}>
-        <Box sx={{ width: '100%', maxWidth: 800, margin: '0 auto' }}>
-      {images.slice((page - 1) * itemsPerPage, page * itemsPerPage).map((image, index) => (
-        <Card key={index}>
-          <CardMedia
-            component="img"
-            height="400"
-            image={image}
-            alt={`slide-${index}`}
-          />
-        </Card>
-      ))}
-      <Box display="flex" justifyContent="center" mt={2}>
-        <Pagination
-          count={Math.ceil(images.length / itemsPerPage)}
-          page={page}
-          onChange={handleChange}
-        />
-      </Box>
-    </Box>
+          <Box sx={{ width: "100%", maxWidth: 390, margin: "0 auto" }}>
+            {imagenArticulo
+              .slice((page - 1) * itemsPerPage, page * itemsPerPage)
+              .map((image, index) => (
+                <Card
+                  key={index}
+                  elevation={0}
+                  className={isZoomed ? 'zoom' : ''}
+                  style={{ width: "100%", height: "100%", margin: "0.0rem", transformOrigin: `${position.x}% ${position.y}%` }}
+                  onMouseEnter={handleMouseEnter}
+                  onMouseLeave={handleMouseLeave}
+                  onMouseMove={isZoomed ? handleMouseMove : null}
+                >
+                  <CardMedia
+                    component="img"
+                    height="400"
+                    image={image}
+                    alt={`slide-${index}`}
+                  />
+                </Card>
+              ))}
+            <Box display="flex" justifyContent="center" mt={2}>
+              <Pagination
+                count={Math.ceil(imagenArticulo.length / itemsPerPage)}
+                page={page}
+                onChange={handleChange}
+              />
+            </Box>
+          </Box>
           <TableItems
             loading={loading}
             articuloSugeridoCliente={articuloSugeridoCliente}
