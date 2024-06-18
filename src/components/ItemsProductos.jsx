@@ -216,7 +216,7 @@ function ItemsProductos({
               style={{ paddingTop: 16 }}
               onChange={() => handleCheckboxChange(1)}
             />
-            <label htmlFor="checkbox1" style={{ paddingTop: 16 }}>
+            <label htmlFor="checkbox1" style={{ paddingTop: 16 , width:90}}>
               Por facturar
             </label>
             <Checkbox
