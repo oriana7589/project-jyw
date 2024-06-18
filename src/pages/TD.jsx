@@ -122,7 +122,7 @@ export default function TD({
         }}
       >
         <div style={{ flex: 2, height: "100%" }}>
-          <Box sx={{ width: "100%", maxWidth: 390, margin: "0 auto" }}>
+          <Box sx={{ width: "100%", maxWidth: 350, margin: "0 auto" }}>
             {imagenArticulo
               .slice((page - 1) * itemsPerPage, page * itemsPerPage)
               .map((image, index) => (

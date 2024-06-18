@@ -72,7 +72,7 @@ const SI = ({
           </Typography>
           <div
                 style={{
-                  maxWidth: "165vh",
+                  maxWidth: "158vh",
                   maxHeight: "260px",
                   overflowX: "auto",
                   display: "flex",
