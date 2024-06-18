@@ -71,7 +71,7 @@ const SI = ({
           </Typography>
           <div
                 style={{
-                  maxWidth: "158vh",
+                  maxWidth: "157vh",
                   maxHeight: "260px",
                   overflowX: "auto",
                   display: "flex",
@@ -140,7 +140,7 @@ const SI = ({
             {articuloSugeridoCliente.length > 0 ? (
               <div
                 style={{
-                  maxWidth: "165vh",
+                  maxWidth: "157vh",
                   maxHeight: "260px",
                   overflowX: "auto",
                   display: "flex",
@@ -224,7 +224,7 @@ const SI = ({
             {lista2Filtrada.length > 0 ? (
               <div
                 style={{
-                  maxWidth: "165vh",
+                  maxWidth: "157vh",
                   maxHeight: "260px",
                   overflowX: "auto",
                   display: "flex",
@@ -308,7 +308,7 @@ const SI = ({
             {articuloSugeridoCliente75.length > 0 ? (
               <div
                 style={{
-                  maxWidth: "165vh",
+                  maxWidth: "157vh",
                   maxHeight: "260px",
                   overflowX: "auto",
                   display: "flex",
@@ -392,7 +392,7 @@ const SI = ({
             {lista2Filtrada75.length > 0 ? (
               <div
                 style={{
-                  maxWidth: "165vh",
+                  maxWidth: "157vh",
                   maxHeight: "260px",
                   overflowX: "auto",
                   display: "flex",
