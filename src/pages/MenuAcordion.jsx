@@ -262,28 +262,30 @@ const TuComponente = () => {
       .times(1.18)
       .toDecimalPlaces(2);
 
-    if (monedaType !== "") {
-      if (monedaValue === "SOLES") {
-        if (monedaType !== "SOLES") {
-          precioFinaln = precioFinaln.times(moneda).toDecimalPlaces(2);
-        }
-      } else if (monedaValue === "DOLARES AMERICANOS") {
-        if (monedaType !== "DOLARES AMERICANOS") {
-          precioFinaln = precioFinaln.dividedBy(moneda).toDecimalPlaces(2);
-        }
-      }
-    } else if (monedaValue === "SOLES") {
+    // if (monedaType !== "") {
+    //   if (monedaValue === "SOLES") {
+    //     if (monedaType !== "SOLES") {
+    //       precioFinaln = precioFinaln.times(moneda).toDecimalPlaces(2);
+    //     }
+    //   } else if (monedaValue === "DOLARES AMERICANOS") {
+    //     if (monedaType !== "DOLARES AMERICANOS") {
+    //       precioFinaln = precioFinaln.dividedBy(moneda).toDecimalPlaces(2);
+    //     }
+    //   }
+    // } else 
+    if (monedaValue === "SOLES") {
       // Si la moneda es diferente de soles, aplica la conversión
       precioFinaln = precioFinaln.times(moneda).toDecimalPlaces(2);
     }
-
-    return precioFinaln;
+    console.log('monto en calculo', monto)
+    console.log('total en calculo', precioFinaln)
+    return precioFinaln;    
   };
 
   const [total, setTotal] = useState(calcularPrecioFinal().toString());
 
   useEffect(() => {
-    setTotal(calcularPrecioFinal());
+    setTotal(calcularPrecioFinal());    
   }, [
     ticketCount,
     monto,
@@ -320,18 +322,35 @@ const TuComponente = () => {
     ticketCount,
     monto,
     monedaType
-  ) => {
+  ) => { 
+    //console.log('precio al volver', precio)
     setDescuentoA(descuentoA);
     setDescuentoB(descuentoB);
     setTotal(precioFinal);
     setTicketCount(ticketCount);
-    setMonto(monto / ticketCount);
+    setMonto(monto / ticketCount)
+    //setMonto(precio);
     setMonedaType(monedaType);
 
     setTabValue(0);
+
     getProductoSeleccionado(codigoInterno).then((detalleProducto) => {
       setDetalleProducto(detalleProducto);
+      const precioVenta = new Decimal(detalleProducto.precioVenta);
+      const impuesto = new Decimal(1.18);
+      const precioVentaSinIGV = precioVenta.dividedBy(impuesto);
+      const precio = Math.round(precioVentaSinIGV.times(100)) / 100;      
+      setMonto(precio);
+      // if (monedaValue == "DOLARES AMERICANOS") {
+      //   setMonto(precio);
+      // } else {
+      //   const tipoCambio = moneda;
+      //   const precioSoles = Math.round(precioVentaSinIGV.times(tipoCambio).times(100)) / 100;
+      //   setMonto(precioSoles);
+      // }
+      
     });
+    
     if (cartItems.length === 0) {
       setIsEditToCartVisible(false);
     } else {

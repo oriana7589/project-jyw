@@ -133,6 +133,8 @@ const ThirdTable = ({
       monedaValue,
       utilidad
     );
+    console.log('monto - addtocart', monto);
+    console.log('total - addtocart', total);
   };
 
   const handleEditSelectedItem = (selectedItem) => {
@@ -148,6 +150,8 @@ const ThirdTable = ({
       ticketCount,
       monedaValue
     );
+    console.log('monto - addtocart', monto);
+    console.log('total - addtocart', total);
   };
 
   const handleDecrement = () => {
