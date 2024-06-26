@@ -67,34 +67,20 @@ const PestañaContenido = ({
       );
     case 2:
       return (
-        <TableUltimasComprasItems
-          ultimasCompras={ultimasCompras}
-          filaSeleccionada={filaSeleccionada}
-        />
-      );
-    case 3:
-      return (
         <GraficaArticulo
           filaSeleccionada={filaSeleccionada}/>
     );
-    case 4:
+    case 3:
       return (
         <DataTecnica
           filaSeleccionada={filaSeleccionada}/>
     );
-    case 5:
+    case 4:
       return (
         <VentasMensuales
           filaSeleccionada={filaSeleccionada}
           resumenVentas={resumenVentas}
           resumenDevoluciones={resumenDevoluciones}
-        />
-      );
-    case 6:
-      return (
-        <LlegadaProducto
-          llegadaProducto={llegadaProducto}
-          filaSeleccionada={filaSeleccionada}
         />
       );
     default:
@@ -161,15 +147,6 @@ const PreciosStock = ({
             }}
             clickable="true"
           />
-          <CustomClickableTab
-            label="ULTIMAS COMPRAS"
-            style={{
-              minHeight: "25px",
-              fontSize: "0.7rem",
-              marginRight: "4px",
-            }}
-            clickable="true"
-          />
           
           <CustomClickableTab
             label="GRAFICA "
@@ -196,11 +173,6 @@ const PreciosStock = ({
               fontSize: "0.7rem",
               marginRight: "4px",
             }}
-            clickable="true"
-          />
-          <CustomClickableTab
-            label="LLEGADA"
-            style={{ minHeight: "25px", fontSize: "0.7rem" }}
             clickable="true"
           />
         </CustomTabs>
