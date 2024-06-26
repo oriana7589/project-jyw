@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { styled, useTheme } from "@mui/material/styles";
 import Box from "@mui/material/Box";
@@ -93,7 +93,7 @@ export default function DrawerModel() {
   const [open, setOpen] = React.useState(false);
   const [content, setContent] = useState("");
   const [menuKey, setMenuKey] = useState(0);
-
+  const drawerRef = useRef(null);
   const [dialogOpen, setDialogOpen] = useState(false);
   const navigate = useNavigate();
   const handleOpenDialog = () => {
@@ -115,6 +115,20 @@ export default function DrawerModel() {
     setContent("MenuAcordion");
   }, []);
 
+
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (drawerRef.current && !drawerRef.current.contains(event.target)) {
+        setOpen(false);
+      }
+    }
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [drawerRef]);
+
   const toggleDrawer = () => {
     setOpen(!open);
   };
@@ -134,8 +148,9 @@ export default function DrawerModel() {
   };
 
   return (
-    <Box sx={{ display: "flex" }}>
+    <Box sx={{ display: "flex" }} >
       <CssBaseline />
+      <div ref={drawerRef}>
       <Drawer
         variant="permanent"
         open={open}
@@ -260,7 +275,8 @@ export default function DrawerModel() {
           </ListItem>
         </List>
       </Drawer>
-
+      </div>
+      
       <Box component="main" sx={{ flexGrow: 1, marginTop: " -0.91rem" }}>
         <DrawerHeader />
         {content === "MenuAcordion" && <MenuAcordion key={menuKey} />}
