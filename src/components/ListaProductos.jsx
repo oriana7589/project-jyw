@@ -1,18 +1,14 @@
-import {
-  Card,
-  CardContent,
-  Typography,
-} from "@mui/material";
+import { Card, CardContent, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import "react-toastify/dist/ReactToastify.css";
 import IconCarrito from "../image/carritoCompras.png";
 import { getPDFDataTecnica } from "../Services/ApiService.jsx";
-
+import pdfIcon from "../image/pdf.png";
 function ListaProductos({ cartItems, pdfData }) {
   const [hoveredCard, setHoveredCard] = useState(null);
   const [selectedItem, setSelectedItem] = useState(0);
-  const [pdfUrl,setPdfUrl] = useState("")
-  const [codigo,setCodigo] = useState("")
+  const [pdfUrl, setPdfUrl] = useState("");
+  const [codigo, setCodigo] = useState("");
 
   const handleMouseEnter = (index) => {
     setHoveredCard(index);
@@ -21,31 +17,28 @@ function ListaProductos({ cartItems, pdfData }) {
   const handleMouseLeave = () => {
     setHoveredCard(null);
   };
-  
 
-
-  const handleClick = (item,index) => {
-    setCodigo(item.codigoArticulo.trim())
+  const handleClick = (item, index) => {
+    setCodigo(item.codigoArticulo.trim());
     setSelectedItem(index);
   };
 
   const obtenerPdf = async (codigoArticulo) => {
     try {
-      const pdf = encodeURIComponent(`\\\\10.10.0.25\\PDFDataTecnica\\${codigoArticulo}.pdf`);
-      console.log('index seleccionada', pdf)
+      const pdf = encodeURIComponent(
+        `\\\\10.10.0.25\\PDFDataTecnica\\${codigoArticulo}.pdf`
+      );
+      console.log("index seleccionada", pdf);
       const pdfBase64 = await getPDFDataTecnica(pdf);
       const urlPdf = `data:application/pdf;base64,${pdfBase64}`;
       setPdfUrl(urlPdf);
     } catch (error) {
-      const pdf = encodeURIComponent(`\\\\10.10.0.25\\PDFDataTecnica\\pdfprueba.pdf`);
-      const pdfBase64 = await getPDFDataTecnica(pdf);
-      const urlPdf = `data:application/pdf;base64,${pdfBase64}`;
-      setPdfUrl(urlPdf);
+      setPdfUrl(null);
     }
   };
   useEffect(() => {
     if (cartItems.length > 0) {
-      handleClick(cartItems[0],0); // Selecciona el primer elemento al cargar
+      handleClick(cartItems[0], 0); // Selecciona el primer elemento al cargar
       obtenerPdf(cartItems[0].codigoArticulo.trim());
     }
   }, []);
@@ -100,7 +93,7 @@ function ListaProductos({ cartItems, pdfData }) {
                   key={index}
                   onMouseEnter={() => handleMouseEnter(index)}
                   onMouseLeave={handleMouseLeave}
-                  onClick={() => handleClick(item,index)}
+                  onClick={() => handleClick(item, index)}
                   style={{
                     height: 80,
                     width: 520,
@@ -169,17 +162,47 @@ function ListaProductos({ cartItems, pdfData }) {
               ))}
             </div>
           </div>
-          <div style={{ flex: 1 }}>
-            {/* Visualizador de PDF */}
-            {selectedItem !== null && cartItems.length !== 0 && (
-              <embed
-                src={pdfUrl}
-                type="application/pdf"
-                width="100%"
-                height="765px"
+          {pdfUrl ? (
+            <div style={{ flex: 1 }}>
+              {/* Visualizador de PDF */}
+              {selectedItem !== null && cartItems.length !== 0 && (
+                <embed
+                  src={pdfUrl}
+                  type="application/pdf"
+                  width="100%"
+                  height="765px"
+                />
+              )}
+            </div>
+          ) : (
+            <div
+              style={{
+                height: "550px",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                width: "100%",
+                justifyContent: "center",
+              }}
+            >
+              <img
+                src={pdfIcon}
+                alt="pdfIcon"
+                style={{ width: 200, height: 212, marginTop: 25, opacity: 0.3 }}
               />
-            )}
-          </div>
+              <Typography
+                style={{
+                  fontSize: 24,
+                  opacity: 0.3,
+                  color: "rgb(12, 55, 100)",
+                  marginLeft: 30,
+                  marginTop: 10,
+                }}
+              >
+                No hay Data Técnica para este producto
+              </Typography>
+            </div>
+          )}
         </>
       )}
     </div>
