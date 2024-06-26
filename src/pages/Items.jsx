@@ -134,6 +134,7 @@ const PestañaContenido = ({
   articuloSugeridoClientePorMonto,
   handleBuscarProforma,
   urlImagen,
+  numeroProforma,
   setUrlImagen,
 }) => {
   switch (value) {
@@ -230,6 +231,7 @@ const PestañaContenido = ({
           isAddProformaVisible={isAddProformaVisible}
           actualizarProforma={actualizarProforma}
           selectedClient={selectedClient}
+          numeroProforma = {numeroProforma}
         />
       );
     case 2:
@@ -347,6 +349,7 @@ const Items = ({
   handleBuscarProforma,
   urlImagen,
   setUrlImagen,
+  numeroProforma
 }) => {
   const handleChangeTab = (event, newValue) => {
     setTabValue(newValue);
@@ -527,6 +530,7 @@ const Items = ({
             handleBuscarProforma={handleBuscarProforma}
             urlImagen={urlImagen}
             setUrlImagen={setUrlImagen}
+            numeroProforma = {numeroProforma}
           />
         ) : !selectedClient ? (
           <div

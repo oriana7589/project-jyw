@@ -1623,6 +1623,7 @@ const TuComponente = () => {
             actualizarProforma={actualizarProforma}
             urlImagen = {urlImagen}
             setUrlImagen = {setUrlImagen}
+            numeroProforma = {numeroProforma}
           />
         </Collapse>
       </Card>

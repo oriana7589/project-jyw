@@ -54,7 +54,8 @@ export default function CarritoCompras({
   isEditProformaVisible,
   isAddProformaVisible,
   actualizarProforma,
-  selectedClient
+  selectedClient,
+  numeroProforma
 }) {
  
   return (
@@ -127,6 +128,7 @@ export default function CarritoCompras({
             isEditProformaVisible = {isEditProformaVisible}
             isAddProformaVisible = {isAddProformaVisible}
             actualizarProforma = {actualizarProforma}
+            numeroProforma = {numeroProforma}
           />
         </div>
       </Container>

@@ -28,7 +28,7 @@ const TableUltimasCompras = ({ ultimasCompras, itemsPerPage, setNumeroProforma, 
   const handleRowDoubleClick = (datosCliente) => {
     setSelectedClient(datosCliente);
     setNumeroProforma(datosCliente.numProforma)
-    handleBuscarProforma()
+    handleBuscarProforma(datosCliente.numProforma)
     
   };
 
