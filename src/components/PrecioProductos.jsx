@@ -51,7 +51,17 @@ function PrecioProductos({
     razonSocial = selectedClient.razonSocial || proformaSeleccionada.razonSocialCliente;
     ruc = selectedClient.numDocumento || proformaSeleccionada.razonSocialCliente;
   }
+
+  const formatearFechaEmision = (fecha) => {
+    const fechaObj = new Date(fecha);
+    const dia = String(fechaObj.getDate()).padStart(2, "0");
+    const mes = String(fechaObj.getMonth() + 1).padStart(2, "0");
+    const año = fechaObj.getFullYear();
+    return `${dia} - ${mes} - ${año}`;
+  };
+
   useEffect(() => {
+
     // Calcula la fecha de vencimiento basada en la fecha actual y la cantidad de días
     const calcularFechaVencimiento = () => {
       const fechaActual = new Date();
@@ -234,8 +244,29 @@ function PrecioProductos({
             </Select>
           </Box>
         </Grid>
-
-        <Grid item xs={3}>
+        <Grid item xs={3} >
+          <Box sx={{ marginBottom: 2, marginTop: -2 }}>
+            <Typography style={{ fontWeight: "bold" }}>
+              Fecha de emision
+            </Typography>
+            <TextField
+              value={formatearFechaEmision(proformaSeleccionada.fechaEmision)}
+              fullWidth
+              style={{ height: 35 }}
+              variant="outlined"
+              disabled
+              InputProps={{
+                style: {
+                  fontSize: "14px",
+                  width: "170px",
+                  height: "35px",
+                  textAlign: "center",
+                },
+              }}
+            />
+          </Box>
+        </Grid>
+        <Grid item xs={3} >
           <Box sx={{ marginBottom: 2, marginTop: -2 }}>
             <Typography style={{ fontWeight: "bold" }}>Dias</Typography>
             <Select
@@ -254,7 +285,7 @@ function PrecioProductos({
             </Select>
           </Box>
         </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={6} >
           <Box sx={{ marginBottom: 2, marginTop: -2 }}>
             <Typography style={{ fontWeight: "bold" }}>
               Fecha de vencimiento
@@ -276,6 +307,7 @@ function PrecioProductos({
             />
           </Box>
         </Grid>
+        
       </Grid>
       <Typography style={{ fontWeight: "bold" }}>Observaciones</Typography>
       <TextField
