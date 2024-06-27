@@ -286,8 +286,8 @@ function PrecioProductos({
         fullWidth
         variant="outlined"
         disabled={proformaSeleccionada.estado === 'FAC'}
-        helperText={`${observaciones.length}/1000 caracteres`}
-        inputProps={{ maxLength: 1000 }}
+        helperText={`${observaciones.length}/255 caracteres`}
+        inputProps={{ maxLength: 255 }}
       />
 
       <table

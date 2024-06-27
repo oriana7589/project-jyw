@@ -923,7 +923,7 @@ const TuComponente = () => {
     }
   };
 
-  const actualizarProforma = () => {
+  const actualizarProforma = (proformaSeleccionada) => {
     if (!proformaSeleccionada) {
       toast.warning("Seleccione una proforma antes de actualizar la proforma");
     } else if (cartItems.length === 0) {
@@ -996,7 +996,7 @@ const TuComponente = () => {
 
       setFechaE(fechaEmision);
       putActualizarProforma(
-        proformaSeleccionada.numeroProforma,
+        numeroProforma,
         fechaEmision,
         listaDetalle,
         vendedor,

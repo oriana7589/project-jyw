@@ -58,9 +58,9 @@ function ItemsProductos({
     setDialogOpen(false);
   };
 
-  const handleConfirmEdit = () => {
+  const handleConfirmEdit = (numeroProforma) => {
     setDialogOpen(false);
-    actualizarProforma();
+    actualizarProforma(numeroProforma);
   };
 
   const calcularSubTotal = () => {
@@ -564,7 +564,7 @@ function ItemsProductos({
             Cancelar
           </Button>
           <Button
-            onClick={handleConfirmEdit}
+            onClick={()=>handleConfirmEdit(numeroProforma)}
             variant="contained"
             style={{ backgroundColor: "rgb(255, 168, 0)" }}
             autoFocus
