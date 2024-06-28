@@ -276,9 +276,7 @@ const TuComponente = () => {
     if (monedaValue === "SOLES") {
       // Si la moneda es diferente de soles, aplica la conversión
       precioFinaln = precioFinaln.times(moneda).toDecimalPlaces(2);
-    }
-    console.log('monto en calculo', monto)
-    console.log('total en calculo', precioFinaln)
+    }    
     return precioFinaln;    
   };
 
@@ -917,7 +915,7 @@ const TuComponente = () => {
         codCliente
       ).then((numeroProforma) => {
         setNumeroProforma(numeroProforma);
-        handleBuscarProforma();
+        handleBuscarProforma(numeroProforma);
       });
       toast.success("Se ha guardado la proforma con éxito");
     }

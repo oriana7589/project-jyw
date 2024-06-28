@@ -337,9 +337,11 @@ export function putActualizarProforma(
   importeTotal,
   codCliente
 ) {
+  
+  console.log('transporte', transporte)
   const Proforma = axios
     .put(`${baseUrlProforma()}`, {
-      numeroProforma: numeroProforma,
+      numeroProforma: numeroProforma.toString().trim(),
       codigoEmpresa: "01",
       codigoTienda: "01",
       codigoVendedor: vendedor.codigoVendedor === undefined ? "1": vendedor.codigoVendedor.toString().trim() ,
@@ -348,7 +350,7 @@ export function putActualizarProforma(
       codigoClipro: codCliente,
       urgenteDespacho: "N",
       tipoEnvio: "ALM",
-      codigoTransportista: transporte.codigoTransportista === undefined ? "-1" : transporte.codigoTransportista.toString().trim(),
+      codigoTransportista:  transporte === undefined ? "-1" : transporte.codigoTransportista.toString().trim(),
       fechaEmision: fechaEmision,
       diasCredito: cantidad,
       fechaVencimiento: fechaVencimiento,

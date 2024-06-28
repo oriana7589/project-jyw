@@ -26,8 +26,7 @@ const LazyImagen = ({ codigoArticulo, isLazy }) => {
     setPosition({ x, y });
   };
 
-  const fetchImagen = async () => {    
-    console.log("codigoArticulo lazy", codigoArticulo);        
+  const fetchImagen = async () => {                
     const imagenArticulo = await getImagenArticulo(codigoArticulo);     
     setImagenArticulo(imagenArticulo);    
   };
