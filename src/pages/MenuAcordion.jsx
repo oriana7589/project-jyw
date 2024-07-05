@@ -307,6 +307,10 @@ const TuComponente = () => {
       .minus(precioCompraSinIGV)
       .dividedBy(precioCompraSinIGV)
       .toDecimalPlaces(2);
+    console.log('montoDecimal', montoDecimal)
+    console.log('precioVentaSinIGV', precioVentaSinIGV)
+    console.log('precioCompraSinIGV', precioCompraSinIGV)
+    console.log('utilidad', utilidad)
     return utilidad;
   };
 
@@ -876,8 +880,6 @@ const TuComponente = () => {
 
         const precioVentaSinIGV = subTotalItem / ticketCount;
         const precioCompraSinIGV = new Decimal(item.precioCompra)
-          .dividedBy(1.18)
-          .toDecimalPlaces(2);
         const totalItemConIGV = new Decimal(item.precioFinal).toDecimalPlaces(
           2
         );
@@ -971,8 +973,6 @@ const TuComponente = () => {
 
         const precioVentaSinIGV = subTotalItem / ticketCount;
         const precioCompraSinIGV = new Decimal(item.precioCompra)
-          .dividedBy(1.18)
-          .toDecimalPlaces(2);
         const totalItemConIGV = new Decimal(item.precioFinal).toDecimalPlaces(
           2
         );

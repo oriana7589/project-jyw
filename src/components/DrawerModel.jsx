@@ -84,8 +84,8 @@ const Drawer = styled(MuiDrawer, {
   }),
 }));
 
-const url = "http://localhost:5173/consultaPreciosYStock"; //url para desarrollo
-//const url = "http://10.10.0.25:9697/consultaPreciosYStock"; //url para produccion
+//const url = "http://localhost:5173/consultaPreciosYStock"; //url para desarrollo
+const url = "http://10.10.0.25:9697/consultaPreciosYStock"; //url para produccion
 const urlClientes = "http://localhost:5173/clientes";
 
 export default function DrawerModel() {

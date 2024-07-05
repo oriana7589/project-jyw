@@ -119,7 +119,7 @@ function ItemsProductos({
 
       const precioCompraSinIGVDolares = new Decimal(
         item.precioCompra
-      ).dividedBy(1.18);
+      );
       const utilidad = precioVentaSinIGVDolares
         .minus(precioCompraSinIGVDolares)
         .dividedBy(precioCompraSinIGVDolares)
