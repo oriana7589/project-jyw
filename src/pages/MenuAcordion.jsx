@@ -306,15 +306,9 @@ const TuComponente = () => {
     const utilidad = precioVentaSinIGV
       .minus(precioCompraSinIGV)
       .dividedBy(precioCompraSinIGV)
-      .toDecimalPlaces(2);
-    console.log('montoDecimal', montoDecimal)
-    console.log('precioVentaSinIGV', precioVentaSinIGV)
-    console.log('precioCompraSinIGV', precioCompraSinIGV)
-    console.log('utilidad', utilidad)
+      .toDecimalPlaces(2);    
     return utilidad;
   };
-
-  const calcularUtilidadPorItem = () => {};
 
   const handleGoToTab1 = (
     codigoInterno,
@@ -584,6 +578,7 @@ const TuComponente = () => {
       precioCompra: detalleProducto.precioCompra,
       codigoArticulo: detalleProducto.codigoArticulo,
       marca: detalleProducto.descripcionMarca,
+      tipoCompra: detalleProducto.tipoCompra,
       descuentoA: descuentoA,
       descuentoB: descuentoB,
       monto: subTotalItem,
@@ -832,6 +827,15 @@ const TuComponente = () => {
     };
   }, [dialogProductOpen]);
 
+  const esAceptado = (utilidad, tipoCompra) => {
+    if (tipoCompra == 'LOC') {
+      return utilidad > 0.1 ? 'S' : 'N'
+    }
+    else {
+      return utilidad > 0.2 ? 'S' : 'N'
+    }
+  };
+
   const handlProformaClick = () => {
     if (!selectedClient) {
       toast.warning("Seleccione un cliente para guardar la proforma");
@@ -878,7 +882,7 @@ const TuComponente = () => {
                   .toDecimalPlaces(2)
             : 0;
 
-        const precioVentaSinIGV = subTotalItem / ticketCount;
+        const precioVentaSinIGV = subTotalItem / item.ticketCount;
         const precioCompraSinIGV = new Decimal(item.precioCompra)
         const totalItemConIGV = new Decimal(item.precioFinal).toDecimalPlaces(
           2
@@ -894,7 +898,7 @@ const TuComponente = () => {
           descuentoUno: item.descuentoA,
           descuentoDos: item.descuentoB,
           totalItem: parseFloat(subTotalItem),
-          aceptado: item.utilidad > 0.2 ? "S" : "N",
+          aceptado: esAceptado(item.utilidad, item.tipoCompra),
           igvItem: parseFloat(totalItemConIGV),
         };
       });
@@ -971,7 +975,7 @@ const TuComponente = () => {
                   .toDecimalPlaces(2)
             : 0;
 
-        const precioVentaSinIGV = subTotalItem / ticketCount;
+        const precioVentaSinIGV = subTotalItem / item.ticketCount;
         const precioCompraSinIGV = new Decimal(item.precioCompra)
         const totalItemConIGV = new Decimal(item.precioFinal).toDecimalPlaces(
           2
@@ -987,7 +991,7 @@ const TuComponente = () => {
           descuentoUno: item.descuentoA,
           descuentoDos: item.descuentoB,
           totalItem: parseFloat(subTotalItem),
-          aceptado: item.utilidad > 0.2 ? "S" : "N",
+          aceptado: esAceptado(item.utilidad, item.tipoCompra),
           igvItem: parseFloat(totalItemConIGV),
         };
       });
@@ -1205,6 +1209,7 @@ const TuComponente = () => {
           precioCompra: item.precioCompra,
           codigoArticulo: item.codigoArticulo,
           marca: item.descripcionMarca,
+          tipoCompra: item.tipoCompra,
           descuentoA: item.descuentoUno,
           descuentoB: item.descuentoDos,
           monto: item.totalItem,

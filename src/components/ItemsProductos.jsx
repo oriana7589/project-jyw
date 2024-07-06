@@ -151,6 +151,15 @@ function ItemsProductos({
     window.open(url, '_blank')    
   };
 
+  const esAceptado = (utilidad, tipoCompra) => {
+    if (tipoCompra == 'LOC') {
+      return utilidad <= 0.1 ? true : false
+    }
+    else {
+      return utilidad <= 0.2 ? true : false
+    }
+  };
+
 
   return (
     <div>
@@ -343,7 +352,7 @@ function ItemsProductos({
                       : "0 4px 8px 0 rgba(12, 55, 100, 0.1)",
                   transition: "background-color 0.3s, box-shadow 0.3s",
                   background:
-                    item.utilidad <= 0.2
+                    esAceptado(item.utilidad, item.tipoCompra)
                       ? `linear-gradient(to bottom, rgba(255, 0, 0, 1) 0%, rgba(255, 0, 0, 0.5) 0%, transparent 30%)`
                       : "white",
                 }}
@@ -458,6 +467,14 @@ function ItemsProductos({
                       >
                         <span style={{ fontWeight: "bold" }}> Utilidad: </span>{" "}
                         {item.utilidad.toString()}
+                      </Typography>
+                      <Typography
+                        variant="body2"
+                        color="text.secondary"
+                        paddingRight={2}
+                      >
+                        <span style={{ fontWeight: "bold" }}> T.Compra: </span>{" "}
+                        {item.tipoCompra}
                       </Typography>
                     </CardContent>
                   </CardContent>
