@@ -32,7 +32,9 @@ const TableDescripcionItems = ({
   cartItems,
   setTabValue ,
   isAddToCartVisible,
-  isEditToCartVisible
+  isEditToCartVisible,
+  selectedClient,
+  proformaSeleccionada
 }) => {
 
   return (
@@ -65,6 +67,8 @@ const TableDescripcionItems = ({
         setTabValue = {setTabValue}
         isAddToCartVisible = {isAddToCartVisible}
         isEditToCartVisible = {isEditToCartVisible}
+        selectedClient = {selectedClient}
+        proformaSeleccionada={proformaSeleccionada}
       />
       <div>
  

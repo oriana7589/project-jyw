@@ -533,9 +533,46 @@ const TableShop = ({
   setTabValue,
   isAddToCartVisible,
   isEditToCartVisible,
+  selectedClient,
+  proformaSeleccionada
 }) => {
+  let razonSocial = "";
+  let ruc = "";
+  
+  if (selectedClient) {
+    razonSocial = selectedClient.razonSocial || proformaSeleccionada.razonSocialCliente;
+    ruc = selectedClient.numDocumento || proformaSeleccionada.razonSocialCliente;
+  }
   return (
-    <div style={{ paddingLeft: 20, paddingTop: 15 }}>
+    <div style={{ paddingLeft: 20 }}>
+      <div style={{
+          marginBottom: "10px",
+          width: "100%",
+        }}>
+      {selectedClient && (
+        <>
+          <Typography
+            variant="body1"
+            style={{ paddingTop: 15, marginTop: 0 }}
+          >
+            <strong style={{ fontWeight: "bold", fontSize: "1.2rem" }}>RAZÓN SOCIAL: </strong>
+            {razonSocial.substring(0,40)}
+          </Typography>
+          <Typography
+            variant="body1"
+            style={{
+              paddingTop: 5,
+            
+              width: "100%"
+            }}
+          >
+            <strong style={{ fontWeight: "bold", fontSize: "1.2rem" }}>RUC: </strong>
+            {ruc}
+          </Typography>
+        </>
+      )}
+      </div>
+      
       <div
         style={{
           display: "flex",

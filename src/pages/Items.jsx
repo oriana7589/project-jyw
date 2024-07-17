@@ -178,6 +178,8 @@ const PestañaContenido = ({
           articuloSugeridoClientePorMonto={articuloSugeridoClientePorMonto}
           urlImagen = {urlImagen}
           setUrlImagen = {setUrlImagen}
+          selectedClient = {selectedClient}
+          proformaSeleccionada={proformaSeleccionada}
         />
       );
     case 1:

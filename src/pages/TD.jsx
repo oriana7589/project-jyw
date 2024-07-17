@@ -55,8 +55,10 @@ export default function TD({
   setTabValue,
   isAddToCartVisible,
   isEditToCartVisible,
+  selectedClient,
   handleItemSugeridoClick,
   articuloSugeridoClientePorMonto,
+  proformaSeleccionada,
   urlImagen,
   setUrlImagen,
 }) {
@@ -196,6 +198,8 @@ export default function TD({
             isAddToCartVisible={isAddToCartVisible}
             isEditToCartVisible={isEditToCartVisible}
             handleItemSugeridoClick={handleItemSugeridoClick}
+            selectedClient = {selectedClient}
+            proformaSeleccionada={proformaSeleccionada}
           />
         </div>
       </Container>
