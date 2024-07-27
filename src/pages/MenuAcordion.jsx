@@ -586,6 +586,7 @@ const TuComponente = () => {
       precioFinal: new Decimal(precioFinal),
       ticketCount: ticketCount,
       utilidad: utilidad,
+      codigoAlmacen: detalleProducto.codigoAlmacen
     };
     setCartItems([...cartItems, newItem]);
   };
@@ -900,6 +901,7 @@ const TuComponente = () => {
           totalItem: parseFloat(subTotalItem),
           aceptado: esAceptado(item.utilidad, item.tipoCompra),
           igvItem: parseFloat(totalItemConIGV),
+          codigoAlmacen: item.codigoAlmacen
         };
       });
 
@@ -993,6 +995,7 @@ const TuComponente = () => {
           totalItem: parseFloat(subTotalItem),
           aceptado: esAceptado(item.utilidad, item.tipoCompra),
           igvItem: parseFloat(totalItemConIGV),
+          codigoAlmacen: item.codigoAlmacen
         };
       });
 
