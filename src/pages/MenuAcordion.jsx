@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import Collapse from "@mui/material/Collapse";
@@ -129,6 +129,10 @@ const TuComponente = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [monedaType, setMonedaType] = useState("");
   const [urlImagen, setUrlImagen] = useState(imagenNoDisponible);
+
+  const codigoRef = useRef(null);
+  const descripcionRef = useRef(null);
+  const marcaRef = useRef(null);
 
   const handleCheckboxChange = (checkboxNumber) => {
     if (checkboxNumber === 1) {
@@ -1246,6 +1250,17 @@ const TuComponente = () => {
     });
   };
 
+  const handleKeyDown = (event, ref) => {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      if (ref) {
+        ref.current.focus();
+      } else {
+        handleIconButtonItemsClick();
+      }
+    }
+  };
+
   return (
     <Paper elevation={0}>
       {/* Card Arriba */}
@@ -1454,6 +1469,8 @@ const TuComponente = () => {
               style={{ marginLeft: "10px" }}
               placeholder="Código"
               onChange={(e) => setCriterio1(e.target.value)}
+              inputRef={codigoRef}
+              onKeyDown={(e) => handleKeyDown(e, descripcionRef)}
               onClick={(event) => {
                 event.stopPropagation(); // Evita la propagación del evento al acordeón
               }}
@@ -1473,6 +1490,8 @@ const TuComponente = () => {
               style={{ marginLeft: "10px" }}
               placeholder="Descripción"
               onChange={(e) => setCriterio2(e.target.value)}
+              inputRef={descripcionRef}
+              onKeyDown={(e) => handleKeyDown(e, marcaRef)}
               onClick={(event) => {
                 event.stopPropagation(); // Evita la propagación del evento al acordeón
               }}
@@ -1504,6 +1523,8 @@ const TuComponente = () => {
               style={{ marginLeft: "10px" }}
               placeholder="Marca - País"
               onChange={(e) => setCriterio3(e.target.value)}
+              inputRef={marcaRef}
+              onKeyDown={(e) => handleKeyDown(e, null)}
               onClick={(event) => {
                 event.stopPropagation(); // Evita la propagación del evento al acordeón
               }}

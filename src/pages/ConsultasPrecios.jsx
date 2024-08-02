@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   Card,
   CardActions,
@@ -40,6 +40,10 @@ const ConsultasPrecios = () => {
   const [resumenDevoluciones, setResumenDevoluciones] = useState([]);
   const [llegadaProducto, setLlegadaProducto] = useState({});
   const [isLoading, setIsLoading] = useState(true); // Estado de carga
+
+  const codigoRef = useRef(null);
+  const descripcionRef = useRef(null);
+  const marcaRef = useRef(null);
 
   useEffect(() => {
     // Simular una carga de datos con un retraso de 1.5 segundos
@@ -92,6 +96,17 @@ const ConsultasPrecios = () => {
     });
   };
 
+  const handleKeyDown = (event, ref) => {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      if (ref) {
+        ref.current.focus();
+      } else {
+        handleIconButtonItemsClick();
+      }
+    }
+  };
+
   return (
     <React.Fragment>
       <CssBaseline />
@@ -129,6 +144,8 @@ const ConsultasPrecios = () => {
               onChange={(e) => setCodigo(e.target.value)}
               placeholder="Código"
               autoComplete="off"
+              inputRef={codigoRef}
+              onKeyDown={(e) => handleKeyDown(e, descripcionRef)}
               onClick={(event) => {
                 event.stopPropagation();
               }}
@@ -149,6 +166,8 @@ const ConsultasPrecios = () => {
               placeholder="Descripción"
               onChange={(e) => setDescripcion(e.target.value)}
               autoComplete="off"
+              inputRef={descripcionRef}
+              onKeyDown={(e) => handleKeyDown(e, marcaRef)}
               onClick={(event) => {
                 event.stopPropagation();
               }}
@@ -169,6 +188,8 @@ const ConsultasPrecios = () => {
               placeholder="Marca-País"
               autoComplete="off"
               onChange={(e) => setMarca(e.target.value)}
+              inputRef={marcaRef}
+              onKeyDown={(e) => handleKeyDown(e, null)}
               onClick={(event) => {
                 event.stopPropagation();
               }}
