@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import {
   Table,
   TableBody,
@@ -115,6 +115,9 @@ const ThirdTable = ({
   isEditToCartVisible,
 }) => {
   const currentData = historialPrecios;
+  const cantidadRef = useRef(null);
+  const descuentoARef = useRef(null);
+  const descuentBRef = useRef(null);
 
   const handleIncrement = () => {
     setTicketCount(ticketCount + 1);
@@ -169,6 +172,24 @@ const ThirdTable = ({
     } else {
       // Si el valor no es válido, establecer el valor predeterminado en 1
       setTicketCount(1);
+    }
+  };
+
+  const handleKeyDown = (event, ref) => {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      if (ref) {
+        ref.current.focus();
+      } else {
+        const editarOAgregar = isEditToCartVisible ? false : true;
+        //false: Editar;
+        //true: Agregar;
+        if (editarOAgregar) {
+          handleAddToCart();
+        } else {
+          handleEditSelectedItem(detalleProducto.codigoInterno);
+        }        
+      }
     }
   };
 
@@ -322,6 +343,8 @@ const ThirdTable = ({
                       }}
                       value={ticketCount}
                       onChange={handleChange}
+                      inputRef={cantidadRef}
+                      onKeyDown={(e) => handleKeyDown(e, descuentoARef)}
                       InputProps={{
                         style: {
                           fontSize: "14px",
@@ -362,6 +385,8 @@ const ThirdTable = ({
                       value={descuentoA} // Valor del estado
                       inputProps={{ type: "text", inputMode: "numeric" }}
                       onChange={handleDescuentoAChange}
+                      inputRef={descuentoARef}
+                      onKeyDown={(e) => handleKeyDown(e, descuentBRef)}
                       InputProps={{
                         style: {
                           fontSize: "14px",
@@ -385,6 +410,8 @@ const ThirdTable = ({
                       value={descuentoB} // Valor del estado
                       style={{ paddingLeft: 20 }}
                       onChange={handleDescuentoBChange}
+                      inputRef={descuentBRef}
+                      onKeyDown={(e) => handleKeyDown(e, null)}
                       InputProps={{
                         style: {
                           fontSize: "14px",

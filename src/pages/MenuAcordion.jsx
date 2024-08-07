@@ -488,14 +488,15 @@ const TuComponente = () => {
   // };
 
   const handlPrecioFinalChange = (event) => {
-    const value = event.target.value.trim();
+    const value = event.target.value.trim();  
+
     // Expresión regular para validar números positivos con hasta dos decimales
     const regex = /^(\d+(\.\d{0,2})?|\.\d{1,2})$/; // /^\d+(\.\d{1,2})?$/;
     if (value === "") {
-      setTotal(0);
+      setTotal("");
     } else if (regex.test(value)) {
       // Verificar si el valor cumple con el formato requerido
-      //const parsedValue = parseFloat(value);
+      //const valorNumerico = new Decimal(value);
       setTotal(value);
     }
   };
@@ -559,6 +560,10 @@ const TuComponente = () => {
     monedaValue,
     utilidad
   ) => {
+    if (precioFinal === "") {
+      precioFinal = 0;
+    }
+
     const alreadyInCart = cartItems.some(
       (item) => item.codigoInterno === detalleProducto.codigoInterno
     );
