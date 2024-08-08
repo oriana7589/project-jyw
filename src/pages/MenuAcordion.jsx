@@ -1229,6 +1229,7 @@ const TuComponente = () => {
           precioFinal: item.igvItem,
           ticketCount: item.cantidad,
           utilidad: utilidad,
+          codigoAlmacen: item.codigoAlmacen
         };
         newCartItems.push(newItems);
       });
