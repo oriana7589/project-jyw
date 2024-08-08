@@ -274,9 +274,10 @@ function PrecioProductos({
               onChange={(e) => setCantidad(e.target.value)}
               fullWidth
               style={{ height: 35 }}
-              disabled={true ? formaPagos.codigoFormaPago !== "CRE" : false}
+              disabled={formaPagos.codigoFormaPago !== "CRE" || proformaSeleccionada.estado === 'FAC'}
             >
               {" "}
+              <MenuItem value={cantidad}>{cantidad}</MenuItem>
               <MenuItem value={0}>0</MenuItem>
               <MenuItem value={7}>7</MenuItem>
               <MenuItem value={15}>15</MenuItem>

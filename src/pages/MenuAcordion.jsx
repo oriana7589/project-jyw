@@ -1267,6 +1267,17 @@ const TuComponente = () => {
     }
   };
 
+  const handleKeyDownClienteOProforma = (event, tipo) => {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      if (tipo === 'proforma') {
+        handleBuscarProforma(numeroProforma);
+      } else {
+        handleIconButtonClick();
+      }      
+    }
+  };
+
   return (
     <Paper elevation={0}>
       {/* Card Arriba */}
@@ -1306,6 +1317,7 @@ const TuComponente = () => {
               style={{ marginLeft: "10px" }}
               placeholder="Ruc o Razón"
               autoComplete="off"
+              onKeyDown={(e) => handleKeyDownClienteOProforma(e, 'cliente')}
               onChange={(e) => setCriterioBusqueda(e.target.value)}
               onClick={(event) => {
                 event.stopPropagation(); // Evita la propagación del evento al acordeón
@@ -1364,6 +1376,7 @@ const TuComponente = () => {
               style={{ marginLeft: "10px" }}
               placeholder="Num. proforma"
               autoComplete="off"
+              onKeyDown={(e) => handleKeyDownClienteOProforma(e, 'proforma')}
               onChange={handleProforma}
               onClick={(event) => {
                 event.stopPropagation(); // Evita la propagación del evento al acordeón

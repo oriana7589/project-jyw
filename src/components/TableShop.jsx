@@ -193,6 +193,13 @@ const ThirdTable = ({
     }
   };
 
+  const handelKeyDown = (event) => {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      handleBuscarProforma(numeroProforma);
+    }
+  };
+
   return (
     <>
       <Typography
