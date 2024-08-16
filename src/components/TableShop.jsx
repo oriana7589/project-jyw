@@ -113,6 +113,7 @@ const ThirdTable = ({
   calcularUtilidad,
   isAddToCartVisible,
   isEditToCartVisible,
+  codigoRef
 }) => {
   const currentData = historialPrecios;
   const cantidadRef = useRef(null);
@@ -121,6 +122,7 @@ const ThirdTable = ({
 
   const handleIncrement = () => {
     setTicketCount(ticketCount + 1);
+    cantidadRef.current.focus();
   };
 
   const handleAddToCart = () => {
@@ -161,6 +163,7 @@ const ThirdTable = ({
     if (ticketCount > 1) {
       setTicketCount(ticketCount - 1);
     }
+    cantidadRef.current.focus();
   };
 
   const handleChange = (event) => {
@@ -175,10 +178,10 @@ const ThirdTable = ({
     }
   };
 
-  const handleKeyDown = (event, ref) => {
+  const handleKeyDown = (event, ref, noSale) => {
     if (event.key === 'Enter') {
       event.preventDefault();
-      if (ref) {
+      if (noSale) {
         ref.current.focus();
       } else {
         const editarOAgregar = isEditToCartVisible ? false : true;
@@ -186,19 +189,18 @@ const ThirdTable = ({
         //true: Agregar;
         if (editarOAgregar) {
           handleAddToCart();
+          ref.current.focus();
         } else {
           handleEditSelectedItem(detalleProducto.codigoInterno);
+          ref.current.focus();
         }        
       }
     }
   };
 
-  const handelKeyDown = (event) => {
-    if (event.key === 'Enter') {
-      event.preventDefault();
-      handleBuscarProforma(numeroProforma);
-    }
-  };
+  const handleFocus = (event) => {
+    event.target.select();
+  }
 
   return (
     <>
@@ -349,9 +351,10 @@ const ThirdTable = ({
                         marginTop: "5px",
                       }}
                       value={ticketCount}
+                      onFocus={handleFocus}
                       onChange={handleChange}
                       inputRef={cantidadRef}
-                      onKeyDown={(e) => handleKeyDown(e, descuentoARef)}
+                      onKeyDown={(e) => handleKeyDown(e, descuentoARef, true)}
                       InputProps={{
                         style: {
                           fontSize: "14px",
@@ -390,10 +393,11 @@ const ThirdTable = ({
                       autoComplete="off"
                       style={{ paddingLeft: 20 }}
                       value={descuentoA} // Valor del estado
+                      onFocus={handleFocus}
                       inputProps={{ type: "text", inputMode: "numeric" }}
                       onChange={handleDescuentoAChange}
                       inputRef={descuentoARef}
-                      onKeyDown={(e) => handleKeyDown(e, descuentBRef)}
+                      onKeyDown={(e) => handleKeyDown(e, descuentBRef, true)}
                       InputProps={{
                         style: {
                           fontSize: "14px",
@@ -416,9 +420,10 @@ const ThirdTable = ({
                       autoComplete="off"
                       value={descuentoB} // Valor del estado
                       style={{ paddingLeft: 20 }}
+                      onFocus={handleFocus}
                       onChange={handleDescuentoBChange}
                       inputRef={descuentBRef}
-                      onKeyDown={(e) => handleKeyDown(e, null)}
+                      onKeyDown={(e) => handleKeyDown(e, codigoRef, false)}
                       InputProps={{
                         style: {
                           fontSize: "14px",
@@ -446,6 +451,7 @@ const ThirdTable = ({
                       variant="outlined"
                       autoComplete="off"
                       value={total} // Valor del estado
+                      onFocus={handleFocus}
                       style={{ paddingLeft: 20 }}
                       onChange={handlPrecioFinalChange}
                       InputProps={{
@@ -568,7 +574,8 @@ const TableShop = ({
   isAddToCartVisible,
   isEditToCartVisible,
   selectedClient,
-  proformaSeleccionada
+  proformaSeleccionada,
+  codigoRef
 }) => {
   let razonSocial = "";
   let ruc = "";
@@ -694,6 +701,7 @@ const TableShop = ({
         setTabValue={setTabValue}
         isAddToCartVisible={isAddToCartVisible}
         isEditToCartVisible={isEditToCartVisible}
+        codigoRef={codigoRef}
       />
     </div>
   );

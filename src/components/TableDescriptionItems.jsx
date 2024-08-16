@@ -34,7 +34,8 @@ const TableDescripcionItems = ({
   isAddToCartVisible,
   isEditToCartVisible,
   selectedClient,
-  proformaSeleccionada
+  proformaSeleccionada,
+  codigoRef
 }) => {
 
   return (
@@ -69,6 +70,7 @@ const TableDescripcionItems = ({
         isEditToCartVisible = {isEditToCartVisible}
         selectedClient = {selectedClient}
         proformaSeleccionada={proformaSeleccionada}
+        codigoRef={codigoRef}
       />
       <div>
  

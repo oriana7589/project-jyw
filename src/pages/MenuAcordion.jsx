@@ -1278,6 +1278,10 @@ const TuComponente = () => {
     }
   };
 
+  const handleFocus = (event) => {
+    event.target.select();
+  }
+
   return (
     <Paper elevation={0}>
       {/* Card Arriba */}
@@ -1316,6 +1320,7 @@ const TuComponente = () => {
               InputLabelProps={{ style: { color: "rgb(255,255,255)" } }}
               style={{ marginLeft: "10px" }}
               placeholder="Ruc o Razón"
+              onFocus={handleFocus}
               autoComplete="off"
               onKeyDown={(e) => handleKeyDownClienteOProforma(e, 'cliente')}
               onChange={(e) => setCriterioBusqueda(e.target.value)}
@@ -1362,6 +1367,7 @@ const TuComponente = () => {
             </Typography>
             <TextField
               value={numeroProforma}
+              
               size="small"
               InputProps={{
                 style: {
@@ -1376,6 +1382,7 @@ const TuComponente = () => {
               style={{ marginLeft: "10px" }}
               placeholder="Num. proforma"
               autoComplete="off"
+              onFocus={handleFocus}
               onKeyDown={(e) => handleKeyDownClienteOProforma(e, 'proforma')}
               onChange={handleProforma}
               onClick={(event) => {
@@ -1488,6 +1495,7 @@ const TuComponente = () => {
               style={{ marginLeft: "10px" }}
               placeholder="Código"
               onChange={(e) => setCriterio1(e.target.value)}
+              onFocus={handleFocus}
               inputRef={codigoRef}
               onKeyDown={(e) => handleKeyDown(e, descripcionRef)}
               onClick={(event) => {
@@ -1509,6 +1517,7 @@ const TuComponente = () => {
               style={{ marginLeft: "10px" }}
               placeholder="Descripción"
               onChange={(e) => setCriterio2(e.target.value)}
+              onFocus={handleFocus}
               inputRef={descripcionRef}
               onKeyDown={(e) => handleKeyDown(e, marcaRef)}
               onClick={(event) => {
@@ -1542,6 +1551,7 @@ const TuComponente = () => {
               style={{ marginLeft: "10px" }}
               placeholder="Marca - País"
               onChange={(e) => setCriterio3(e.target.value)}
+              onFocus={handleFocus}
               inputRef={marcaRef}
               onKeyDown={(e) => handleKeyDown(e, null)}
               onClick={(event) => {
@@ -1670,6 +1680,7 @@ const TuComponente = () => {
             urlImagen = {urlImagen}
             setUrlImagen = {setUrlImagen}
             numeroProforma = {numeroProforma}
+            codigoRef={codigoRef}
           />
         </Collapse>
       </Card>

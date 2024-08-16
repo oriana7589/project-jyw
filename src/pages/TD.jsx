@@ -61,6 +61,7 @@ export default function TD({
   proformaSeleccionada,
   urlImagen,
   setUrlImagen,
+  codigoRef
 }) {
   const [page, setPage] = useState(1);
   const [imagenArticulo, setImagenArticulo] = useState([]);
@@ -200,6 +201,7 @@ export default function TD({
             handleItemSugeridoClick={handleItemSugeridoClick}
             selectedClient = {selectedClient}
             proformaSeleccionada={proformaSeleccionada}
+            codigoRef={codigoRef}
           />
         </div>
       </Container>
