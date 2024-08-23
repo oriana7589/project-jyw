@@ -13,6 +13,7 @@ import LogoCom from "../image/logoCompleto.png";
 import DashboardCliente from "./DashboardCliente";
 import UltimasCompras from "./UltimasCompras";
 import DashboardItems from "./DashboardItems";
+import CreditosYCobranzas from "./CreditosYCobranzas";
 
 const CustomLeftTab = styled(Tab)(({ theme, selected }) => ({
   color: selected
@@ -82,7 +83,7 @@ const PestañaContenido = ({
     case 2:
       return <DashboardItems itemsComprados={itemsComprados} />;
     case 3:
-      return "Hola";
+      return <CreditosYCobranzas  dataDocumentos={dataDocumentos} itemsComprados={itemsComprados} />;
     default:
       return null;
   }
@@ -316,8 +317,7 @@ const Cliente = ({
           <CustomClickableTab
             label="CREDITOS Y COBRANZAS"
             style={{ minHeight: "25px", fontSize: "0.7rem" }}
-            clickable="false"
-            disabled
+            clickable="true"
           />
         </CustomTabs>
         {hayDatosDisponibles ? (
