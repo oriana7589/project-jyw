@@ -1,37 +1,57 @@
-import {
-    Card,
-    CardContent,
-    Typography
-  } from "@mui/material";
-  import React, { useState } from "react";
+import { Card, CardContent, IconButton, Typography } from "@mui/material";
+import React, { useState } from "react";
 import TableFacturas from "./TableFacturas";
-  
-  function FacturasPendientes({dataDocumentos}){
-    return (
-        <div style={{padding:10}}>
-        <Card sx={{ borderRadius: 0, boxShadow: 2, padding: 2 }}>
-          <CardContent>
-            <div style={{display:"flex", justifyContent: "space-between"}}>
-            <Typography style={{
-                      textAlign: "left",
-                      fontSize: "1.5rem",
-                      fontWeight: "bold",
-                    }} paddingBottom={3} component="div">
-              Facturas Pendientes
-            </Typography>
-            <Typography style={{
-                      textAlign:"end",
-                      fontSize: "1rem",
-                      fontWeight: "bold",
-                    }} paddingBottom={3} component="div">
-             PENDIENTE PAGO
-            </Typography>
-            </div>
-          <TableFacturas  dataDocumentos={dataDocumentos}/>
-          </CardContent>
-        </Card>
-      </div>
-    );
-  }
+import TableEstadoLetras from "./TableEstadoLetras";
 
-    export default FacturasPendientes;
+function FacturasPendientes({ dataDocumentos }) {
+  const [estadoVisible, setEstadoVisible] = useState(false);
+
+  const handleClick = () => {
+    setEstadoVisible((prevEstadoVisible) => !prevEstadoVisible); 
+  };
+
+  return (
+    <div style={{ padding: 10 }}>
+      <Card sx={{ borderRadius: 0, boxShadow: 2, padding: 2 }}>
+        <CardContent>
+          <div style={{ display: "flex", justifyContent: "space-between" }}>
+            <Typography
+              style={{
+                textAlign: "left",
+                fontSize: "1.5rem",
+                fontWeight: "bold",
+              }}
+              paddingBottom={3}
+              component="div"
+            >
+              {estadoVisible ? "Estado Letras" : "Facturas Pendientes"}
+            </Typography>
+            <IconButton
+              onClick={handleClick}
+              style={{
+                backgroundColor: "rgb(226, 52, 48)",
+                borderRadius: "0",
+                width: "40%",
+                height: "40px",
+              }}
+            >
+              <Typography
+                style={{ color: "rgb(255, 255, 255)", fontSize: "1rem" }}
+              >
+                {estadoVisible ? "FACTURAS PENDIENTES" : "ESTADO DE LETRAS"}
+              </Typography>
+            </IconButton>
+          </div>
+          {/* Cambia la tabla según el estado */}
+          {estadoVisible ? (
+            <TableEstadoLetras dataDocumentos={dataDocumentos} />
+          ) : (
+            <TableFacturas dataDocumentos={dataDocumentos} />
+          )}
+        </CardContent>
+      </Card>
+    </div>
+  );
+}
+
+export default FacturasPendientes;
