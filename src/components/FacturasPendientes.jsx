@@ -3,16 +3,20 @@ import React, { useState } from "react";
 import TableFacturas from "./TableFacturas";
 import TableEstadoLetras from "./TableEstadoLetras";
 
-function FacturasPendientes({ dataDocumentos }) {
+function FacturasPendientes({
+  totalPendiente,
+  documentosPendientes,
+  letrasPendientes,
+}) {
   const [estadoVisible, setEstadoVisible] = useState(false);
 
   const handleClick = () => {
-    setEstadoVisible((prevEstadoVisible) => !prevEstadoVisible); 
+    setEstadoVisible((prevEstadoVisible) => !prevEstadoVisible);
   };
 
   return (
-    <div style={{ padding: 10 }}>
-      <Card sx={{ borderRadius: 0, boxShadow: 2, padding: 2 }}>
+    <div style={{ padding: 5 }}>
+      <Card sx={{ borderRadius: 0, boxShadow: 2}}>
         <CardContent>
           <div style={{ display: "flex", justifyContent: "space-between" }}>
             <Typography
@@ -44,9 +48,14 @@ function FacturasPendientes({ dataDocumentos }) {
           </div>
           {/* Cambia la tabla según el estado */}
           {estadoVisible ? (
-            <TableEstadoLetras dataDocumentos={dataDocumentos} />
+            <TableEstadoLetras
+              letrasPendientes={letrasPendientes}
+            />
           ) : (
-            <TableFacturas dataDocumentos={dataDocumentos} />
+            <TableFacturas
+              totalPendiente={totalPendiente}
+              documentosPendientes={documentosPendientes}
+            />
           )}
         </CardContent>
       </Card>

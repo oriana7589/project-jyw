@@ -8,8 +8,8 @@ import DetalleCredito from "./DetalleCredito";
   
   function Creditos({dataDocumentos}){
     return (
-        <div style={{padding:10}}>
-        <Card sx={{ borderRadius: 0, boxShadow: 2, padding: 2 , height:507}}>
+        <div style={{padding:5}}>
+        <Card sx={{ borderRadius: 0, boxShadow: 2, padding: 2 , height:530}}>
           <CardContent>
             <Typography style={{
                       textAlign: "left",

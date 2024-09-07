@@ -56,7 +56,10 @@ const PestañaContenido = ({
   itemsComprados,
   handleBuscarProforma,
   setNumeroProforma,
-  isLoading
+  isLoading,
+  documentosPendientes,
+  letrasPendientes,
+  totalPendiente
 }) => {
   switch (value) {
     case 0:
@@ -69,7 +72,7 @@ const PestañaContenido = ({
           promedioItems={promedioItems}
           promedioComprasAlMes={promedioComprasAlMes}
           onCambiarFechaGrafica={onCambiarFechaGrafica}
-          isLoading = {isLoading}
+          isLoading={isLoading}
         />
       );
     case 1:
@@ -77,13 +80,21 @@ const PestañaContenido = ({
         <UltimasCompras
           handleBuscarProforma={handleBuscarProforma}
           ultimasCompras={ultimasCompras}
-          setNumeroProforma = {setNumeroProforma}
+          setNumeroProforma={setNumeroProforma}
         />
       );
     case 2:
       return <DashboardItems itemsComprados={itemsComprados} />;
     case 3:
-      return <CreditosYCobranzas  dataDocumentos={dataDocumentos} itemsComprados={itemsComprados} />;
+      return (
+        <CreditosYCobranzas
+          dataDocumentos={dataDocumentos}
+          documentosPendientes={documentosPendientes}
+          totalPendiente = {totalPendiente}
+          letrasPendientes={letrasPendientes}
+          itemsComprados={itemsComprados}
+        />
+      );
     default:
       return null;
   }
@@ -112,7 +123,10 @@ const Cliente = ({
   handleBuscarProforma,
   setNumeroProforma,
   isLoading,
-  setIsLoading
+  documentosPendientes,
+  letrasPendientes,
+  totalPendiente,
+  setIsLoading,
 }) => {
   const [tabValue, setTabValue] = useState(0);
 
@@ -128,7 +142,7 @@ const Cliente = ({
     //   // Si el cliente es nulo o indefinido, se considera que no hay datos disponibles
     //   setDatosDisponibles(false);
     // }
-    
+
     onValidarButtonClick();
   };
 
@@ -326,6 +340,9 @@ const Cliente = ({
             dataGraficaActual={dataGraficaActual}
             dataGraficaAnterior={dataGraficaAnterior}
             dataDocumentos={dataDocumentos}
+            documentosPendientes={documentosPendientes}
+            letrasPendientes={letrasPendientes}
+            totalPendiente = {totalPendiente}
             promedioCompra={promedioCompra}
             promedioItems={promedioItems}
             ultimasCompras={ultimasCompras}
@@ -333,8 +350,8 @@ const Cliente = ({
             promedioComprasAlMes={promedioComprasAlMes}
             onCambiarFechaGrafica={onCambiarFechaGrafica}
             handleBuscarProforma={handleBuscarProforma}
-            setNumeroProforma = {setNumeroProforma}
-            isLoading = {isLoading}
+            setNumeroProforma={setNumeroProforma}
+            isLoading={isLoading}
           />
         ) : (
           <div

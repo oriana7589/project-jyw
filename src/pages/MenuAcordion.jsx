@@ -36,7 +36,10 @@ import {
   putActualizarProforma,
   getSeleccionarProformaCabecera,
   getSeleccionarProformaDetalle,
-  getSugeridosPorClientePorMonto
+  getSugeridosPorClientePorMonto,
+  getDocumentosPendientes,
+  getLetrasPendientes,
+  getTotalPendiente,
 } from "../Services/ApiService";
 import Items from "./Items";
 import DialogProductos from "../components/DialogProductos";
@@ -60,11 +63,14 @@ const TuComponente = () => {
   const [proformaSeleccionada, setProformaSeleccionada] = useState([]);
   const [proformaDetalle, setProformaDetalle] = useState([]);
   const [selectedClient, setSelectedClient] = useState(null);
+  const [totalPendiente, setTotalPendiente] = useState(0);
   const [selectedItems, setSelectedItems] = useState(null);
   const [dataGraficaActual, setDataGraficaActual] = useState([]);
   const [dataGraficaAnterior, setDataGraficaAnterior] = useState([]);
   const [dataDocumentos, setDataDocumentos] = useState([]);
   const [ultimasCompras, setUltimasCompras] = useState([]);
+  const [documentosPendientes, setDocumentosPendientes] = useState([]);
+  const [letrasPendientes, setLetrasPendientes] = useState([]);
   const [itemsComprados, setItemsComprados] = useState([]);
   const [promedioCompra, setPromedioCompra] = useState(0);
   const [detalleProducto, setDetalleProducto] = useState({});
@@ -151,47 +157,55 @@ const TuComponente = () => {
       setDescuentoA(0);
       setDescuentoB(0);
     }
-  }; 
+  };
 
   useEffect(() => {
-    if (selectedClient) {      
+    if (selectedClient) {
       const diasSinComprar1 = 0; // Los productos sugeridos en este punto tienen 0 días sin comprar
       const diasSinComprar2 = 45; // Los productos sugeridos en este punto tienen 45 días sin comprar
-      const diasSinComprar3 = 75; // Los productos sugeridos en este punto tienen 75 días sin comprar      
+      const diasSinComprar3 = 75; // Los productos sugeridos en este punto tienen 75 días sin comprar
       setIsAddToCartVisible(true);
       setIsEditToCartVisible(false);
       setDialogOpen(false);
-  
+
       // getSugeridosPorClientePorCantidad(selectedClient.codigoCliente, diasSinComprar1)
       //   .then((produtosSugeridosCliente) => {
       //     setProductosSugeridosCliente(produtosSugeridosCliente); //Productos sugeridos al encontrar un cliente - primera sugerencia
-      //   });      
-  
-      getSugeridosPorClientePorCantidad(selectedClient.codigoCliente, diasSinComprar2)
-        .then((articuloSugeridoCliente) => {
-          setArticuloSugeridoCliente(articuloSugeridoCliente); //Productos sugeridos en donde se eligen los items
-        });      
-  
-      getSugeridosPorClientePorMonto(selectedClient.codigoCliente, diasSinComprar2)
-        .then((articuloSugeridoClientePorMonto) => {
-          setArticuloSugeridoClientePorMonto(articuloSugeridoClientePorMonto); //Productos sugeridos en donde se eligen los items
-        });
-  
-      getSugeridosPorClientePorCantidad(selectedClient.codigoCliente, diasSinComprar3)
-        .then((articuloSugeridoCliente) => {
-          setArticuloSugeridoCliente75(articuloSugeridoCliente); //Productos sugeridos en donde se eligen los items
-        });
-  
-      getSugeridosPorClientePorMonto(selectedClient.codigoCliente, diasSinComprar3)
-        .then((articuloSugeridoClientePorMonto) => {
-          setArticuloSugeridoClientePorMonto75(articuloSugeridoClientePorMonto); //Productos sugeridos en donde se eligen los items
-        });      
-    };
+      //   });
+
+      getSugeridosPorClientePorCantidad(
+        selectedClient.codigoCliente,
+        diasSinComprar2
+      ).then((articuloSugeridoCliente) => {
+        setArticuloSugeridoCliente(articuloSugeridoCliente); //Productos sugeridos en donde se eligen los items
+      });
+
+      getSugeridosPorClientePorMonto(
+        selectedClient.codigoCliente,
+        diasSinComprar2
+      ).then((articuloSugeridoClientePorMonto) => {
+        setArticuloSugeridoClientePorMonto(articuloSugeridoClientePorMonto); //Productos sugeridos en donde se eligen los items
+      });
+
+      getSugeridosPorClientePorCantidad(
+        selectedClient.codigoCliente,
+        diasSinComprar3
+      ).then((articuloSugeridoCliente) => {
+        setArticuloSugeridoCliente75(articuloSugeridoCliente); //Productos sugeridos en donde se eligen los items
+      });
+
+      getSugeridosPorClientePorMonto(
+        selectedClient.codigoCliente,
+        diasSinComprar3
+      ).then((articuloSugeridoClientePorMonto) => {
+        setArticuloSugeridoClientePorMonto75(articuloSugeridoClientePorMonto); //Productos sugeridos en donde se eligen los items
+      });
+    }
   }, [selectedClient]);
 
   const handleClientSelect = (cliente) => {
-    setSelectedClient(cliente);    
-  }; 
+    setSelectedClient(cliente);
+  };
 
   const handleItemClick = (codigoInterno) => {
     if (codigoInterno) {
@@ -276,18 +290,18 @@ const TuComponente = () => {
     //       precioFinaln = precioFinaln.dividedBy(moneda).toDecimalPlaces(2);
     //     }
     //   }
-    // } else 
+    // } else
     if (monedaValue === "SOLES") {
       // Si la moneda es diferente de soles, aplica la conversión
       precioFinaln = precioFinaln.times(moneda).toDecimalPlaces(2);
-    }    
-    return precioFinaln;    
+    }
+    return precioFinaln;
   };
 
   const [total, setTotal] = useState(calcularPrecioFinal().toString());
 
   useEffect(() => {
-    setTotal(calcularPrecioFinal());    
+    setTotal(calcularPrecioFinal());
   }, [
     ticketCount,
     monto,
@@ -310,7 +324,7 @@ const TuComponente = () => {
     const utilidad = precioVentaSinIGV
       .minus(precioCompraSinIGV)
       .dividedBy(precioCompraSinIGV)
-      .toDecimalPlaces(2);    
+      .toDecimalPlaces(2);
     return utilidad;
   };
 
@@ -322,13 +336,13 @@ const TuComponente = () => {
     ticketCount,
     monto,
     monedaType
-  ) => { 
+  ) => {
     //console.log('precio al volver', precio)
     setDescuentoA(descuentoA);
     setDescuentoB(descuentoB);
     setTotal(precioFinal);
     setTicketCount(ticketCount);
-    setMonto(monto / ticketCount)
+    setMonto(monto / ticketCount);
     //setMonto(precio);
     setMonedaType(monedaType);
 
@@ -339,7 +353,7 @@ const TuComponente = () => {
       const precioVenta = new Decimal(detalleProducto.precioVenta);
       const impuesto = new Decimal(1.18);
       const precioVentaSinIGV = precioVenta.dividedBy(impuesto);
-      const precio = Math.round(precioVentaSinIGV.times(100)) / 100;      
+      const precio = Math.round(precioVentaSinIGV.times(100)) / 100;
       setMonto(precio);
       // if (monedaValue == "DOLARES AMERICANOS") {
       //   setMonto(precio);
@@ -348,9 +362,8 @@ const TuComponente = () => {
       //   const precioSoles = Math.round(precioVentaSinIGV.times(tipoCambio).times(100)) / 100;
       //   setMonto(precioSoles);
       // }
-      
     });
-    
+
     if (cartItems.length === 0) {
       setIsEditToCartVisible(false);
     } else {
@@ -439,7 +452,6 @@ const TuComponente = () => {
     }
   }, [codigoSeleccionado]);
 
-
   const handleDescuentoAChange = (event) => {
     const value = event.target.value.trim();
     if (value === "") {
@@ -469,7 +481,7 @@ const TuComponente = () => {
       setNumeroProforma("");
     } else {
       const parsedValue = parseInt(value);
-      if (!isNaN(parsedValue) ) {
+      if (!isNaN(parsedValue)) {
         setNumeroProforma(parsedValue);
       }
     }
@@ -488,7 +500,7 @@ const TuComponente = () => {
   // };
 
   const handlPrecioFinalChange = (event) => {
-    const value = event.target.value.trim();  
+    const value = event.target.value.trim();
 
     // Expresión regular para validar números positivos con hasta dos decimales
     const regex = /^(\d+(\.\d{0,2})?|\.\d{1,2})$/; // /^\d+(\.\d{1,2})?$/;
@@ -595,7 +607,7 @@ const TuComponente = () => {
       precioFinal: new Decimal(precioFinal),
       ticketCount: ticketCount,
       utilidad: utilidad,
-      codigoAlmacen: detalleProducto.codigoAlmacen
+      codigoAlmacen: detalleProducto.codigoAlmacen,
     };
     setCartItems([...cartItems, newItem]);
   };
@@ -699,7 +711,6 @@ const TuComponente = () => {
     getArticulosSugeridos().then((articuloSugerido) => {
       setArticuloSugerido(articuloSugerido);
     });
-
   }, []);
 
   useEffect(() => {
@@ -771,6 +782,30 @@ const TuComponente = () => {
       }
     );
 
+    getDocumentosPendientes(selectedClient.codigoCliente).then(
+      (documentosPendientes) => {
+        setDocumentosPendientes(documentosPendientes);
+      }
+    );
+
+    getLetrasPendientes(selectedClient.codigoCliente).then(
+      (letrasPendientes) => {
+        setLetrasPendientes(letrasPendientes);
+      }
+    );
+
+    getTotalPendiente(selectedClient.codigoCliente)
+      .then((totalPendiente) => {
+          setTotalPendiente(totalPendiente);
+      })
+      .catch((error) => {
+        if (error.response && error.response.status === 404) {
+          setTotalPendiente(0);
+        } else {
+          console.error("Error obteniendo total pendiente:", error);
+        }
+      });
+
     getPromedioCompraCliente(selectedClient.codigoCliente).then(
       (promedioCompra) => {
         setPromedioCompra(promedioCompra);
@@ -785,7 +820,7 @@ const TuComponente = () => {
 
     getPromedioComprasAlMesCliente(selectedClient.codigoCliente).then(
       (promedioComprasAlMes) => {
-        setIsLoading(false)
+        setIsLoading(false);
         setPromedioComprasAlMes(promedioComprasAlMes);
       }
     );
@@ -838,11 +873,10 @@ const TuComponente = () => {
   }, [dialogProductOpen]);
 
   const esAceptado = (utilidad, tipoCompra) => {
-    if (tipoCompra == 'LOC') {
-      return utilidad > 0.1 ? 'S' : 'N'
-    }
-    else {
-      return utilidad > 0.2 ? 'S' : 'N'
+    if (tipoCompra == "LOC") {
+      return utilidad > 0.1 ? "S" : "N";
+    } else {
+      return utilidad > 0.2 ? "S" : "N";
     }
   };
 
@@ -893,7 +927,7 @@ const TuComponente = () => {
             : 0;
 
         const precioVentaSinIGV = subTotalItem / item.ticketCount;
-        const precioCompraSinIGV = new Decimal(item.precioCompra)
+        const precioCompraSinIGV = new Decimal(item.precioCompra);
         const totalItemConIGV = new Decimal(item.precioFinal).toDecimalPlaces(
           2
         );
@@ -910,7 +944,7 @@ const TuComponente = () => {
           totalItem: parseFloat(subTotalItem),
           aceptado: esAceptado(item.utilidad, item.tipoCompra),
           igvItem: parseFloat(totalItemConIGV),
-          codigoAlmacen: item.codigoAlmacen
+          codigoAlmacen: item.codigoAlmacen,
         };
       });
 
@@ -987,7 +1021,7 @@ const TuComponente = () => {
             : 0;
 
         const precioVentaSinIGV = subTotalItem / item.ticketCount;
-        const precioCompraSinIGV = new Decimal(item.precioCompra)
+        const precioCompraSinIGV = new Decimal(item.precioCompra);
         const totalItemConIGV = new Decimal(item.precioFinal).toDecimalPlaces(
           2
         );
@@ -1004,7 +1038,7 @@ const TuComponente = () => {
           totalItem: parseFloat(subTotalItem),
           aceptado: esAceptado(item.utilidad, item.tipoCompra),
           igvItem: parseFloat(totalItemConIGV),
-          codigoAlmacen: item.codigoAlmacen
+          codigoAlmacen: item.codigoAlmacen,
         };
       });
 
@@ -1035,7 +1069,7 @@ const TuComponente = () => {
     if (criterioBusqueda !== "") {
       getClientes(criterioBusqueda).then((tablaClientes) => {
         setClientes(tablaClientes);
-      });      
+      });
     } else {
       setClientes([]);
     }
@@ -1093,7 +1127,7 @@ const TuComponente = () => {
     setTransporte(transportista);
   };
 
-/*  useEffect(() => {
+  /*  useEffect(() => {
     // Verifica que 'numeroProforma' no esté vacío
     if (numeroProforma !== "") {
       // Llama a 'handleBuscarProforma' con el nuevo valor de 'numeroProforma'
@@ -1229,7 +1263,7 @@ const TuComponente = () => {
           precioFinal: item.igvItem,
           ticketCount: item.cantidad,
           utilidad: utilidad,
-          codigoAlmacen: item.codigoAlmacen
+          codigoAlmacen: item.codigoAlmacen,
         };
         newCartItems.push(newItems);
       });
@@ -1257,7 +1291,7 @@ const TuComponente = () => {
   };
 
   const handleKeyDown = (event, ref) => {
-    if (event.key === 'Enter') {
+    if (event.key === "Enter") {
       event.preventDefault();
       if (ref) {
         ref.current.focus();
@@ -1268,19 +1302,19 @@ const TuComponente = () => {
   };
 
   const handleKeyDownClienteOProforma = (event, tipo) => {
-    if (event.key === 'Enter') {
+    if (event.key === "Enter") {
       event.preventDefault();
-      if (tipo === 'proforma') {
+      if (tipo === "proforma") {
         handleBuscarProforma(numeroProforma);
       } else {
         handleIconButtonClick();
-      }      
+      }
     }
   };
 
   const handleFocus = (event) => {
     event.target.select();
-  }
+  };
 
   return (
     <Paper elevation={0}>
@@ -1322,7 +1356,7 @@ const TuComponente = () => {
               placeholder="Ruc o Razón"
               onFocus={handleFocus}
               autoComplete="off"
-              onKeyDown={(e) => handleKeyDownClienteOProforma(e, 'cliente')}
+              onKeyDown={(e) => handleKeyDownClienteOProforma(e, "cliente")}
               onChange={(e) => setCriterioBusqueda(e.target.value)}
               onClick={(event) => {
                 event.stopPropagation(); // Evita la propagación del evento al acordeón
@@ -1367,7 +1401,6 @@ const TuComponente = () => {
             </Typography>
             <TextField
               value={numeroProforma}
-              
               size="small"
               InputProps={{
                 style: {
@@ -1383,7 +1416,7 @@ const TuComponente = () => {
               placeholder="Num. proforma"
               autoComplete="off"
               onFocus={handleFocus}
-              onKeyDown={(e) => handleKeyDownClienteOProforma(e, 'proforma')}
+              onKeyDown={(e) => handleKeyDownClienteOProforma(e, "proforma")}
               onChange={handleProforma}
               onClick={(event) => {
                 event.stopPropagation(); // Evita la propagación del evento al acordeón
@@ -1424,7 +1457,10 @@ const TuComponente = () => {
             dataGraficaActual={dataGraficaActual}
             dataGraficaAnterior={dataGraficaAnterior}
             dataDocumentos={dataDocumentos}
+            documentosPendientes={documentosPendientes}
+            letrasPendientes={letrasPendientes}
             promedioCompra={promedioCompra}
+            totalPendiente={totalPendiente}
             promedioItems={promedioItems}
             promedioComprasAlMes={promedioComprasAlMes}
             ranking={rankingClienteSeleccionado}
@@ -1677,9 +1713,9 @@ const TuComponente = () => {
             isEditProformaVisible={isEditProformaVisible}
             isAddProformaVisible={isAddProformaVisible}
             actualizarProforma={actualizarProforma}
-            urlImagen = {urlImagen}
-            setUrlImagen = {setUrlImagen}
-            numeroProforma = {numeroProforma}
+            urlImagen={urlImagen}
+            setUrlImagen={setUrlImagen}
+            numeroProforma={numeroProforma}
             codigoRef={codigoRef}
           />
         </Collapse>

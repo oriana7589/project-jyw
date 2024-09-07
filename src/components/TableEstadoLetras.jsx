@@ -1,34 +1,55 @@
 import React, { useState } from "react";
-import { Typography } from "@mui/material";
+import { Pagination, Stack, Typography } from "@mui/material";
 
-const TableEstadoLetras = ({ dataDocumentos }) => {
+const TableEstadoLetras = ({ letrasPendientes }) => {
+   // Estado para controlar la página actual y los elementos por página
+   const [paginaActual, setPaginaActual] = useState(1);
+   const elementosPorPagina = 14; // Cambia este valor si deseas un número diferente de elementos por página
+ 
+   // Calcular los índices de inicio y fin para los elementos de la página actual
+   const indiceInicio = (paginaActual - 1) * elementosPorPagina;
+   const indiceFin = indiceInicio + elementosPorPagina;
+ 
+   // Obtener los elementos de la página actual
+   const letrasPaginaActual = letrasPendientes.slice(indiceInicio, indiceFin);
+ 
+   // Manejar el cambio de página
+   const manejarCambioPagina = (event, value) => {
+     setPaginaActual(value);
+   };
   return (
-    <>
-      <table style={{ borderCollapse: "collapse", width: "80%", height:377}}>
+    <div style={{height:430.5}}>
+      <table style={{ borderCollapse: 'collapse', width: '80%' }}>
         <thead>
           <tr>
-            <th style={{ textAlign: "center" }}>Número</th>
-            <th style={{ textAlign: "center" }}>Monto</th>
-            <th style={{ textAlign: "center" }}>Fecha Emisión</th>
-            <th style={{ textAlign: "center" }}>Días Vencido</th>
+            <th style={{ textAlign: 'center' }}>Letra</th>
+            <th style={{ textAlign: 'center' }}>Importe Total</th>
+            <th style={{ textAlign: 'center' }}>Fecha Emisión</th>
+            <th style={{ textAlign: 'center' }}>Estado</th>
           </tr>
         </thead>
         <tbody>
-          {dataDocumentos.slice(0, 10).map((item) => (
-            <tr key={item.numDocumento}>
-              <td style={{ textAlign: "center" }}>{item.numDocumento}</td>
-              <td style={{ textAlign: "center" }}>
-                {item.moneda + " " + item.montoTotal}
-              </td>
-              <td style={{ textAlign: "center" }}>
-                {item.fechaEmision.split("T")[0]}
-              </td>
-              <td style={{ textAlign: "center" }}>{item.numDocumento}</td>
+          {letrasPaginaActual.map((item) => (
+            <tr key={item.numeroLetra}>
+              <td style={{ textAlign: 'center' }}>{item.numeroLetra}</td>
+              <td style={{ textAlign: 'center' }}>{item.importeTotal}</td>
+              <td style={{ textAlign: 'center' }}>{item.fechaEmision.split('T')[0]}</td>
+              <td style={{ textAlign: 'center' }}>{item.estado}</td>
             </tr>
           ))}
         </tbody>
       </table>
-    </>
+
+      {/* Paginador */}
+      <Stack spacing={2} style={{ marginTop: '10px', alignItems: 'end' }}>
+        <Pagination
+          count={Math.ceil(letrasPendientes.length / elementosPorPagina)} // Número total de páginas
+          page={paginaActual}
+          onChange={manejarCambioPagina}
+          size="medium" // Puedes cambiar el tamaño a "small", "medium", o "large"
+        />
+      </Stack>
+    </div>
   );
 };
 export default TableEstadoLetras;

@@ -20,8 +20,8 @@ const baseUrlProforma = () => {
 };
 
 const baseUrlTransportista = () => {
-  return "http://10.10.0.25:9696/api/Transportista"
-}
+  return "http://10.10.0.25:9696/api/Transportista";
+};
 
 export function getClientes(criterioBusqueda) {
   const listaClientesFiltrados = axios
@@ -103,6 +103,36 @@ export function getUltimasComprasCliente(codCliente) {
   return listaCompras;
 }
 
+export function getDocumentosPendientes(codCliente) {
+  const listaDocumentosPendientes = axios
+    .get(`${baseUrlCliente()}/DocumentosPendientes/${codCliente}`)
+    .then((res) => {
+      return res.data;
+    });
+
+  return listaDocumentosPendientes;
+}
+
+export function getLetrasPendientes(codCliente) {
+  const listaLetrasPendientes = axios
+    .get(`${baseUrlCliente()}/LetrasPendientes/${codCliente}`)
+    .then((res) => {
+      return res.data;
+    });
+
+  return listaLetrasPendientes;
+}
+
+export function getTotalPendiente(codCliente) {
+  const totalPendiente = axios
+    .get(`${baseUrlCliente()}/TotalPendiente/${codCliente}`)
+    .then((res) => {
+      return res.data;
+    });
+
+  return totalPendiente;
+}
+
 export function getItemsMasComprados(codCliente) {
   const listaCompras = axios
     .get(`${baseUrlCliente()}/ListadoItems/${codCliente}`)
@@ -114,16 +144,18 @@ export function getItemsMasComprados(codCliente) {
 }
 
 function convertirMasEnUrl(cadena) {
-  return cadena.replace('+',"%2B")
-};
+  return cadena.replace("+", "%2B");
+}
 
 // function convertirCadenaEnUrl(cadena) {
 //   return encodeURIComponent(cadena);
 // };
 
-export function getProdutosFiltrados( criterio1, criterio2 = "", criterio3 = "" ) {
-
-
+export function getProdutosFiltrados(
+  criterio1,
+  criterio2 = "",
+  criterio3 = ""
+) {
   let queryString = `?Criterio1=${criterio1}`;
   if (criterio2 !== "") {
     queryString += `&Criterio2=${criterio2}`;
@@ -173,9 +205,14 @@ export function getHistorialPrecios(codigoInterno, codigoCliente) {
   return FechaLlegada;
 }
 
-export function getSugeridosPorClientePorCantidad(codigoCliente, diasSinComprar) {
+export function getSugeridosPorClientePorCantidad(
+  codigoCliente,
+  diasSinComprar
+) {
   const ArticuloSugeridoCliente = axios
-    .get(`${baseUrlCliente()}/SugeridosPorClientePorCantidad?CodigoCliente=${codigoCliente}&dias=${diasSinComprar}`)
+    .get(
+      `${baseUrlCliente()}/SugeridosPorClientePorCantidad?CodigoCliente=${codigoCliente}&dias=${diasSinComprar}`
+    )
     .then((res) => {
       return res.data;
     });
@@ -193,7 +230,9 @@ export function getArticulosSugeridos() {
 
 export function getSugeridosPorClientePorMonto(codigoCliente, diasSinComprar) {
   const ArticuloSugeridoClientePorMonto = axios
-    .get(`${baseUrlCliente()}/SugeridosPorClientePorMonto?CodigoCliente=${codigoCliente}&dias=${diasSinComprar}`)
+    .get(
+      `${baseUrlCliente()}/SugeridosPorClientePorMonto?CodigoCliente=${codigoCliente}&dias=${diasSinComprar}`
+    )
     .then((res) => {
       return res.data;
     });
@@ -240,7 +279,7 @@ export function getTransportistas() {
   const transportistas = axios
     .get(`${baseUrlTransportista()}/Transportistas`)
     .then((res) => {
-      console.log('transportistas', res.data)
+      console.log("transportistas", res.data);
       return res.data;
     });
   return transportistas;
@@ -256,9 +295,11 @@ export function getPDFDataTecnica(url) {
 }
 
 export function getImagenArticulo(codigoArticulo) {
-  codigoArticulo = codigoArticulo.replace('/', '-');
+  codigoArticulo = codigoArticulo.replace("/", "-");
   const imagen = axios
-    .get(`${baseUrlGeneral()}/ObtenerImagenArticulo/${codigoArticulo}`, {responseType: 'blob'})
+    .get(`${baseUrlGeneral()}/ObtenerImagenArticulo/${codigoArticulo}`, {
+      responseType: "blob",
+    })
     .then((res) => {
       const urlImagen = URL.createObjectURL(res.data);
       return urlImagen;
@@ -267,10 +308,14 @@ export function getImagenArticulo(codigoArticulo) {
 }
 
 export async function getImagenesArticulos(codigoArticulo) {
-  codigoArticulo = codigoArticulo.replace('/', '-');
-  const response = await axios.get(`${baseUrlGeneral()}/ObtenerImagenesArticulo/${codigoArticulo}`);
+  codigoArticulo = codigoArticulo.replace("/", "-");
+  const response = await axios.get(
+    `${baseUrlGeneral()}/ObtenerImagenesArticulo/${codigoArticulo}`
+  );
   const base64Images = response.data; // Asume que response.data es el arreglo de imágenes en base64
-  const urlImagenes = base64Images.map(base64 => `data:image/jpeg;base64,${base64}`);
+  const urlImagenes = base64Images.map(
+    (base64) => `data:image/jpeg;base64,${base64}`
+  );
   return urlImagenes;
 }
 
@@ -294,13 +339,22 @@ export function postPGenerarProforma(
     .post(`${baseUrlProforma()}`, {
       codigoEmpresa: "01",
       codigoTienda: "01",
-      codigoVendedor: vendedor.codigoVendedor === undefined ? "1": vendedor.codigoVendedor.toString().trim() ,
-      codigoFormaPago: formaPagos.codigoFormaPago === undefined ? "CON" : formaPagos.codigoFormaPago,
+      codigoVendedor:
+        vendedor.codigoVendedor === undefined
+          ? "1"
+          : vendedor.codigoVendedor.toString().trim(),
+      codigoFormaPago:
+        formaPagos.codigoFormaPago === undefined
+          ? "CON"
+          : formaPagos.codigoFormaPago,
       codigoMoneda: codigoMoneda(),
       codigoClipro: codCliente,
       urgenteDespacho: "N",
       tipoEnvio: "ALM",
-      codigoTransportista: transporte.codigoTransportista === undefined ? "-1" : transporte.codigoTransportista.toString().trim(),
+      codigoTransportista:
+        transporte.codigoTransportista === undefined
+          ? "-1"
+          : transporte.codigoTransportista.toString().trim(),
       fechaEmision: fechaEmision,
       diasCredito: cantidad,
       fechaVencimiento: fechaVencimiento,
@@ -312,7 +366,6 @@ export function postPGenerarProforma(
       estado: estado(),
       observacion: observaciones,
       listaDetalleProforma: listaDetalle,
-      
     })
     .then((res) => {
       return res.data;
@@ -337,20 +390,28 @@ export function putActualizarProforma(
   importeTotal,
   codCliente
 ) {
-  
-  console.log('transporte', transporte)
+  console.log("transporte", transporte);
   const Proforma = axios
     .put(`${baseUrlProforma()}`, {
       numeroProforma: numeroProforma.toString().trim(),
       codigoEmpresa: "01",
       codigoTienda: "01",
-      codigoVendedor: vendedor.codigoVendedor === undefined ? "1": vendedor.codigoVendedor.toString().trim() ,
-      codigoFormaPago: formaPagos.codigoFormaPago === undefined ? "CON" : formaPagos.codigoFormaPago,
+      codigoVendedor:
+        vendedor.codigoVendedor === undefined
+          ? "1"
+          : vendedor.codigoVendedor.toString().trim(),
+      codigoFormaPago:
+        formaPagos.codigoFormaPago === undefined
+          ? "CON"
+          : formaPagos.codigoFormaPago,
       codigoMoneda: codigoMoneda(),
       codigoClipro: codCliente,
       urgenteDespacho: "N",
       tipoEnvio: "ALM",
-      codigoTransportista:  transporte === undefined ? "-1" : transporte.codigoTransportista.toString().trim(),
+      codigoTransportista:
+        transporte === undefined
+          ? "-1"
+          : transporte.codigoTransportista.toString().trim(),
       fechaEmision: fechaEmision,
       diasCredito: cantidad,
       fechaVencimiento: fechaVencimiento,
@@ -361,7 +422,7 @@ export function putActualizarProforma(
       importeTotal: parseFloat(importeTotal),
       estado: estado(),
       observacion: observaciones,
-      listaDetalleProforma: listaDetalle,      
+      listaDetalleProforma: listaDetalle,
     })
     .then((res) => {
       return res.data;
@@ -380,13 +441,14 @@ export function getSeleccionarProformaCabecera(NumeroProforma) {
 
 export function getGenerarPdfProforma(NumeroProforma) {
   const generarPdf = axios
-    .get(`${baseUrlProforma()}/GenerarPdfProforma/${NumeroProforma}`, { responseType: 'blob' })
+    .get(`${baseUrlProforma()}/GenerarPdfProforma/${NumeroProforma}`, {
+      responseType: "blob",
+    })
     .then((res) => {
       return res.data;
     });
   return generarPdf;
 }
-
 
 export function getSeleccionarProformaDetalle(NumeroProforma) {
   const seleccionarProformaDetalle = axios
@@ -447,4 +509,3 @@ export function getResumenDevolucionesAnualArticulo(codInterno) {
 
   return devolucionAnual;
 }
-

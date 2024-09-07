@@ -78,7 +78,7 @@ const DetalleCredito = ({ dataDocumentos }) => {
           style={{
             display: "flex",
             justifyContent: "space-between",
-            marginTop: 150,
+            marginTop: 165,
           }}
         >
           <IconButton
