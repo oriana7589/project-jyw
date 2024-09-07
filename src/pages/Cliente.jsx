@@ -59,7 +59,9 @@ const PestañaContenido = ({
   isLoading,
   documentosPendientes,
   letrasPendientes,
-  totalPendiente
+  totalPendiente,
+  promedioDias,
+  promedioCredito
 }) => {
   switch (value) {
     case 0:
@@ -88,11 +90,12 @@ const PestañaContenido = ({
     case 3:
       return (
         <CreditosYCobranzas
-          dataDocumentos={dataDocumentos}
           documentosPendientes={documentosPendientes}
           totalPendiente = {totalPendiente}
           letrasPendientes={letrasPendientes}
           itemsComprados={itemsComprados}
+          promedioDias={promedioDias}
+          promedioCredito={promedioCredito}
         />
       );
     default:
@@ -126,6 +129,8 @@ const Cliente = ({
   documentosPendientes,
   letrasPendientes,
   totalPendiente,
+  promedioDias,
+  promedioCredito,
   setIsLoading,
 }) => {
   const [tabValue, setTabValue] = useState(0);
@@ -343,6 +348,8 @@ const Cliente = ({
             documentosPendientes={documentosPendientes}
             letrasPendientes={letrasPendientes}
             totalPendiente = {totalPendiente}
+            promedioDias={promedioDias}
+            promedioCredito={promedioCredito}
             promedioCompra={promedioCompra}
             promedioItems={promedioItems}
             ultimasCompras={ultimasCompras}

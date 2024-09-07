@@ -7,10 +7,11 @@ import FacturasPendientes from "../components/FacturasPendientes";
 import Creditos from "../components/Creditos";
 
 export default function CreditosYCobranzas({
-  dataDocumentos,
   documentosPendientes,
   letrasPendientes,
   totalPendiente,
+  promedioDias,
+  promedioCredito
 }) {
   return (
     <React.Fragment>
@@ -32,7 +33,9 @@ export default function CreditosYCobranzas({
           />
         </div>
         <div style={{ flex: 1 }}>
-          <Creditos dataDocumentos={dataDocumentos} />
+          <Creditos 
+            promedioDias={promedioDias}
+            promedioCredito={promedioCredito} />
         </div>
       </Container>
     </React.Fragment>

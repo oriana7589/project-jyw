@@ -40,6 +40,8 @@ import {
   getDocumentosPendientes,
   getLetrasPendientes,
   getTotalPendiente,
+  getPromedioDiasCredito,
+  getPromedioCreditoMensual,
 } from "../Services/ApiService";
 import Items from "./Items";
 import DialogProductos from "../components/DialogProductos";
@@ -64,6 +66,8 @@ const TuComponente = () => {
   const [proformaDetalle, setProformaDetalle] = useState([]);
   const [selectedClient, setSelectedClient] = useState(null);
   const [totalPendiente, setTotalPendiente] = useState(0);
+  const [promedioDias, setPromedioDias] = useState(0);
+  const [promedioCredito, setPromedioCredito] = useState(0);
   const [selectedItems, setSelectedItems] = useState(null);
   const [dataGraficaActual, setDataGraficaActual] = useState([]);
   const [dataGraficaAnterior, setDataGraficaAnterior] = useState([]);
@@ -796,13 +800,37 @@ const TuComponente = () => {
 
     getTotalPendiente(selectedClient.codigoCliente)
       .then((totalPendiente) => {
-          setTotalPendiente(totalPendiente);
+        setTotalPendiente(totalPendiente);
       })
       .catch((error) => {
         if (error.response && error.response.status === 404) {
           setTotalPendiente(0);
         } else {
           console.error("Error obteniendo total pendiente:", error);
+        }
+      });
+
+    getPromedioDiasCredito(selectedClient.codigoCliente)
+      .then((promedioDias) => {
+        setPromedioDias(promedioDias);
+      })
+      .catch((error) => {
+        if (error.response && error.response.status === 404) {
+          setPromedioDias(0);
+        } else {
+          console.error("Error obteniendo promedio Dias:", error);
+        }
+      });
+
+    getPromedioCreditoMensual(selectedClient.codigoCliente)
+      .then((promedioCredito) => {
+        setPromedioCredito(promedioCredito);
+      })
+      .catch((error) => {
+        if (error.response && error.response.status === 404) {
+          setPromedioCredito(0);
+        } else {
+          console.error("Error obteniendo promedio Dias:", error);
         }
       });
 
@@ -1460,6 +1488,8 @@ const TuComponente = () => {
             documentosPendientes={documentosPendientes}
             letrasPendientes={letrasPendientes}
             promedioCompra={promedioCompra}
+            promedioDias={promedioDias}
+            promedioCredito={promedioCredito}
             totalPendiente={totalPendiente}
             promedioItems={promedioItems}
             promedioComprasAlMes={promedioComprasAlMes}

@@ -5,8 +5,6 @@ const TableFacturas = ({ documentosPendientes, totalPendiente }) => {
   // Estado para controlar la página actual y los elementos por página
   const [paginaActual, setPaginaActual] = useState(1);
   const elementosPorPagina = 10; // Cambia este valor para modificar el número de elementos por página
-  console.log("toatl")
-   console.log(totalPendiente)
   // Calcular los índices de inicio y fin para los elementos de la página actual
   const indiceInicio = (paginaActual - 1) * elementosPorPagina;
   const indiceFin = indiceInicio + elementosPorPagina;
@@ -39,7 +37,7 @@ const TableFacturas = ({ documentosPendientes, totalPendiente }) => {
             </tr>
           </thead>
           <tbody>
-            {documentosPaginaActual.map((item) => (
+            {documentosPaginaActual.slice(0, 10).map((item) => (
               <tr key={item.tipoDocumento}>
                 <td style={{ textAlign: "center" }}>
                   {item.tipoDocumento + " " + item.numeroDocumentoSunat}

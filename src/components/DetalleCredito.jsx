@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { IconButton, Typography } from "@mui/material";
 
-const DetalleCredito = ({ dataDocumentos }) => {
+const DetalleCredito = ({ promedioDias, promedioCredito }) => {
   return (
     <>
       <div>
@@ -20,7 +20,7 @@ const DetalleCredito = ({ dataDocumentos }) => {
                     textAlign: "left",
                   }}
                 >
-                  {"$ 400 último año"}
+                  {"$ " + promedioCredito}
                 </div>
               </td>
             </tr>
@@ -36,7 +36,7 @@ const DetalleCredito = ({ dataDocumentos }) => {
                     textAlign: "left",
                   }}
                 >
-                  {"50 DIAS 29 DIAS (último año)"}
+                  {promedioDias+" DIAS"}
                 </div>
               </td>
             </tr>

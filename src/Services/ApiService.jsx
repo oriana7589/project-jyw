@@ -133,6 +133,26 @@ export function getTotalPendiente(codCliente) {
   return totalPendiente;
 }
 
+export function getPromedioDiasCredito(codCliente) {
+  const promedioDias = axios
+    .get(`${baseUrlCliente()}/PromedioDiasCredito/${codCliente}`)
+    .then((res) => {
+      return res.data;
+    });
+
+  return promedioDias;
+}
+
+export function getPromedioCreditoMensual(codCliente) {
+  const promedioCredito = axios
+    .get(`${baseUrlCliente()}/PromedioCreditoMensual/${codCliente}`)
+    .then((res) => {
+      return res.data;
+    });
+
+  return promedioCredito;
+}
+
 export function getItemsMasComprados(codCliente) {
   const listaCompras = axios
     .get(`${baseUrlCliente()}/ListadoItems/${codCliente}`)
