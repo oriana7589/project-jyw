@@ -1,0 +1,23 @@
+{
+    "estadoCliente": [
+        { "estado": "ACT", "descripcionEstado": "ACTIVO" },
+        { "estado": "INA", "descripcionEstado": "INACTIVO" },
+        { "estado": "MOR", "descripcionEstado": "MOROSO" }
+    ],
+
+    "tipoCliente": [
+        { "tipo": 1, "descripcionTipo": "CLIENTE" },
+        { "tipo": 2, "descripcionTipo": "PROVEEDOR" },
+        { "tipo": 3, "descripcionTipo": "AMBOS" },
+        { "tipo": 4, "descripcionTipo": "ACCIONISTA" },
+        { "tipo": 5, "descripcionTipo": "TERCEROS" },
+        { "tipo": 6, "descripcionTipo": "EMPLEADO" },
+        { "tipo": 7, "descripcionTipo": "AGENTE ADUANERO" },
+        { "tipo": 8, "descripcionTipo": "OTRO" }
+    ],
+
+    "TipoConsumidorCliente": [
+        { "tipoConsumidor": "N", "descripcionTipoConsumidor": "NORMAL" },
+        { "tipoConsumidor": "M", "descripcionTipoConsumidor": "MAYORISTA" }
+    ]
+}

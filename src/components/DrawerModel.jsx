@@ -238,7 +238,41 @@ export default function DrawerModel() {
                   window.open(url, "_blank", windowFeatures);
                 }}
               />
-            </ListItemButton>           
+            </ListItemButton>  
+            
+            <ListItemButton
+              sx={{
+                minHeight: 48,
+                px: 0,
+              }}
+            >
+              <ListItemIcon
+                sx={{
+                  minWidth: 65,
+                  mr: open ? 1 : "auto",
+                  justifyContent: "center",
+                }}
+              >
+                <PersonIcon sx={{ color: "rgb(12,55,100)" }} />
+              </ListItemIcon>
+              <ListItemText
+                primary="Clientes"
+                sx={{
+                  opacity: open ? 3 : 0,
+                  color: "rgb(12,55,100)",
+                  overflow: "hidden",
+                }}
+                onClick={() => {
+                  const width = 1115; // Ancho de la ventana emergente
+                  const height = 715; // Altura de la ventana emergente
+                  const left = (window.innerWidth - width) / 2;
+                  const top = (window.innerHeight - height) / 2;
+                  const windowFeatures = `width=${width},height=${height},left=${left},top=${top}`;
+                  // navigate("/consultaPreciosYStock");
+                  window.open(urlClientes, "_blank", windowFeatures);
+                }}
+              />
+            </ListItemButton>         
           </ListItem>
         </List>
       </Drawer>

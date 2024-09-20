@@ -111,13 +111,13 @@ function EditarCliente({ selectCliente }) {
                   Estado
                 </Typography>
                 <Autocomplete
-                  value={clipro}
+                  value={estadoCliente}
                   onChange={(event, newValue) => {
                     setClipro(newValue);
                   }}
-                  options={clipro}
+                  options={estadosCliente}
                   getOptionLabel={(option) =>
-                    option ? option.nombreVendedor : "ACTIVO"
+                    option ? option.estado : "ACTIVO"
                   }
                   renderInput={(params) => (
                     <div ref={params.InputProps.ref}>
