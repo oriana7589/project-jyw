@@ -19,5 +19,13 @@
     "TipoConsumidorCliente": [
         { "tipoConsumidor": "N", "descripcionTipoConsumidor": "NORMAL" },
         { "tipoConsumidor": "M", "descripcionTipoConsumidor": "MAYORISTA" }
+    ],
+
+    "TipoDocumento": [
+        { "tipoDocumento": "RUC", "descripcion": "RUC"},
+        { "tipoDocumento": "DNI", "descripcion": "DNI"},
+        { "tipoDocumento": "EXT", "descripcion": "CARNET DE EXT."},
+        { "tipoDocumento": "PAS", "descripcion": "PASAPORTE"},
+        { "tipoDocumento": "OTR", "descripcion": "OTRO"}
     ]
 }

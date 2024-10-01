@@ -9,15 +9,39 @@ import {
   Autocomplete,
   Input,
   Paper,
+  FormControl,
+  InputLabel
 } from "@mui/material";
 import Decimal from "decimal.js";
+import contenidoCombos from '../../utils/ContenidoCombos.json';
 Decimal.set({ precision: 10 });
 
-function EditarCliente({ selectCliente }) {
+function EditarCliente({ selectCliente }) {  
+  
   const [docuemntoIdentidad, setDocuemntoIdentidad] = useState("");
   const [tipoDocumento, setTipoDocumento] = useState("");
   const [razonSocial, setRazonSocial] = useState("");
   const [clipro, setClipro] = useState("");
+  const [tipoDocumentoSeleccionado, setTipoDocumentoSeleccionado] = useState('');
+  const [estadoSeleccionado, setEstadoSeleccionado] = useState('');
+  const [tipoClienteSeleccionado, setTipoClienteSeleccionado] = useState('');
+  const [tipoConsumidorSeleccionado, setTipoConsumidorSeleccionado] = useState('');
+
+  const handleTipoDocumentoChange = (event) => {
+    setTipoDocumentoSeleccionado(event.target.value);
+  };
+
+  const handleEstadoChange = (event) => {
+    setEstadoSeleccionado(event.target.value);
+  };
+
+  const handleTipoClienteChange = (event) => {
+    setTipoClienteSeleccionado(event.target.value);
+  };
+
+  const handleTipoConsumidorChange = (event) => {
+    setTipoConsumidorSeleccionado(event.target.value);
+  };
 
   return (
     <div style={{ width: "100%", paddingTop: 10 }}>
@@ -49,21 +73,18 @@ function EditarCliente({ selectCliente }) {
                 >
                   Tipo Doc
                 </Typography>
-                <TextField
-                  value={tipoDocumento || selectCliente.tipoDocumento}
-                  fullWidth
-                  onChange={(e) => setTipoDocumento(e.target.value)}
-                  style={{ height: 35 }}
-                  variant="outlined"
-                  InputProps={{
-                    style: {
-                      fontSize: "14px",
-                      width: "170px",
-                      height: "35px",
-                      textAlign: "center",
-                    },
-                  }}
-                />
+                <Select                    
+                  id="tipoDoc-select"
+                  value={tipoDocumentoSeleccionado}
+                  onChange={handleTipoDocumentoChange}
+                  sx={{ width: "170px", height: '35px' }}
+                >
+                  {contenidoCombos.TipoDocumento.map((item) => (
+                    <MenuItem key={item.tipoDocumento} value={item.tipoDocumento}>
+                      {item.descripcion}
+                    </MenuItem>
+                  ))}
+                </Select>
               </div>
               <div style={{ paddingLeft: 25 }}>
                 <Typography style={{ fontWeight: "bold", paddingTop: 5 }}>
@@ -106,99 +127,58 @@ function EditarCliente({ selectCliente }) {
                   }}
                 />
               </div>
-              <div style={{ paddingLeft: 25 }}>
-                <Typography style={{ fontWeight: "bold", paddingTop: 5 }}>
+              <div style={{ paddingLeft: 25 }}>                             
+                <Typography sx={{ fontWeight: "bold", paddingTop: 0.5 }}>
                   Estado
                 </Typography>
-                <Autocomplete
-                  value={estadoCliente}
-                  onChange={(event, newValue) => {
-                    setClipro(newValue);
-                  }}
-                  options={estadosCliente}
-                  getOptionLabel={(option) =>
-                    option ? option.estado : "ACTIVO"
-                  }
-                  renderInput={(params) => (
-                    <div ref={params.InputProps.ref}>
-                      <input
-                        type="text"
-                        {...params.inputProps}
-                        style={{
-                          width: "170px",
-                          height: "35px",
-                          border: "1px solid #ccc",
-                          borderRadius: "4px",
-                          paddingLeft: 5,
-                        }}
-                      />
-                    </div>
-                  )}
-                />
+                <Select                    
+                  id="estado-select"
+                  value={estadoSeleccionado}
+                  onChange={handleEstadoChange}
+                  sx={{ width: "170px", height: '35px' }}
+                >
+                  {contenidoCombos.estadoCliente.map((item) => (
+                    <MenuItem key={item.estado} value={item.estado}>
+                      {item.descripcionEstado}
+                    </MenuItem>
+                  ))}
+                </Select>
               </div>
             </div>
             <div style={{ display: "flex", paddingTop: 10 }}>
               <div style={{}}>
-                <Typography
-                  style={{ fontWeight: "bold", paddingTop: 5, width: 100 }}
-                >
-                  Tipo Clipro
+                <Typography sx={{ fontWeight: "bold", paddingTop: 0.5 }}>
+                  Tipo Cliente
                 </Typography>
-                <Autocomplete
-                  value={clipro}
-                  onChange={(event, newValue) => {
-                    setClipro(newValue);
-                  }}
-                  options={clipro}
-                  getOptionLabel={(option) =>
-                    option ? option.nombreVendedor : "CLIENTE"
-                  }
-                  renderInput={(params) => (
-                    <div ref={params.InputProps.ref}>
-                      <input
-                        type="text"
-                        {...params.inputProps}
-                        style={{
-                          width: "170px",
-                          height: "35px",
-                          border: "1px solid #ccc",
-                          borderRadius: "4px",
-                          paddingLeft: 5,
-                        }}
-                      />
-                    </div>
-                  )}
-                />
+                <Select                    
+                    id="tipoCliente-select"
+                    value={tipoClienteSeleccionado}
+                    onChange={handleTipoClienteChange}
+                    sx={{ width: "170px", height: '35px' }}
+                  >
+                    {contenidoCombos.tipoCliente.map((item) => (
+                      <MenuItem key={item.tipo} value={item.tipo}>
+                        {item.descripcionTipo}
+                      </MenuItem>
+                    ))}
+                  </Select>
               </div>
               <div style={{ paddingLeft: 25 }}>
-                <Typography style={{ fontWeight: "bold", paddingTop: 5 }}>
-                  Consumidor
+                <Typography sx={{ fontWeight: "bold", paddingTop: 0.5 }}>
+                    Tipo Cliente
                 </Typography>
-                <Autocomplete
-                  value={clipro}
-                  onChange={(event, newValue) => {
-                    setClipro(newValue);
-                  }}
-                  options={clipro}
-                  getOptionLabel={(option) =>
-                    option ? option.nombreVendedor : "NORMAL"
-                  }
-                  renderInput={(params) => (
-                    <div ref={params.InputProps.ref}>
-                      <input
-                        type="text"
-                        {...params.inputProps}
-                        style={{
-                          width: "170px",
-                          height: "35px",
-                          border: "1px solid #ccc",
-                          borderRadius: "4px",
-                          paddingLeft: 5,
-                        }}
-                      />
-                    </div>
-                  )}
-                />
+                <Select                    
+                  id="tipoConsumidor-select"
+                  value={tipoConsumidorSeleccionado}
+                  onChange={handleTipoConsumidorChange}
+                  sx={{ width: "170px", height: '35px' }}
+                >
+                  {contenidoCombos.TipoConsumidorCliente.map((item) => (
+                    <MenuItem key={item.tipoConsumidor} value={item.tipoConsumidor}>
+                      {item.descripcionTipoConsumidor}
+                    </MenuItem>
+                  ))}
+                </Select>
               </div>
               <div style={{ paddingLeft: 25 }}>
                 <Typography style={{ fontWeight: "bold", paddingTop: 5 }}>
