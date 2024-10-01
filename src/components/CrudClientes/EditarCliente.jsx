@@ -16,7 +16,7 @@ import Decimal from "decimal.js";
 import contenidoCombos from '../../utils/ContenidoCombos.json';
 Decimal.set({ precision: 10 });
 
-function EditarCliente({ selectCliente }) {  
+function EditarCliente({ selectCliente, listaDistritos }) {  
   
   const [docuemntoIdentidad, setDocuemntoIdentidad] = useState("");
   const [tipoDocumento, setTipoDocumento] = useState("");
@@ -26,6 +26,60 @@ function EditarCliente({ selectCliente }) {
   const [estadoSeleccionado, setEstadoSeleccionado] = useState('');
   const [tipoClienteSeleccionado, setTipoClienteSeleccionado] = useState('');
   const [tipoConsumidorSeleccionado, setTipoConsumidorSeleccionado] = useState('');
+
+  //Combos de ubicacion
+  const [paises, setPaises] = useState([]);
+  const [departamentos, setDepartamentos] = useState([]);
+  const [provincias, setProvincias] = useState([]);
+  const [distritos, setDistritos] = useState([]);
+
+  const [paisSeleccionado, setPaisSeleccionado] = useState(null);
+  const [departamentoSeleccionado, setDepartamentoSeleccionado] = useState(null);
+  const [provinciaSeleccionada, setProvinciaSeleccionada] = useState(null);
+  const [distritoSeleccionado, setDistritoSeleccionado] = useState(null);
+  //----
+
+  useEffect(() => {
+    setPaises(listaDistritos);    
+  },[]);
+
+  useEffect(() => {
+    const paisDefault = Object.entries(paises).find(([key, value]) => key === "PER");
+    setPaisSeleccionado(paisDefault);
+  },[paises])
+
+  // Actualizar los departamentos cuando se selecciona un país
+  useEffect(() => {
+    if (paisSeleccionado) {
+      setDepartamentos(Object.entries(paisSeleccionado[1].departamentos));
+      setDepartamentoSeleccionado(null);
+      setProvinciaSeleccionada(null);
+      setDistritoSeleccionado(null);
+    } else {
+      setDepartamentos([]);
+    }
+  }, [paisSeleccionado]);
+
+  // Actualizar las provincias cuando se selecciona un departamento
+  useEffect(() => {
+    if (departamentoSeleccionado) {
+      setProvincias(Object.entries(departamentoSeleccionado[1].provincias));
+      setProvinciaSeleccionada(null);
+      setDistritoSeleccionado(null);
+    } else {
+      setProvincias([]);
+    }
+  }, [departamentoSeleccionado]);
+
+  // Actualizar los distritos cuando se selecciona una provincia
+  useEffect(() => {
+    if (provinciaSeleccionada) {
+      setDistritos(provinciaSeleccionada[1].distritos);
+      setDistritoSeleccionado(null);
+    } else {
+      setDistritos([]);
+    }
+  }, [provinciaSeleccionada]);
 
   const handleTipoDocumentoChange = (event) => {
     setTipoDocumentoSeleccionado(event.target.value);
@@ -274,15 +328,11 @@ function EditarCliente({ selectCliente }) {
                 >
                   País
                 </Typography>
-                <Autocomplete
-                  value={clipro}
-                  onChange={(event, newValue) => {
-                    setClipro(newValue);
-                  }}
-                  options={clipro}
-                  getOptionLabel={(option) =>
-                    option ? option.nombreVendedor : "PERU"
-                  }
+                <Autocomplete       
+                  options={Object.entries(paises)}
+                  getOptionLabel={(option) => option && option[1] ? option[1].nombre : "" }
+                  value={paisSeleccionado}
+                  onChange={(event, newValue) => { setPaisSeleccionado(newValue); }}                  
                   renderInput={(params) => (
                     <div ref={params.InputProps.ref}>
                       <input
@@ -297,7 +347,7 @@ function EditarCliente({ selectCliente }) {
                         }}
                       />
                     </div>
-                  )}
+                  )}                  
                 />
               </div>
               <div style={{ paddingLeft: 25 }}>
@@ -305,14 +355,10 @@ function EditarCliente({ selectCliente }) {
                   Departamento
                 </Typography>
                 <Autocomplete
-                  value={clipro}
-                  onChange={(event, newValue) => {
-                    setClipro(newValue);
-                  }}
-                  options={clipro}
-                  getOptionLabel={(option) =>
-                    option ? option.nombreVendedor : "NORMAL"
-                  }
+                  options={departamentos}
+                  getOptionLabel={(option) => option[1].nombre }
+                  value={departamentoSeleccionado}
+                  onChange={(event, newValue) => { setDepartamentoSeleccionado(newValue ? newValue : null); }}                  
                   renderInput={(params) => (
                     <div ref={params.InputProps.ref}>
                       <input
@@ -328,6 +374,7 @@ function EditarCliente({ selectCliente }) {
                       />
                     </div>
                   )}
+                  disabled={!paisSeleccionado}
                 />
               </div>
               <div style={{ paddingLeft: 25 }}>
@@ -335,14 +382,10 @@ function EditarCliente({ selectCliente }) {
                   Provincia
                 </Typography>
                 <Autocomplete
-                  value={clipro}
-                  onChange={(event, newValue) => {
-                    setClipro(newValue);
-                  }}
-                  options={clipro}
-                  getOptionLabel={(option) =>
-                    option ? option.nombreVendedor : "NORMAL"
-                  }
+                  options={provincias}
+                  getOptionLabel={(option) => option[1].nombre }
+                  value={provinciaSeleccionada}
+                  onChange={(event, newValue) => { setProvinciaSeleccionada(newValue ? newValue : null); }}                  
                   renderInput={(params) => (
                     <div ref={params.InputProps.ref}>
                       <input
@@ -358,6 +401,7 @@ function EditarCliente({ selectCliente }) {
                       />
                     </div>
                   )}
+                  disabled={!departamentoSeleccionado || !paisSeleccionado}
                 />
               </div>
               <div style={{ paddingLeft: 25 }}>
@@ -365,14 +409,10 @@ function EditarCliente({ selectCliente }) {
                   Distrito
                 </Typography>
                 <Autocomplete
-                  value={clipro}
-                  onChange={(event, newValue) => {
-                    setClipro(newValue);
-                  }}
-                  options={clipro}
-                  getOptionLabel={(option) =>
-                    option ? option.nombreVendedor : "NORMAL"
-                  }
+                  options={distritos}
+                  getOptionLabel={(option) => option.nombre }
+                  value={distritoSeleccionado}
+                  onChange={(event, newValue) => { setDistritoSeleccionado(newValue ? newValue : null); }}                  
                   renderInput={(params) => (
                     <div ref={params.InputProps.ref}>
                       <input
@@ -388,6 +428,7 @@ function EditarCliente({ selectCliente }) {
                       />
                     </div>
                   )}
+                  disabled={!provinciaSeleccionada || !departamentoSeleccionado || !paisSeleccionado}
                 />
               </div>
             </div>

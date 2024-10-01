@@ -12,7 +12,7 @@ import {
 import "react-toastify/dist/ReactToastify.css";
 import SearchIcon from "@mui/icons-material/Search";
 import ConsultaClientes from "./ConsultaClientes";
-import { getClientes } from "../Services/ApiService";
+import { getClientes, getListaDeDistritos } from "../Services/ApiService";
 
 const ListaClientes = () => {
   const [expandedPanels, setExpandedPanels] = useState([0]);
@@ -20,6 +20,12 @@ const ListaClientes = () => {
   const [selectCliente, setSelectCliente] = useState([]);
   const [criterioBusqueda, setCriterioBusqueda] = useState("");
   const [tabValue, setTabValue] = useState(0);
+  const [listaDistritos, setListaDistritos] = useState("");
+  
+  useEffect(() => {
+    getDistritos();
+  }, []);
+
   const handleIconButtonClick = () => {
     if (criterioBusqueda !== "") {
       getClientes(criterioBusqueda).then((tablaClientes) => {
@@ -30,6 +36,12 @@ const ListaClientes = () => {
       setClientes([]);
     }
   };
+
+  const getDistritos = () => {
+    getListaDeDistritos().then((listaDistritos) => {
+      setListaDistritos(listaDistritos)
+    })
+  };  
 
   const handleEditClick = (clientes) => {
     setSelectCliente(clientes);
@@ -121,6 +133,7 @@ const ListaClientes = () => {
             selectCliente = {selectCliente}
             setTabValue={setTabValue}
             clientes={clientes}
+            listaDistritos={listaDistritos}
           />
         </Collapse>
       </Card>

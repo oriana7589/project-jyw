@@ -529,3 +529,13 @@ export function getResumenDevolucionesAnualArticulo(codInterno) {
 
   return devolucionAnual;
 }
+
+export function getListaDeDistritos() {
+  const listaDistritos = axios
+    .get(`${baseUrlGeneral()}/ObtenerListaDistritos`)
+    .then((res) => {
+      return res.data;
+    });
+
+  return listaDistritos;
+}
