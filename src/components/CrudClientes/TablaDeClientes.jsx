@@ -51,6 +51,14 @@ const TablaDeClientes = ({ handleEditClick, clientes, itemsPerPage, handleAgrega
     >
       {clientes.length > 0 ? (
         <div style={{ overflow: "auto" }}>
+           <div
+        style={{
+          paddingTop: 5,
+          display: "flex",
+          justifyContent: "end",
+          paddingRight: 10,
+        }}
+      >
           <IconButton
             style={{
               backgroundColor: "rgb(226, 52, 48)",
@@ -70,6 +78,7 @@ const TablaDeClientes = ({ handleEditClick, clientes, itemsPerPage, handleAgrega
              Agregar
             </Typography>
           </IconButton>
+          </div>
           <TableContainer style={{ maxHeight: 510 }}>
             <Table
               stickyHeader
