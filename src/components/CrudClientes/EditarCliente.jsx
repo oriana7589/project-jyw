@@ -10,22 +10,31 @@ import {
   Input,
   Paper,
   FormControl,
-  InputLabel
+  InputLabel,
+  IconButton,
 } from "@mui/material";
 import Decimal from "decimal.js";
-import contenidoCombos from '../../utils/ContenidoCombos.json';
+import contenidoCombos from "../../utils/ContenidoCombos.json";
 Decimal.set({ precision: 10 });
 
-function EditarCliente({ selectCliente, listaDistritos }) {  
-  
+function EditarCliente({ selectCliente, listaDistritos, vendedores }) {
   const [docuemntoIdentidad, setDocuemntoIdentidad] = useState("");
+  const [representante, setRepresentante] = useState("");
+  const [vendedor, setVendedor] = useState("");
+  const [dniRepresentante, setDniRepresentante] = useState(0);
+  const [telefono1, setTelefono1] = useState(0);
+  const [telefono2, setTelefono2] = useState(0);
+  const [celular, setCelular] = useState(0);
+  const [correo, setCorreo] = useState("");
   const [tipoDocumento, setTipoDocumento] = useState("");
   const [razonSocial, setRazonSocial] = useState("");
   const [clipro, setClipro] = useState("");
-  const [tipoDocumentoSeleccionado, setTipoDocumentoSeleccionado] = useState('');
-  const [estadoSeleccionado, setEstadoSeleccionado] = useState('');
-  const [tipoClienteSeleccionado, setTipoClienteSeleccionado] = useState('');
-  const [tipoConsumidorSeleccionado, setTipoConsumidorSeleccionado] = useState('');
+  const [tipoDocumentoSeleccionado, setTipoDocumentoSeleccionado] =
+    useState("");
+  const [estadoSeleccionado, setEstadoSeleccionado] = useState("");
+  const [tipoClienteSeleccionado, setTipoClienteSeleccionado] = useState("");
+  const [tipoConsumidorSeleccionado, setTipoConsumidorSeleccionado] =
+    useState("");
 
   //Combos de ubicacion
   const [paises, setPaises] = useState([]);
@@ -34,19 +43,22 @@ function EditarCliente({ selectCliente, listaDistritos }) {
   const [distritos, setDistritos] = useState([]);
 
   const [paisSeleccionado, setPaisSeleccionado] = useState(null);
-  const [departamentoSeleccionado, setDepartamentoSeleccionado] = useState(null);
+  const [departamentoSeleccionado, setDepartamentoSeleccionado] =
+    useState(null);
   const [provinciaSeleccionada, setProvinciaSeleccionada] = useState(null);
   const [distritoSeleccionado, setDistritoSeleccionado] = useState(null);
   //----
 
   useEffect(() => {
-    setPaises(listaDistritos);    
-  },[]);
+    setPaises(listaDistritos);
+  }, []);
 
   useEffect(() => {
-    const paisDefault = Object.entries(paises).find(([key, value]) => key === "PER");
+    const paisDefault = Object.entries(paises).find(
+      ([key, value]) => key === "PER"
+    );
     setPaisSeleccionado(paisDefault);
-  },[paises])
+  }, [paises]);
 
   // Actualizar los departamentos cuando se selecciona un país
   useEffect(() => {
@@ -99,6 +111,32 @@ function EditarCliente({ selectCliente, listaDistritos }) {
 
   return (
     <div style={{ width: "100%", paddingTop: 10 }}>
+      <div
+        style={{
+          paddingTop: 5,
+          display: "flex",
+          justifyContent: "end",
+          paddingRight: 10,
+        }}
+      >
+        <IconButton
+          style={{
+            backgroundColor: "rgb(226, 52, 48)",
+            borderRadius: "0",
+            height: "35px",
+            width: "180px",
+          }}
+        >
+          <Typography
+            style={{
+              color: "rgb(255, 255, 255)",
+              borderRadius: "0",
+            }}
+          >
+            Guardar cliente
+          </Typography>
+        </IconButton>
+      </div>
       <div style={{ overflow: "auto" }}>
         <div
           style={{
@@ -127,14 +165,17 @@ function EditarCliente({ selectCliente, listaDistritos }) {
                 >
                   Tipo Doc
                 </Typography>
-                <Select                    
+                <Select
                   id="tipoDoc-select"
                   value={tipoDocumentoSeleccionado}
                   onChange={handleTipoDocumentoChange}
-                  sx={{ width: "170px", height: '35px' }}
+                  sx={{ width: "170px", height: "35px" }}
                 >
                   {contenidoCombos.TipoDocumento.map((item) => (
-                    <MenuItem key={item.tipoDocumento} value={item.tipoDocumento}>
+                    <MenuItem
+                      key={item.tipoDocumento}
+                      value={item.tipoDocumento}
+                    >
                       {item.descripcion}
                     </MenuItem>
                   ))}
@@ -147,6 +188,7 @@ function EditarCliente({ selectCliente, listaDistritos }) {
                 <TextField
                   value={docuemntoIdentidad || selectCliente.numDocumento}
                   fullWidth
+                  autoComplete="off"
                   onChange={(e) => setDocuemntoIdentidad(e.target.value)}
                   style={{ height: 35 }}
                   variant="outlined"
@@ -168,6 +210,7 @@ function EditarCliente({ selectCliente, listaDistritos }) {
                 <TextField
                   value={razonSocial || selectCliente.razonSocial}
                   fullWidth
+                  autoComplete="off"
                   onChange={(e) => setRazonSocial(e.target.value)}
                   style={{ height: 35 }}
                   variant="outlined"
@@ -181,15 +224,15 @@ function EditarCliente({ selectCliente, listaDistritos }) {
                   }}
                 />
               </div>
-              <div style={{ paddingLeft: 25 }}>                             
+              <div style={{ paddingLeft: 25 }}>
                 <Typography sx={{ fontWeight: "bold", paddingTop: 0.5 }}>
                   Estado
                 </Typography>
-                <Select                    
+                <Select
                   id="estado-select"
                   value={estadoSeleccionado}
                   onChange={handleEstadoChange}
-                  sx={{ width: "170px", height: '35px' }}
+                  sx={{ width: "170px", height: "35px" }}
                 >
                   {contenidoCombos.estadoCliente.map((item) => (
                     <MenuItem key={item.estado} value={item.estado}>
@@ -204,31 +247,34 @@ function EditarCliente({ selectCliente, listaDistritos }) {
                 <Typography sx={{ fontWeight: "bold", paddingTop: 0.5 }}>
                   Tipo Cliente
                 </Typography>
-                <Select                    
-                    id="tipoCliente-select"
-                    value={tipoClienteSeleccionado}
-                    onChange={handleTipoClienteChange}
-                    sx={{ width: "170px", height: '35px' }}
-                  >
-                    {contenidoCombos.tipoCliente.map((item) => (
-                      <MenuItem key={item.tipo} value={item.tipo}>
-                        {item.descripcionTipo}
-                      </MenuItem>
-                    ))}
-                  </Select>
+                <Select
+                  id="tipoCliente-select"
+                  value={tipoClienteSeleccionado}
+                  onChange={handleTipoClienteChange}
+                  sx={{ width: "170px", height: "35px" }}
+                >
+                  {contenidoCombos.tipoCliente.map((item) => (
+                    <MenuItem key={item.tipo} value={item.tipo}>
+                      {item.descripcionTipo}
+                    </MenuItem>
+                  ))}
+                </Select>
               </div>
               <div style={{ paddingLeft: 25 }}>
                 <Typography sx={{ fontWeight: "bold", paddingTop: 0.5 }}>
-                    Tipo Cliente
+                  Tipo Cliente
                 </Typography>
-                <Select                    
+                <Select
                   id="tipoConsumidor-select"
                   value={tipoConsumidorSeleccionado}
                   onChange={handleTipoConsumidorChange}
-                  sx={{ width: "170px", height: '35px' }}
+                  sx={{ width: "170px", height: "35px" }}
                 >
                   {contenidoCombos.TipoConsumidorCliente.map((item) => (
-                    <MenuItem key={item.tipoConsumidor} value={item.tipoConsumidor}>
+                    <MenuItem
+                      key={item.tipoConsumidor}
+                      value={item.tipoConsumidor}
+                    >
                       {item.descripcionTipoConsumidor}
                     </MenuItem>
                   ))}
@@ -239,9 +285,10 @@ function EditarCliente({ selectCliente, listaDistritos }) {
                   Representante
                 </Typography>
                 <TextField
-                  value={docuemntoIdentidad || selectCliente.representanteLegal}
+                  value={representante || selectCliente.representanteLegal}
                   fullWidth
-                  onChange={(e) => setDocuemntoIdentidad(e.target.value)}
+                  autoComplete="off"
+                  onChange={(e) => setRepresentante(e.target.value)}
                   style={{ height: 35 }}
                   variant="outlined"
                   InputProps={{
@@ -260,10 +307,11 @@ function EditarCliente({ selectCliente, listaDistritos }) {
                 </Typography>
                 <TextField
                   value={
-                    docuemntoIdentidad || selectCliente.dniRepresentanteLegal
+                    dniRepresentante || selectCliente.dniRepresentanteLegal
                   }
                   fullWidth
-                  onChange={(e) => setDocuemntoIdentidad(e.target.value)}
+                  autoComplete="off"
+                  onChange={(e) => setDniRepresentante(e.target.value)}
                   style={{ height: 35 }}
                   variant="outlined"
                   InputProps={{
@@ -307,6 +355,7 @@ function EditarCliente({ selectCliente, listaDistritos }) {
                 <TextField
                   value={razonSocial || selectCliente.direccion}
                   fullWidth
+                  autoComplete="off"
                   onChange={(e) => setRazonSocial(e.target.value)}
                   style={{ height: 35 }}
                   variant="outlined"
@@ -328,11 +377,15 @@ function EditarCliente({ selectCliente, listaDistritos }) {
                 >
                   País
                 </Typography>
-                <Autocomplete       
+                <Autocomplete
                   options={Object.entries(paises)}
-                  getOptionLabel={(option) => option && option[1] ? option[1].nombre : "" }
+                  getOptionLabel={(option) =>
+                    option && option[1] ? option[1].nombre : ""
+                  }
                   value={paisSeleccionado}
-                  onChange={(event, newValue) => { setPaisSeleccionado(newValue); }}                  
+                  onChange={(event, newValue) => {
+                    setPaisSeleccionado(newValue);
+                  }}
                   renderInput={(params) => (
                     <div ref={params.InputProps.ref}>
                       <input
@@ -347,7 +400,7 @@ function EditarCliente({ selectCliente, listaDistritos }) {
                         }}
                       />
                     </div>
-                  )}                  
+                  )}
                 />
               </div>
               <div style={{ paddingLeft: 25 }}>
@@ -356,9 +409,11 @@ function EditarCliente({ selectCliente, listaDistritos }) {
                 </Typography>
                 <Autocomplete
                   options={departamentos}
-                  getOptionLabel={(option) => option[1].nombre }
+                  getOptionLabel={(option) => option[1].nombre}
                   value={departamentoSeleccionado}
-                  onChange={(event, newValue) => { setDepartamentoSeleccionado(newValue ? newValue : null); }}                  
+                  onChange={(event, newValue) => {
+                    setDepartamentoSeleccionado(newValue ? newValue : null);
+                  }}
                   renderInput={(params) => (
                     <div ref={params.InputProps.ref}>
                       <input
@@ -383,9 +438,11 @@ function EditarCliente({ selectCliente, listaDistritos }) {
                 </Typography>
                 <Autocomplete
                   options={provincias}
-                  getOptionLabel={(option) => option[1].nombre }
+                  getOptionLabel={(option) => option[1].nombre}
                   value={provinciaSeleccionada}
-                  onChange={(event, newValue) => { setProvinciaSeleccionada(newValue ? newValue : null); }}                  
+                  onChange={(event, newValue) => {
+                    setProvinciaSeleccionada(newValue ? newValue : null);
+                  }}
                   renderInput={(params) => (
                     <div ref={params.InputProps.ref}>
                       <input
@@ -410,9 +467,11 @@ function EditarCliente({ selectCliente, listaDistritos }) {
                 </Typography>
                 <Autocomplete
                   options={distritos}
-                  getOptionLabel={(option) => option.nombre }
+                  getOptionLabel={(option) => option.nombre}
                   value={distritoSeleccionado}
-                  onChange={(event, newValue) => { setDistritoSeleccionado(newValue ? newValue : null); }}                  
+                  onChange={(event, newValue) => {
+                    setDistritoSeleccionado(newValue ? newValue : null);
+                  }}
                   renderInput={(params) => (
                     <div ref={params.InputProps.ref}>
                       <input
@@ -428,7 +487,11 @@ function EditarCliente({ selectCliente, listaDistritos }) {
                       />
                     </div>
                   )}
-                  disabled={!provinciaSeleccionada || !departamentoSeleccionado || !paisSeleccionado}
+                  disabled={
+                    !provinciaSeleccionada ||
+                    !departamentoSeleccionado ||
+                    !paisSeleccionado
+                  }
                 />
               </div>
             </div>
@@ -462,9 +525,10 @@ function EditarCliente({ selectCliente, listaDistritos }) {
                   Correo
                 </Typography>
                 <TextField
-                  value={tipoDocumento || selectCliente.correo}
+                  value={correo || selectCliente.correo}
                   fullWidth
-                  onChange={(e) => setTipoDocumento(e.target.value)}
+                  autoComplete="off"
+                  onChange={(e) => setCorreo(e.target.value)}
                   style={{ height: 35 }}
                   variant="outlined"
                   InputProps={{
@@ -481,15 +545,16 @@ function EditarCliente({ selectCliente, listaDistritos }) {
                 <Typography style={{ fontWeight: "bold", paddingTop: 5 }}>
                   Vendedor
                 </Typography>
+
                 <Autocomplete
-                  value={clipro}
-                  onChange={(event, newValue) => {
-                    setClipro(newValue);
-                  }}
-                  options={clipro}
+                  options={vendedores}
                   getOptionLabel={(option) =>
-                    option ? option.nombreVendedor : "NORMAL"
+                    option ? option.nombreVendedor : "OFICINA"
                   }
+                  value={vendedor}
+                  onChange={(event, newValue) => {
+                    setVendedor(newValue);
+                  }}
                   renderInput={(params) => (
                     <div ref={params.InputProps.ref}>
                       <input
@@ -516,9 +581,10 @@ function EditarCliente({ selectCliente, listaDistritos }) {
                   Telefono 1
                 </Typography>
                 <TextField
-                  value={tipoDocumento || selectCliente.telefono1}
+                  value={telefono1 || selectCliente.telefono1}
                   fullWidth
-                  onChange={(e) => setTipoDocumento(e.target.value)}
+                  autoComplete="off"
+                  onChange={(e) => setTelefono1(e.target.value)}
                   style={{ height: 35 }}
                   variant="outlined"
                   InputProps={{
@@ -538,9 +604,10 @@ function EditarCliente({ selectCliente, listaDistritos }) {
                   Telefono 2
                 </Typography>
                 <TextField
-                  value={tipoDocumento || selectCliente.telefono2}
+                  value={telefono2 || selectCliente.telefono2}
                   fullWidth
-                  onChange={(e) => setTipoDocumento(e.target.value)}
+                  autoComplete="off"
+                  onChange={(e) => setTelefono2(e.target.value)}
                   style={{ height: 35 }}
                   variant="outlined"
                   InputProps={{
@@ -560,9 +627,10 @@ function EditarCliente({ selectCliente, listaDistritos }) {
                   Tel movil
                 </Typography>
                 <TextField
-                  value={tipoDocumento || selectCliente.celular}
+                  value={celular || selectCliente.celular}
                   fullWidth
-                  onChange={(e) => setTipoDocumento(e.target.value)}
+                  autoComplete="off"
+                  onChange={(e) => setCelular(e.target.value)}
                   style={{ height: 35 }}
                   variant="outlined"
                   InputProps={{

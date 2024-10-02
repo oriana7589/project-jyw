@@ -12,19 +12,26 @@ import {
 import "react-toastify/dist/ReactToastify.css";
 import SearchIcon from "@mui/icons-material/Search";
 import ConsultaClientes from "./ConsultaClientes";
-import { getClientes, getListaDeDistritos } from "../Services/ApiService";
+import { getClientes, getListaDeDistritos, getListVendedores } from "../Services/ApiService";
 
 const ListaClientes = () => {
   const [expandedPanels, setExpandedPanels] = useState([0]);
   const [clientes, setClientes] = useState([]);
   const [selectCliente, setSelectCliente] = useState([]);
+  const [vendedores, setVendedores] = useState([]);
   const [criterioBusqueda, setCriterioBusqueda] = useState("");
   const [tabValue, setTabValue] = useState(0);
   const [listaDistritos, setListaDistritos] = useState("");
   
   useEffect(() => {
     getDistritos();
+    getListVendedores().then((vendedores) => {
+      setVendedores(vendedores);
+    });
+
   }, []);
+
+  
 
   const handleIconButtonClick = () => {
     if (criterioBusqueda !== "") {
@@ -133,6 +140,7 @@ const ListaClientes = () => {
             selectCliente = {selectCliente}
             setTabValue={setTabValue}
             clientes={clientes}
+            vendedores = {vendedores}
             listaDistritos={listaDistritos}
           />
         </Collapse>
