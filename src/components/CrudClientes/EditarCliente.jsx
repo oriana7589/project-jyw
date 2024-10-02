@@ -20,11 +20,12 @@ Decimal.set({ precision: 10 });
 function EditarCliente({ selectCliente, listaDistritos, vendedores }) {
   const [docuemntoIdentidad, setDocuemntoIdentidad] = useState("");
   const [representante, setRepresentante] = useState("");
+  const [direccion, setDireccion] = useState("");
   const [vendedor, setVendedor] = useState("");
-  const [dniRepresentante, setDniRepresentante] = useState(0);
-  const [telefono1, setTelefono1] = useState(0);
-  const [telefono2, setTelefono2] = useState(0);
-  const [celular, setCelular] = useState(0);
+  const [dniRepresentante, setDniRepresentante] = useState("");
+  const [telefono1, setTelefono1] = useState("");
+  const [telefono2, setTelefono2] = useState("");
+  const [celular, setCelular] = useState("");
   const [correo, setCorreo] = useState("");
   const [tipoDocumento, setTipoDocumento] = useState("");
   const [razonSocial, setRazonSocial] = useState("");
@@ -189,7 +190,17 @@ function EditarCliente({ selectCliente, listaDistritos, vendedores }) {
                   value={docuemntoIdentidad || selectCliente.numDocumento}
                   fullWidth
                   autoComplete="off"
-                  onChange={(e) => setDocuemntoIdentidad(e.target.value)}
+                  onChange={(e) => {
+                    const value = e.target.value;
+                    if (/^\d*$/.test(value)) { // Solo permite números
+                      setDocuemntoIdentidad(value);
+                    }
+                  }}
+                  onKeyDown={(e) => {
+                    if (!/^[0-9]$/.test(e.key) && e.key !== 'Backspace' && e.key !== 'Delete') {
+                      e.preventDefault(); // Evita la entrada de cualquier cosa que no sea un número
+                    }
+                  }}
                   style={{ height: 35 }}
                   variant="outlined"
                   InputProps={{
@@ -311,7 +322,17 @@ function EditarCliente({ selectCliente, listaDistritos, vendedores }) {
                   }
                   fullWidth
                   autoComplete="off"
-                  onChange={(e) => setDniRepresentante(e.target.value)}
+                  onChange={(e) => {
+                    const value = e.target.value;
+                    if (/^\d*$/.test(value)) { // Solo permite números
+                      setDniRepresentante(value);
+                    }
+                  }}
+                  onKeyDown={(e) => {
+                    if (!/^[0-9]$/.test(e.key) && e.key !== 'Backspace' && e.key !== 'Delete') {
+                      e.preventDefault(); // Evita la entrada de cualquier cosa que no sea un número
+                    }
+                  }}
                   style={{ height: 35 }}
                   variant="outlined"
                   InputProps={{
@@ -353,10 +374,10 @@ function EditarCliente({ selectCliente, listaDistritos, vendedores }) {
                   Dirección
                 </Typography>
                 <TextField
-                  value={razonSocial || selectCliente.direccion}
+                  value={direccion || selectCliente.direccion}
                   fullWidth
                   autoComplete="off"
-                  onChange={(e) => setRazonSocial(e.target.value)}
+                  onChange={(e) => setDireccion(e.target.value)}
                   style={{ height: 35 }}
                   variant="outlined"
                   InputProps={{
@@ -584,7 +605,17 @@ function EditarCliente({ selectCliente, listaDistritos, vendedores }) {
                   value={telefono1 || selectCliente.telefono1}
                   fullWidth
                   autoComplete="off"
-                  onChange={(e) => setTelefono1(e.target.value)}
+                  onChange={(e) => {
+                    const value = e.target.value;
+                    if (/^\d*$/.test(value)) { 
+                      setTelefono1(value);
+                    }
+                  }}
+                  onKeyDown={(e) => {
+                    if (!/^[0-9]$/.test(e.key) && e.key !== 'Backspace' && e.key !== 'Delete') {
+                      e.preventDefault(); 
+                    }
+                  }}
                   style={{ height: 35 }}
                   variant="outlined"
                   InputProps={{
@@ -607,7 +638,17 @@ function EditarCliente({ selectCliente, listaDistritos, vendedores }) {
                   value={telefono2 || selectCliente.telefono2}
                   fullWidth
                   autoComplete="off"
-                  onChange={(e) => setTelefono2(e.target.value)}
+                  onChange={(e) => {
+                    const value = e.target.value;
+                    if (/^\d*$/.test(value)) { 
+                      setTelefono2(value);
+                    }
+                  }}
+                  onKeyDown={(e) => {
+                    if (!/^[0-9]$/.test(e.key) && e.key !== 'Backspace' && e.key !== 'Delete') {
+                      e.preventDefault(); 
+                    }
+                  }}
                   style={{ height: 35 }}
                   variant="outlined"
                   InputProps={{
@@ -630,7 +671,17 @@ function EditarCliente({ selectCliente, listaDistritos, vendedores }) {
                   value={celular || selectCliente.celular}
                   fullWidth
                   autoComplete="off"
-                  onChange={(e) => setCelular(e.target.value)}
+                  onChange={(e) => {
+                    const value = e.target.value;
+                    if (/^\d*$/.test(value)) {
+                      setCelular(value);
+                    }
+                  }}
+                  onKeyDown={(e) => {
+                    if (!/^[0-9]$/.test(e.key) && e.key !== 'Backspace' && e.key !== 'Delete') {
+                      e.preventDefault();
+                    }
+                  }}
                   style={{ height: 35 }}
                   variant="outlined"
                   InputProps={{
