@@ -11,7 +11,12 @@ import LogoCom from "../../image/logoCompleto.png";
 import { IconButton, Typography } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 
-const TablaDeClientes = ({ handleEditClick, clientes, itemsPerPage, handleAgregarClick }) => {
+const TablaDeClientes = ({
+  handleEditClick,
+  clientes,
+  itemsPerPage,
+  handleAgregarClick,
+}) => {
   const [selectedClient, setSelectedClient] = useState(null);
   const [highlightedRow, setHighlightedRow] = useState(null);
   const [isLoading, setIsLoading] = useState(true); // Estado de carga
@@ -38,8 +43,6 @@ const TablaDeClientes = ({ handleEditClick, clientes, itemsPerPage, handleAgrega
     setPage(newPage);
   };
 
-
-
   return (
     <div
       style={{
@@ -59,26 +62,25 @@ const TablaDeClientes = ({ handleEditClick, clientes, itemsPerPage, handleAgrega
           paddingRight: 10,
         }}
       >
-          <IconButton
+        <IconButton
+          style={{
+            backgroundColor: "rgb(226, 52, 48)",
+            borderRadius: "0",
+            height: "35px",
+            width: "180px",
+          }}
+          onClick={handleAgregarClick}
+        >
+          <Typography
             style={{
-              backgroundColor: "rgb(226, 52, 48)",
+              color: "rgb(255, 255, 255)",
               borderRadius: "0",
-              marginLeft: "950px",
-              width: 100,
-              height: "40px",
             }}
-            onClick={handleAgregarClick}
           >
-            <Typography
-              style={{
-                color: "rgb(255, 255, 255)",
-                fontSize: "0.9rem",
-              }}
-            >
-             Agregar
-            </Typography>
-          </IconButton>
-          </div>
+           Agregar cliente
+          </Typography>
+        </IconButton>
+      </div>
           <TableContainer style={{ maxHeight: 510 }}>
             <Table
               stickyHeader
@@ -193,7 +195,7 @@ const TablaDeClientes = ({ handleEditClick, clientes, itemsPerPage, handleAgrega
                             width: "30px",
                             height: "30px",
                           }}
-                          onClick={()=>handleEditClick(item)}
+                          onClick={() => handleEditClick(item)}
                         >
                           <EditIcon
                             style={{

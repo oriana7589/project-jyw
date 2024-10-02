@@ -49,7 +49,8 @@ function EditarCliente({ selectCliente, listaDistritos, vendedores }) {
   const [provinciaSeleccionada, setProvinciaSeleccionada] = useState(null);
   const [distritoSeleccionado, setDistritoSeleccionado] = useState(null);
   //----
-
+ console.log("cliente")
+ console.log(selectCliente)
   useEffect(() => {
     setPaises(listaDistritos);
   }, []);
@@ -168,7 +169,7 @@ function EditarCliente({ selectCliente, listaDistritos, vendedores }) {
                 </Typography>
                 <Select
                   id="tipoDoc-select"
-                  value={tipoDocumentoSeleccionado}
+                  value={tipoDocumentoSeleccionado || selectCliente.tipoDocumento}
                   onChange={handleTipoDocumentoChange}
                   sx={{ width: "170px", height: "35px" }}
                 >
@@ -241,7 +242,7 @@ function EditarCliente({ selectCliente, listaDistritos, vendedores }) {
                 </Typography>
                 <Select
                   id="estado-select"
-                  value={estadoSeleccionado}
+                  value={estadoSeleccionado || selectCliente.estado}
                   onChange={handleEstadoChange}
                   sx={{ width: "170px", height: "35px" }}
                 >
@@ -431,7 +432,7 @@ function EditarCliente({ selectCliente, listaDistritos, vendedores }) {
                 <Autocomplete
                   options={departamentos}
                   getOptionLabel={(option) => option[1].nombre}
-                  value={departamentoSeleccionado}
+                  value={departamentoSeleccionado|| selectCliente.codigoDepartamento}
                   onChange={(event, newValue) => {
                     setDepartamentoSeleccionado(newValue ? newValue : null);
                   }}
@@ -460,7 +461,7 @@ function EditarCliente({ selectCliente, listaDistritos, vendedores }) {
                 <Autocomplete
                   options={provincias}
                   getOptionLabel={(option) => option[1].nombre}
-                  value={provinciaSeleccionada}
+                  value={provinciaSeleccionada || selectCliente.codigoProvincia}
                   onChange={(event, newValue) => {
                     setProvinciaSeleccionada(newValue ? newValue : null);
                   }}
@@ -489,7 +490,7 @@ function EditarCliente({ selectCliente, listaDistritos, vendedores }) {
                 <Autocomplete
                   options={distritos}
                   getOptionLabel={(option) => option.nombre}
-                  value={distritoSeleccionado}
+                  value={distritoSeleccionado || selectCliente.codigoDistrito}
                   onChange={(event, newValue) => {
                     setDistritoSeleccionado(newValue ? newValue : null);
                   }}
