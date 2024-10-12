@@ -55,45 +55,122 @@ function EditarCliente({ selectCliente, listaDistritos, vendedores }) {
     setPaises(listaDistritos);
   }, []);
 
-  useEffect(() => {
+  // Este efecto se ejecuta cuando el cliente ya tiene datos
+useEffect(() => {
+  if (selectCliente) {
     const paisDefault = Object.entries(paises).find(
-      ([key, value]) => key === "PER"
+      ([key, value]) => key === selectCliente.codigoPais
     );
     setPaisSeleccionado(paisDefault);
-  }, [paises]);
 
-  // Actualizar los departamentos cuando se selecciona un país
-  useEffect(() => {
-    if (paisSeleccionado) {
-      setDepartamentos(Object.entries(paisSeleccionado[1].departamentos));
-      setDepartamentoSeleccionado(null);
-      setProvinciaSeleccionada(null);
-      setDistritoSeleccionado(null);
-    } else {
-      setDepartamentos([]);
+    // Preseleccionar el departamento
+    if (paisDefault && selectCliente.codigoDepartamento) {
+      const deptoSeleccionado = Object.entries(paisDefault[1].departamentos).find(
+        ([key, value]) => key === selectCliente.codigoDepartamento
+      );
+      setDepartamentoSeleccionado(deptoSeleccionado);
     }
-  }, [paisSeleccionado]);
+  }
+}, [selectCliente, paises]);
 
-  // Actualizar las provincias cuando se selecciona un departamento
-  useEffect(() => {
-    if (departamentoSeleccionado) {
-      setProvincias(Object.entries(departamentoSeleccionado[1].provincias));
-      setProvinciaSeleccionada(null);
-      setDistritoSeleccionado(null);
-    } else {
-      setProvincias([]);
-    }
-  }, [departamentoSeleccionado]);
+// Actualizar los departamentos cuando se selecciona un país
+useEffect(() => {
+  if (paisSeleccionado) {
+    setDepartamentos(Object.entries(paisSeleccionado[1].departamentos));
 
-  // Actualizar los distritos cuando se selecciona una provincia
-  useEffect(() => {
-    if (provinciaSeleccionada) {
-      setDistritos(provinciaSeleccionada[1].distritos);
-      setDistritoSeleccionado(null);
-    } else {
-      setDistritos([]);
+    // Preseleccionar la provincia si ya está seleccionada
+    if (selectCliente && selectCliente.codigoProvincia) {
+      const provSeleccionada = Object.entries(departamentoSeleccionado[1].provincias).find(
+        ([key, value]) => key === selectCliente.codigoProvincia
+      );
+      setProvinciaSeleccionada(provSeleccionada);
     }
-  }, [provinciaSeleccionada]);
+
+    // Reiniciar el resto de las selecciones
+    setDepartamentoSeleccionado(null);
+    setProvinciaSeleccionada(null);
+    setDistritoSeleccionado(null);
+  } else {
+    setDepartamentos([]);
+  }
+}, [paisSeleccionado, selectCliente]);
+
+// Actualizar las provincias cuando se selecciona un departamento
+useEffect(() => {
+  if (departamentoSeleccionado) {
+    setProvincias(Object.entries(departamentoSeleccionado[1].provincias));
+
+    // Preseleccionar el distrito si ya está seleccionado
+    if (selectCliente && selectCliente.codigoDistrito) {
+      const distSeleccionado = Object.entries(provinciaSeleccionada[1].distritos).find(
+        ([key, value]) => key === selectCliente.codigoDistrito
+      );
+      setDistritoSeleccionado(distSeleccionado);
+    }
+
+    // Reiniciar la selección de distrito
+    setProvinciaSeleccionada(null);
+    setDistritoSeleccionado(null);
+  } else {
+    setProvincias([]);
+  }
+}, [departamentoSeleccionado, selectCliente]);
+
+// Actualizar los distritos cuando se selecciona una provincia
+useEffect(() => {
+  if (provinciaSeleccionada) {
+    setDistritos(provinciaSeleccionada[1].distritos);
+    setDistritoSeleccionado(null);
+  } else {
+    setDistritos([]);
+  }
+}, [provinciaSeleccionada]);
+
+  
+  // useEffect(() => {
+  //   const paisDefault = Object.entries(paises).find(
+  //     ([key, value]) => key === "PER"
+  //   );
+  //   setPaisSeleccionado(paisDefault);
+  // }, [paises]);
+
+  // // Actualizar los departamentos cuando se selecciona un país
+  // useEffect(() => {
+  //   if (paisSeleccionado) {
+  //     setDepartamentos(Object.entries(paisSeleccionado[1].departamentos));
+  //     setDepartamentoSeleccionado(null);
+  //     setProvinciaSeleccionada(null);
+  //     setDistritoSeleccionado(null);
+  //   } else {
+  //     setDepartamentos([]);
+  //   }
+  // }, [paisSeleccionado]);
+
+  // // Actualizar las provincias cuando se selecciona un departamento
+  // useEffect(() => {
+  //   if (departamentoSeleccionado) {
+  //     setProvincias(Object.entries(departamentoSeleccionado[1].provincias));
+  //     console.log('provincias', provincias);
+  //     setProvinciaSeleccionada(null);
+  //     setDistritoSeleccionado(null);
+  //   } else {
+  //     setProvincias([]);
+  //   }
+  // }, [departamentoSeleccionado]);
+
+  // // Actualizar los distritos cuando se selecciona una provincia
+  // useEffect(() => {
+  //   if (provinciaSeleccionada) {
+  //     setDistritos(provinciaSeleccionada[1].distritos);
+  //     setDistritoSeleccionado(null);
+  //   } else {
+  //     setDistritos([]);
+  //   }
+  // }, [provinciaSeleccionada]);
+
+  // useEffect(() => {
+  //   setDepartamentoSeleccionado(departamentos.find(([key, value]) => key === selectCliente.codigoDepartamento))
+  // }, [departamentos][selectCliente]);
 
   const handleTipoDocumentoChange = (event) => {
     setTipoDocumentoSeleccionado(event.target.value);
@@ -163,7 +240,7 @@ function EditarCliente({ selectCliente, listaDistritos, vendedores }) {
             <div style={{ display: "flex" }}>
               <div style={{}}>
                 <Typography
-                  style={{ fontWeight: "bold", paddingTop: 5, width: 100 }}
+                  style={{ fontWeight: "bold", width: 100 }}
                 >
                   Tipo Doc
                 </Typography>
@@ -171,7 +248,7 @@ function EditarCliente({ selectCliente, listaDistritos, vendedores }) {
                   id="tipoDoc-select"
                   value={tipoDocumentoSeleccionado || selectCliente.tipoDocumento}
                   onChange={handleTipoDocumentoChange}
-                  sx={{ width: "170px", height: "35px" }}
+                  sx={{ width: "170px", height: "35px", fontSize: "14px" }}
                 >
                   {contenidoCombos.TipoDocumento.map((item) => (
                     <MenuItem
@@ -184,7 +261,7 @@ function EditarCliente({ selectCliente, listaDistritos, vendedores }) {
                 </Select>
               </div>
               <div style={{ paddingLeft: 25 }}>
-                <Typography style={{ fontWeight: "bold", paddingTop: 5 }}>
+                <Typography style={{ fontWeight: "bold" }}>
                   Num.Doc.Iden.
                 </Typography>
                 <TextField
@@ -214,9 +291,28 @@ function EditarCliente({ selectCliente, listaDistritos, vendedores }) {
                   }}
                 />
               </div>
-
+              
               <div style={{ paddingLeft: 25 }}>
-                <Typography style={{ fontWeight: "bold", paddingTop: 5 }}>
+                <Typography sx={{ fontWeight: "bold" }}>
+                  Estado
+                </Typography>
+                <Select
+                  id="estado-select"
+                  value={estadoSeleccionado || selectCliente.estado}
+                  onChange={handleEstadoChange}
+                  sx={{ width: "170px", height: "35px", fontSize: "14px" }}
+                >
+                  {contenidoCombos.estadoCliente.map((item) => (
+                    <MenuItem key={item.estado} value={item.estado}>
+                      {item.descripcionEstado}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </div>
+            </div>
+            <div style={{display: "flex", paddingTop: 10}}>
+              <div style={{ }}>
+                <Typography style={{ fontWeight: "bold"}}>
                   Razón social
                 </Typography>
                 <TextField
@@ -229,41 +325,24 @@ function EditarCliente({ selectCliente, listaDistritos, vendedores }) {
                   InputProps={{
                     style: {
                       fontSize: "14px",
-                      width: "490px",
+                      width: "675px",
                       height: "35px",
                       textAlign: "center",
                     },
                   }}
                 />
               </div>
-              <div style={{ paddingLeft: 25 }}>
-                <Typography sx={{ fontWeight: "bold", paddingTop: 0.5 }}>
-                  Estado
-                </Typography>
-                <Select
-                  id="estado-select"
-                  value={estadoSeleccionado || selectCliente.estado}
-                  onChange={handleEstadoChange}
-                  sx={{ width: "170px", height: "35px" }}
-                >
-                  {contenidoCombos.estadoCliente.map((item) => (
-                    <MenuItem key={item.estado} value={item.estado}>
-                      {item.descripcionEstado}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </div>
             </div>
             <div style={{ display: "flex", paddingTop: 10 }}>
               <div style={{}}>
-                <Typography sx={{ fontWeight: "bold", paddingTop: 0.5 }}>
+                <Typography sx={{ fontWeight: "bold" }}>
                   Tipo Cliente
                 </Typography>
                 <Select
                   id="tipoCliente-select"
-                  value={tipoClienteSeleccionado}
+                  value={tipoClienteSeleccionado || selectCliente.tipoClienteProveedor}
                   onChange={handleTipoClienteChange}
-                  sx={{ width: "170px", height: "35px" }}
+                  sx={{ width: "170px", height: "35px", fontSize: "14px" }}
                 >
                   {contenidoCombos.tipoCliente.map((item) => (
                     <MenuItem key={item.tipo} value={item.tipo}>
@@ -273,14 +352,14 @@ function EditarCliente({ selectCliente, listaDistritos, vendedores }) {
                 </Select>
               </div>
               <div style={{ paddingLeft: 25 }}>
-                <Typography sx={{ fontWeight: "bold", paddingTop: 0.5 }}>
-                  Tipo Cliente
+                <Typography sx={{ fontWeight: "bold" }}>
+                  Tipo Consumidor
                 </Typography>
                 <Select
                   id="tipoConsumidor-select"
-                  value={tipoConsumidorSeleccionado}
+                  value={tipoConsumidorSeleccionado || selectCliente.tipoConsumidor}
                   onChange={handleTipoConsumidorChange}
-                  sx={{ width: "170px", height: "35px" }}
+                  sx={{ width: "170px", height: "35px", fontSize: "14px" }}
                 >
                   {contenidoCombos.TipoConsumidorCliente.map((item) => (
                     <MenuItem
@@ -292,35 +371,13 @@ function EditarCliente({ selectCliente, listaDistritos, vendedores }) {
                   ))}
                 </Select>
               </div>
+              
               <div style={{ paddingLeft: 25 }}>
-                <Typography style={{ fontWeight: "bold", paddingTop: 5 }}>
-                  Representante
-                </Typography>
-                <TextField
-                  value={representante || selectCliente.representanteLegal}
-                  fullWidth
-                  autoComplete="off"
-                  onChange={(e) => setRepresentante(e.target.value)}
-                  style={{ height: 35 }}
-                  variant="outlined"
-                  InputProps={{
-                    style: {
-                      fontSize: "14px",
-                      width: "490px",
-                      height: "35px",
-                      textAlign: "center",
-                    },
-                  }}
-                />
-              </div>
-              <div style={{ paddingLeft: 25 }}>
-                <Typography style={{ fontWeight: "bold", paddingTop: 5 }}>
+                <Typography style={{ fontWeight: "bold" }}>
                   DNI Representante
                 </Typography>
                 <TextField
-                  value={
-                    dniRepresentante || selectCliente.dniRepresentanteLegal
-                  }
+                  value={ dniRepresentante || selectCliente.dniRepresentanteLegal }
                   fullWidth
                   autoComplete="off"
                   onChange={(e) => {
@@ -340,6 +397,29 @@ function EditarCliente({ selectCliente, listaDistritos, vendedores }) {
                     style: {
                       fontSize: "14px",
                       width: "170px",
+                      height: "35px",
+                      textAlign: "center",
+                    },
+                  }}
+                />
+              </div>
+            </div>
+            <div>
+            <div style={{ paddingTop: 10}}>
+                <Typography style={{ fontWeight: "bold" }}>
+                  Representante
+                </Typography>
+                <TextField
+                  value={representante || selectCliente.representanteLegal}
+                  fullWidth
+                  autoComplete="off"
+                  onChange={(e) => setRepresentante(e.target.value)}
+                  style={{ height: 35 }}
+                  variant="outlined"
+                  InputProps={{
+                    style: {
+                      fontSize: "14px",
+                      width: "675px",
                       height: "35px",
                       textAlign: "center",
                     },
@@ -367,11 +447,11 @@ function EditarCliente({ selectCliente, listaDistritos, vendedores }) {
             }}
           >
             <Typography style={{ paddingBottom: 5 }}>
-              <strong>DIRECCIÓN</strong>{" "}
+              <strong>UBICACIÓN</strong>{" "}
             </Typography>
             <div style={{ display: "flex" }}>
               <div>
-                <Typography style={{ fontWeight: "bold", paddingTop: 5 }}>
+                <Typography style={{ fontWeight: "bold" }}>
                   Dirección
                 </Typography>
                 <TextField
@@ -384,7 +464,7 @@ function EditarCliente({ selectCliente, listaDistritos, vendedores }) {
                   InputProps={{
                     style: {
                       fontSize: "14px",
-                      width: "1075px",
+                      width: "675px",
                       height: "35px",
                       textAlign: "center",
                     },
@@ -395,7 +475,7 @@ function EditarCliente({ selectCliente, listaDistritos, vendedores }) {
             <div style={{ display: "flex", paddingTop: 10 }}>
               <div style={{}}>
                 <Typography
-                  style={{ fontWeight: "bold", paddingTop: 5, width: 100 }}
+                  style={{ fontWeight: "bold", width: 100 }}
                 >
                   País
                 </Typography>
@@ -414,11 +494,12 @@ function EditarCliente({ selectCliente, listaDistritos, vendedores }) {
                         type="text"
                         {...params.inputProps}
                         style={{
-                          width: "170px",
+                          width: "150px",
                           height: "35px",
                           border: "1px solid #ccc",
                           borderRadius: "4px",
                           paddingLeft: 5,
+                          fontSize: "14px"
                         }}
                       />
                     </div>
@@ -426,13 +507,13 @@ function EditarCliente({ selectCliente, listaDistritos, vendedores }) {
                 />
               </div>
               <div style={{ paddingLeft: 25 }}>
-                <Typography style={{ fontWeight: "bold", paddingTop: 5 }}>
+                <Typography style={{ fontWeight: "bold" }}>
                   Departamento
                 </Typography>
                 <Autocomplete
                   options={departamentos}
                   getOptionLabel={(option) => option[1].nombre}
-                  value={departamentoSeleccionado|| selectCliente.codigoDepartamento}
+                  value={departamentoSeleccionado || departamentos.find(dep => dep[0] === selectCliente.codigoDepartamento) || null}
                   onChange={(event, newValue) => {
                     setDepartamentoSeleccionado(newValue ? newValue : null);
                   }}
@@ -442,11 +523,12 @@ function EditarCliente({ selectCliente, listaDistritos, vendedores }) {
                         type="text"
                         {...params.inputProps}
                         style={{
-                          width: "170px",
+                          width: "150px",
                           height: "35px",
                           border: "1px solid #ccc",
                           borderRadius: "4px",
                           paddingLeft: 5,
+                          fontSize: "14px"
                         }}
                       />
                     </div>
@@ -455,13 +537,13 @@ function EditarCliente({ selectCliente, listaDistritos, vendedores }) {
                 />
               </div>
               <div style={{ paddingLeft: 25 }}>
-                <Typography style={{ fontWeight: "bold", paddingTop: 5 }}>
+                <Typography style={{ fontWeight: "bold" }}>
                   Provincia
                 </Typography>
                 <Autocomplete
                   options={provincias}
                   getOptionLabel={(option) => option[1].nombre}
-                  value={provinciaSeleccionada || selectCliente.codigoProvincia}
+                  value={provinciaSeleccionada || provincias.find(prov => prov[0] === selectCliente.codigoProvincia)}
                   onChange={(event, newValue) => {
                     setProvinciaSeleccionada(newValue ? newValue : null);
                   }}
@@ -471,11 +553,12 @@ function EditarCliente({ selectCliente, listaDistritos, vendedores }) {
                         type="text"
                         {...params.inputProps}
                         style={{
-                          width: "170px",
+                          width: "150px",
                           height: "35px",
                           border: "1px solid #ccc",
                           borderRadius: "4px",
                           paddingLeft: 5,
+                          fontSize: "14px"
                         }}
                       />
                     </div>
@@ -484,13 +567,13 @@ function EditarCliente({ selectCliente, listaDistritos, vendedores }) {
                 />
               </div>
               <div style={{ paddingLeft: 25 }}>
-                <Typography style={{ fontWeight: "bold", paddingTop: 5 }}>
+                <Typography style={{ fontWeight: "bold" }}>
                   Distrito
                 </Typography>
                 <Autocomplete
                   options={distritos}
                   getOptionLabel={(option) => option.nombre}
-                  value={distritoSeleccionado || selectCliente.codigoDistrito}
+                  value={distritoSeleccionado || distritos.find( dist => dist[0] === selectCliente.codigoDistrito)}
                   onChange={(event, newValue) => {
                     setDistritoSeleccionado(newValue ? newValue : null);
                   }}
@@ -500,11 +583,12 @@ function EditarCliente({ selectCliente, listaDistritos, vendedores }) {
                         type="text"
                         {...params.inputProps}
                         style={{
-                          width: "170px",
+                          width: "150px",
                           height: "35px",
                           border: "1px solid #ccc",
                           borderRadius: "4px",
                           paddingLeft: 5,
+                          fontSize: "14px"
                         }}
                       />
                     </div>
@@ -542,7 +626,7 @@ function EditarCliente({ selectCliente, listaDistritos, vendedores }) {
             <div style={{ display: "flex" }}>
               <div style={{}}>
                 <Typography
-                  style={{ fontWeight: "bold", paddingTop: 5, width: 100 }}
+                  style={{ fontWeight: "bold", width: 100 }}
                 >
                   Correo
                 </Typography>
@@ -556,7 +640,7 @@ function EditarCliente({ selectCliente, listaDistritos, vendedores }) {
                   InputProps={{
                     style: {
                       fontSize: "14px",
-                      width: "754px",
+                      width: "480px",
                       height: "35px",
                       textAlign: "center",
                     },
@@ -564,7 +648,7 @@ function EditarCliente({ selectCliente, listaDistritos, vendedores }) {
                 />
               </div>
               <div style={{ paddingLeft: 25 }}>
-                <Typography style={{ fontWeight: "bold", paddingTop: 5 }}>
+                <Typography style={{ fontWeight: "bold" }}>
                   Vendedor
                 </Typography>
 
@@ -583,11 +667,12 @@ function EditarCliente({ selectCliente, listaDistritos, vendedores }) {
                         type="text"
                         {...params.inputProps}
                         style={{
-                          width: "296px",
+                          width: "170px",
                           height: "35px",
                           border: "1px solid #ccc",
                           borderRadius: "4px",
                           paddingLeft: 5,
+                          fontSize: "14px"
                         }}
                       />
                     </div>
@@ -666,7 +751,7 @@ function EditarCliente({ selectCliente, listaDistritos, vendedores }) {
                 <Typography
                   style={{ fontWeight: "bold", paddingTop: 5, width: 100 }}
                 >
-                  Tel movil
+                  Celular
                 </Typography>
                 <TextField
                   value={celular || selectCliente.celular}

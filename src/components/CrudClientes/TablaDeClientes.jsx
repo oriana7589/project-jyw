@@ -102,18 +102,7 @@ const TablaDeClientes = ({
                     }}
                   >
                     Orden
-                  </TableCell>
-                  <TableCell
-                    style={{
-                      paddingLeft: 10,
-                      textAlign: "left",
-                      fontSize: "1rem",
-                      whiteSpace: "nowrap",
-                      fontWeight: "bold",
-                    }}
-                  >
-                    Tipo de Doc.
-                  </TableCell>
+                  </TableCell>                  
                   <TableCell
                     style={{
                       paddingLeft: 10,
@@ -162,12 +151,7 @@ const TablaDeClientes = ({
                     >
                       <TableCell style={{ textAlign: "left" }}>
                         {page * itemsPerPage + index + 1}
-                      </TableCell>
-                      <TableCell
-                        style={{ textAlign: "left", fontSize: "0.9rem" }}
-                      >
-                        {item.tipoDocumento}
-                      </TableCell>
+                      </TableCell>                      
                       <TableCell
                         style={{
                           textAlign: "left",
@@ -175,7 +159,7 @@ const TablaDeClientes = ({
                           fontSize: "0.9rem",
                         }}
                       >
-                        {item.numDocumento}
+                        {item.tipoDocumento} {item.numDocumento}
                       </TableCell>
                       <TableCell
                         style={{
