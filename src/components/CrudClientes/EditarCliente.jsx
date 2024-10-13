@@ -55,76 +55,142 @@ function EditarCliente({ selectCliente, listaDistritos, vendedores }) {
     setPaises(listaDistritos);
   }, []);
 
-  // Este efecto se ejecuta cuando el cliente ya tiene datos
-useEffect(() => {
-  if (selectCliente) {
+  useEffect(() => {
     const paisDefault = Object.entries(paises).find(
-      ([key, value]) => key === selectCliente.codigoPais
+      ([key, value]) => key === "PER"
     );
     setPaisSeleccionado(paisDefault);
+  }, [paises]);
 
-    // Preseleccionar el departamento
-    if (paisDefault && selectCliente.codigoDepartamento) {
-      const deptoSeleccionado = Object.entries(paisDefault[1].departamentos).find(
-        ([key, value]) => key === selectCliente.codigoDepartamento
+  // Este efecto se ejecuta cuando el cliente ya tiene datos
+  useEffect(() => {   
+    if (paisSeleccionado) {
+      setDepartamentos(Object.entries(paisSeleccionado[1].departamentos));
+    }  
+
+    if (selectCliente && selectCliente.codigoPais) {
+      const paisDefault = Object.entries(paises).find(
+        ([key, value]) => key === selectCliente.codigoPais
       );
-      setDepartamentoSeleccionado(deptoSeleccionado);
+      setPaisSeleccionado(paisDefault);
+
+      // Preseleccionar el departamento
+      if (paisDefault && selectCliente.codigoDepartamento) {
+        const deptoSeleccionado = Object.entries(paisDefault[1].departamentos).find(
+          ([key, value]) => key === selectCliente.codigoDepartamento
+        );
+        setDepartamentoSeleccionado(deptoSeleccionado);
+      }
     }
-  }
-}, [selectCliente, paises]);
+  }, [paisSeleccionado, paises, selectCliente]);
+
+  useEffect(() => {
+    if (departamentoSeleccionado) {
+      setProvincias(Object.entries(departamentoSeleccionado[1].provincias));
+
+      // Preseleccionar la provincia si está en los datos del cliente
+      if (selectCliente && selectCliente.codigoProvincia) {
+        const provSeleccionada = Object.entries(departamentoSeleccionado[1].provincias).find(
+          ([key, value]) => key === selectCliente.codigoProvincia
+        );
+        setProvinciaSeleccionada(provSeleccionada);
+      }
+
+      // Reiniciar la selección de distrito si no se preselecciona
+      setDistritoSeleccionado(null);
+    } else {
+      setProvincias([]);
+    }
+  }, [departamentoSeleccionado, selectCliente]);
+
+  useEffect(() => {
+    if (provinciaSeleccionada) {
+      setDistritos(provinciaSeleccionada[1].distritos);
+
+      // Preseleccionar el distrito si está en los datos del cliente
+      if (selectCliente && selectCliente.codigoDistrito) {
+        const distSeleccionado = provinciaSeleccionada[1].distritos.find(
+          (distrito) => distrito.codigo === selectCliente.codigoDistrito
+        );
+        setDistritoSeleccionado(distSeleccionado);
+      }
+    } else {
+      setDistritos([]);
+    }
+  }, [provinciaSeleccionada, selectCliente]);
 
 // Actualizar los departamentos cuando se selecciona un país
-useEffect(() => {
-  if (paisSeleccionado) {
-    setDepartamentos(Object.entries(paisSeleccionado[1].departamentos));
+// useEffect(() => {
+//   if (paisSeleccionado) {
+//     setDepartamentos(Object.entries(paisSeleccionado[1].departamentos));
 
-    // Preseleccionar la provincia si ya está seleccionada
-    if (selectCliente && selectCliente.codigoProvincia) {
-      const provSeleccionada = Object.entries(departamentoSeleccionado[1].provincias).find(
-        ([key, value]) => key === selectCliente.codigoProvincia
-      );
-      setProvinciaSeleccionada(provSeleccionada);
-    }
+//     // Preseleccionar la provincia si ya está seleccionada
+//     if (selectCliente && selectCliente.codigoProvincia) {
+//       const provSeleccionada = Object.entries(departamentoSeleccionado[1].provincias).find(
+//         ([key, value]) => key === selectCliente.codigoProvincia
+//       );
+//       setProvinciaSeleccionada(provSeleccionada);
+//     }
 
-    // Reiniciar el resto de las selecciones
-    setDepartamentoSeleccionado(null);
-    setProvinciaSeleccionada(null);
-    setDistritoSeleccionado(null);
-  } else {
-    setDepartamentos([]);
-  }
-}, [paisSeleccionado, selectCliente]);
+//     // Reiniciar el resto de las selecciones
+//     setDepartamentoSeleccionado(null);
+//     setProvinciaSeleccionada(null);
+//     setDistritoSeleccionado(null);
+//   } else {
+//     setDepartamentos([]);
+//   }
+// }, [paisSeleccionado, selectCliente]);
 
-// Actualizar las provincias cuando se selecciona un departamento
-useEffect(() => {
-  if (departamentoSeleccionado) {
-    setProvincias(Object.entries(departamentoSeleccionado[1].provincias));
+// useEffect(() => {
+//   if (paisSeleccionado) {
+//     setDepartamentos(Object.entries(paisSeleccionado[1].departamentos));
 
-    // Preseleccionar el distrito si ya está seleccionado
-    if (selectCliente && selectCliente.codigoDistrito) {
-      const distSeleccionado = Object.entries(provinciaSeleccionada[1].distritos).find(
-        ([key, value]) => key === selectCliente.codigoDistrito
-      );
-      setDistritoSeleccionado(distSeleccionado);
-    }
+//     // Preseleccionar la provincia si ya está seleccionada
+//     if (selectCliente && selectCliente.codigoProvincia && departamentoSeleccionado) {
+//       const provSeleccionada = Object.entries(departamentoSeleccionado[1].provincias).find(
+//         ([key, value]) => key === selectCliente.codigoProvincia
+//       );
+//       setProvinciaSeleccionada(provSeleccionada); // Preseleccionar la provincia
+//     } else {
+//       // Reiniciar la provincia y el distrito si no hay selección previa
+//       setProvinciaSeleccionada(null);
+//       setDistritoSeleccionado(null);
+//     }
+//   } else {
+//     setDepartamentos([]);
+//     setProvincias([]);
+//     setDistritos([]);
+//   }
+// }, [paisSeleccionado, selectCliente, departamentoSeleccionado]);
 
-    // Reiniciar la selección de distrito
-    setProvinciaSeleccionada(null);
-    setDistritoSeleccionado(null);
-  } else {
-    setProvincias([]);
-  }
-}, [departamentoSeleccionado, selectCliente]);
+// // Actualizar las provincias cuando se selecciona un departamento
+// useEffect(() => {
+//   if (departamentoSeleccionado) {
+//     setProvincias(Object.entries(departamentoSeleccionado[1].provincias));
 
-// Actualizar los distritos cuando se selecciona una provincia
-useEffect(() => {
-  if (provinciaSeleccionada) {
-    setDistritos(provinciaSeleccionada[1].distritos);
-    setDistritoSeleccionado(null);
-  } else {
-    setDistritos([]);
-  }
-}, [provinciaSeleccionada]);
+//     // Preseleccionar el distrito si ya está seleccionado
+//     if (selectCliente && selectCliente.codigoDistrito && provinciaSeleccionada) {
+//       const distSeleccionado = Object.entries(provinciaSeleccionada[1].distritos).find(
+//         ([key, value]) => key === selectCliente.codigoDistrito
+//       );
+//       setDistritoSeleccionado(distSeleccionado);
+//     }
+
+//   } else {
+//     setProvincias([]);
+//     setDistritos([]);
+//   }
+// }, [departamentoSeleccionado, selectCliente, provinciaSeleccionada]);
+
+// // Actualizar los distritos cuando se selecciona una provincia
+// useEffect(() => {
+//   if (provinciaSeleccionada) {
+//     setDistritos(provinciaSeleccionada[1].distritos);
+//     console.log('distritoSeleccionado', distritoSeleccionado)
+//   } else {
+//     setDistritos([]);
+//   }
+// }, [provinciaSeleccionada]);
 
   
   // useEffect(() => {
@@ -167,11 +233,7 @@ useEffect(() => {
   //     setDistritos([]);
   //   }
   // }, [provinciaSeleccionada]);
-
-  // useEffect(() => {
-  //   setDepartamentoSeleccionado(departamentos.find(([key, value]) => key === selectCliente.codigoDepartamento))
-  // }, [departamentos][selectCliente]);
-
+  
   const handleTipoDocumentoChange = (event) => {
     setTipoDocumentoSeleccionado(event.target.value);
   };
@@ -482,11 +544,15 @@ useEffect(() => {
                 <Autocomplete
                   options={Object.entries(paises)}
                   getOptionLabel={(option) =>
-                    option && option[1] ? option[1].nombre : ""
+                    //option && option[1] ? option[1].nombre : ""
+                    option[1].nombre
                   }
-                  value={paisSeleccionado}
+                  value={paisSeleccionado || null}
                   onChange={(event, newValue) => {
                     setPaisSeleccionado(newValue);
+                    //setDepartamentoSeleccionado(null);
+                    //setProvinciaSeleccionada(null);
+                    //setDistritoSeleccionado(null);
                   }}
                   renderInput={(params) => (
                     <div ref={params.InputProps.ref}>
@@ -513,9 +579,11 @@ useEffect(() => {
                 <Autocomplete
                   options={departamentos}
                   getOptionLabel={(option) => option[1].nombre}
-                  value={departamentoSeleccionado || departamentos.find(dep => dep[0] === selectCliente.codigoDepartamento) || null}
+                  value={departamentoSeleccionado || null}
                   onChange={(event, newValue) => {
-                    setDepartamentoSeleccionado(newValue ? newValue : null);
+                    setDepartamentoSeleccionado(newValue);
+                    //setProvinciaSeleccionada(null);
+                    //setDistritoSeleccionado(null);
                   }}
                   renderInput={(params) => (
                     <div ref={params.InputProps.ref}>
@@ -543,9 +611,10 @@ useEffect(() => {
                 <Autocomplete
                   options={provincias}
                   getOptionLabel={(option) => option[1].nombre}
-                  value={provinciaSeleccionada || provincias.find(prov => prov[0] === selectCliente.codigoProvincia)}
+                  value={provinciaSeleccionada || null}
                   onChange={(event, newValue) => {
-                    setProvinciaSeleccionada(newValue ? newValue : null);
+                    setProvinciaSeleccionada(newValue);
+                    //setDistritoSeleccionado(null);
                   }}
                   renderInput={(params) => (
                     <div ref={params.InputProps.ref}>
@@ -573,9 +642,9 @@ useEffect(() => {
                 <Autocomplete
                   options={distritos}
                   getOptionLabel={(option) => option.nombre}
-                  value={distritoSeleccionado || distritos.find( dist => dist[0] === selectCliente.codigoDistrito)}
+                  value={distritoSeleccionado || null}
                   onChange={(event, newValue) => {
-                    setDistritoSeleccionado(newValue ? newValue : null);
+                    setDistritoSeleccionado(newValue);
                   }}
                   renderInput={(params) => (
                     <div ref={params.InputProps.ref}>
