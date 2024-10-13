@@ -51,6 +51,7 @@ const PestañaContenido = ({
     case 1:
       return (
         <EditarCliente
+          setTabValue={setTabValue}
           selectCliente = {selectCliente}
           listaDistritos={listaDistritos}
           vendedores = {vendedores}
@@ -92,33 +93,6 @@ const ConsultaClientes = ({
           flexDirection: "column",
         }}
       >
-        <CustomTabs
-          value={tabValue}
-          onChange={handleChangeTab}
-          indicatorColor="primary"
-          textColor="primary"
-          variant="fullWidth"
-          style={{ paddingLeft: 250, paddingRight: 250, paddingTop: 5 }}
-        >
-          <CustomClickableTab
-            label="BUSCAR"
-            style={{
-              minHeight: "25px",
-              marginRight: "4px",
-              fontSize: "0.7rem",
-            }}
-            clickable="true" // Puedes hacer clic en esta pestaña
-          />
-          <CustomClickableTab
-            label="EDITAR"
-            style={{
-              minHeight: "25px",
-              marginRight: "4px",
-              fontSize: "0.7rem",
-            }}
-            clickable="true"
-          />
-        </CustomTabs>
         <PestañaContenido
           value={tabValue}
           setTabValue={setTabValue}

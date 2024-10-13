@@ -15,9 +15,18 @@ import {
 } from "@mui/material";
 import Decimal from "decimal.js";
 import contenidoCombos from "../../utils/ContenidoCombos.json";
+import { KeyboardBackspace } from "@mui/icons-material";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { postCrearCliente, putModificarCliente } from "../../Services/ApiService";
 Decimal.set({ precision: 10 });
 
-function EditarCliente({ selectCliente, listaDistritos, vendedores }) {
+function EditarCliente({
+  selectCliente,
+  listaDistritos,
+  vendedores,
+  setTabValue,
+}) {
   const [docuemntoIdentidad, setDocuemntoIdentidad] = useState("");
   const [representante, setRepresentante] = useState("");
   const [direccion, setDireccion] = useState("");
@@ -48,9 +57,9 @@ function EditarCliente({ selectCliente, listaDistritos, vendedores }) {
     useState(null);
   const [provinciaSeleccionada, setProvinciaSeleccionada] = useState(null);
   const [distritoSeleccionado, setDistritoSeleccionado] = useState(null);
+
   //----
- console.log("cliente")
- console.log(selectCliente)
+
   useEffect(() => {
     setPaises(listaDistritos);
   }, []);
@@ -63,10 +72,10 @@ function EditarCliente({ selectCliente, listaDistritos, vendedores }) {
   }, [paises]);
 
   // Este efecto se ejecuta cuando el cliente ya tiene datos
-  useEffect(() => {   
+  useEffect(() => {
     if (paisSeleccionado) {
       setDepartamentos(Object.entries(paisSeleccionado[1].departamentos));
-    }  
+    }
 
     if (selectCliente && selectCliente.codigoPais) {
       const paisDefault = Object.entries(paises).find(
@@ -76,9 +85,9 @@ function EditarCliente({ selectCliente, listaDistritos, vendedores }) {
 
       // Preseleccionar el departamento
       if (paisDefault && selectCliente.codigoDepartamento) {
-        const deptoSeleccionado = Object.entries(paisDefault[1].departamentos).find(
-          ([key, value]) => key === selectCliente.codigoDepartamento
-        );
+        const deptoSeleccionado = Object.entries(
+          paisDefault[1].departamentos
+        ).find(([key, value]) => key === selectCliente.codigoDepartamento);
         setDepartamentoSeleccionado(deptoSeleccionado);
       }
     }
@@ -90,9 +99,9 @@ function EditarCliente({ selectCliente, listaDistritos, vendedores }) {
 
       // Preseleccionar la provincia si está en los datos del cliente
       if (selectCliente && selectCliente.codigoProvincia) {
-        const provSeleccionada = Object.entries(departamentoSeleccionado[1].provincias).find(
-          ([key, value]) => key === selectCliente.codigoProvincia
-        );
+        const provSeleccionada = Object.entries(
+          departamentoSeleccionado[1].provincias
+        ).find(([key, value]) => key === selectCliente.codigoProvincia);
         setProvinciaSeleccionada(provSeleccionada);
       }
 
@@ -119,121 +128,46 @@ function EditarCliente({ selectCliente, listaDistritos, vendedores }) {
     }
   }, [provinciaSeleccionada, selectCliente]);
 
-// Actualizar los departamentos cuando se selecciona un país
-// useEffect(() => {
-//   if (paisSeleccionado) {
-//     setDepartamentos(Object.entries(paisSeleccionado[1].departamentos));
+  const handleSubmit = async (event) => {
+    const clienteData = {
+      codigoCliente: selectCliente.codigoCliente,
+      tipoDocumento: tipoDocumentoSeleccionado || selectCliente.tipoDocumento,
+      numDocumento: docuemntoIdentidad || selectCliente.numDocumento,
+      estado: estadoSeleccionado || selectCliente.estado,
+      razonSocial: razonSocial || selectCliente.razonSocial,
+      tipoClienteProveedor: tipoClienteSeleccionado.toString() || selectCliente.tipoClienteProveedor.toString(),
+      tipoConsumidor:tipoConsumidorSeleccionado || selectCliente.tipoConsumidor,
+      dniRepresentanteLegal:dniRepresentante || selectCliente.dniRepresentanteLegal,
+      representanteLegal: representante || selectCliente.representanteLegal,
+      direccion: direccion || selectCliente.direccion,
+      codigoPais: paisSeleccionado ? paisSeleccionado[0] : null,
+      codigoDepartamento: departamentoSeleccionado ? departamentoSeleccionado[0]: null,
+      codigoProvincia: provinciaSeleccionada ? provinciaSeleccionada[0] : null,
+      codigoDistrito: distritoSeleccionado ? distritoSeleccionado.codigo : null,
+      correo: correo || selectCliente.correo,
+      telefono1: telefono1 || selectCliente.telefono1,
+      telefono2: telefono2 || selectCliente.telefono2,
+      celular: celular || selectCliente.celular,
+      codigoVendedor: vendedor ? vendedor.codigoVendedor : null,
+    };
 
-//     // Preseleccionar la provincia si ya está seleccionada
-//     if (selectCliente && selectCliente.codigoProvincia) {
-//       const provSeleccionada = Object.entries(departamentoSeleccionado[1].provincias).find(
-//         ([key, value]) => key === selectCliente.codigoProvincia
-//       );
-//       setProvinciaSeleccionada(provSeleccionada);
-//     }
+    try {
+      console.log("codigoCliente", selectCliente.codigoCliente);
+      if(selectCliente.codigoCliente == null){
+        const response = await postCrearCliente(clienteData);
+        toast.success("Cliente guardado correctamente");
+      
+      }else{
+          const response = await putModificarCliente(clienteData);
+          toast.success("Cliente modificado correctamente");
+      }
+     
+    } catch (error) {
+      toast.error(`${error}`);
+    }
+  };
 
-//     // Reiniciar el resto de las selecciones
-//     setDepartamentoSeleccionado(null);
-//     setProvinciaSeleccionada(null);
-//     setDistritoSeleccionado(null);
-//   } else {
-//     setDepartamentos([]);
-//   }
-// }, [paisSeleccionado, selectCliente]);
 
-// useEffect(() => {
-//   if (paisSeleccionado) {
-//     setDepartamentos(Object.entries(paisSeleccionado[1].departamentos));
-
-//     // Preseleccionar la provincia si ya está seleccionada
-//     if (selectCliente && selectCliente.codigoProvincia && departamentoSeleccionado) {
-//       const provSeleccionada = Object.entries(departamentoSeleccionado[1].provincias).find(
-//         ([key, value]) => key === selectCliente.codigoProvincia
-//       );
-//       setProvinciaSeleccionada(provSeleccionada); // Preseleccionar la provincia
-//     } else {
-//       // Reiniciar la provincia y el distrito si no hay selección previa
-//       setProvinciaSeleccionada(null);
-//       setDistritoSeleccionado(null);
-//     }
-//   } else {
-//     setDepartamentos([]);
-//     setProvincias([]);
-//     setDistritos([]);
-//   }
-// }, [paisSeleccionado, selectCliente, departamentoSeleccionado]);
-
-// // Actualizar las provincias cuando se selecciona un departamento
-// useEffect(() => {
-//   if (departamentoSeleccionado) {
-//     setProvincias(Object.entries(departamentoSeleccionado[1].provincias));
-
-//     // Preseleccionar el distrito si ya está seleccionado
-//     if (selectCliente && selectCliente.codigoDistrito && provinciaSeleccionada) {
-//       const distSeleccionado = Object.entries(provinciaSeleccionada[1].distritos).find(
-//         ([key, value]) => key === selectCliente.codigoDistrito
-//       );
-//       setDistritoSeleccionado(distSeleccionado);
-//     }
-
-//   } else {
-//     setProvincias([]);
-//     setDistritos([]);
-//   }
-// }, [departamentoSeleccionado, selectCliente, provinciaSeleccionada]);
-
-// // Actualizar los distritos cuando se selecciona una provincia
-// useEffect(() => {
-//   if (provinciaSeleccionada) {
-//     setDistritos(provinciaSeleccionada[1].distritos);
-//     console.log('distritoSeleccionado', distritoSeleccionado)
-//   } else {
-//     setDistritos([]);
-//   }
-// }, [provinciaSeleccionada]);
-
-  
-  // useEffect(() => {
-  //   const paisDefault = Object.entries(paises).find(
-  //     ([key, value]) => key === "PER"
-  //   );
-  //   setPaisSeleccionado(paisDefault);
-  // }, [paises]);
-
-  // // Actualizar los departamentos cuando se selecciona un país
-  // useEffect(() => {
-  //   if (paisSeleccionado) {
-  //     setDepartamentos(Object.entries(paisSeleccionado[1].departamentos));
-  //     setDepartamentoSeleccionado(null);
-  //     setProvinciaSeleccionada(null);
-  //     setDistritoSeleccionado(null);
-  //   } else {
-  //     setDepartamentos([]);
-  //   }
-  // }, [paisSeleccionado]);
-
-  // // Actualizar las provincias cuando se selecciona un departamento
-  // useEffect(() => {
-  //   if (departamentoSeleccionado) {
-  //     setProvincias(Object.entries(departamentoSeleccionado[1].provincias));
-  //     console.log('provincias', provincias);
-  //     setProvinciaSeleccionada(null);
-  //     setDistritoSeleccionado(null);
-  //   } else {
-  //     setProvincias([]);
-  //   }
-  // }, [departamentoSeleccionado]);
-
-  // // Actualizar los distritos cuando se selecciona una provincia
-  // useEffect(() => {
-  //   if (provinciaSeleccionada) {
-  //     setDistritos(provinciaSeleccionada[1].distritos);
-  //     setDistritoSeleccionado(null);
-  //   } else {
-  //     setDistritos([]);
-  //   }
-  // }, [provinciaSeleccionada]);
-  
   const handleTipoDocumentoChange = (event) => {
     setTipoDocumentoSeleccionado(event.target.value);
   };
@@ -250,22 +184,55 @@ function EditarCliente({ selectCliente, listaDistritos, vendedores }) {
     setTipoConsumidorSeleccionado(event.target.value);
   };
 
+  const handleIconClick = () => {
+    setTabValue(0);
+  };
+
   return (
     <div style={{ width: "100%", paddingTop: 10 }}>
       <div
         style={{
-          paddingTop: 5,
           display: "flex",
           justifyContent: "end",
-          paddingRight: 10,
         }}
       >
+        <div
+          style={{
+            paddingTop: 5,
+            justifyContent: "left",
+            paddingRight: 588,
+          }}
+        >
+          <IconButton
+            style={{
+              backgroundColor: "rgb(237, 237, 237)",
+              borderRadius: "5px",
+              marginBottom: "5px",
+              width: "40px",
+              height: "40px",
+            }}
+            onClick={(event) => {
+              event.stopPropagation(); // Evita la propagación del evento al acordeón
+              handleIconClick();
+            }}
+          >
+            <KeyboardBackspace
+              style={{ color: "rgb(131,131,131)", marginLeft: 4 }}
+            />
+          </IconButton>
+        </div>
+
         <IconButton
           style={{
             backgroundColor: "rgb(226, 52, 48)",
             borderRadius: "0",
-            height: "35px",
-            width: "180px",
+            height: "34px",
+            width: "160px",
+            marginRight: 5,
+          }}
+          onClick={(event) => {
+            event.stopPropagation(); // Evita la propagación del evento al acordeón
+            handleSubmit(event);
           }}
         >
           <Typography
@@ -301,14 +268,14 @@ function EditarCliente({ selectCliente, listaDistritos, vendedores }) {
             </Typography>
             <div style={{ display: "flex" }}>
               <div style={{}}>
-                <Typography
-                  style={{ fontWeight: "bold", width: 100 }}
-                >
+                <Typography style={{ fontWeight: "bold", width: 100 }}>
                   Tipo Doc
                 </Typography>
                 <Select
                   id="tipoDoc-select"
-                  value={tipoDocumentoSeleccionado || selectCliente.tipoDocumento}
+                  value={
+                    tipoDocumentoSeleccionado || selectCliente.tipoDocumento
+                  }
                   onChange={handleTipoDocumentoChange}
                   sx={{ width: "170px", height: "35px", fontSize: "14px" }}
                 >
@@ -332,12 +299,17 @@ function EditarCliente({ selectCliente, listaDistritos, vendedores }) {
                   autoComplete="off"
                   onChange={(e) => {
                     const value = e.target.value;
-                    if (/^\d*$/.test(value)) { // Solo permite números
+                    if (/^\d*$/.test(value)) {
+                      // Solo permite números
                       setDocuemntoIdentidad(value);
                     }
                   }}
                   onKeyDown={(e) => {
-                    if (!/^[0-9]$/.test(e.key) && e.key !== 'Backspace' && e.key !== 'Delete') {
+                    if (
+                      !/^[0-9]$/.test(e.key) &&
+                      e.key !== "Backspace" &&
+                      e.key !== "Delete"
+                    ) {
                       e.preventDefault(); // Evita la entrada de cualquier cosa que no sea un número
                     }
                   }}
@@ -353,11 +325,9 @@ function EditarCliente({ selectCliente, listaDistritos, vendedores }) {
                   }}
                 />
               </div>
-              
+
               <div style={{ paddingLeft: 25 }}>
-                <Typography sx={{ fontWeight: "bold" }}>
-                  Estado
-                </Typography>
+                <Typography sx={{ fontWeight: "bold" }}>Estado</Typography>
                 <Select
                   id="estado-select"
                   value={estadoSeleccionado || selectCliente.estado}
@@ -372,9 +342,9 @@ function EditarCliente({ selectCliente, listaDistritos, vendedores }) {
                 </Select>
               </div>
             </div>
-            <div style={{display: "flex", paddingTop: 10}}>
-              <div style={{ }}>
-                <Typography style={{ fontWeight: "bold"}}>
+            <div style={{ display: "flex", paddingTop: 10 }}>
+              <div style={{}}>
+                <Typography style={{ fontWeight: "bold" }}>
                   Razón social
                 </Typography>
                 <TextField
@@ -402,7 +372,10 @@ function EditarCliente({ selectCliente, listaDistritos, vendedores }) {
                 </Typography>
                 <Select
                   id="tipoCliente-select"
-                  value={tipoClienteSeleccionado || selectCliente.tipoClienteProveedor}
+                  value={
+                    tipoClienteSeleccionado ||
+                    selectCliente.tipoClienteProveedor
+                  }
                   onChange={handleTipoClienteChange}
                   sx={{ width: "170px", height: "35px", fontSize: "14px" }}
                 >
@@ -419,7 +392,9 @@ function EditarCliente({ selectCliente, listaDistritos, vendedores }) {
                 </Typography>
                 <Select
                   id="tipoConsumidor-select"
-                  value={tipoConsumidorSeleccionado || selectCliente.tipoConsumidor}
+                  value={
+                    tipoConsumidorSeleccionado || selectCliente.tipoConsumidor
+                  }
                   onChange={handleTipoConsumidorChange}
                   sx={{ width: "170px", height: "35px", fontSize: "14px" }}
                 >
@@ -433,23 +408,30 @@ function EditarCliente({ selectCliente, listaDistritos, vendedores }) {
                   ))}
                 </Select>
               </div>
-              
+
               <div style={{ paddingLeft: 25 }}>
                 <Typography style={{ fontWeight: "bold" }}>
                   DNI Representante
                 </Typography>
                 <TextField
-                  value={ dniRepresentante || selectCliente.dniRepresentanteLegal }
+                  value={
+                    dniRepresentante || selectCliente.dniRepresentanteLegal
+                  }
                   fullWidth
                   autoComplete="off"
                   onChange={(e) => {
                     const value = e.target.value;
-                    if (/^\d*$/.test(value)) { // Solo permite números
+                    if (/^\d*$/.test(value)) {
+                      // Solo permite números
                       setDniRepresentante(value);
                     }
                   }}
                   onKeyDown={(e) => {
-                    if (!/^[0-9]$/.test(e.key) && e.key !== 'Backspace' && e.key !== 'Delete') {
+                    if (
+                      !/^[0-9]$/.test(e.key) &&
+                      e.key !== "Backspace" &&
+                      e.key !== "Delete"
+                    ) {
                       e.preventDefault(); // Evita la entrada de cualquier cosa que no sea un número
                     }
                   }}
@@ -467,7 +449,7 @@ function EditarCliente({ selectCliente, listaDistritos, vendedores }) {
               </div>
             </div>
             <div>
-            <div style={{ paddingTop: 10}}>
+              <div style={{ paddingTop: 10 }}>
                 <Typography style={{ fontWeight: "bold" }}>
                   Representante
                 </Typography>
@@ -536,9 +518,7 @@ function EditarCliente({ selectCliente, listaDistritos, vendedores }) {
             </div>
             <div style={{ display: "flex", paddingTop: 10 }}>
               <div style={{}}>
-                <Typography
-                  style={{ fontWeight: "bold", width: 100 }}
-                >
+                <Typography style={{ fontWeight: "bold", width: 100 }}>
                   País
                 </Typography>
                 <Autocomplete
@@ -565,7 +545,7 @@ function EditarCliente({ selectCliente, listaDistritos, vendedores }) {
                           border: "1px solid #ccc",
                           borderRadius: "4px",
                           paddingLeft: 5,
-                          fontSize: "14px"
+                          fontSize: "14px",
                         }}
                       />
                     </div>
@@ -596,7 +576,7 @@ function EditarCliente({ selectCliente, listaDistritos, vendedores }) {
                           border: "1px solid #ccc",
                           borderRadius: "4px",
                           paddingLeft: 5,
-                          fontSize: "14px"
+                          fontSize: "14px",
                         }}
                       />
                     </div>
@@ -627,7 +607,7 @@ function EditarCliente({ selectCliente, listaDistritos, vendedores }) {
                           border: "1px solid #ccc",
                           borderRadius: "4px",
                           paddingLeft: 5,
-                          fontSize: "14px"
+                          fontSize: "14px",
                         }}
                       />
                     </div>
@@ -636,9 +616,7 @@ function EditarCliente({ selectCliente, listaDistritos, vendedores }) {
                 />
               </div>
               <div style={{ paddingLeft: 25 }}>
-                <Typography style={{ fontWeight: "bold" }}>
-                  Distrito
-                </Typography>
+                <Typography style={{ fontWeight: "bold" }}>Distrito</Typography>
                 <Autocomplete
                   options={distritos}
                   getOptionLabel={(option) => option.nombre}
@@ -657,7 +635,7 @@ function EditarCliente({ selectCliente, listaDistritos, vendedores }) {
                           border: "1px solid #ccc",
                           borderRadius: "4px",
                           paddingLeft: 5,
-                          fontSize: "14px"
+                          fontSize: "14px",
                         }}
                       />
                     </div>
@@ -694,9 +672,7 @@ function EditarCliente({ selectCliente, listaDistritos, vendedores }) {
             </Typography>
             <div style={{ display: "flex" }}>
               <div style={{}}>
-                <Typography
-                  style={{ fontWeight: "bold", width: 100 }}
-                >
+                <Typography style={{ fontWeight: "bold", width: 100 }}>
                   Correo
                 </Typography>
                 <TextField
@@ -717,9 +693,7 @@ function EditarCliente({ selectCliente, listaDistritos, vendedores }) {
                 />
               </div>
               <div style={{ paddingLeft: 25 }}>
-                <Typography style={{ fontWeight: "bold" }}>
-                  Vendedor
-                </Typography>
+                <Typography style={{ fontWeight: "bold" }}>Vendedor</Typography>
 
                 <Autocomplete
                   options={vendedores}
@@ -741,7 +715,7 @@ function EditarCliente({ selectCliente, listaDistritos, vendedores }) {
                           border: "1px solid #ccc",
                           borderRadius: "4px",
                           paddingLeft: 5,
-                          fontSize: "14px"
+                          fontSize: "14px",
                         }}
                       />
                     </div>
@@ -762,13 +736,17 @@ function EditarCliente({ selectCliente, listaDistritos, vendedores }) {
                   autoComplete="off"
                   onChange={(e) => {
                     const value = e.target.value;
-                    if (/^\d*$/.test(value)) { 
+                    if (/^\d*$/.test(value)) {
                       setTelefono1(value);
                     }
                   }}
                   onKeyDown={(e) => {
-                    if (!/^[0-9]$/.test(e.key) && e.key !== 'Backspace' && e.key !== 'Delete') {
-                      e.preventDefault(); 
+                    if (
+                      !/^[0-9]$/.test(e.key) &&
+                      e.key !== "Backspace" &&
+                      e.key !== "Delete"
+                    ) {
+                      e.preventDefault();
                     }
                   }}
                   style={{ height: 35 }}
@@ -795,13 +773,17 @@ function EditarCliente({ selectCliente, listaDistritos, vendedores }) {
                   autoComplete="off"
                   onChange={(e) => {
                     const value = e.target.value;
-                    if (/^\d*$/.test(value)) { 
+                    if (/^\d*$/.test(value)) {
                       setTelefono2(value);
                     }
                   }}
                   onKeyDown={(e) => {
-                    if (!/^[0-9]$/.test(e.key) && e.key !== 'Backspace' && e.key !== 'Delete') {
-                      e.preventDefault(); 
+                    if (
+                      !/^[0-9]$/.test(e.key) &&
+                      e.key !== "Backspace" &&
+                      e.key !== "Delete"
+                    ) {
+                      e.preventDefault();
                     }
                   }}
                   style={{ height: 35 }}
@@ -833,7 +815,11 @@ function EditarCliente({ selectCliente, listaDistritos, vendedores }) {
                     }
                   }}
                   onKeyDown={(e) => {
-                    if (!/^[0-9]$/.test(e.key) && e.key !== 'Backspace' && e.key !== 'Delete') {
+                    if (
+                      !/^[0-9]$/.test(e.key) &&
+                      e.key !== "Backspace" &&
+                      e.key !== "Delete"
+                    ) {
                       e.preventDefault();
                     }
                   }}
@@ -853,6 +839,19 @@ function EditarCliente({ selectCliente, listaDistritos, vendedores }) {
           </Paper>
         </div>
       </div>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+        transition:Bounce
+      />
     </div>
   );
 }

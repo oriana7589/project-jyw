@@ -12,7 +12,11 @@ import {
 import "react-toastify/dist/ReactToastify.css";
 import SearchIcon from "@mui/icons-material/Search";
 import ConsultaClientes from "./ConsultaClientes";
-import { getClientes, getListaDeDistritos, getListVendedores } from "../Services/ApiService";
+import {
+  getClientes,
+  getListaDeDistritos,
+  getListVendedores,
+} from "../Services/ApiService";
 
 const ListaClientes = () => {
   const [expandedPanels, setExpandedPanels] = useState([0]);
@@ -22,16 +26,13 @@ const ListaClientes = () => {
   const [criterioBusqueda, setCriterioBusqueda] = useState("");
   const [tabValue, setTabValue] = useState(0);
   const [listaDistritos, setListaDistritos] = useState("");
-  
+
   useEffect(() => {
     getDistritos();
     getListVendedores().then((vendedores) => {
       setVendedores(vendedores);
     });
-
   }, []);
-
-  
 
   const handleIconButtonClick = () => {
     if (criterioBusqueda !== "") {
@@ -44,20 +45,24 @@ const ListaClientes = () => {
     }
   };
 
+  const handleIconAgregarClick = () => {
+        setTabValue(1);
+  };
+
   const getDistritos = () => {
     getListaDeDistritos().then((listaDistritos) => {
-      setListaDistritos(listaDistritos)
-    })
-  };  
+      setListaDistritos(listaDistritos);
+    });
+  };
 
   const handleEditClick = (clientes) => {
     setSelectCliente(clientes);
-    console.log(clientes)
+    console.log(clientes);
     setTabValue(1);
   };
 
   const handleAgregarClick = () => {
-    setSelectCliente("")
+    setSelectCliente("");
     setTabValue(1);
   };
 
@@ -131,16 +136,41 @@ const ListaClientes = () => {
               />
             </IconButton>
           </Container>
+          <Container sx={{ display: "flex" }}>
+            <IconButton
+              style={{
+                backgroundColor: "rgb(226, 52, 48)",
+                borderRadius: "0",
+                marginLeft: "90px",
+                height: "25px",
+                width: "160px",
+              }}
+              onClick={(event) => {
+                event.stopPropagation();
+                handleAgregarClick();
+              }}
+            >
+              <Typography
+                style={{
+                  color: "rgb(255, 255, 255)",
+                  borderRadius: "0",
+                  marginLeft: "10px",
+                }}
+              >
+                Agregar Cliente
+              </Typography>
+            </IconButton>
+          </Container>
         </CardActions>
         <Collapse in={expandedPanels.includes(0)} timeout="auto" unmountOnExit>
           <ConsultaClientes
             handleAgregarClick={handleAgregarClick}
             handleEditClick={handleEditClick}
             tabValue={tabValue}
-            selectCliente = {selectCliente}
+            selectCliente={selectCliente}
             setTabValue={setTabValue}
             clientes={clientes}
-            vendedores = {vendedores}
+            vendedores={vendedores}
             listaDistritos={listaDistritos}
           />
         </Collapse>

@@ -10,7 +10,8 @@ import Logo from "../../image/logo.png";
 import LogoCom from "../../image/logoCompleto.png";
 import { IconButton, Typography } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
-
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 const TablaDeClientes = ({
   handleEditClick,
   clientes,
@@ -54,33 +55,6 @@ const TablaDeClientes = ({
     >
       {clientes.length > 0 ? (
         <div style={{ overflow: "auto" }}>
-           <div
-        style={{
-          paddingTop: 5,
-          display: "flex",
-          justifyContent: "end",
-          paddingRight: 10,
-        }}
-      >
-        <IconButton
-          style={{
-            backgroundColor: "rgb(226, 52, 48)",
-            borderRadius: "0",
-            height: "35px",
-            width: "180px",
-          }}
-          onClick={handleAgregarClick}
-        >
-          <Typography
-            style={{
-              color: "rgb(255, 255, 255)",
-              borderRadius: "0",
-            }}
-          >
-           Agregar cliente
-          </Typography>
-        </IconButton>
-      </div>
           <TableContainer style={{ maxHeight: 510 }}>
             <Table
               stickyHeader
@@ -227,6 +201,19 @@ const TablaDeClientes = ({
           />
         </div>
       )}
+       <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+        transition:Bounce
+      />
     </div>
   );
 };

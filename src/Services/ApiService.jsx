@@ -339,6 +339,34 @@ export async function getImagenesArticulos(codigoArticulo) {
   return urlImagenes;
 }
 
+export async function postCrearCliente(clienteData) {
+  try {
+    const response = await axios.post(`${baseUrlCliente()}`, clienteData);
+    return response.data; 
+  } catch (error) {
+    const errorMessage = error.response && error.response.data && error.response.data.message 
+    ? error.response.data.message 
+    : (error.response && error.response.data) 
+      ? error.response.data
+      : 'Ocurrió un error desconocido';
+    throw new Error(errorMessage);
+  }
+}
+
+export async function putModificarCliente(clienteData) {
+  try {
+    const response = await axios.put(`${baseUrlCliente()}`, clienteData);
+    return response.data; 
+  } catch (error) {
+    const errorMessage = error.response && error.response.data && error.response.data.message 
+    ? error.response.data.message 
+    : (error.response && error.response.data) 
+      ? error.response.data
+      : 'Ocurrió un error desconocido';
+    throw new Error(errorMessage);
+  }
+}
+
 export function postPGenerarProforma(
   fechaEmision,
   listaDetalle,
