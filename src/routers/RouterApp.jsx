@@ -3,6 +3,7 @@ import { Route, Routes } from "react-router-dom";
 import SidebarNavbar from "../components/SidebarNavbar";
 import ConsultasPrecios from "../pages/ConsultasPrecios";
 import ListaClientes from "../pages/ListaCientes";
+import ListaTransportista from "../pages/ListaTransportista";
 
 function RouterApp() {
 
@@ -14,6 +15,7 @@ function RouterApp() {
       <Route path="/" element={<SidebarNavbar />}></Route>
       <Route path="/consultaPreciosYStock" element = {<ConsultasPrecios/>} ></Route>
       <Route path="/clientes" element = {<ListaClientes/>} ></Route>
+      <Route path="/Transportista" element = {<ListaTransportista/>} ></Route>
     </Routes>
   );
 }
