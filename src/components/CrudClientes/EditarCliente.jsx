@@ -18,7 +18,10 @@ import contenidoCombos from "../../utils/ContenidoCombos.json";
 import { KeyboardBackspace } from "@mui/icons-material";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { postCrearCliente, putModificarCliente } from "../../Services/ApiService";
+import {
+  postCrearCliente,
+  putModificarCliente,
+} from "../../Services/ApiService";
 Decimal.set({ precision: 10 });
 
 function EditarCliente({
@@ -135,13 +138,17 @@ function EditarCliente({
       numDocumento: docuemntoIdentidad || selectCliente.numDocumento,
       estado: estadoSeleccionado || selectCliente.estado,
       razonSocial: razonSocial || selectCliente.razonSocial,
-      tipoClienteProveedor: tipoClienteSeleccionado.toString() || selectCliente.tipoClienteProveedor.toString(),
-      tipoConsumidor:tipoConsumidorSeleccionado || selectCliente.tipoConsumidor,
-      dniRepresentanteLegal:dniRepresentante || selectCliente.dniRepresentanteLegal,
+      tipoClienteProveedor: tipoClienteSeleccionado != null ? tipoClienteSeleccionado.toString() : selectCliente.tipoClienteProveedor != null ? selectCliente.tipoClienteProveedor.toString() : null,
+      tipoConsumidor:
+        tipoConsumidorSeleccionado || selectCliente.tipoConsumidor,
+      dniRepresentanteLegal:
+        dniRepresentante || selectCliente.dniRepresentanteLegal,
       representanteLegal: representante || selectCliente.representanteLegal,
       direccion: direccion || selectCliente.direccion,
       codigoPais: paisSeleccionado ? paisSeleccionado[0] : null,
-      codigoDepartamento: departamentoSeleccionado ? departamentoSeleccionado[0]: null,
+      codigoDepartamento: departamentoSeleccionado
+        ? departamentoSeleccionado[0]
+        : null,
       codigoProvincia: provinciaSeleccionada ? provinciaSeleccionada[0] : null,
       codigoDistrito: distritoSeleccionado ? distritoSeleccionado.codigo : null,
       correo: correo || selectCliente.correo,
@@ -150,23 +157,32 @@ function EditarCliente({
       celular: celular || selectCliente.celular,
       codigoVendedor: vendedor ? vendedor.codigoVendedor : null,
     };
+    if (tipoDocumentoSeleccionado === "RUC") {
+      if (!/^[12]\d{10}$/.test(clienteData.numDocumento)) {
+        toast.error("El RUC debe tener 11 dígitos y comenzar con 1 o 2.");
+        return; 
+      }
+    } else if (tipoDocumentoSeleccionado === "DNI") {
+      // Validar que el DNI tenga 8 dígitos
+      if (!/^\d{8}$/.test(clienteData.numDocumento)) {
+        toast.error("El DNI debe tener exactamente 8 dígitos.");
+        return;
+      }
+    }
 
     try {
       console.log("codigoCliente", selectCliente.codigoCliente);
-      if(selectCliente.codigoCliente == null){
+      if (selectCliente.codigoCliente == null) {
         const response = await postCrearCliente(clienteData);
         toast.success("Cliente guardado correctamente");
-      
-      }else{
-          const response = await putModificarCliente(clienteData);
-          toast.success("Cliente modificado correctamente");
+      } else {
+        const response = await putModificarCliente(clienteData);
+        toast.success("Cliente modificado correctamente");
       }
-     
     } catch (error) {
       toast.error(`${error}`);
     }
   };
-
 
   const handleTipoDocumentoChange = (event) => {
     setTipoDocumentoSeleccionado(event.target.value);
