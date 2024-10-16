@@ -141,7 +141,6 @@ const ListaClientes = () => {
               style={{
                 backgroundColor: "rgb(226, 52, 48)",
                 borderRadius: "0",
-                marginLeft: "90px",
                 height: "25px",
                 width: "160px",
               }}
