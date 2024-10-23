@@ -298,7 +298,7 @@ export default function DrawerModel() {
                   overflow: "hidden",
                 }}
                 onClick={() => {
-                  const width = 730; // Ancho de la ventana emergente
+                  const width = 770; // Ancho de la ventana emergente
                   const height = 715; // Altura de la ventana emergente
                   const left = (window.innerWidth - width) / 2;
                   const top = (window.innerHeight - height) / 2;

@@ -117,13 +117,13 @@ const ListaTransportista = () => {
                   />
                 </IconButton>
               </Container>
-              <Container sx={{ display: "flex" }}>
+              <Container sx={{ display: "flex"}}>
                 <IconButton
                   style={{
                     backgroundColor: "rgb(226, 52, 48)",
                     borderRadius: "0",
                     height: "25px",
-                    width: "198px",
+                    width: "120px",
                   }}
                  
                 >
@@ -131,10 +131,10 @@ const ListaTransportista = () => {
                     style={{
                       color: "rgb(255, 255, 255)",
                       borderRadius: "0",
-                      marginLeft: "10px",
+                      marginLeft: "",
                     }}
                   >
-                    Agregar Transportista
+                    Agregar T.
                   </Typography>
                 </IconButton>
               </Container>

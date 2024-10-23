@@ -141,7 +141,6 @@ const ListaClientes = () => {
               style={{
                 backgroundColor: "rgb(226, 52, 48)",
                 borderRadius: "0",
-                marginLeft: "90px",
                 height: "25px",
                 width: "160px",
               }}
@@ -153,8 +152,7 @@ const ListaClientes = () => {
               <Typography
                 style={{
                   color: "rgb(255, 255, 255)",
-                  borderRadius: "0",
-                  marginLeft: "10px",
+                  borderRadius: "0"
                 }}
               >
                 Agregar Cliente
