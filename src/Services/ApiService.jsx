@@ -19,6 +19,10 @@ const baseUrlProforma = () => {
   return "http://10.10.0.25:9696/api/Proforma";
 };
 
+const baseUrlAgenciaTransportista = () => {
+  return "http://10.10.0.25:9696/api/AgenciaTransportista";
+};
+
 const baseUrlTransportista = () => {
   return "http://10.10.0.25:9696/api/Transportista";
 };
@@ -31,6 +35,26 @@ export function getClientes(criterioBusqueda) {
     });
 
   return listaClientesFiltrados;
+}
+
+export function getTransportista(criterioBusqueda) {
+  const listaTransportistaFiltrados = axios
+    .get(`${baseUrlTransportista()}/ListaFiltradaTransportistas/${criterioBusqueda}`)
+    .then((res) => {
+      return res.data;
+    });
+
+  return listaTransportistaFiltrados;
+}
+
+export function getAgenciaTransportista(codigoTransportista) {
+  const listaAgenciaTransportista = axios
+    .get(`${baseUrlAgenciaTransportista()}/ListaAgenciasTransportista/${codigoTransportista}`)
+    .then((res) => {
+      return res.data;
+    });
+
+  return listaAgenciaTransportista;
 }
 
 export function getDatosVentasPorClientePorAño(codCliente, año) {
@@ -297,7 +321,7 @@ export function getTipoMonedas() {
 
 export function getTransportistas() {
   const transportistas = axios
-    .get(`${baseUrlTransportista()}/Transportistas`)
+    .get(`${baseUrlTransportista()}/ListaTransportistas`)
     .then((res) => {
       console.log("transportistas", res.data);
       return res.data;
