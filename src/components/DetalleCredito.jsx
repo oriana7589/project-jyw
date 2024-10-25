@@ -36,7 +36,7 @@ const DetalleCredito = ({ promedioDias, promedioCredito }) => {
                     textAlign: "left",
                   }}
                 >
-                  {promedioDias+" DIAS"}
+                  {"--"}
                 </div>
               </td>
             </tr>

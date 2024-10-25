@@ -30,7 +30,7 @@ function EditarCliente({
   vendedores,
   setTabValue,
 }) {
-  const [docuemntoIdentidad, setDocuemntoIdentidad] = useState("");
+  const [documentoIdentidad, setDocumentoIdentidad] = useState("");
   const [representante, setRepresentante] = useState("");
   const [direccion, setDireccion] = useState("");
   const [vendedor, setVendedor] = useState("");
@@ -62,6 +62,23 @@ function EditarCliente({
   const [distritoSeleccionado, setDistritoSeleccionado] = useState(null);
 
   //----
+
+  useEffect(() => {
+    setTipoDocumentoSeleccionado( selectCliente.tipoDocumento );
+    setDocumentoIdentidad( selectCliente.numDocumento );
+    setEstadoSeleccionado( selectCliente.estado );
+    setRazonSocial( selectCliente.razonSocial );
+    setTipoClienteSeleccionado( selectCliente.tipoClienteProveedor );
+    setTipoConsumidorSeleccionado( selectCliente.tipoConsumidor );
+    setDniRepresentante( selectCliente.dniRepresentanteLegal );
+    setRepresentante( selectCliente.representanteLegal );
+    setDireccion( selectCliente.direccion );
+    setCorreo( selectCliente.correo );
+    setVendedor( selectCliente.vendedor );
+    setTelefono1( selectCliente.telefono1 );
+    setTelefono2( selectCliente.telefono2 );
+    setCelular( selectCliente.celular );
+  },[selectCliente]);
 
   useEffect(() => {
     setPaises(listaDistritos);
@@ -135,7 +152,7 @@ function EditarCliente({
     const clienteData = {
       codigoCliente: selectCliente.codigoCliente,
       tipoDocumento: tipoDocumentoSeleccionado || selectCliente.tipoDocumento,
-      numDocumento: docuemntoIdentidad || selectCliente.numDocumento,
+      numDocumento: documentoIdentidad || selectCliente.numDocumento,
       estado: estadoSeleccionado || selectCliente.estado,
       razonSocial: razonSocial || selectCliente.razonSocial,
       tipoClienteProveedor: tipoClienteSeleccionado != null ? tipoClienteSeleccionado.toString() : selectCliente.tipoClienteProveedor != null ? selectCliente.tipoClienteProveedor.toString() : null,
@@ -158,7 +175,7 @@ function EditarCliente({
       codigoVendedor: vendedor ? vendedor.codigoVendedor : null,
     };
     if (tipoDocumentoSeleccionado === "RUC") {
-      if (!/^[12]\d{10}$/.test(clienteData.numDocumento)) {
+      if (!/^[12]\d{10}$/.test(clienteData.numDocumento.trim())) {//corregir
         toast.error("El RUC debe tener 11 dígitos y comenzar con 1 o 2.");
         return; 
       }
@@ -216,7 +233,7 @@ function EditarCliente({
           style={{
             paddingTop: 5,
             justifyContent: "left",
-            paddingRight: 588,
+            paddingRight: 500,
           }}
         >
           <IconButton
@@ -289,9 +306,7 @@ function EditarCliente({
                 </Typography>
                 <Select
                   id="tipoDoc-select"
-                  value={
-                    tipoDocumentoSeleccionado || selectCliente.tipoDocumento
-                  }
+                  value={ tipoDocumentoSeleccionado }
                   onChange={handleTipoDocumentoChange}
                   sx={{ width: "170px", height: "35px", fontSize: "14px" }}
                 >
@@ -310,14 +325,14 @@ function EditarCliente({
                   Num.Doc.Iden.
                 </Typography>
                 <TextField
-                  value={docuemntoIdentidad || selectCliente.numDocumento}
+                  value={documentoIdentidad || selectCliente.numDocumento}
                   fullWidth
                   autoComplete="off"
                   onChange={(e) => {
-                    const value = e.target.value;
+                    const value = e.target.value.trim();//corregir esto en la API
                     if (/^\d*$/.test(value)) {
                       // Solo permite números
-                      setDocuemntoIdentidad(value);
+                      setDocumentoIdentidad(value);
                     }
                   }}
                   onKeyDown={(e) => {
@@ -346,7 +361,7 @@ function EditarCliente({
                 <Typography sx={{ fontWeight: "bold" }}>Estado</Typography>
                 <Select
                   id="estado-select"
-                  value={estadoSeleccionado || selectCliente.estado}
+                  value={estadoSeleccionado}
                   onChange={handleEstadoChange}
                   sx={{ width: "170px", height: "35px", fontSize: "14px" }}
                 >
@@ -364,7 +379,7 @@ function EditarCliente({
                   Razón social
                 </Typography>
                 <TextField
-                  value={razonSocial || selectCliente.razonSocial}
+                  value={razonSocial}
                   fullWidth
                   autoComplete="off"
                   onChange={(e) => setRazonSocial(e.target.value)}
@@ -388,10 +403,7 @@ function EditarCliente({
                 </Typography>
                 <Select
                   id="tipoCliente-select"
-                  value={
-                    tipoClienteSeleccionado ||
-                    selectCliente.tipoClienteProveedor
-                  }
+                  value={ tipoClienteSeleccionado }
                   onChange={handleTipoClienteChange}
                   sx={{ width: "170px", height: "35px", fontSize: "14px" }}
                 >
@@ -408,9 +420,7 @@ function EditarCliente({
                 </Typography>
                 <Select
                   id="tipoConsumidor-select"
-                  value={
-                    tipoConsumidorSeleccionado || selectCliente.tipoConsumidor
-                  }
+                  value={ tipoConsumidorSeleccionado }
                   onChange={handleTipoConsumidorChange}
                   sx={{ width: "170px", height: "35px", fontSize: "14px" }}
                 >
@@ -430,9 +440,7 @@ function EditarCliente({
                   DNI Representante
                 </Typography>
                 <TextField
-                  value={
-                    dniRepresentante || selectCliente.dniRepresentanteLegal
-                  }
+                  value={ dniRepresentante }
                   fullWidth
                   autoComplete="off"
                   onChange={(e) => {
@@ -470,7 +478,7 @@ function EditarCliente({
                   Representante
                 </Typography>
                 <TextField
-                  value={representante || selectCliente.representanteLegal}
+                  value={ representante }
                   fullWidth
                   autoComplete="off"
                   onChange={(e) => setRepresentante(e.target.value)}
@@ -515,7 +523,7 @@ function EditarCliente({
                   Dirección
                 </Typography>
                 <TextField
-                  value={direccion || selectCliente.direccion}
+                  value={ direccion }
                   fullWidth
                   autoComplete="off"
                   onChange={(e) => setDireccion(e.target.value)}
@@ -543,7 +551,7 @@ function EditarCliente({
                     //option && option[1] ? option[1].nombre : ""
                     option[1].nombre
                   }
-                  value={paisSeleccionado || null}
+                  value={paisSeleccionado}
                   onChange={(event, newValue) => {
                     setPaisSeleccionado(newValue);
                     //setDepartamentoSeleccionado(null);
@@ -692,7 +700,7 @@ function EditarCliente({
                   Correo
                 </Typography>
                 <TextField
-                  value={correo || selectCliente.correo}
+                  value={correo}
                   fullWidth
                   autoComplete="off"
                   onChange={(e) => setCorreo(e.target.value)}
@@ -747,7 +755,7 @@ function EditarCliente({
                   Telefono 1
                 </Typography>
                 <TextField
-                  value={telefono1 || selectCliente.telefono1}
+                  value={telefono1}
                   fullWidth
                   autoComplete="off"
                   onChange={(e) => {
@@ -784,7 +792,7 @@ function EditarCliente({
                   Telefono 2
                 </Typography>
                 <TextField
-                  value={telefono2 || selectCliente.telefono2}
+                  value={telefono2}
                   fullWidth
                   autoComplete="off"
                   onChange={(e) => {
@@ -821,7 +829,7 @@ function EditarCliente({
                   Celular
                 </Typography>
                 <TextField
-                  value={celular || selectCliente.celular}
+                  value={celular}
                   fullWidth
                   autoComplete="off"
                   onChange={(e) => {
