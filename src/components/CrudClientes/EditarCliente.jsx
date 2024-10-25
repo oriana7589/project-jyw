@@ -64,6 +64,42 @@ function EditarCliente({
   //----
 
   useEffect(() => {
+    setPaises(listaDistritos);
+  }, []);
+
+  useEffect(() => {
+    const paisDefault = Object.entries(paises).find(
+      ([key, value]) => key === "PER"
+    );
+    setPaisSeleccionado(paisDefault);
+  }, [paises]);
+
+  
+  useEffect(() => {
+    if (paisSeleccionado) {
+      setDepartamentos(Object.entries(paisSeleccionado[1].departamentos));
+    }    
+  }, [paisSeleccionado]);
+
+  useEffect(() => {
+    if (departamentoSeleccionado) {
+      setProvincias(Object.entries(departamentoSeleccionado[1].provincias));      
+      setDistritoSeleccionado(null);
+    } else {
+      setProvincias([]);
+    }
+  }, [departamentoSeleccionado]);
+
+  useEffect(() => {
+    if (provinciaSeleccionada) {
+      setDistritos(provinciaSeleccionada[1].distritos);      
+    } else {
+      setDistritos([]);
+    }
+  }, [provinciaSeleccionada]);
+
+
+  useEffect(() => {
     setTipoDocumentoSeleccionado( selectCliente.tipoDocumento );
     setDocumentoIdentidad( selectCliente.numDocumento );
     setEstadoSeleccionado( selectCliente.estado );
@@ -77,76 +113,109 @@ function EditarCliente({
     setVendedor( selectCliente.vendedor );
     setTelefono1( selectCliente.telefono1 );
     setTelefono2( selectCliente.telefono2 );
-    setCelular( selectCliente.celular );
+    setCelular( selectCliente.celular );   
+   
   },[selectCliente]);
 
   useEffect(() => {
-    setPaises(listaDistritos);
-  }, []);
-
-  useEffect(() => {
-    const paisDefault = Object.entries(paises).find(
-      ([key, value]) => key === "PER"
-    );
-    setPaisSeleccionado(paisDefault);
-  }, [paises]);
-
-  // Este efecto se ejecuta cuando el cliente ya tiene datos
-  useEffect(() => {
+    console.log('Pais seleccionado:', paisSeleccionado);
     if (paisSeleccionado) {
-      setDepartamentos(Object.entries(paisSeleccionado[1].departamentos));
-    }
-
-    if (selectCliente && selectCliente.codigoPais) {
-      const paisDefault = Object.entries(paises).find(
-        ([key, value]) => key === selectCliente.codigoPais
-      );
-      setPaisSeleccionado(paisDefault);
-
-      // Preseleccionar el departamento
-      if (paisDefault && selectCliente.codigoDepartamento) {
-        const deptoSeleccionado = Object.entries(
-          paisDefault[1].departamentos
-        ).find(([key, value]) => key === selectCliente.codigoDepartamento);
+      const departamentos = Object.entries(paisSeleccionado[1].departamentos);
+      console.log('Departamentos cargados:', departamentos);
+      setDepartamentos(departamentos);
+      
+      // Preseleccionar el departamento si ya está seleccionado
+      if (selectCliente && selectCliente.codigoDepartamento) {
+        const deptoSeleccionado = departamentos.find(
+          ([key, value]) => key === selectCliente.codigoDepartamento
+        );
+        console.log('Departamento seleccionado:', deptoSeleccionado);
         setDepartamentoSeleccionado(deptoSeleccionado);
       }
-    }
-  }, [paisSeleccionado, paises, selectCliente]);
-
+    }    
+  }, [paisSeleccionado, selectCliente]);
+  
   useEffect(() => {
-    if (departamentoSeleccionado) {
-      setProvincias(Object.entries(departamentoSeleccionado[1].provincias));
-
-      // Preseleccionar la provincia si está en los datos del cliente
+    console.log('Departamento seleccionado:', departamentoSeleccionado);
+    if (departamentoSeleccionado && departamentoSeleccionado[1]) {
+      const provincias = Object.entries(departamentoSeleccionado[1].provincias);
+      console.log('Provincias cargadas:', provincias);
+      setProvincias(provincias);
+      
+      // Preseleccionar la provincia
       if (selectCliente && selectCliente.codigoProvincia) {
-        const provSeleccionada = Object.entries(
-          departamentoSeleccionado[1].provincias
-        ).find(([key, value]) => key === selectCliente.codigoProvincia);
+        const provSeleccionada = provincias.find(
+          ([key, value]) => key === selectCliente.codigoProvincia
+        );
+        console.log('Provincia seleccionada:', provSeleccionada);
         setProvinciaSeleccionada(provSeleccionada);
       }
-
-      // Reiniciar la selección de distrito si no se preselecciona
-      setDistritoSeleccionado(null);
     } else {
+      console.log('Departamento no válido o sin provincias');
       setProvincias([]);
     }
   }, [departamentoSeleccionado, selectCliente]);
-
+  
   useEffect(() => {
-    if (provinciaSeleccionada) {
-      setDistritos(provinciaSeleccionada[1].distritos);
-
-      // Preseleccionar el distrito si está en los datos del cliente
+    console.log('Provincia seleccionada:', provinciaSeleccionada);
+    if (provinciaSeleccionada && provinciaSeleccionada[1]) {
+      const distritos = provinciaSeleccionada[1].distritos;
+      console.log('Distritos cargados:', distritos);
+      setDistritos(distritos);
+      
+      // Preseleccionar el distrito
       if (selectCliente && selectCliente.codigoDistrito) {
-        const distSeleccionado = provinciaSeleccionada[1].distritos.find(
+        const distSeleccionado = distritos.find(
           (distrito) => distrito.codigo === selectCliente.codigoDistrito
         );
+        console.log('Distrito seleccionado:', distSeleccionado);
         setDistritoSeleccionado(distSeleccionado);
       }
     } else {
+      console.log('Provincia no válida o sin distritos');
       setDistritos([]);
     }
   }, [provinciaSeleccionada, selectCliente]);
+  
+  // useEffect(() => {
+  //   //RELLENAR COMBOS DE UBICACION
+  //   //PAIS Y DEPARTAMENTO
+  //   if (selectCliente && selectCliente.codigoPais) {
+  //     const paisDefault = Object.entries(paises).find(
+  //       ([key, value]) => key === selectCliente.codigoPais
+  //     );
+  //     setPaisSeleccionado(paisDefault);
+
+  //     // Preseleccionar el departamento
+  //     if (paisDefault && selectCliente.codigoDepartamento) {
+  //       const deptoSeleccionado = Object.entries(
+  //         paisDefault[1].departamentos
+  //       ).find(([key, value]) => key === selectCliente.codigoDepartamento);
+  //       setDepartamentoSeleccionado(deptoSeleccionado);
+  //     }
+  //   }
+  // },[selectCliente]);
+
+  // useEffect(() => {
+  //   //PROVINCIA
+  //   if (selectCliente && selectCliente.codigoProvincia) {
+  //     console.log('Departamento seleccionado:', departamentoSeleccionado);
+  //     const provSeleccionada = Object.entries(
+  //       departamentoSeleccionado[1].provincias
+  //     ).find(([key, value]) => key === selectCliente.codigoProvincia);
+  //     setProvinciaSeleccionada(provSeleccionada);
+  //   }
+  // },[selectCliente, departamentoSeleccionado]);
+
+  // useEffect(() => {
+  //   //DISTRITO
+  //   if (selectCliente && selectCliente.codigoDistrito) {
+  //     const distSeleccionado = provinciaSeleccionada[1].distritos.find(
+  //       (distrito) => distrito.codigo === selectCliente.codigoDistrito
+  //     );
+  //     setDistritoSeleccionado(distSeleccionado);
+  //   }
+  // },[selectCliente, provinciaSeleccionada]);
 
   const handleSubmit = async (event) => {
     const clienteData = {
