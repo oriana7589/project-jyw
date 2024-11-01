@@ -7,6 +7,7 @@ import Box from "@mui/material/Box";
 import TablaDeClientes from "../components/CrudClientes/TablaDeClientes";
 import EditarCliente from "../components/CrudClientes/EditarCliente";
 import TablaDeTransportista from "../components/CrudTransportista/TablaDeTransportista";
+import EditarTransportista from "../components/CrudTransportista/EditarTransportista";
 
 const CustomClickableTab = styled(Tab)(({ theme, selected, clickable }) => ({
   color: selected
@@ -49,11 +50,9 @@ const PestañaContenido = ({
       );
     case 1:
       return (
-        <TablaDeTransportista
-          handleAgregarClick={handleAgregarClick}
-          handleEditClick={handleEditClick}
-          setTabValue={setTabValue}
-          transportista={transportista}
+        <EditarTransportista
+        setTabValue={setTabValue}
+        selectTransportista = {selectTransportista}
         />
       );
     default:

@@ -125,7 +125,10 @@ const ListaTransportista = () => {
                     height: "25px",
                     width: "120px",
                   }}
-                 
+                  onClick={(event) => {
+                    event.stopPropagation();
+                    handleAgregarClick();
+                  }}
                 >
                   <Typography
                     style={{
