@@ -20,6 +20,16 @@ const ListaTransportista = () => {
     const [criterioBusqueda, setCriterioBusqueda] = useState("");
     const [tabValue, setTabValue] = useState(0);
   
+
+    useEffect(() => {
+      // Recargar clientes cuando tabValue sea 0, indicando que la pestaña de clientes está activa
+      if (tabValue === 0) {
+        getTransportista(criterioBusqueda).then((tablaTransportista) => {
+          setTransportista(tablaTransportista);
+        });
+      }
+    }, [tabValue, criterioBusqueda]);
+
     const handleIconButtonClick = () => {
       if (criterioBusqueda !== "") {
         getTransportista(criterioBusqueda).then((tablaTransportista) => {

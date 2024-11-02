@@ -10,6 +10,7 @@ import Logo from "../../image/logo.png";
 import LogoCom from "../../image/logoCompleto.png";
 import {
   Box,
+  CircularProgress,
   Collapse,
   Container,
   IconButton,
@@ -62,16 +63,6 @@ const TablaDeTransportista = ({
   };
 
   useEffect(() => {
-    // Simular una carga de datos con un retraso de 1.5 segundos
-    const timer = setTimeout(() => {
-      setIsLoading(false);
-    }, 2500);
-
-    // Limpia el temporizador en caso de que el componente se desmonte antes de que se complete la carga
-    return () => clearTimeout(timer);
-  }, []);
-
-  useEffect(() => {
     if (transportista.length > 0) {
       setIsLoading(false);
     }
@@ -90,7 +81,24 @@ const TablaDeTransportista = ({
         gridTemplateRows: "1fr auto",
       }}
     >
-      {transportista.length > 0 ? (
+      { isLoading && transportista.length > 0 ? ( // Mostrar un círculo de carga
+          <div
+          style={{
+            position: "absolute", // Posicionar el overlay en la parte superior
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            backgroundColor: "rgba(255, 255, 255, 0.7)", // Fondo semitransparente
+            zIndex: 10, // Asegurarse de que esté encima de la tabla
+          }}
+        >
+          <CircularProgress size={80} style={{ color: "#0C3764" }} /> {/* Círculo de carga */}
+        </div>
+      ): transportista.length > 0 ? (
         <div style={{ overflow: "auto" }}>
           <TableContainer style={{ maxHeight: 610 }}>
             <Table
