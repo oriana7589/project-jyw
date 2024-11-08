@@ -20,6 +20,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import {
   getAgenciaTransportista,
+  getTransportista,
   postCrearTransportista,
   putModificarTransportista,
 } from "../../Services/ApiService";
@@ -33,7 +34,7 @@ function EditarTransportista({
   agencias,
   transportista,
   setAgencias,
-  listaDistritos
+  listaDistritos,
 }) {
   const [docuemntoIdentidad, setDocuemntoIdentidad] = useState("");
   const [descripcionCorta, setDescripcionCorta] = useState("");
@@ -41,12 +42,11 @@ function EditarTransportista({
   const [tipoDocumentoSeleccionado, setTipoDocumentoSeleccionado] =
     useState("");
 
-    useEffect(() => {
-      // Llamar a la API para obtener las agencias
-      getAgenciaTransportista(selectTransportista.codigoTransportista)
-        .then((data) => setAgencias(data))
-        .catch((error) => console.error("Error al obtener agencias:", error));
-    }, [selectTransportista.codigoTransportista, setAgencias]);
+  useEffect(() => {
+    getAgenciaTransportista(selectTransportista.codigoTransportista)
+      .then((data) => setAgencias(data))
+      .catch((error) => console.error("Error al obtener agencias:", error));
+  }, [selectTransportista.codigoTransportista, setAgencias]);
 
   const handleSubmit = async (event) => {
     const transportistaData = {
@@ -81,6 +81,7 @@ function EditarTransportista({
         const response = await putModificarTransportista(transportistaData);
         toast.success("Transportista modificado correctamente");
       }
+
     } catch (error) {
       toast.error(`${error}`);
     }
@@ -283,17 +284,26 @@ function EditarTransportista({
               </div>
             </div>
             <div
-          style={{
-            width: "100%",
-            display: "flex",
-            padding:30
-          }}
-        >  
-            <EditarAgencia listaDistritos = {listaDistritos} agencias={agencias} setAgencias={setAgencias}   selectTransportista= {selectTransportista}/>
-        </div>
+              style={{
+                width: "100%",
+                display: "flex",
+                padding: 30,
+              }}
+            >
+              <EditarAgencia
+                listaDistritos={listaDistritos}
+                agencias={agencias}
+                setAgencias={setAgencias}
+                selectTransportista={selectTransportista}
+                onSuccess={() => {
+                  getAgenciaTransportista(selectTransportista.codigoTransportista)
+                    .then(data => setAgencias(data))
+                    .catch(error => console.error("Error al obtener agencias:", error));
+                }}
+              />
+            </div>
           </Paper>
         </div>
-      
       </div>
       <ToastContainer
         position="top-right"

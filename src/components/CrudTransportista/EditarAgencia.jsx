@@ -62,12 +62,6 @@ function EditarAgencia({
   const [provinciaSeleccionada, setProvinciaSeleccionada] = useState(null);
   const [distritoSeleccionado, setDistritoSeleccionado] = useState(null);
 
-  useEffect(() => {
-    getAgenciaTransportista(selectTransportista.codigoTransportista)
-      .then((data) => setAgencias(data))
-      .catch((error) => console.error("Error al obtener agencias:", error));
-  }, [selectTransportista.codigoTransportista, setAgencias]);
-
   const handleAddClick = () => {
     setFormMode("add");
     setEditingAgencia(null); // Asegúrate de que no haya ninguna agencia en edición
@@ -129,6 +123,8 @@ function EditarAgencia({
         });
         toast.success("Agencia modificada correctamente")
       }
+      const updatedAgencias = await getAgenciaTransportista(selectTransportista.codigoTransportista);
+    setAgencias(updatedAgencias);
       setShowForm(false);
       setEditingAgencia(null); // Restablece la agencia en edición
     } catch (error) {toast.error(`${error}`)}
