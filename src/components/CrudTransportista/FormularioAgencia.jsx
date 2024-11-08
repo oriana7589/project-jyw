@@ -143,7 +143,9 @@ function FormularioAgencia({
         display: "flex",
         flexDirection: "column",
         gap: "10px",
-        margin:30,
+       marginLeft:30,
+       marginBottom:10,
+       marginTop:10,
         paddingRight: "20px",
       }}
     >
