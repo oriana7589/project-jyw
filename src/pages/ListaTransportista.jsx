@@ -12,14 +12,20 @@ import {
 import "react-toastify/dist/ReactToastify.css";
 import SearchIcon from "@mui/icons-material/Search";
 import ConsultaTransportista from "./ConsultaTransportista";
-import { getTransportista } from "../Services/ApiService";
+import { getListaDeDistritos, getTransportista } from "../Services/ApiService";
 const ListaTransportista = () => {
     const [transportista, setTransportista] = useState([]);
     const [expandedPanels, setExpandedPanels] = useState([0]);
     const [selectTransportista, setSelectTransportista] = useState([]);
     const [criterioBusqueda, setCriterioBusqueda] = useState("");
     const [tabValue, setTabValue] = useState(0);
-  
+    const [agencias, setAgencias] = useState({}); // Estado para almacenar las agencias de cada transportista
+    const [listaDistritos, setListaDistritos] = useState("");
+
+    useEffect(() => {
+      getDistritos();
+    }, []);
+    
 
     useEffect(() => {
       // Recargar clientes cuando tabValue sea 0, indicando que la pestaña de clientes está activa
@@ -39,6 +45,12 @@ const ListaTransportista = () => {
       } else {
         setTransportista([]);
       }
+    };
+
+    const getDistritos = () => {
+      getListaDeDistritos().then((listaDistritos) => {
+        setListaDistritos(listaDistritos);
+      });
     };
   
     const handleIconAgregarClick = () => {
@@ -160,6 +172,9 @@ const ListaTransportista = () => {
                 selectTransportista={selectTransportista}
                 setTabValue={setTabValue}
                 transportista={transportista}
+                agencias = {agencias}
+                setAgencias = {setAgencias}
+                listaDistritos={listaDistritos}
              />
             </Collapse>
           </Card>

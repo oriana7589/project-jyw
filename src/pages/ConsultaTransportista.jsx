@@ -37,6 +37,9 @@ const PestañaContenido = ({
   handleEditClick,
   handleAgregarClick,
   selectTransportista,
+  agencias,
+  setAgencias,
+  listaDistritos
 }) => {
   switch (value) {
     case 0:
@@ -46,6 +49,8 @@ const PestañaContenido = ({
           handleEditClick={handleEditClick}
           setTabValue={setTabValue}
           transportista={transportista}
+          agencias = {agencias}
+          setAgencias = {setAgencias}
         />
       );
     case 1:
@@ -53,6 +58,10 @@ const PestañaContenido = ({
         <EditarTransportista
         setTabValue={setTabValue}
         selectTransportista = {selectTransportista}
+        transportista={transportista}
+        agencias = {agencias}
+        setAgencias = {setAgencias}
+        listaDistritos = {listaDistritos}
         />
       );
     default:
@@ -73,10 +82,10 @@ const ConsultaTransportista = ({
   handleEditClick,
   handleAgregarClick,
   selectTransportista,
+  agencias,
+  setAgencias ,
+  listaDistritos
 }) => {
-  const handleChangeTab = (event, newValue) => {
-    setTabValue(newValue);
-  };
 
   return (
     <React.Fragment>
@@ -96,6 +105,9 @@ const ConsultaTransportista = ({
           selectTransportista = {selectTransportista}
           handleAgregarClick={handleAgregarClick}
           handleEditClick={handleEditClick}
+          agencias = {agencias}
+          setAgencias = {setAgencias}
+          listaDistritos = {listaDistritos}
         />
       </Box>
     </React.Fragment>

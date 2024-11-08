@@ -57,6 +57,34 @@ export function getAgenciaTransportista(codigoTransportista) {
   return listaAgenciaTransportista;
 }
 
+export async function postCrearAgenciaTransportista(agenciaData) {
+  try {
+    const response = await axios.post(`${baseUrlAgenciaTransportista()}`, agenciaData);
+    return response.data; 
+  } catch (error) {
+    const errorMessage = error.response && error.response.data && error.response.data.message 
+    ? error.response.data.message 
+    : (error.response && error.response.data) 
+      ? error.response.data
+      : 'Ocurrió un error desconocido';
+    throw new Error(errorMessage);
+  }
+}
+
+export async function putEditarAgenciaTransportista(agenciaData) {
+  try {
+    const response = await axios.put(`${baseUrlAgenciaTransportista()}`, agenciaData);
+    return response.data; 
+  } catch (error) {
+    const errorMessage = error.response && error.response.data && error.response.data.message 
+    ? error.response.data.message 
+    : (error.response && error.response.data) 
+      ? error.response.data
+      : 'Ocurrió un error desconocido';
+    throw new Error(errorMessage);
+  }
+}
+
 export function getDatosVentasPorClientePorAño(codCliente, año) {
   const datosVentasPorClientePorAño = axios
     .get(`${baseUrlCliente()}/VentasRango?Año=${año}&codCliente=${codCliente}`)

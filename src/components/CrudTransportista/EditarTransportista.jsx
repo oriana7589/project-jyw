@@ -18,13 +18,22 @@ import contenidoCombos from "../../utils/ContenidoCombos.json";
 import { KeyboardBackspace } from "@mui/icons-material";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { postCrearTransportista, putModificarTransportista } from "../../Services/ApiService";
+import {
+  getAgenciaTransportista,
+  postCrearTransportista,
+  putModificarTransportista,
+} from "../../Services/ApiService";
+import EditarAgencia from "./EditarAgencia";
 
 Decimal.set({ precision: 10 });
 
 function EditarTransportista({
   selectTransportista,
   setTabValue,
+  agencias,
+  transportista,
+  setAgencias,
+  listaDistritos
 }) {
   const [docuemntoIdentidad, setDocuemntoIdentidad] = useState("");
   const [descripcionCorta, setDescripcionCorta] = useState("");
@@ -32,18 +41,28 @@ function EditarTransportista({
   const [tipoDocumentoSeleccionado, setTipoDocumentoSeleccionado] =
     useState("");
 
+    useEffect(() => {
+      // Llamar a la API para obtener las agencias
+      getAgenciaTransportista(selectTransportista.codigoTransportista)
+        .then((data) => setAgencias(data))
+        .catch((error) => console.error("Error al obtener agencias:", error));
+    }, [selectTransportista.codigoTransportista, setAgencias]);
+
   const handleSubmit = async (event) => {
     const transportistaData = {
       codigoTransportista: selectTransportista.codigoTransportista,
-      tipoDocumento: tipoDocumentoSeleccionado || selectTransportista.tipoDocumento,
-      numeroDocumentoIdentidad: docuemntoIdentidad || selectTransportista.numeroDocumentoIdentidad,
+      tipoDocumento:
+        tipoDocumentoSeleccionado || selectTransportista.tipoDocumento,
+      numeroDocumentoIdentidad:
+        docuemntoIdentidad || selectTransportista.numeroDocumentoIdentidad,
       razonSocial: razonSocial || selectTransportista.razonSocial,
-      descripcionCorta: descripcionCorta || selectTransportista.descripcionCorta,
+      descripcionCorta:
+        descripcionCorta || selectTransportista.descripcionCorta,
     };
     if (tipoDocumentoSeleccionado === "RUC") {
       if (!/^[12]\d{10}$/.test(transportistaData.numeroDocumentoIdentidad)) {
         toast.error("El RUC debe tener 11 dígitos y comenzar con 1 o 2.");
-        return; 
+        return;
       }
     } else if (tipoDocumentoSeleccionado === "DNI") {
       // Validar que el DNI tenga 8 dígitos
@@ -161,7 +180,8 @@ function EditarTransportista({
                 <Select
                   id="tipoDoc-select"
                   value={
-                    tipoDocumentoSeleccionado || selectTransportista.tipoDocumento
+                    tipoDocumentoSeleccionado ||
+                    selectTransportista.tipoDocumento
                   }
                   onChange={handleTipoDocumentoChange}
                   sx={{ width: "170px", height: "35px", fontSize: "14px" }}
@@ -181,7 +201,10 @@ function EditarTransportista({
                   Num.Doc.Iden.
                 </Typography>
                 <TextField
-                  value={docuemntoIdentidad || selectTransportista.numeroDocumentoIdentidad}
+                  value={
+                    docuemntoIdentidad ||
+                    selectTransportista.numeroDocumentoIdentidad
+                  }
                   fullWidth
                   autoComplete="off"
                   onChange={(e) => {
@@ -205,7 +228,7 @@ function EditarTransportista({
                   InputProps={{
                     style: {
                       fontSize: "14px",
-                      width: "170px",
+                      width: "auto",
                       height: "35px",
                       textAlign: "center",
                     },
@@ -226,7 +249,7 @@ function EditarTransportista({
                   InputProps={{
                     style: {
                       fontSize: "14px",
-                      width: "410px",
+                      width: "210px",
                       height: "35px",
                       textAlign: "center",
                     },
@@ -237,10 +260,12 @@ function EditarTransportista({
             <div style={{ display: "flex", paddingTop: 10 }}>
               <div style={{}}>
                 <Typography style={{ fontWeight: "bold" }}>
-                 Descripción 
+                  Descripción
                 </Typography>
                 <TextField
-                  value={descripcionCorta || selectTransportista.descripcionCorta}
+                  value={
+                    descripcionCorta || selectTransportista.descripcionCorta
+                  }
                   fullWidth
                   autoComplete="off"
                   onChange={(e) => setDescripcionCorta(e.target.value)}
@@ -249,7 +274,7 @@ function EditarTransportista({
                   InputProps={{
                     style: {
                       fontSize: "14px",
-                      width: "800px",
+                      width: "450px",
                       height: "35px",
                       textAlign: "center",
                     },
@@ -257,8 +282,18 @@ function EditarTransportista({
                 />
               </div>
             </div>
+            <div
+          style={{
+            width: "100%",
+            display: "flex",
+            padding:30
+          }}
+        >  
+            <EditarAgencia listaDistritos = {listaDistritos} agencias={agencias} setAgencias={setAgencias}   selectTransportista= {selectTransportista}/>
+        </div>
           </Paper>
         </div>
+      
       </div>
       <ToastContainer
         position="top-right"
