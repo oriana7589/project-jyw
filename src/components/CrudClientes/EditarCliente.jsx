@@ -298,35 +298,27 @@ function EditarCliente({
       <div
         style={{
           display: "flex",
-          justifyContent: "end",
+          justifyContent: "space-between", // Coloca los botones en extremos opuestos
+          padding: "10px 20px",
         }}
       >
-        <div
+        <IconButton
           style={{
-            paddingTop: 5,
-            justifyContent: "left",
-            paddingRight: 500,
+            backgroundColor: "rgb(237, 237, 237)",
+            borderRadius: "5px",
+            marginBottom: "5px",
+            width: "40px",
+            height: "40px",
+          }}
+          onClick={(event) => {
+            event.stopPropagation(); // Evita la propagación del evento al acordeón
+            handleIconClick();
           }}
         >
-          <IconButton
-            style={{
-              backgroundColor: "rgb(237, 237, 237)",
-              borderRadius: "5px",
-              marginBottom: "5px",
-              width: "40px",
-              height: "40px",
-            }}
-            onClick={(event) => {
-              event.stopPropagation(); // Evita la propagación del evento al acordeón
-              handleIconClick();
-            }}
-          >
-            <KeyboardBackspace
-              style={{ color: "rgb(131,131,131)", marginLeft: 4 }}
-            />
-          </IconButton>
-        </div>
-
+          <KeyboardBackspace
+            style={{ color: "rgb(131,131,131)", marginLeft: 4 }}
+          />
+        </IconButton>
         <IconButton
           style={{
             backgroundColor: "rgb(226, 52, 48)",
@@ -790,199 +782,211 @@ function EditarCliente({
               </div>
             </div>
             <div style={{ marginLeft: 10, marginRight: 10 }}>
-            <Typography style={{ marginLeft: 5 }}>
-              {" "}
-              <strong>DATOS DEL CONTACTO</strong>{" "}
-            </Typography>
-            <div
-              style={{
-                display: "flex",
-                margin: "5px 0 15px 25px",
-                flexDirection: "column",
-              }}
-            >
-              <div style={{ display: "flex" }}>
-                <div style={{}}>
-                  <Typography style={{ fontWeight: "bold", width: 100 }}>
-                    Correo
-                  </Typography>
-                  <TextField
-                    value={correo}
-                    fullWidth
-                    autoComplete="off"
-                    onChange={(e) => setCorreo(e.target.value)}
-                    style={{ height: 35, backgroundColor: "rgb(255,255,255)" }}
-                    variant="outlined"
-                    InputProps={{
-                      style: {
-                        fontSize: "14px",
-                        width: "480px",
-                        height: "35px",
-                        textAlign: "center",
-                      },
-                    }}
-                  />
-                </div>
-                <div style={{ paddingLeft: 25 }}>
-                  <Typography style={{ fontWeight: "bold" }}>
-                    Vendedor
-                  </Typography>
+              <Typography style={{ marginLeft: 5 }}>
+                {" "}
+                <strong>DATOS DEL CONTACTO</strong>{" "}
+              </Typography>
+              <div
+                style={{
+                  display: "flex",
+                  margin: "5px 0 15px 25px",
+                  flexDirection: "column",
+                }}
+              >
+                <div style={{ display: "flex" }}>
+                  <div style={{}}>
+                    <Typography style={{ fontWeight: "bold", width: 100 }}>
+                      Correo
+                    </Typography>
+                    <TextField
+                      value={correo}
+                      fullWidth
+                      autoComplete="off"
+                      onChange={(e) => setCorreo(e.target.value)}
+                      style={{
+                        height: 35,
+                        backgroundColor: "rgb(255,255,255)",
+                      }}
+                      variant="outlined"
+                      InputProps={{
+                        style: {
+                          fontSize: "14px",
+                          width: "480px",
+                          height: "35px",
+                          textAlign: "center",
+                        },
+                      }}
+                    />
+                  </div>
+                  <div style={{ paddingLeft: 25 }}>
+                    <Typography style={{ fontWeight: "bold" }}>
+                      Vendedor
+                    </Typography>
 
-                  <Autocomplete
-                    options={vendedores}
-                    getOptionLabel={(option) =>
-                      option ? option.nombreVendedor : "OFICINA"
-                    }
-                    value={vendedor}
-                    onChange={(event, newValue) => {
-                      setVendedor(newValue);
-                    }}
-                    renderInput={(params) => (
-                      <div ref={params.InputProps.ref}>
-                        <input
-                          type="text"
-                          {...params.inputProps}
-                          style={{
-                            width: "170px",
-                            height: "35px",
-                            border: "1px solid #ccc",
-                            borderRadius: "4px",
-                            paddingLeft: 5,
-                            backgroundColor: "rgb(255,255,255)",
-                            fontSize: "14px",
-                          }}
-                        />
-                      </div>
-                    )}
-                  />
+                    <Autocomplete
+                      options={vendedores}
+                      getOptionLabel={(option) =>
+                        option ? option.nombreVendedor : "OFICINA"
+                      }
+                      value={vendedor}
+                      onChange={(event, newValue) => {
+                        setVendedor(newValue);
+                      }}
+                      renderInput={(params) => (
+                        <div ref={params.InputProps.ref}>
+                          <input
+                            type="text"
+                            {...params.inputProps}
+                            style={{
+                              width: "170px",
+                              height: "35px",
+                              border: "1px solid #ccc",
+                              borderRadius: "4px",
+                              paddingLeft: 5,
+                              backgroundColor: "rgb(255,255,255)",
+                              fontSize: "14px",
+                            }}
+                          />
+                        </div>
+                      )}
+                    />
+                  </div>
+                </div>
+                <div style={{ display: "flex", paddingTop: 10 }}>
+                  <div style={{}}>
+                    <Typography
+                      style={{
+                        fontWeight: "bold",
+                        paddingTop: 5,
+                        width: 100,
+                      }}
+                    >
+                      Telefono 1
+                    </Typography>
+                    <TextField
+                      value={telefono1}
+                      fullWidth
+                      autoComplete="off"
+                      onChange={(e) => {
+                        const value = e.target.value;
+                        if (/^\d*$/.test(value)) {
+                          setTelefono1(value);
+                        }
+                      }}
+                      onKeyDown={(e) => {
+                        if (
+                          !/^[0-9]$/.test(e.key) &&
+                          e.key !== "Backspace" &&
+                          e.key !== "Delete"
+                        ) {
+                          e.preventDefault();
+                        }
+                      }}
+                      style={{
+                        height: 35,
+                        backgroundColor: "rgb(255,255,255)",
+                      }}
+                      variant="outlined"
+                      InputProps={{
+                        style: {
+                          fontSize: "14px",
+                          width: "170px",
+                          height: "35px",
+                          textAlign: "center",
+                        },
+                      }}
+                    />
+                  </div>
+                  <div style={{ paddingLeft: 25 }}>
+                    <Typography
+                      style={{
+                        fontWeight: "bold",
+                        paddingTop: 5,
+                        width: 100,
+                      }}
+                    >
+                      Telefono 2
+                    </Typography>
+                    <TextField
+                      value={telefono2}
+                      fullWidth
+                      autoComplete="off"
+                      onChange={(e) => {
+                        const value = e.target.value;
+                        if (/^\d*$/.test(value)) {
+                          setTelefono2(value);
+                        }
+                      }}
+                      onKeyDown={(e) => {
+                        if (
+                          !/^[0-9]$/.test(e.key) &&
+                          e.key !== "Backspace" &&
+                          e.key !== "Delete"
+                        ) {
+                          e.preventDefault();
+                        }
+                      }}
+                      style={{
+                        height: 35,
+                        backgroundColor: "rgb(255,255,255)",
+                      }}
+                      variant="outlined"
+                      InputProps={{
+                        style: {
+                          fontSize: "14px",
+                          width: "170px",
+                          height: "35px",
+                          textAlign: "center",
+                        },
+                      }}
+                    />
+                  </div>
+                  <div style={{ paddingLeft: 25 }}>
+                    <Typography
+                      style={{
+                        fontWeight: "bold",
+                        paddingTop: 5,
+                        width: 100,
+                      }}
+                    >
+                      Celular
+                    </Typography>
+                    <TextField
+                      value={celular}
+                      fullWidth
+                      autoComplete="off"
+                      onChange={(e) => {
+                        const value = e.target.value;
+                        if (/^\d*$/.test(value)) {
+                          setCelular(value);
+                        }
+                      }}
+                      onKeyDown={(e) => {
+                        if (
+                          !/^[0-9]$/.test(e.key) &&
+                          e.key !== "Backspace" &&
+                          e.key !== "Delete"
+                        ) {
+                          e.preventDefault();
+                        }
+                      }}
+                      style={{
+                        height: 35,
+                        backgroundColor: "rgb(255,255,255)",
+                      }}
+                      variant="outlined"
+                      InputProps={{
+                        style: {
+                          fontSize: "14px",
+                          width: "170px",
+                          height: "35px",
+                          textAlign: "center",
+                        },
+                      }}
+                    />
+                  </div>
                 </div>
               </div>
-              <div style={{ display: "flex", paddingTop: 10 }}>
-                <div style={{}}>
-                  <Typography
-                    style={{
-                      fontWeight: "bold",
-                      paddingTop: 5,
-                      width: 100,
-                    }}
-                  >
-                    Telefono 1
-                  </Typography>
-                  <TextField
-                    value={telefono1}
-                    fullWidth
-                    autoComplete="off"
-                    onChange={(e) => {
-                      const value = e.target.value;
-                      if (/^\d*$/.test(value)) {
-                        setTelefono1(value);
-                      }
-                    }}
-                    onKeyDown={(e) => {
-                      if (
-                        !/^[0-9]$/.test(e.key) &&
-                        e.key !== "Backspace" &&
-                        e.key !== "Delete"
-                      ) {
-                        e.preventDefault();
-                      }
-                    }}
-                    style={{ height: 35, backgroundColor: "rgb(255,255,255)" }}
-                    variant="outlined"
-                    InputProps={{
-                      style: {
-                        fontSize: "14px",
-                        width: "170px",
-                        height: "35px",
-                        textAlign: "center",
-                      },
-                    }}
-                  />
-                </div>
-                <div style={{ paddingLeft: 25 }}>
-                  <Typography
-                    style={{
-                      fontWeight: "bold",
-                      paddingTop: 5,
-                      width: 100,
-                    }}
-                  >
-                    Telefono 2
-                  </Typography>
-                  <TextField
-                    value={telefono2}
-                    fullWidth
-                    autoComplete="off"
-                    onChange={(e) => {
-                      const value = e.target.value;
-                      if (/^\d*$/.test(value)) {
-                        setTelefono2(value);
-                      }
-                    }}
-                    onKeyDown={(e) => {
-                      if (
-                        !/^[0-9]$/.test(e.key) &&
-                        e.key !== "Backspace" &&
-                        e.key !== "Delete"
-                      ) {
-                        e.preventDefault();
-                      }
-                    }}
-                    style={{ height: 35, backgroundColor: "rgb(255,255,255)" }}
-                    variant="outlined"
-                    InputProps={{
-                      style: {
-                        fontSize: "14px",
-                        width: "170px",
-                        height: "35px",
-                        textAlign: "center",
-                      },
-                    }}
-                  />
-                </div>
-                <div style={{ paddingLeft: 25 }}>
-                  <Typography
-                    style={{
-                      fontWeight: "bold",
-                      paddingTop: 5,
-                      width: 100,
-                    }}
-                  >
-                    Celular
-                  </Typography>
-                  <TextField
-                    value={celular}
-                    fullWidth
-                    autoComplete="off"
-                    onChange={(e) => {
-                      const value = e.target.value;
-                      if (/^\d*$/.test(value)) {
-                        setCelular(value);
-                      }
-                    }}
-                    onKeyDown={(e) => {
-                      if (
-                        !/^[0-9]$/.test(e.key) &&
-                        e.key !== "Backspace" &&
-                        e.key !== "Delete"
-                      ) {
-                        e.preventDefault();
-                      }
-                    }}
-                    style={{ height: 35, backgroundColor: "rgb(255,255,255)" }}
-                    variant="outlined"
-                    InputProps={{
-                      style: {
-                        fontSize: "14px",
-                        width: "170px",
-                        height: "35px",
-                        textAlign: "center",
-                      },
-                    }}
-                  />
-                </div>
-              </div>
-            </div>
             </div>
           </Paper>
         </div>

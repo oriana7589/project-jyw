@@ -81,7 +81,6 @@ function EditarTransportista({
         const response = await putModificarTransportista(transportistaData);
         toast.success("Transportista modificado correctamente");
       }
-
     } catch (error) {
       toast.error(`${error}`);
     }
@@ -100,34 +99,25 @@ function EditarTransportista({
       <div
         style={{
           display: "flex",
-          justifyContent: "end",
+          justifyContent: "space-between", // Coloca los botones en extremos opuestos
+          padding: "10px 10px",
         }}
       >
-        <div
+        <IconButton
           style={{
-            paddingTop: 5,
-            justifyContent: "left",
-            paddingRight: 588,
+            backgroundColor: "rgb(237, 237, 237)",
+            borderRadius: "5px",
+            marginBottom: "5px",
+            width: "40px",
+            height: "40px",
+          }}
+          onClick={(event) => {
+            event.stopPropagation(); // Evita la propagación del evento al acordeón
+            handleIconClick();
           }}
         >
-          <IconButton
-            style={{
-              backgroundColor: "rgb(237, 237, 237)",
-              borderRadius: "5px",
-              marginBottom: "5px",
-              width: "40px",
-              height: "40px",
-            }}
-            onClick={(event) => {
-              event.stopPropagation(); // Evita la propagación del evento al acordeón
-              handleIconClick();
-            }}
-          >
-            <KeyboardBackspace
-              style={{ color: "rgb(131,131,131)", marginLeft: 4 }}
-            />
-          </IconButton>
-        </div>
+          <KeyboardBackspace style={{ color: "rgb(131,131,131)" }} />
+        </IconButton>
 
         <IconButton
           style={{
@@ -135,7 +125,6 @@ function EditarTransportista({
             borderRadius: "0",
             height: "34px",
             width: "180px",
-            marginRight: 5,
           }}
           onClick={(event) => {
             event.stopPropagation(); // Evita la propagación del evento al acordeón
@@ -296,9 +285,13 @@ function EditarTransportista({
                 setAgencias={setAgencias}
                 selectTransportista={selectTransportista}
                 onSuccess={() => {
-                  getAgenciaTransportista(selectTransportista.codigoTransportista)
-                    .then(data => setAgencias(data))
-                    .catch(error => console.error("Error al obtener agencias:", error));
+                  getAgenciaTransportista(
+                    selectTransportista.codigoTransportista
+                  )
+                    .then((data) => setAgencias(data))
+                    .catch((error) =>
+                      console.error("Error al obtener agencias:", error)
+                    );
                 }}
               />
             </div>
