@@ -36,6 +36,7 @@ const ListaTransportista = () => {
         setTransportista([]);
       }
     };
+    
 
     const getDistritos = () => {
       getListaDeDistritos().then((listaDistritos) => {
@@ -159,12 +160,14 @@ const ListaTransportista = () => {
                 handleAgregarClick={handleAgregarClick}
                 handleEditClick={handleEditClick}
                 tabValue={tabValue}
+                criterioBusqueda = {criterioBusqueda}
                 selectTransportista={selectTransportista}
                 setTabValue={setTabValue}
                 transportista={transportista}
                 agencias = {agencias}
                 setAgencias = {setAgencias}
                 listaDistritos={listaDistritos}
+                setTransportista = {setTransportista}
              />
             </Collapse>
           </Card>

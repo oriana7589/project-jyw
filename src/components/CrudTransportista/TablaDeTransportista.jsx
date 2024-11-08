@@ -21,43 +21,40 @@ import EditIcon from "@mui/icons-material/Edit";
 import { Bounce, ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { ExpandLess, ExpandMore } from "@mui/icons-material";
-import { getAgenciaTransportista } from "../../Services/ApiService";
+import { getAgenciaTransportista, getTransportista } from "../../Services/ApiService";
 const TablaDeTransportista = ({
   handleEditClick,
   transportista,
   itemsPerPage,
+  setTransportista,
   handleAgregarClick,
+  criterioBusqueda
 }) => {
   const [selectTransportista, setSelectTransportista] = useState(null);
   const [highlightedRow, setHighlightedRow] = useState(null);
-  const [isLoading, setIsLoading] = useState(true); // Estado de carga
+  const [isLoading, setIsLoading] = useState(true); 
   const [page, setPage] = useState(0);
   itemsPerPage = 10;
 
-  const [expandedRows, setExpandedRows] = useState([]); // Estado para manejar filas expandidas
-  const [agencias, setAgencias] = useState({}); // Estado para almacenar las agencias de cada transportista
+  const [expandedRows, setExpandedRows] = useState([]); 
+  const [agencias, setAgencias] = useState({}); 
 
-  // Función para manejar la expansión de filas
   const handleRowClick = (codigoTransportista) => {
     if (expandedRows.includes(codigoTransportista)) {
-      // Contraer la fila si ya está expandida
       setExpandedRows(
         expandedRows.filter((code) => code !== codigoTransportista)
       );
     } else {
-      // Si aún no se han cargado las agencias de este transportista
       if (!agencias[codigoTransportista]) {
         getAgenciaTransportista(codigoTransportista).then(
           (agenciasTransportista) => {
-            // Mantener las agencias anteriores y agregar las nuevas al estado
             setAgencias((prevAgencias) => ({
-              ...prevAgencias, // Mantener las agencias anteriores
-              [codigoTransportista]: agenciasTransportista, // Añadir las agencias del transportista actual
+              ...prevAgencias, 
+              [codigoTransportista]: agenciasTransportista, 
             }));
           }
         );
       }
-      // Expandir la fila del transportista actual
       setExpandedRows([...expandedRows, codigoTransportista]);
     }
   };

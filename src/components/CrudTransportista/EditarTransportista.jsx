@@ -31,6 +31,7 @@ Decimal.set({ precision: 10 });
 function EditarTransportista({
   selectTransportista,
   setTabValue,
+  setTransportista,
   agencias,
   transportista,
   setAgencias,
@@ -54,7 +55,7 @@ function EditarTransportista({
       tipoDocumento:
         tipoDocumentoSeleccionado || selectTransportista.tipoDocumento,
       numeroDocumentoIdentidad:
-        docuemntoIdentidad || selectTransportista.numeroDocumentoIdentidad,
+        docuemntoIdentidad || selectTransportista.numeroDocumentoIdentidad.trim(), 
       razonSocial: razonSocial || selectTransportista.razonSocial,
       descripcionCorta:
         descripcionCorta || selectTransportista.descripcionCorta,
@@ -67,6 +68,8 @@ function EditarTransportista({
     } else if (tipoDocumentoSeleccionado === "DNI") {
       // Validar que el DNI tenga 8 dígitos
       if (!/^\d{8}$/.test(transportistaData.numeroDocumentoIdentidad)) {
+        console.log("documento",transportistaData.numeroDocumentoIdentidad );
+        
         toast.error("El DNI debe tener exactamente 8 dígitos.");
         return;
       }
@@ -77,20 +80,47 @@ function EditarTransportista({
       if (selectTransportista.codigoTransportista == null) {
         const response = await postCrearTransportista(transportistaData);
         toast.success("Transportista guardado correctamente");
+        if (razonSocial && razonSocial !== selectTransportista.razonSocial) {
+          const updatedTransportista = await getTransportista(razonSocial);
+          setTransportista(updatedTransportista);
+        }
       } else {
         const response = await putModificarTransportista(transportistaData);
         toast.success("Transportista modificado correctamente");
       }
+      
     } catch (error) {
       toast.error(`${error}`);
     }
   };
 
+  useEffect(() => {
+    setTipoDocumentoSeleccionado(selectTransportista.tipoDocumento );
+    setDocuemntoIdentidad(selectTransportista.numeroDocumentoIdentidad.trim()); 
+    setRazonSocial(selectTransportista.razonSocial);
+    setDescripcionCorta(  selectTransportista.descripcionCorta );
+   
+  },[selectTransportista]);
+
   const handleTipoDocumentoChange = (event) => {
     setTipoDocumentoSeleccionado(event.target.value);
   };
 
-  const handleIconClick = () => {
+  const handleIconClick = async () => {
+    try {
+      const razonSocialActual = razonSocial || selectTransportista.razonSocial; // Usar el valor actualizado de razonSocial
+      console.log("dataTra", transportista);
+      console.log("dataRazon", razonSocialActual);
+      
+      if (razonSocialActual) {
+        const tablaTransportista = await getTransportista(razonSocialActual);
+        setTransportista(tablaTransportista);
+      } else {
+        setTransportista([]);
+      }
+    } catch (error) {
+      console.error("Error al cargar transportistas:", error);
+    }
     setTabValue(0);
   };
 
@@ -170,8 +200,7 @@ function EditarTransportista({
                 <Select
                   id="tipoDoc-select"
                   value={
-                    tipoDocumentoSeleccionado ||
-                    selectTransportista.tipoDocumento
+                    tipoDocumentoSeleccionado 
                   }
                   onChange={handleTipoDocumentoChange}
                   sx={{ width: "170px", height: "35px", fontSize: "14px" }}
@@ -192,9 +221,7 @@ function EditarTransportista({
                 </Typography>
                 <TextField
                   value={
-                    docuemntoIdentidad ||
-                    selectTransportista.numeroDocumentoIdentidad
-                  }
+                    docuemntoIdentidad.trim()}
                   fullWidth
                   autoComplete="off"
                   onChange={(e) => {
@@ -230,7 +257,7 @@ function EditarTransportista({
                   Razón social
                 </Typography>
                 <TextField
-                  value={razonSocial || selectTransportista.razonSocial}
+                  value={razonSocial}
                   fullWidth
                   autoComplete="off"
                   onChange={(e) => setRazonSocial(e.target.value)}
@@ -254,8 +281,7 @@ function EditarTransportista({
                 </Typography>
                 <TextField
                   value={
-                    descripcionCorta || selectTransportista.descripcionCorta
-                  }
+                    descripcionCorta }
                   fullWidth
                   autoComplete="off"
                   onChange={(e) => setDescripcionCorta(e.target.value)}

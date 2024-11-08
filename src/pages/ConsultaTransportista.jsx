@@ -8,6 +8,7 @@ import TablaDeClientes from "../components/CrudClientes/TablaDeClientes";
 import EditarCliente from "../components/CrudClientes/EditarCliente";
 import TablaDeTransportista from "../components/CrudTransportista/TablaDeTransportista";
 import EditarTransportista from "../components/CrudTransportista/EditarTransportista";
+import { getAgenciaTransportista, getTransportista } from "../Services/ApiService";
 
 const CustomClickableTab = styled(Tab)(({ theme, selected, clickable }) => ({
   color: selected
@@ -39,7 +40,9 @@ const PestañaContenido = ({
   selectTransportista,
   agencias,
   setAgencias,
-  listaDistritos
+  listaDistritos,
+  setTransportista,
+  criterioBusqueda
 }) => {
   switch (value) {
     case 0:
@@ -51,6 +54,8 @@ const PestañaContenido = ({
           transportista={transportista}
           agencias = {agencias}
           setAgencias = {setAgencias}
+          setTransportista={setTransportista}
+          criterioBusqueda = {criterioBusqueda}
         />
       );
     case 1:
@@ -62,6 +67,16 @@ const PestañaContenido = ({
         agencias = {agencias}
         setAgencias = {setAgencias}
         listaDistritos = {listaDistritos}
+        setTransportista = {setTransportista}
+        onSuccess={() => {
+          getTransportista(
+            selectTransportista.codigoTransportista
+          )
+            .then((data) => setAgencias(data))
+            .catch((error) =>
+              console.error("Error al obtener agencias:", error)
+            );
+        }}
         />
       );
     default:
@@ -84,7 +99,9 @@ const ConsultaTransportista = ({
   selectTransportista,
   agencias,
   setAgencias ,
-  listaDistritos
+  listaDistritos,
+  setTransportista,
+  criterioBusqueda
 }) => {
 
   return (
@@ -108,6 +125,8 @@ const ConsultaTransportista = ({
           agencias = {agencias}
           setAgencias = {setAgencias}
           listaDistritos = {listaDistritos}
+          setTransportista = {setTransportista}
+          criterioBusqueda = {criterioBusqueda}
         />
       </Box>
     </React.Fragment>
