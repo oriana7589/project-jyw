@@ -206,10 +206,10 @@ function EditarAgencia({
         <Table size="small">
           <TableHead>
             <TableRow>
-              <TableCell>Orden</TableCell>
-              <TableCell>Nombre</TableCell>
-              <TableCell>Dirección</TableCell>
-              <TableCell>Editar</TableCell>
+              <TableCell style={{backgroundColor:"rgb(226, 231, 235)"}}>Orden</TableCell>
+              <TableCell style={{backgroundColor:"rgb(226, 231, 235)"}}>Nombre</TableCell>
+              <TableCell style={{backgroundColor:"rgb(226, 231, 235)"}}>Dirección</TableCell>
+              <TableCell style={{backgroundColor:"rgb(226, 231, 235)"}}>Editar</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
