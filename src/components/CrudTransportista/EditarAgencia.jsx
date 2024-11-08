@@ -99,7 +99,7 @@ function EditarAgencia({
 
     const agenciaData = {
       codigoTransportista: selectTransportista.codigoTransportista,
-      codigoAgencia: formData.codigoAgencia ,
+      codigoAgencia: formData.codigoAgencia,
       descripcionAgencia: nombre || formData.descripcionAgencia,
       direccion: direccion || formData.direccion,
       codigoPais: paisSeleccionado ? paisSeleccionado[0] : null,
@@ -115,24 +115,28 @@ function EditarAgencia({
     try {
       if (formMode === "add") {
         await postCrearAgenciaTransportista(agenciaData);
-        toast.success("Agencia agregada correctamente")
+        toast.success("Agencia agregada correctamente");
       } else if (formMode === "edit") {
         await putEditarAgenciaTransportista({
           ...agenciaData,
           codigoAgencia: editingAgencia.codigoAgencia, // Usa el código de la agencia en edición
         });
-        toast.success("Agencia modificada correctamente")
+        toast.success("Agencia modificada correctamente");
       }
-      const updatedAgencias = await getAgenciaTransportista(selectTransportista.codigoTransportista);
-    setAgencias(updatedAgencias);
+      const updatedAgencias = await getAgenciaTransportista(
+        selectTransportista.codigoTransportista
+      );
+      setAgencias(updatedAgencias);
       setShowForm(false);
       setEditingAgencia(null); // Restablece la agencia en edición
-    } catch (error) {toast.error(`${error}`)}
+    } catch (error) {
+      toast.error(`${error}`);
+    }
   };
 
   return (
     <div style={{ display: "flex", flexDirection: "column", width: "100%" }}>
-        <ToastContainer containerId= "containerAgencia"/>
+      <ToastContainer containerId="containerAgencia" />
       <div
         style={{
           display: "flex",
@@ -206,10 +210,18 @@ function EditarAgencia({
         <Table size="small">
           <TableHead>
             <TableRow>
-              <TableCell style={{backgroundColor:"rgb(226, 231, 235)"}}>Orden</TableCell>
-              <TableCell style={{backgroundColor:"rgb(226, 231, 235)"}}>Nombre</TableCell>
-              <TableCell style={{backgroundColor:"rgb(226, 231, 235)"}}>Dirección</TableCell>
-              <TableCell style={{backgroundColor:"rgb(226, 231, 235)"}}>Editar</TableCell>
+              <TableCell style={{ backgroundColor: "rgb(226, 231, 235)" }}>
+                Orden
+              </TableCell>
+              <TableCell style={{ backgroundColor: "rgb(226, 231, 235)" }}>
+                Nombre
+              </TableCell>
+              <TableCell style={{ backgroundColor: "rgb(226, 231, 235)" }}>
+                Dirección
+              </TableCell>
+              <TableCell style={{ backgroundColor: "rgb(226, 231, 235)" }}>
+                Editar
+              </TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
