@@ -34,20 +34,12 @@ const ListaClientes = () => {
     });
   }, []);
 
-  useEffect(() => {
-    // Recargar clientes cuando tabValue sea 0, indicando que la pestaña de clientes está activa
-    if (tabValue === 0) {
-      getClientes(criterioBusqueda).then((tablaClientes) => {
-        setClientes(tablaClientes);
-      });
-    }
-  }, [tabValue, criterioBusqueda]);
 
   const handleIconButtonClick = () => {
     if (criterioBusqueda !== "") {
       getClientes(criterioBusqueda).then((tablaClientes) => {
         setClientes(tablaClientes);
-        setTabValue(0);
+        setTabValue(0); 
       });
     } else {
       setClientes([]);

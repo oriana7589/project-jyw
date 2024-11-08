@@ -26,21 +26,11 @@ const ListaTransportista = () => {
       getDistritos();
     }, []);
     
-
-    useEffect(() => {
-      // Recargar clientes cuando tabValue sea 0, indicando que la pestaña de clientes está activa
-      if (tabValue === 0) {
-        getTransportista(criterioBusqueda).then((tablaTransportista) => {
-          setTransportista(tablaTransportista);
-        });
-      }
-    }, [tabValue, criterioBusqueda]);
-
     const handleIconButtonClick = () => {
       if (criterioBusqueda !== "") {
         getTransportista(criterioBusqueda).then((tablaTransportista) => {
           setTransportista(tablaTransportista);
-          setTabValue(0);
+          setTabValue(0); 
         });
       } else {
         setTransportista([]);
