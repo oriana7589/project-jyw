@@ -244,7 +244,7 @@ function EditarAgencia({
                     showForm &&
                     editingAgencia?.codigoAgencia === agencia.codigoAgencia && (
                       <TableRow>
-                        <TableCell colSpan={4} style={{ padding: 0 }}>
+                        <TableCell colSpan={4} style={{ padding: 0 ,    backgroundColor: "rgb(251, 251, 251 )",}}>
                           <Collapse in={showForm}>
                             <FormularioAgencia
                               listaDistritos={listaDistritos}

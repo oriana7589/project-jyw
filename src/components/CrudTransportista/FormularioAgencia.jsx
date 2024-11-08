@@ -143,10 +143,11 @@ function FormularioAgencia({
         display: "flex",
         flexDirection: "column",
         gap: "10px",
-       marginLeft:30,
-       marginBottom:10,
-       marginTop:10,
+        marginLeft:30,
+        marginBottom:10,
+        marginTop:10,
         paddingRight: "20px",
+        backgroundColor: "rgb(251, 251, 251)"
       }}
     >
       <div style={{ display: "flex" }}>
@@ -393,9 +394,11 @@ function FormularioAgencia({
                 />
         </div>
       </div>
-      <Button variant="contained" style={{backgroundColor:"rgb(12, 55, 100)"}} onClick={handleFormSubmit}>
-        Guardar Cambios
-      </Button>
+      <div style={{display: "flex", justifyContent: "center"}}>
+        <Button variant="contained" style={{backgroundColor:"rgb(12, 55, 100)", width: "50%"}} onClick={handleFormSubmit}>
+          Guardar Cambios
+        </Button>
+      </div>
     </div>
   );
 }
