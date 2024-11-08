@@ -96,7 +96,7 @@ function EditarTransportista({
 
   useEffect(() => {
     setTipoDocumentoSeleccionado(selectTransportista.tipoDocumento );
-    setDocuemntoIdentidad(selectTransportista.numeroDocumentoIdentidad.trim()); 
+    setDocuemntoIdentidad(selectTransportista.numeroDocumentoIdentidad ? selectTransportista.numeroDocumentoIdentidad.trim() : "");  
     setRazonSocial(selectTransportista.razonSocial);
     setDescripcionCorta(  selectTransportista.descripcionCorta );
    
@@ -109,9 +109,6 @@ function EditarTransportista({
   const handleIconClick = async () => {
     try {
       const razonSocialActual = razonSocial || selectTransportista.razonSocial; // Usar el valor actualizado de razonSocial
-      console.log("dataTra", transportista);
-      console.log("dataRazon", razonSocialActual);
-      
       if (razonSocialActual) {
         const tablaTransportista = await getTransportista(razonSocialActual);
         setTransportista(tablaTransportista);

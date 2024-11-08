@@ -171,6 +171,7 @@ const ListaClientes = () => {
             clientes={clientes}
             vendedores={vendedores}
             listaDistritos={listaDistritos}
+            setClientes = {setClientes}
           />
         </Collapse>
       </Card>

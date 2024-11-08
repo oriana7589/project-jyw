@@ -19,6 +19,7 @@ import { KeyboardBackspace } from "@mui/icons-material";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import {
+  getClientes,
   postCrearCliente,
   putModificarCliente,
 } from "../../Services/ApiService";
@@ -29,6 +30,7 @@ function EditarCliente({
   listaDistritos,
   vendedores,
   setTabValue,
+  setClientes
 }) {
   const [documentoIdentidad, setDocumentoIdentidad] = useState("");
   const [representante, setRepresentante] = useState("");
@@ -99,7 +101,7 @@ function EditarCliente({
 
   useEffect(() => {
     setTipoDocumentoSeleccionado(selectCliente.tipoDocumento);
-    setDocumentoIdentidad(selectCliente.numDocumento);
+    setDocumentoIdentidad(selectCliente.numDocumento ? selectCliente.numDocumento.trim() : "");
     setEstadoSeleccionado(selectCliente.estado);
     setRazonSocial(selectCliente.razonSocial);
     setTipoClienteSeleccionado(selectCliente.tipoClienteProveedor);
@@ -289,7 +291,19 @@ function EditarCliente({
     setTipoConsumidorSeleccionado(event.target.value);
   };
 
-  const handleIconClick = () => {
+
+  const handleIconClick = async () => {
+    try {
+      const razonSocialActual = razonSocial || selectCliente.razonSocial; // Usar el valor actualizado de razonSocial
+      if (razonSocialActual) {
+        const tablaTransportista = await getClientes(razonSocialActual);
+        setClientes(tablaTransportista);
+      } else {
+        setClientes([]);
+      }
+    } catch (error) {
+      console.error("Error al cargar cliente:", error);
+    }
     setTabValue(0);
   };
 

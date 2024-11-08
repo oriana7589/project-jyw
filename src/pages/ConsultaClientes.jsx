@@ -36,7 +36,8 @@ const PestañaContenido = ({
   handleAgregarClick,
   selectCliente,
   listaDistritos,
-  vendedores
+  vendedores,
+  setClientes
 }) => {
   switch (value) {
     case 0:
@@ -55,6 +56,7 @@ const PestañaContenido = ({
           selectCliente = {selectCliente}
           listaDistritos={listaDistritos}
           vendedores = {vendedores}
+          setClientes = {setClientes}
         />
       );
     default:
@@ -75,6 +77,7 @@ const ConsultaClientes = ({
   handleEditClick,
   handleAgregarClick,
   selectCliente,
+  setClientes,
   listaDistritos,
   vendedores
 }) => {
@@ -102,6 +105,7 @@ const ConsultaClientes = ({
           handleEditClick={handleEditClick}
           listaDistritos={listaDistritos}
           vendedores = {vendedores}
+          setClientes = {setClientes}
         />
       </Box>
     </React.Fragment>
