@@ -37,10 +37,10 @@ function EditarAgencia({
     departamentos: [],
     provincias: [],
     distritos: [],
-    paisSeleccionado: null,
-    departamentoSeleccionado: null,
-    provinciaSeleccionada: null,
-    distritoSeleccionado: null,
+    codigoPais: null,
+    codigoDepartamento: null,
+    codigoProvincia: null,
+    codigoDistrito: null,
   });
   const [formMode, setFormMode] = useState("add"); // Estado para identificar el modo (agregar o editar)
   const [showForm, setShowForm] = useState(false); // Estado para mostrar/ocultar el formulario
@@ -80,6 +80,12 @@ function EditarAgencia({
     setEditingAgencia(agencia); // Establece la agencia que se está editando
     setFormData({
       ...formData,
+      codigoPais: agencia.codigoPais,
+      codigoDepartamento: agencia.codigoDepartamento,
+      codigoProvincia: agencia.codigoProvincia,
+      codigoDistrito: agencia.codigoDistrito,
+      telefono1: agencia.telefono1,
+      telefono2: agencia.telefono2,
       descripcionAgencia: agencia.descripcionAgencia,
       direccion: agencia.direccion,
       codigoAgencia: agencia.codigoAgencia,
