@@ -70,7 +70,7 @@ const ProductosSugeridosCliente = ({
                           ? "rgba(0, 0, 0, 0.1)"
                           : "white",
                     }}
-                    onClick={() => handleItemsSelect(item.codigoInterno)}
+                    onDoubleClick={() => handleItemsSelect(item.codigoInterno)}
                     onMouseEnter={() => handleItemHover(item.codigoInterno)}
                     onMouseLeave={handleItemLeave}
                   >
