@@ -1,15 +1,9 @@
 import React, { useEffect, useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { styled, useTheme } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import MuiDrawer from "@mui/material/Drawer";
-import List from "@mui/material/List";
 import CssBaseline from "@mui/material/CssBaseline";
 import Divider from "@mui/material/Divider";
-import ListItem from "@mui/material/ListItem";
-import ListItemButton from "@mui/material/ListItemButton";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import ListItemText from "@mui/material/ListItemText";
 import CategoryIcon from "@mui/icons-material/Category";
 import Logo from "../image/logo.png";
 import LogoCom from "../image/logoCompleto.png";
@@ -24,6 +18,7 @@ import {
 } from "@mui/material";
 import PersonIcon from "@mui/icons-material/Person";
 import { LocalShipping } from "@mui/icons-material";
+import { containerStyle, iconStyle, textStyle } from "../Styles/MenuStyles";
 
 const drawerWidth = 240;
 
@@ -97,7 +92,7 @@ export default function DrawerModel() {
   const [menuKey, setMenuKey] = useState(0);
   const drawerRef = useRef(null);
   const [dialogOpen, setDialogOpen] = useState(false);
-  const navigate = useNavigate();
+
   const handleOpenDialog = () => {
     setDialogOpen(true);
   };
@@ -117,7 +112,6 @@ export default function DrawerModel() {
     setContent("MenuAcordion");
   }, []);
 
-
   useEffect(() => {
     function handleClickOutside(event) {
       if (drawerRef.current && !drawerRef.current.contains(event.target)) {
@@ -135,183 +129,113 @@ export default function DrawerModel() {
     setOpen(!open);
   };
 
-  const handleMouseEnter = () => {
-    setOpen(true);
-  };
-
   const reiniciarAplicacion = () => {
     setMenuKey((prevKey) => prevKey + 1);
 
     setContent("MenuAcordion");
   };
 
-  const handleMouseLeave = () => {
-    setOpen(false);
-  };
 
   return (
-    <Box sx={{ display: "flex" }} >
+    <Box sx={{ display: "flex" }}>
       <CssBaseline />
       <div ref={drawerRef}>
-      <Drawer
-        variant="permanent"
-        open={open}
-        onClick={toggleDrawer}
-        style={{
-          position: "absolute",
-          zIndex: theme.zIndex.drawer + 2, // Asegura que Drawer esté por encima del AppBar
-        }}
-      >
-        <DrawerHeader open={open}>
-          {theme.direction === "rtl" ? (
-            <LogoImage src={Logo} alt="Logo" />
-          ) : (
-            <LogoImage src={Logo} alt="Logo" />
-          )}
-
-          {open && (
-            <>
-              <img
-                src={LogoCom}
-                alt="LogoCompleto"
-                style={{ width: 160, height: 25, marginBottom: 5 }}
-              />
-            </>
-          )}
-        </DrawerHeader>
-        <Divider />
-        <List>
-          <ListItem key="menu" disablePadding sx={{ display: "block" }}>
-            <ListItemButton
-              sx={{
-                minHeight: 48,
-                justifyContent: open ? "initial" : "center",
-                px: 0,
-              }}
-            >
-              <ListItemIcon
-                sx={{
-                  minWidth: 65,
-                  mr: open ? 1 : "auto",
-                  justifyContent: "center",
-                }}
-              >
-                <ArticleIcon sx={{ color: "rgb(12,55,100)" }} />
-              </ListItemIcon>
-              <ListItemText
-                primary="Nueva Proforma"
-                sx={{ opacity: open ? 3 : 0, color: "rgb(12,55,100)" }}
+        <Drawer
+          variant="permanent"
+          open={open}
+          onClick={toggleDrawer}
+          style={{
+            position: "absolute",
+            zIndex: theme.zIndex.drawer + 2, // Asegura que Drawer esté por encima del AppBar
+          }}
+        >
+          <DrawerHeader open={open}>
+            {theme.direction === "rtl" ? (
+              <LogoImage src={Logo} alt="Logo" />
+            ) : (
+              <LogoImage src={Logo} alt="Logo" />
+            )}
+            {open && (
+              <>
+                <img
+                  src={LogoCom}
+                  alt="LogoCompleto"
+                  style={{ width: 160, height: 25, marginBottom: 5 }}
+                />
+              </>
+            )}
+          </DrawerHeader>
+          <Divider />
+          <div style={{  display: "flex", flexDirection: "column", width: "100%", padding: 0}}>
+            <div style={containerStyle} onClick={() => setOpen(!open)} >
+              <div style={iconStyle}> <ArticleIcon sx={{ color: "rgb(12,55,100)" }} /> </div>
+              <div
+                style={textStyle(open)}
                 onClick={(event) => {
-                  event.stopPropagation(); // Detener la propagación del evento
-                  handleOpenDialog();
-                }}
-              />
-            </ListItemButton>
-
-            <ListItemButton
-              sx={{
-                minHeight: 48,
-                px: 0,
-              }}
-            >
-              <ListItemIcon
-                sx={{
-                  minWidth: 65,
-                  mr: open ? 1 : "auto",
-                  justifyContent: "center",
+                  event.stopPropagation();
+                  handleOpenDialog(); 
                 }}
               >
-                <CategoryIcon sx={{ color: "rgb(12,55,100)" }} />
-              </ListItemIcon>
-              <ListItemText
-                primary="Consultar precios"
-                sx={{
-                  opacity: open ? 3 : 0,
-                  color: "rgb(12,55,100)",
-                  overflow: "hidden",
-                }}
-                onClick={() => {
-                  const width = 1110; // Ancho de la ventana emergente
-                  const height = 725; // Altura de la ventana emergente
+                Nueva Proforma
+              </div>
+            </div>
+            <Divider />
+            <div style={containerStyle} onClick={() => setOpen(!open)} >
+              <div style={iconStyle}><CategoryIcon sx={{ color: "rgb(12,55,100)" }} /> </div>
+              <div
+                style={textStyle(open)}
+                onClick={(event) => {
+                  event.stopPropagation();
+                  const width = 1110;
+                  const height = 725;
                   const left = (window.innerWidth - width) / 2;
                   const top = (window.innerHeight - height) / 2;
                   const windowFeatures = `width=${width},height=${height},left=${left},top=${top}`;
-                  // navigate("/consultaPreciosYStock");
                   window.open(url, "_blank", windowFeatures);
                 }}
-              />
-            </ListItemButton>  
-            
-            <ListItemButton
-              sx={{
-                minHeight: 48,
-                px: 0,
-              }}
-            >
-              <ListItemIcon
-                sx={{
-                  minWidth: 65,
-                  mr: open ? 1 : "auto",
-                  justifyContent: "center",
-                }}
               >
-                <PersonIcon sx={{ color: "rgb(12,55,100)" }} />
-              </ListItemIcon>
-              <ListItemText
-                primary="Cliente"
-                sx={{
-                  opacity: open ? 3 : 0,
-                  color: "rgb(12,55,100)",
-                  overflow: "hidden",
-                }}
+                Consultar precios
+              </div>
+            </div>
+            <Divider />
+            <div style={containerStyle}  onClick={() => setOpen(!open)}>
+              <div style={iconStyle}> <PersonIcon sx={{ color: "rgb(12,55,100)" }} /></div>
+              <div
+                style={textStyle(open)}
                 onClick={() => {
-                  const width = 830; // Ancho de la ventana emergente
-                  const height = 715; // Altura de la ventana emergente
+                  const width = 830;
+                  const height = 715;
                   const left = (window.innerWidth - width) / 2;
                   const top = (window.innerHeight - height) / 2;
                   const windowFeatures = `width=${width},height=${height},left=${left},top=${top}`;
                   window.open(urlClientes, "_blank", windowFeatures);
                 }}
-              />
-            </ListItemButton> 
-
-            <ListItemButton
-              sx={{
-                minHeight: 48,
-                px: 0,
-              }}
-            >
-              <ListItemIcon
-                sx={{
-                  minWidth: 65,
-                  mr: open ? 1 : "auto",
-                  justifyContent: "center",
-                }}
               >
-                <LocalShipping sx={{ color: "rgb(12,55,100)" }} />
-              </ListItemIcon>
-              <ListItemText
-                primary="Transportista"
-                sx={{
-                  opacity: open ? 3 : 0,
-                  color: "rgb(12,55,100)",
-                  overflow: "hidden",
-                }}
+                Cliente
+              </div>
+            </div>
+            <Divider />
+            <div style={containerStyle} onClick={() => setOpen(!open)} >
+              <div style={iconStyle}> <LocalShipping sx={{ color: "rgb(12,55,100)" }} /> </div>
+              <div
+                style={textStyle(open)}
                 onClick={() => {
-                  const width = 870; // Ancho de la ventana emergente
-                  const height = 715; // Altura de la ventana emergente
+                  const width = 870;
+                  const height = 715;
                   const left = (window.innerWidth - width) / 2;
                   const top = (window.innerHeight - height) / 2;
                   const windowFeatures = `width=${width},height=${height},left=${left},top=${top}`;
                   window.open(urlTransportista, "_blank", windowFeatures);
                 }}
-              />
-            </ListItemButton>            
-          </ListItem>
-        </List>
-      </Drawer>
+              >
+                Transportista
+              </div>
+            </div>
+            <Divider />
+          </div>
+        </Drawer>
       </div>
-      
+
       <Box component="main" sx={{ flexGrow: 1, marginTop: " -0.91rem" }}>
         <DrawerHeader />
         {content === "MenuAcordion" && <MenuAcordion key={menuKey} />}
@@ -329,16 +253,12 @@ export default function DrawerModel() {
           <Button onClick={handleCloseDialog} color="error">
             Cancelar
           </Button>
-          <Button
-            onClick={handleNuevaProforma}
-            variant="contained"
-            autoFocus
-            style={{ backgroundColor: "rgb(255, 168, 0)" }}
-          >
+          <Button onClick={handleNuevaProforma} variant="contained" autoFocus style={{ backgroundColor: "rgb(255, 168, 0)"}}>
             Aceptar
           </Button>
         </DialogActions>
       </Dialog>
+       {/* Fin de Dialog para Actualizar menú acordion */}
     </Box>
   );
 }
