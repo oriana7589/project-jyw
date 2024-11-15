@@ -11,6 +11,7 @@ import Logo from "../image/logo.png";
 import Result from "../image/result.png";
 import { Typography } from "@mui/material";
 import SquareSharpIcon from '@mui/icons-material/SquareSharp';
+import CustomScroll from "./CustomScroll";
 
 const TableComponent = ({ items, onProductSelect,itemsPerPage }) => {
   const [selectProductos, setSelectedProductos] = useState(null);
@@ -91,44 +92,44 @@ const TableComponent = ({ items, onProductSelect,itemsPerPage }) => {
            <table style={{ borderCollapse: 'collapse', border: 1, borderSpacing:"25px" , marginBottom:10}}>
             <thead style={{ position: "sticky", top: 0, zIndex: 1}} >
               <tr style={{ height: 20 }}>
-                <th style={{  fontSize: "0.8rem", paddingBottom:5,backgroundColor: "rgb(255,17,17)"}}></th>
-                <th style={{  fontSize: "0.8rem", paddingLeft:5}}>En travesia</th>
+                <th style={{  fontSize: "0.9rem", paddingBottom:5,backgroundColor: "rgb(255,17,17)"}}></th>
+                <th style={{  fontSize: "0.9rem", paddingLeft:5}}>En travesia</th>
                 <th style={{ }}></th>
-                <th style={{ fontSize: "0.8rem", paddingBottom:5,backgroundColor: "rgb(251,255,170)",width:55}}></th>
-                <th style={{ fontSize: "0.8rem", paddingLeft:5 }}>Local</th>
+                <th style={{ fontSize: "0.9rem", paddingBottom:5,backgroundColor: "rgb(251,255,170)",width:55}}></th>
+                <th style={{ fontSize: "0.9rem", paddingLeft:5 }}>Local</th>
                 <th style={{ width:50}}></th>
-                <th style={{  fontSize: "0.8rem", paddingBottom:5,backgroundColor: "rgb(128,247,60)",width:55}}></th>
-                <th style={{ fontSize: "0.8rem", paddingLeft:5, textAlign:"left"}}>Original</th>
+                <th style={{  fontSize: "0.9rem", paddingBottom:5,backgroundColor: "rgb(128,247,60)",width:55}}></th>
+                <th style={{ fontSize: "0.9rem", paddingLeft:5, textAlign:"left"}}>Original</th>
                 <th style={{ width:50}}></th>
-                <th style={{ fontSize: "0.8rem", paddingBottom:5,backgroundColor: "rgb(255, 168, 0)",width:55}}></th>
-                <th style={{  fontSize: "0.8rem", paddingLeft:5}}>Stock Total</th>
+                <th style={{ fontSize: "0.9rem", paddingBottom:5,backgroundColor: "rgb(255, 168, 0)",width:55}}></th>
+                <th style={{  fontSize: "0.9rem", paddingLeft:5}}>Stock Total</th>
                 <th style={{ }}></th>
              </tr>
              <tr style={{ height: 8 }}>
-                <th style={{  fontSize: "0.8rem"}}></th>
-                <th style={{  fontSize: "0.8rem", paddingLeft:5}}></th>
+                <th style={{  fontSize: "0.9rem"}}></th>
+                <th style={{  fontSize: "0.9rem", paddingLeft:5}}></th>
                 <th style={{ }}></th>
-                <th style={{  fontSize: "0.8rem"}}></th>
-                <th style={{  fontSize: "0.8rem", paddingLeft:5}}></th>
+                <th style={{  fontSize: "0.9rem"}}></th>
+                <th style={{  fontSize: "0.9rem", paddingLeft:5}}></th>
                 <th style={{ }}></th>
-                <th style={{  fontSize: "0.8rem"}}></th>
-                <th style={{  fontSize: "0.8rem", paddingLeft:5}}></th>
+                <th style={{  fontSize: "0.9rem"}}></th>
+                <th style={{  fontSize: "0.9rem", paddingLeft:5}}></th>
                 <th style={{ }}></th>
-                <th style={{  fontSize: "0.8rem"}}></th>
-                <th style={{  fontSize: "0.8rem", paddingLeft:5}}></th>
+                <th style={{  fontSize: "0.9rem"}}></th>
+                <th style={{  fontSize: "0.9rem", paddingLeft:5}}></th>
                 <th style={{ }}></th>
              </tr>
            </thead>
           <tbody  style={{ height: 20}}>
             <tr>
-            <td style={{ fontSize: "0.8rem", paddingBottom:5,backgroundColor: "rgb(179,180,177)",width:55}}></td>
-             <td style={{ fontSize: "0.8rem", paddingLeft:5, fontWeight:"bold"}}>Importado</td>
+            <td style={{ fontSize: "0.9rem", paddingBottom:5,backgroundColor: "rgb(179,180,177)",width:55}}></td>
+             <td style={{ fontSize: "0.9rem", paddingLeft:5, fontWeight:"bold"}}>Importado</td>
              <td style={{ width:50}}></td>
-             <td style={{ fontSize: "0.8rem", paddingBottom:5,backgroundColor: "rgb(227,216,249)",width:55}}></td>
-             <td style={{  fontSize: "0.8rem", paddingLeft:5,fontWeight:"bold"}}>Importado</td>
+             <td style={{ fontSize: "0.9rem", paddingBottom:5,backgroundColor: "rgb(227,216,249)",width:55}}></td>
+             <td style={{  fontSize: "0.9rem", paddingLeft:5,fontWeight:"bold"}}>Importado</td>
              <td style={{ }}></td>
-             <td style={{ fontSize: "0.8rem", paddingBottom:5,backgroundColor: "rgb(29,241,255)",width:55}}></td>
-             <td style={{  fontSize: "0.8rem", paddingLeft:5,fontWeight:"bold"}}>Precio Descuento</td>
+             <td style={{ fontSize: "0.9rem", paddingBottom:5,backgroundColor: "rgb(29,241,255)",width:55}}></td>
+             <td style={{  fontSize: "0.9rem", paddingLeft:5,fontWeight:"bold"}}>Precio Descuento</td>
              <td style={{ }}></td>
 
             </tr>
@@ -141,40 +142,40 @@ const TableComponent = ({ items, onProductSelect,itemsPerPage }) => {
   <table style={{ borderCollapse: 'collapse', width: '100%'}}>
       <thead style={{ position: "sticky", top: 0, zIndex: 1, borderBottom: '1px solid black'}}>
         <tr style={{ height: 20 }}>
-            <th style={{textAlign:"center", fontSize:"0.8rem", backgroundColor: "rgb(255, 255, 255)",  }}>  </th>
-            <th style={{textAlign:"center", fontSize:"0.8rem" , backgroundColor: "rgb(255, 255, 255)" }}></th>
-            <th style={{textAlign:"center", fontSize:"0.8rem" , backgroundColor: "rgb(255, 255, 255)"}}></th>
-            <th style={{textAlign:"center", fontSize:"0.8rem" , backgroundColor: "rgb(255, 255, 255)"  }}></th>
-            <th style={{textAlign:"center", fontSize:"0.8rem", backgroundColor: "rgb(255, 255, 255)"  }}></th>
-            <th style={{textAlign:"center", fontSize:"0.8rem" , backgroundColor: "rgb(255, 255, 255)"  }}></th>
-            <th style={{textAlign:"center",  fontSize:"0.8rem" , backgroundColor: "rgb(255, 255, 255)"}}></th>
-            <th style={{textAlign:"center",  fontSize:"0.8rem" , backgroundColor: "rgb(255, 255, 255)" }}></th>
-            <th style={{textAlign:"center",  fontSize:"0.8rem" , backgroundColor: "rgb(255, 255, 255)" }}></th>
-            <th style={{textAlign:"center",  fontSize:"0.8rem" , backgroundColor: "rgb(255, 255, 255)"}}></th>
-            <th style={{textAlign:"center",  fontSize:"0.8rem" , backgroundColor: "rgb(255, 168, 0)",  borderTop: "1px solid black", borderLeft:"1px solid black", paddingLeft:7 , paddingRight:7 }}> </th>
-            <th style={{textAlign:"center",  fontSize:"0.8rem", backgroundColor: "rgb(255, 168, 0)", borderTop: "1px solid black" ,paddingLeft:7 , paddingRight:7  }}> 01 </th>
-            <th style={{textAlign:"center", fontSize:"0.8rem" , backgroundColor: "rgb(255, 168, 0)" ,  borderTop: "1px solid black", paddingLeft:7 , paddingRight:7  }}>  </th>
-            <th style={{textAlign:"center", fontSize:"0.8rem" , backgroundColor: "rgb(255, 168, 0)" , border: "1px solid black", paddingLeft:7 , paddingRight:7  }}> 02 </th>
-            <th style={{textAlign:"center", fontSize:"0.8rem" , backgroundColor: "rgb(255, 168, 0)" , border: "1px solid black", paddingLeft:7 , paddingRight:7 }}> T1 </th>
-            <th style={{textAlign:"center", fontSize:"0.8rem" , backgroundColor: "rgb(255, 255, 255)" }}></th>
+            <th style={{textAlign:"center", fontSize:"0.9rem", backgroundColor: "rgb(255, 255, 255)",  }}>  </th>
+            <th style={{textAlign:"center", fontSize:"0.9rem" , backgroundColor: "rgb(255, 255, 255)" }}></th>
+            <th style={{textAlign:"center", fontSize:"0.9rem" , backgroundColor: "rgb(255, 255, 255)"}}></th>
+            <th style={{textAlign:"center", fontSize:"0.9rem" , backgroundColor: "rgb(255, 255, 255)"  }}></th>
+            <th style={{textAlign:"center", fontSize:"0.9rem", backgroundColor: "rgb(255, 255, 255)"  }}></th>
+            <th style={{textAlign:"center", fontSize:"0.9rem" , backgroundColor: "rgb(255, 255, 255)"  }}></th>
+            <th style={{textAlign:"center",  fontSize:"0.9rem" , backgroundColor: "rgb(255, 255, 255)"}}></th>
+            <th style={{textAlign:"center",  fontSize:"0.9rem" , backgroundColor: "rgb(255, 255, 255)" }}></th>
+            <th style={{textAlign:"center",  fontSize:"0.9rem" , backgroundColor: "rgb(255, 255, 255)" }}></th>
+            <th style={{textAlign:"center",  fontSize:"0.9rem" , backgroundColor: "rgb(255, 255, 255)"}}></th>
+            <th style={{textAlign:"center",  fontSize:"0.9rem" , backgroundColor: "rgb(255, 168, 0)",  borderTop: "1px solid black", borderLeft:"1px solid black", paddingLeft:7 , paddingRight:7 }}> </th>
+            <th style={{textAlign:"center",  fontSize:"0.9rem", backgroundColor: "rgb(255, 168, 0)", borderTop: "1px solid black" ,paddingLeft:7 , paddingRight:7  }}> 01 </th>
+            <th style={{textAlign:"center", fontSize:"0.9rem" , backgroundColor: "rgb(255, 168, 0)" ,  borderTop: "1px solid black", paddingLeft:7 , paddingRight:7  }}>  </th>
+            <th style={{textAlign:"center", fontSize:"0.9rem" , backgroundColor: "rgb(255, 168, 0)" , border: "1px solid black", paddingLeft:7 , paddingRight:7  }}> 02 </th>
+            <th style={{textAlign:"center", fontSize:"0.9rem" , backgroundColor: "rgb(255, 168, 0)" , border: "1px solid black", paddingLeft:7 , paddingRight:7 }}> T1 </th>
+            <th style={{textAlign:"center", fontSize:"0.9rem" , backgroundColor: "rgb(255, 255, 255)" }}></th>
           </tr>
           <tr style={{ height: 50 }}>
-            <th style={{textAlign:"center", fontSize:"0.8rem", backgroundColor: "rgb(255, 168, 0)" , border: "1px solid black" }}>  </th>
-            <th style={{textAlign:"center", fontSize:"0.8rem" , backgroundColor: "rgb(255, 168, 0)" , border: "1px solid black"}}>Línea</th>
-            <th style={{textAlign:"center", fontSize:"0.8rem" , backgroundColor: "rgb(255, 168, 0)", border: "1px solid black" }}>Cod Articulo</th>
-            <th style={{textAlign:"center", fontSize:"0.8rem" , backgroundColor: "rgb(255, 168, 0)" ,  border: "1px solid black"  }}>Codint Marca</th>
-            <th style={{textAlign:"center", fontSize:"0.8rem", backgroundColor: "rgb(255, 168, 0)" ,  border: "1px solid black" }}>TC</th>
-            <th style={{textAlign:"center", fontSize:"0.8rem" , backgroundColor: "rgb(255, 168, 0)" , border: "1px solid black" }}>Des Articulo</th>
-            <th style={{textAlign:"center",  fontSize:"0.8rem" , backgroundColor: "rgb(255, 168, 0)" , border: "1px solid black"}}>Pais</th>
-            <th style={{textAlign:"center",  fontSize:"0.8rem" , backgroundColor: "rgb(255, 168, 0)", border: "1px solid black"  }}>Marca</th>
-            <th style={{textAlign:"center",  fontSize:"0.8rem" , backgroundColor: "rgb(255, 168, 0)" , border: "1px solid black" }}>P.V</th>
-            <th style={{textAlign:"center",  fontSize:"0.8rem" , backgroundColor: "rgb(255, 168, 0)", border: "1px solid black"  }}>P.D</th>
-            <th style={{textAlign:"center",  fontSize:"0.8rem" , backgroundColor: "rgb(255, 168, 0)", border: "1px solid black", paddingLeft:7 , paddingRight:7 }}> P1 </th>
-            <th style={{textAlign:"center",  fontSize:"0.8rem", backgroundColor: "rgb(255, 168, 0)", border: "1px solid black" ,paddingLeft:7 , paddingRight:7  }}> P3 </th>
-            <th style={{textAlign:"center", fontSize:"0.8rem" , backgroundColor: "rgb(255, 168, 0)" , border: "1px solid black", paddingLeft:7 , paddingRight:7  }}> P4 </th>
-            <th style={{textAlign:"center", fontSize:"0.8rem" , backgroundColor: "rgb(255, 168, 0)" , border: "1px solid black", paddingLeft:7 , paddingRight:7  }}> P1 </th>
-            <th style={{textAlign:"center", fontSize:"0.8rem" , backgroundColor: "rgb(255, 168, 0)" , border: "1px solid black", paddingLeft:7 , paddingRight:7 }}> P1 </th>
-            <th style={{textAlign:"center", fontSize:"0.8rem" , backgroundColor: "rgb(255, 168, 0)" , border: "1px solid black" }}>Total</th>
+            <th style={{textAlign:"center", fontSize:"0.9rem", backgroundColor: "rgb(255, 168, 0)" , border: "1px solid black" }}>  </th>
+            <th style={{textAlign:"center", fontSize:"0.9rem" , backgroundColor: "rgb(255, 168, 0)" , border: "1px solid black"}}>Línea</th>
+            <th style={{textAlign:"center", fontSize:"0.9rem" , backgroundColor: "rgb(255, 168, 0)", border: "1px solid black" }}>Cod Articulo</th>
+            <th style={{textAlign:"center", fontSize:"0.9rem" , backgroundColor: "rgb(255, 168, 0)" ,  border: "1px solid black"  }}>Codint Marca</th>
+            <th style={{textAlign:"center", fontSize:"0.9rem", backgroundColor: "rgb(255, 168, 0)" ,  border: "1px solid black" }}>TC</th>
+            <th style={{textAlign:"center", fontSize:"0.9rem" , backgroundColor: "rgb(255, 168, 0)" , border: "1px solid black" }}>Des Articulo</th>
+            <th style={{textAlign:"center",  fontSize:"0.9rem" , backgroundColor: "rgb(255, 168, 0)" , border: "1px solid black"}}>Pais</th>
+            <th style={{textAlign:"center",  fontSize:"0.9rem" , backgroundColor: "rgb(255, 168, 0)", border: "1px solid black"  }}>Marca</th>
+            <th style={{textAlign:"center",  fontSize:"0.9rem" , backgroundColor: "rgb(255, 168, 0)" , border: "1px solid black" }}>P.V</th>
+            <th style={{textAlign:"center",  fontSize:"0.9rem" , backgroundColor: "rgb(255, 168, 0)", border: "1px solid black"  }}>P.D</th>
+            <th style={{textAlign:"center",  fontSize:"0.9rem" , backgroundColor: "rgb(255, 168, 0)", border: "1px solid black", paddingLeft:7 , paddingRight:7 }}> P1 </th>
+            <th style={{textAlign:"center",  fontSize:"0.9rem", backgroundColor: "rgb(255, 168, 0)", border: "1px solid black" ,paddingLeft:7 , paddingRight:7  }}> P3 </th>
+            <th style={{textAlign:"center", fontSize:"0.9rem" , backgroundColor: "rgb(255, 168, 0)" , border: "1px solid black", paddingLeft:7 , paddingRight:7  }}> P4 </th>
+            <th style={{textAlign:"center", fontSize:"0.9rem" , backgroundColor: "rgb(255, 168, 0)" , border: "1px solid black", paddingLeft:7 , paddingRight:7  }}> P1 </th>
+            <th style={{textAlign:"center", fontSize:"0.9rem" , backgroundColor: "rgb(255, 168, 0)" , border: "1px solid black", paddingLeft:7 , paddingRight:7 }}> P1 </th>
+            <th style={{textAlign:"center", fontSize:"0.9rem" , backgroundColor: "rgb(255, 168, 0)" , border: "1px solid black" }}>Total</th>
 
           </tr>
         </thead>
@@ -194,22 +195,24 @@ const TableComponent = ({ items, onProductSelect,itemsPerPage }) => {
             }}
             onDoubleClick={() => handleRowDoubleClick(item)}
           >
-              <td style={{ fontSize:"0.7rem", padding:0.5,border: "1px solid black",whiteSpace:"nowrap" , overflow:"hidden"  }}> <SquareSharpIcon style={{ color: item.OrdenCompra === -1 ? "rgb(179,180,177)" : item.OrdenCompra === 1 ? "rgb(128,247,60)" : "rgb(255,17,17)" }} /></td>
-              <td style={{ fontSize:"0.7rem", padding:0.5, border: "1px solid black",whiteSpace: "nowrap",overflow: "hidden",paddingLeft:5 }}>{item.CodigoLinea}</td>
-              <td style={{ fontSize:"0.7rem", padding:0.5 ,border: "1px solid black",whiteSpace: "nowrap",overflow: "hidden",maxWidth: "75px"}}>{item.CodigoArticulo}</td>
-              <td style={{ fontSize:"0.7rem", padding:0.5, border: "1px solid black" ,whiteSpace: "nowrap",overflow: "hidden",maxWidth: "75px"}}>{item.CodigoInternoMarca}</td>
-              <td style={{ fontSize:"0.7rem", padding:0.5, textAlign:"left",border: "1px solid black",paddingRight:3.5,whiteSpace: "nowrap",overflow: "hidden",paddingLeft:5 , background: item.TipoCompra === "ORI" ? "rgb(67,240,42)" : item.TipoCompra === "IMP" ? "rgb(227,216,249)" : item.TipoCompra === "LOC" ? "rgb(251,255,170)" : "rgb(255,255,255)" }}>{item.TipoCompra}</td>
-              <td style={{  fontSize: "0.7rem",  padding: 0.5,   border: "1px solid black",  maxWidth: "315px",whiteSpace: "nowrap",overflow: "hidden",paddingLeft:5,}} >{item.DescripcionArticulo}</td>
-              <td style={{  fontSize:"0.7rem", padding:0.5, border: "1px solid black",whiteSpace: "nowrap",maxWidth:"75px",overflow: "hidden",paddingLeft:5}}>{item.DescripcionPais}</td>
-              <td style={{ fontSize:"0.7rem" , padding:0.5, border: "1px solid black",maxWidth:"85px",whiteSpace: "nowrap",overflow: "hidden", paddingLeft:5 }}>{item.DescripcionMarca}</td>
-              <td style={{  fontSize:"0.7rem", padding:0.5 , border: "1px solid black",whiteSpace: "nowrap",overflow: "hidden",paddingLeft:5,  textAlign:"end" }}>{item.PrecioVenta}</td>
-              <td style={{  fontSize:"0.7rem", padding:0.5 , border: "1px solid black",maxWidth: "55px",whiteSpace: "nowrap",overflow: "hidden",paddingLeft:5,  textAlign:"end"  , background:"rgb(29,241,255)" }}>{item.PrecioDescuento}</td>
-              <td style={{  fontSize:"0.7rem", padding:0.5 , border: "1px solid black" ,maxWidth: "30px",whiteSpace: "nowrap",overflow: "hidden",textAlign:"end",paddingLeft:6.8  }}>{item.Stock01P1}</td>
-              <td style={{  fontSize:"0.7rem", padding:0.5 , border: "1px solid black",maxWidth:"30px",whiteSpace: "nowrap",overflow: "hidden", textAlign:"end",paddingLeft:6.8  }}>{item.Stock01P3}</td>
-              <td style={{  fontSize:"0.7rem", padding:0.5 , border: "1px solid black",maxWidth:"30px" ,whiteSpace: "nowrap",overflow: "hidden",  textAlign:"end" , paddingLeft:6.8  }}>{item.Stock01P4}</td>
-              <td style={{  fontSize:"0.7rem", padding:0.5 , border: "1px solid black",maxWidth:"30px",whiteSpace: "nowrap",overflow: "hidden",  textAlign:"end" }}>{item.Stock02P1}</td>
-              <td style={{ fontSize:"0.7rem" , padding:0.5 , border: "1px solid black" ,maxWidth:"30px",whiteSpace: "nowrap",overflow: "hidden", textAlign:"end", paddingLeft:6.8  }}>{item.StockT1P1}</td>
-              <td style={{  fontSize:"0.7rem", padding:0.5  ,border: "1px solid black",whiteSpace: "nowrap",overflow: "hidden",paddingLeft:5  , background:"rgb(29,241,255)",  textAlign:"end" }}>{item.StockTotal}</td>
+              <td style={{ fontSize:"0.8rem", padding:0.5,border: "1px solid black",whiteSpace:"nowrap" , overflow:"hidden"  }}> <SquareSharpIcon style={{ color: item.OrdenCompra === -1 ? "rgb(179,180,177)" : item.OrdenCompra === 1 ? "rgb(128,247,60)" : "rgb(255,17,17)" }} /></td>
+              <td style={{ fontSize:"0.8rem", padding:0.5, border: "1px solid black",whiteSpace: "nowrap",overflow: "hidden",paddingLeft:5 }}>{item.CodigoLinea}</td>
+              <td style={{ fontSize:"0.8rem", padding:0.5 ,border: "1px solid black",whiteSpace: "nowrap",overflow: "hidden",maxWidth: "75px"}}>{item.CodigoArticulo}</td>
+              <td style={{ fontSize:"0.8rem", padding:0.5, border: "1px solid black" ,whiteSpace: "nowrap",overflow: "hidden",maxWidth: "75px"}}>{item.CodigoInternoMarca}</td>
+              <td style={{ fontSize:"0.8rem", padding:0.5, textAlign:"left",border: "1px solid black",paddingRight:3.5,whiteSpace: "nowrap",overflow: "hidden",paddingLeft:5 , background: item.TipoCompra === "ORI" ? "rgb(67,240,42)" : item.TipoCompra === "IMP" ? "rgb(227,216,249)" : item.TipoCompra === "LOC" ? "rgb(251,255,170)" : "rgb(255,255,255)" }}>{item.TipoCompra}</td>
+              <td style={{  fontSize: "0.8rem",  padding: 0.5,   border: "1px solid black",  maxWidth: "315px",whiteSpace: "nowrap",overflow:"auto",paddingLeft:5,}} > <CustomScroll style={{ maxWidth: "315px", whiteSpace: "nowrap" }}>
+                {item.DescripcionArticulo}
+              </CustomScroll></td>
+              <td style={{  fontSize:"0.8rem", padding:0.5, border: "1px solid black",whiteSpace: "nowrap",maxWidth:"75px",overflow: "hidden",paddingLeft:5}}>{item.DescripcionPais}</td>
+              <td style={{ fontSize:"0.8rem" , padding:0.5, border: "1px solid black",maxWidth:"85px",whiteSpace: "nowrap",overflow: "hidden", paddingLeft:5 }}>{item.DescripcionMarca}</td>
+              <td style={{  fontSize:"0.8rem", padding:0.5 , border: "1px solid black",whiteSpace: "nowrap",overflow: "hidden",paddingLeft:5,  textAlign:"end" }}>{item.PrecioVenta}</td>
+              <td style={{  fontSize:"0.8rem", padding:0.5 , border: "1px solid black",maxWidth: "55px",whiteSpace: "nowrap",overflow: "hidden",paddingLeft:5,  textAlign:"end"  , background:"rgb(29,241,255)" }}>{item.PrecioDescuento}</td>
+              <td style={{  fontSize:"0.8rem", padding:0.5 , border: "1px solid black" ,maxWidth: "30px",whiteSpace: "nowrap",overflow: "hidden",textAlign:"end",paddingLeft:6.8  }}>{item.Stock01P1}</td>
+              <td style={{  fontSize:"0.8rem", padding:0.5 , border: "1px solid black",maxWidth:"30px",whiteSpace: "nowrap",overflow: "hidden", textAlign:"end",paddingLeft:6.8  }}>{item.Stock01P3}</td>
+              <td style={{  fontSize:"0.8rem", padding:0.5 , border: "1px solid black",maxWidth:"30px" ,whiteSpace: "nowrap",overflow: "hidden",  textAlign:"end" , paddingLeft:6.8  }}>{item.Stock01P4}</td>
+              <td style={{  fontSize:"0.8rem", padding:0.5 , border: "1px solid black",maxWidth:"30px",whiteSpace: "nowrap",overflow: "hidden",  textAlign:"end" }}>{item.Stock02P1}</td>
+              <td style={{ fontSize:"0.8rem" , padding:0.5 , border: "1px solid black" ,maxWidth:"30px",whiteSpace: "nowrap",overflow: "hidden", textAlign:"end", paddingLeft:6.8  }}>{item.StockT1P1}</td>
+              <td style={{  fontSize:"0.8rem", padding:0.5  ,border: "1px solid black",whiteSpace: "nowrap",overflow: "hidden",paddingLeft:5  , background:"rgb(29,241,255)",  textAlign:"end" }}>{item.StockTotal}</td>
             </tr>
           ))}
         </tbody>

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 
 import { CircularProgress, TablePagination, Typography } from "@mui/material";
 import SquareSharpIcon from "@mui/icons-material/SquareSharp";
+import CustomScroll from "../CustomScroll";
 
 const TableProductos = ({
   productos,
@@ -584,7 +585,7 @@ const TableProductos = ({
                   >
                     <td
                       style={{
-                        fontSize: "0.7rem",
+                        fontSize: "0.8rem",
                         padding: 0.5,
                         border: "1px solid black",
                         whiteSpace: "nowrap",
@@ -605,7 +606,7 @@ const TableProductos = ({
                     </td>
                     <td
                       style={{
-                        fontSize: "0.7rem",
+                        fontSize: "0.8rem",
                         padding: 0.5,
                         border: "1px solid black",
                         whiteSpace: "nowrap",
@@ -617,7 +618,7 @@ const TableProductos = ({
                     </td>
                     <td
                       style={{
-                        fontSize: "0.7rem",
+                        fontSize: "0.8rem",
                         padding: 0.5,
                         border: "1px solid black",
                         whiteSpace: "nowrap",
@@ -629,7 +630,7 @@ const TableProductos = ({
                     </td>
                     <td
                       style={{
-                        fontSize: "0.7rem",
+                        fontSize: "0.8rem",
                         padding: 0.5,
                         border: "1px solid black",
                         whiteSpace: "nowrap",
@@ -666,17 +667,19 @@ const TableProductos = ({
                         fontSize: "0.7rem",
                         padding: 0.5,
                         border: "1px solid black",
-                        maxWidth: "315px",
+                        maxWidth: "320px",
                         whiteSpace: "nowrap",
-                        overflow: "hidden",
+                        overflow: "auto",
                         paddingLeft: 5,
                       }}
                     >
-                      {item.DescripcionArticulo}
+                     <CustomScroll style={{ maxWidth: "320px", whiteSpace: "nowrap" }}>
+                {item.DescripcionArticulo}
+              </CustomScroll>
                     </td>
                     <td
                       style={{
-                        fontSize: "0.7rem",
+                        fontSize: "0.8rem",
                         padding: 0.5,
                         border: "1px solid black",
                         whiteSpace: "nowrap",
@@ -689,7 +692,7 @@ const TableProductos = ({
                     </td>
                     <td
                       style={{
-                        fontSize: "0.7rem",
+                        fontSize: "0.8rem",
                         padding: 0.5,
                         border: "1px solid black",
                         maxWidth: "85px",
@@ -702,7 +705,7 @@ const TableProductos = ({
                     </td>
                     <td
                       style={{
-                        fontSize: "0.7rem",
+                        fontSize: "0.8rem",
                         padding: 0.5,
                         border: "1px solid black",
                         whiteSpace: "nowrap",
@@ -715,7 +718,7 @@ const TableProductos = ({
                     </td>
                     <td
                       style={{
-                        fontSize: "0.7rem",
+                        fontSize: "0.8rem",
                         padding: 0.5,
                         border: "1px solid black",
                         maxWidth: "55px",
@@ -730,7 +733,7 @@ const TableProductos = ({
                     </td>
                     <td
                       style={{
-                        fontSize: "0.7rem",
+                        fontSize: "0.8rem",
                         padding: 0.5,
                         border: "1px solid black",
                         maxWidth: "30px",
@@ -744,7 +747,7 @@ const TableProductos = ({
                     </td>
                     <td
                       style={{
-                        fontSize: "0.7rem",
+                        fontSize: "0.8rem",
                         padding: 0.5,
                         border: "1px solid black",
                         maxWidth: "30px",
@@ -758,7 +761,7 @@ const TableProductos = ({
                     </td>
                     <td
                       style={{
-                        fontSize: "0.7rem",
+                        fontSize: "0.8rem",
                         padding: 0.5,
                         border: "1px solid black",
                         maxWidth: "30px",
@@ -772,7 +775,7 @@ const TableProductos = ({
                     </td>
                     <td
                       style={{
-                        fontSize: "0.7rem",
+                        fontSize: "0.8rem",
                         padding: 0.5,
                         border: "1px solid black",
                         maxWidth: "30px",
@@ -785,7 +788,7 @@ const TableProductos = ({
                     </td>
                     <td
                       style={{
-                        fontSize: "0.7rem",
+                        fontSize: "0.8rem",
                         padding: 0.5,
                         border: "1px solid black",
                         maxWidth: "30px",
@@ -799,7 +802,7 @@ const TableProductos = ({
                     </td>
                     <td
                       style={{
-                        fontSize: "0.7rem",
+                        fontSize: "0.8rem",
                         padding: 0.5,
                         border: "1px solid black",
                         whiteSpace: "nowrap",
