@@ -5,6 +5,11 @@ export const containerStyle = {
     cursor: "pointer",
   };
   
+  export const hoveredContainerStyle = {
+    ...containerStyle,
+    backgroundColor:"rgba(12, 55, 100, 0.2)", // Cambia "tuColorDeseado" por el color que quieras
+  };
+
   export const iconStyle = {
     display: "flex",
     alignItems: "center",

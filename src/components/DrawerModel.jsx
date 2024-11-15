@@ -9,16 +9,10 @@ import Logo from "../image/logo.png";
 import LogoCom from "../image/logoCompleto.png";
 import MenuAcordion from "../pages/MenuAcordion";
 import ArticleIcon from "@mui/icons-material/Article";
-import {
-  Dialog,
-  DialogActions,
-  DialogContent,
-  Typography,
-  Button,
-} from "@mui/material";
+import {Dialog, DialogActions, DialogContent, Typography, Button} from "@mui/material";
 import PersonIcon from "@mui/icons-material/Person";
 import { LocalShipping } from "@mui/icons-material";
-import { containerStyle, iconStyle, textStyle } from "../Styles/MenuStyles";
+import { containerStyle, hoveredContainerStyle, iconStyle, textStyle} from "../Styles/MenuStyles";
 
 const drawerWidth = 240;
 
@@ -92,6 +86,9 @@ export default function DrawerModel() {
   const [menuKey, setMenuKey] = useState(0);
   const drawerRef = useRef(null);
   const [dialogOpen, setDialogOpen] = useState(false);
+  const [hoveredItem, setHoveredItem] = useState(null);
+  const handleMouseEnter = (item) => setHoveredItem(item);
+  const handleMouseLeave = () => setHoveredItem(null);
 
   const handleOpenDialog = () => {
     setDialogOpen(true);
@@ -108,7 +105,6 @@ export default function DrawerModel() {
   };
 
   React.useEffect(() => {
-    // Establecer el contenido inicial al cargar la aplicación
     setContent("MenuAcordion");
   }, []);
 
@@ -118,7 +114,6 @@ export default function DrawerModel() {
         setOpen(false);
       }
     }
-
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
@@ -131,10 +126,16 @@ export default function DrawerModel() {
 
   const reiniciarAplicacion = () => {
     setMenuKey((prevKey) => prevKey + 1);
-
     setContent("MenuAcordion");
   };
 
+  const handleOpenWindow = (url, width, height) => {
+    setOpen(false); // Cierra el Drawer
+    const left = (window.innerWidth - width) / 2;
+    const top = (window.innerHeight - height) / 2;
+    const windowFeatures = `width=${width},height=${height},left=${left},top=${top}`;
+    window.open(url, "_blank", windowFeatures);
+  };
 
   return (
     <Box sx={{ display: "flex" }}>
@@ -166,72 +167,64 @@ export default function DrawerModel() {
             )}
           </DrawerHeader>
           <Divider />
-          <div style={{  display: "flex", flexDirection: "column", width: "100%", padding: 0}}>
-            <div style={containerStyle} onClick={() => setOpen(!open)} >
-              <div style={iconStyle}> <ArticleIcon sx={{ color: "rgb(12,55,100)" }} /> </div>
-              <div
-                style={textStyle(open)}
-                onClick={(event) => {
-                  event.stopPropagation();
-                  handleOpenDialog(); 
-                }}
-              >
-                Nueva Proforma
-              </div>
-            </div>
-            <Divider />
-            <div style={containerStyle} onClick={() => setOpen(!open)} >
-              <div style={iconStyle}><CategoryIcon sx={{ color: "rgb(12,55,100)" }} /> </div>
-              <div
-                style={textStyle(open)}
-                onClick={(event) => {
-                  event.stopPropagation();
-                  const width = 1110;
-                  const height = 725;
-                  const left = (window.innerWidth - width) / 2;
-                  const top = (window.innerHeight - height) / 2;
-                  const windowFeatures = `width=${width},height=${height},left=${left},top=${top}`;
-                  window.open(url, "_blank", windowFeatures);
-                }}
-              >
-                Consultar precios
-              </div>
-            </div>
-            <Divider />
-            <div style={containerStyle}  onClick={() => setOpen(!open)}>
-              <div style={iconStyle}> <PersonIcon sx={{ color: "rgb(12,55,100)" }} /></div>
-              <div
-                style={textStyle(open)}
-                onClick={() => {
-                  const width = 830;
-                  const height = 715;
-                  const left = (window.innerWidth - width) / 2;
-                  const top = (window.innerHeight - height) / 2;
-                  const windowFeatures = `width=${width},height=${height},left=${left},top=${top}`;
-                  window.open(urlClientes, "_blank", windowFeatures);
-                }}
-              >
-                Cliente
-              </div>
-            </div>
-            <Divider />
-            <div style={containerStyle} onClick={() => setOpen(!open)} >
-              <div style={iconStyle}> <LocalShipping sx={{ color: "rgb(12,55,100)" }} /> </div>
-              <div
-                style={textStyle(open)}
-                onClick={() => {
-                  const width = 870;
-                  const height = 715;
-                  const left = (window.innerWidth - width) / 2;
-                  const top = (window.innerHeight - height) / 2;
-                  const windowFeatures = `width=${width},height=${height},left=${left},top=${top}`;
-                  window.open(urlTransportista, "_blank", windowFeatures);
-                }}
-              >
-                Transportista
-              </div>
-            </div>
-            <Divider />
+          <div style={{ display: "flex", flexDirection: "column", width: "100%" }} >
+            {[
+              {
+                id: 1,
+                label: "Nueva Proforma",
+                icon: <ArticleIcon sx={{ color: "rgb(12,55,100)" }}/>,
+                onClick: () => {
+                  handleOpenDialog();
+                },
+              },
+              {
+                id: 2,
+                label: "Consultar precios",
+                icon: <CategoryIcon sx={{ color: "rgb(12,55,100)" }}/>,
+                onClick: () =>
+                  handleOpenWindow(url, 1110, 725), 
+              },
+              {
+                id: 3,
+                label: "Cliente",
+                icon: <PersonIcon sx={{ color: "rgb(12,55,100)" }}/>,
+                onClick: () =>
+                  handleOpenWindow(urlClientes, 830, 715),
+              },
+              {
+                id: 4,
+                label: "Transportista",
+                icon: <LocalShipping sx={{ color: "rgb(12,55,100)" }}/>,
+                onClick: () =>
+                  handleOpenWindow(urlTransportista, 870, 715), 
+              },
+            ].map((item,index, arr) => (
+              <React.Fragment key={item.id}>
+                  <div
+                    key={item.id}
+                    style={
+                      hoveredItem === item.id
+                        ? hoveredContainerStyle
+                        : containerStyle
+                    }
+                    onMouseEnter={() => handleMouseEnter(item.id)}
+                    onMouseLeave={handleMouseLeave}
+                    onClick={() => setOpen(!open)}
+                  >
+                    <div style={iconStyle}>{item.icon}</div>
+                    <div
+                      style={textStyle(open)}
+                      onClick={(event) => {
+                        event.stopPropagation();
+                        item.onClick();
+                      }}
+                    >
+                      {item.label}
+                    </div>
+                  </div>
+                {index < arr.length  && <Divider />}
+             </React.Fragment>
+          ))}
           </div>
         </Drawer>
       </div>
@@ -250,15 +243,19 @@ export default function DrawerModel() {
           </Typography>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleCloseDialog} color="error">
-            Cancelar
-          </Button>
-          <Button onClick={handleNuevaProforma} variant="contained" autoFocus style={{ backgroundColor: "rgb(255, 168, 0)"}}>
+          <Button onClick={handleCloseDialog} color="error">Cancelar</Button>
+          <Button
+            onClick={handleNuevaProforma}
+            variant="contained"
+            autoFocus
+            style={{ backgroundColor: "rgb(255, 168, 0)" }}
+          >
             Aceptar
           </Button>
         </DialogActions>
       </Dialog>
-       {/* Fin de Dialog para Actualizar menú acordion */}
+      {/* Fin de Dialog para Actualizar menú acordion */}
+      
     </Box>
   );
 }
