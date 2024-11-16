@@ -27,3 +27,9 @@ export const containerStyle = {
     textAlign: "center",
     cursor: "pointer",
   });
+
+  export const tableCellStyle = {
+    textAlign: "left",
+    fontSize: "1rem",
+    fontWeight: "bold",
+  };

@@ -1,32 +1,8 @@
 import React, { useState } from "react";
 import CssBaseline from "@mui/material/CssBaseline";
-import { styled } from "@mui/material/styles";
-import Tabs from "@mui/material/Tabs";
-import Tab from "@mui/material/Tab";
 import Box from "@mui/material/Box";
-import TablaDeClientes from "../components/CrudClientes/TablaDeClientes";
-import EditarCliente from "../components/CrudClientes/EditarCliente";
-
-const CustomClickableTab = styled(Tab)(({ theme, selected, clickable }) => ({
-  color: selected
-    ? "rgb(255, 255, 255) !important"
-    : clickable
-    ? "rgb(131, 131, 131) !important"
-    : "rgb(169, 169, 169) !important",
-  backgroundColor: selected
-    ? "rgba(255, 168, 0, 1)"
-    : clickable
-    ? "rgb(237, 237, 237)"
-    : "rgb(211, 211, 211)",
-  cursor: clickable ? "pointer" : "not-allowed",
-  "&:hover": {
-    backgroundColor: selected
-      ? "rgba(255, 168, 0, 1)"
-      : clickable
-      ? "rgb(237, 237, 237)"
-      : "rgb(211, 211, 211)",
-  },
-}));
+import TablaDeClientes from "../../components/CrudClientes/TablaDeClientes";
+import EditarCliente from "../../components/CrudClientes/EditarCliente";
 
 const PestañaContenido = ({
   value,
@@ -37,7 +13,10 @@ const PestañaContenido = ({
   selectCliente,
   listaDistritos,
   vendedores,
-  setClientes
+  setClientes,
+  searchTriggered,
+  isLoading ,
+  setIsLoading 
 }) => {
   switch (value) {
     case 0:
@@ -47,6 +26,9 @@ const PestañaContenido = ({
           handleEditClick={handleEditClick}
           setTabValue={setTabValue}
           clientes={clientes}
+          searchTriggered = {searchTriggered}
+          isLoading = {isLoading}
+          setIsLoading = {setIsLoading}
         />
       );
     case 1:
@@ -64,12 +46,6 @@ const PestañaContenido = ({
   }
 };
 
-const CustomTabs = styled(Tabs)({
-  "& .MuiTabs-indicator": {
-    backgroundColor: "transparent",
-  },
-});
-
 const ConsultaClientes = ({
   clientes,
   tabValue,
@@ -79,11 +55,11 @@ const ConsultaClientes = ({
   selectCliente,
   setClientes,
   listaDistritos,
-  vendedores
+  vendedores,
+  searchTriggered,
+  isLoading,
+  setIsLoading 
 }) => {
-  const handleChangeTab = (event, newValue) => {
-    setTabValue(newValue);
-  };
 
   return (
     <React.Fragment>
@@ -93,7 +69,7 @@ const ConsultaClientes = ({
           width: "100%",
           display: "flex",
           height: "100%",
-          flexDirection: "column",
+          flexDirection: "column"
         }}
       >
         <PestañaContenido
@@ -106,6 +82,9 @@ const ConsultaClientes = ({
           listaDistritos={listaDistritos}
           vendedores = {vendedores}
           setClientes = {setClientes}
+          searchTriggered = {searchTriggered}
+          isLoading = {isLoading}
+          setIsLoading = {setIsLoading}
         />
       </Box>
     </React.Fragment>

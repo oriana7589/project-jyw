@@ -2,8 +2,8 @@ import React from "react";
 import { Route, Routes } from "react-router-dom";
 import SidebarNavbar from "../components/SidebarNavbar";
 import ConsultasPrecios from "../pages/ConsultasPrecios";
-import ListaClientes from "../pages/ListaCientes";
 import ListaTransportista from "../pages/ListaTransportista";
+import ListaClientes from "../pages/SearchCliente/ListaCientes";
 
 function RouterApp() {
 
