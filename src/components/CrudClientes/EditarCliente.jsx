@@ -58,8 +58,7 @@ function EditarCliente({
   const [distritos, setDistritos] = useState([]);
 
   const [paisSeleccionado, setPaisSeleccionado] = useState(null);
-  const [departamentoSeleccionado, setDepartamentoSeleccionado] =
-    useState(null);
+  const [departamentoSeleccionado, setDepartamentoSeleccionado] = useState(null);
   const [provinciaSeleccionada, setProvinciaSeleccionada] = useState(null);
   const [distritoSeleccionado, setDistritoSeleccionado] = useState(null);
 
@@ -174,47 +173,7 @@ function EditarCliente({
       console.log("Provincia no válida o sin distritos");
       setDistritos([]);
     }
-  }, [provinciaSeleccionada, selectCliente]);
-
-  // useEffect(() => {
-  //   //RELLENAR COMBOS DE UBICACION
-  //   //PAIS Y DEPARTAMENTO
-  //   if (selectCliente && selectCliente.codigoPais) {
-  //     const paisDefault = Object.entries(paises).find(
-  //       ([key, value]) => key === selectCliente.codigoPais
-  //     );
-  //     setPaisSeleccionado(paisDefault);
-
-  //     // Preseleccionar el departamento
-  //     if (paisDefault && selectCliente.codigoDepartamento) {
-  //       const deptoSeleccionado = Object.entries(
-  //         paisDefault[1].departamentos
-  //       ).find(([key, value]) => key === selectCliente.codigoDepartamento);
-  //       setDepartamentoSeleccionado(deptoSeleccionado);
-  //     }
-  //   }
-  // },[selectCliente]);
-
-  // useEffect(() => {
-  //   //PROVINCIA
-  //   if (selectCliente && selectCliente.codigoProvincia) {
-  //     console.log('Departamento seleccionado:', departamentoSeleccionado);
-  //     const provSeleccionada = Object.entries(
-  //       departamentoSeleccionado[1].provincias
-  //     ).find(([key, value]) => key === selectCliente.codigoProvincia);
-  //     setProvinciaSeleccionada(provSeleccionada);
-  //   }
-  // },[selectCliente, departamentoSeleccionado]);
-
-  // useEffect(() => {
-  //   //DISTRITO
-  //   if (selectCliente && selectCliente.codigoDistrito) {
-  //     const distSeleccionado = provinciaSeleccionada[1].distritos.find(
-  //       (distrito) => distrito.codigo === selectCliente.codigoDistrito
-  //     );
-  //     setDistritoSeleccionado(distSeleccionado);
-  //   }
-  // },[selectCliente, provinciaSeleccionada]);
+  }, [provinciaSeleccionada, selectCliente]);  
 
   const handleSubmit = async (event) => {
     const clienteData = {

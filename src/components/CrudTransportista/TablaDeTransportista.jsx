@@ -169,7 +169,7 @@ const TablaDeTransportista = ({
                             fontSize: "0.9rem",
                           }}
                         >
-                          {item.tipoDocumento} {item.numDocumento}
+                          {item.tipoDocumento} {item.numeroDocumentoIdentidad}
                         </TableCell>
                         <TableCell
                           style={{
