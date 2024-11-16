@@ -32,7 +32,6 @@ function FormularioAgencia({
   
 }) {
   
-
   //----
 
   useEffect(() => {
@@ -51,6 +50,9 @@ function FormularioAgencia({
     setDireccion( formData.direccion );
     setTelefono1( formData.telefono1 );
     setTelefono2( formData.telefono2 );
+    setDepartamentoSeleccionado(null);
+    setProvinciaSeleccionada(null);
+    setDistritoSeleccionado(null);
    
   },[formData]);
   
