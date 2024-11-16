@@ -2,7 +2,7 @@ import React from "react";
 import { Container, Typography, TextField, IconButton } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 
-const SearchCliente = ({
+const SearchBar = ({
     label ,
     placeholder ,
     onSearchClick,
@@ -75,4 +75,4 @@ const SearchCliente = ({
     );
   };
   
-  export default SearchCliente;
+  export default SearchBar;

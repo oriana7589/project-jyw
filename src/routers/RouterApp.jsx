@@ -2,7 +2,7 @@ import React from "react";
 import { Route, Routes } from "react-router-dom";
 import SidebarNavbar from "../components/SidebarNavbar";
 import ConsultasPrecios from "../pages/ConsultasPrecios";
-import ListaTransportista from "../pages/ListaTransportista";
+import ListaTransportista from "../pages/SearchTransportista/ListaTransportista";
 import ListaClientes from "../pages/SearchCliente/ListaCientes";
 
 function RouterApp() {

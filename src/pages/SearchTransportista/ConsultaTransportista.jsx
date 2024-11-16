@@ -1,35 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
 import CssBaseline from "@mui/material/CssBaseline";
-import { styled } from "@mui/material/styles";
-import Tabs from "@mui/material/Tabs";
-import Tab from "@mui/material/Tab";
 import Box from "@mui/material/Box";
-import TablaDeClientes from "../components/CrudClientes/TablaDeClientes";
-import EditarCliente from "../components/CrudClientes/EditarCliente";
-import TablaDeTransportista from "../components/CrudTransportista/TablaDeTransportista";
-import EditarTransportista from "../components/CrudTransportista/EditarTransportista";
-import { getAgenciaTransportista, getTransportista } from "../Services/ApiService";
-
-const CustomClickableTab = styled(Tab)(({ theme, selected, clickable }) => ({
-  color: selected
-    ? "rgb(255, 255, 255) !important"
-    : clickable
-    ? "rgb(131, 131, 131) !important"
-    : "rgb(169, 169, 169) !important",
-  backgroundColor: selected
-    ? "rgba(255, 168, 0, 1)"
-    : clickable
-    ? "rgb(237, 237, 237)"
-    : "rgb(211, 211, 211)",
-  cursor: clickable ? "pointer" : "not-allowed",
-  "&:hover": {
-    backgroundColor: selected
-      ? "rgba(255, 168, 0, 1)"
-      : clickable
-      ? "rgb(237, 237, 237)"
-      : "rgb(211, 211, 211)",
-  },
-}));
+import TablaDeTransportista from "../../components/CrudTransportista/TablaDeTransportista";
+import EditarTransportista from "../../components/CrudTransportista/EditarTransportista";
+import {getTransportista } from "../../Services/ApiService";
 
 const PestañaContenido = ({
   value,
@@ -42,7 +16,10 @@ const PestañaContenido = ({
   setAgencias,
   listaDistritos,
   setTransportista,
-  criterioBusqueda
+  criterioBusqueda,
+  searchTriggered,
+  isLoading,
+  setIsLoading,
 }) => {
   switch (value) {
     case 0:
@@ -56,6 +33,9 @@ const PestañaContenido = ({
           setAgencias = {setAgencias}
           setTransportista={setTransportista}
           criterioBusqueda = {criterioBusqueda}
+          searchTriggered={searchTriggered}
+          isLoading={isLoading}
+          setIsLoading={setIsLoading}
         />
       );
     case 1:
@@ -66,6 +46,7 @@ const PestañaContenido = ({
         transportista={transportista}
         agencias = {agencias}
         setAgencias = {setAgencias}
+        criterioBusqueda = {criterioBusqueda}
         listaDistritos = {listaDistritos}
         setTransportista = {setTransportista}
         onSuccess={() => {
@@ -84,12 +65,6 @@ const PestañaContenido = ({
   }
 };
 
-const CustomTabs = styled(Tabs)({
-  "& .MuiTabs-indicator": {
-    backgroundColor: "transparent",
-  },
-});
-
 const ConsultaTransportista = ({
   transportista,
   tabValue,
@@ -101,7 +76,10 @@ const ConsultaTransportista = ({
   setAgencias ,
   listaDistritos,
   setTransportista,
-  criterioBusqueda
+  criterioBusqueda,
+  searchTriggered,
+  isLoading,
+  setIsLoading
 }) => {
 
   return (
@@ -127,6 +105,9 @@ const ConsultaTransportista = ({
           listaDistritos = {listaDistritos}
           setTransportista = {setTransportista}
           criterioBusqueda = {criterioBusqueda}
+          searchTriggered={searchTriggered}
+          isLoading={isLoading}
+          setIsLoading={setIsLoading}
         />
       </Box>
     </React.Fragment>

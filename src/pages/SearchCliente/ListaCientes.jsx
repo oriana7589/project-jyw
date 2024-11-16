@@ -3,8 +3,8 @@ import {Card, CardActions, Collapse, CssBaseline} from "@mui/material";
 import "react-toastify/dist/ReactToastify.css";
 import { getClientes,getListaDeDistritos, getListVendedores} from "../../Services/ApiService";
 import ConsultaClientes from "../SearchCliente/ConsultaClientes";
-import SearchCliente from "../../Util/SearchCliente";
 import ActionAddBotton from "../../Util/ActionAddBotton";
+import SearchBar from "../../Util/SearchBar";
 
 const ListaClientes = () => {
   const [expandedPanels, setExpandedPanels] = useState([0]);
@@ -72,7 +72,7 @@ const ListaClientes = () => {
             overflow: "hidden",
           }}
           >
-            <SearchCliente
+            <SearchBar
               label="CLIENTE"
               placeholder="Ruc o Razón"
               inputValue={criterioBusqueda}

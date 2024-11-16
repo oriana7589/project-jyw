@@ -34,6 +34,7 @@ function EditarTransportista({
   setTransportista,
   agencias,
   transportista,
+  criterioBusqueda,
   setAgencias,
   listaDistritos,
 }) {
@@ -108,7 +109,7 @@ function EditarTransportista({
 
   const handleIconClick = async () => {
     try {
-      const razonSocialActual = razonSocial || selectTransportista.razonSocial; // Usar el valor actualizado de razonSocial
+      const razonSocialActual = razonSocial || criterioBusqueda || selectTransportista.razonSocial; // Usar el valor actualizado de razonSocial
       if (razonSocialActual) {
         const tablaTransportista = await getTransportista(razonSocialActual);
         setTransportista(tablaTransportista);
