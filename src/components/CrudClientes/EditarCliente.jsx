@@ -30,7 +30,8 @@ function EditarCliente({
   listaDistritos,
   vendedores,
   setTabValue,
-  setClientes
+  setClientes,
+  criterioBusqueda
 }) {
   const [documentoIdentidad, setDocumentoIdentidad] = useState("");
   const [representante, setRepresentante] = useState("");
@@ -253,9 +254,11 @@ function EditarCliente({
 
   const handleIconClick = async () => {
     try {
-      const razonSocialActual = razonSocial || selectCliente.razonSocial; // Usar el valor actualizado de razonSocial
+      const razonSocialActual = razonSocial || criterioBusqueda || selectCliente.razonSocial ; // Usar el valor actualizado de razonSocial
       if (razonSocialActual) {
         const tablaTransportista = await getClientes(razonSocialActual);
+        console.log("Transpo", tablaTransportista);
+        
         setClientes(tablaTransportista);
       } else {
         setClientes([]);

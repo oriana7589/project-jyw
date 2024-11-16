@@ -16,7 +16,8 @@ const PestañaContenido = ({
   setClientes,
   searchTriggered,
   isLoading ,
-  setIsLoading 
+  setIsLoading ,
+  criterioBusqueda
 }) => {
   switch (value) {
     case 0:
@@ -39,6 +40,7 @@ const PestañaContenido = ({
           listaDistritos={listaDistritos}
           vendedores = {vendedores}
           setClientes = {setClientes}
+          criterioBusqueda = {criterioBusqueda}
         />
       );
     default:
@@ -58,7 +60,8 @@ const ConsultaClientes = ({
   vendedores,
   searchTriggered,
   isLoading,
-  setIsLoading 
+  setIsLoading,
+  criterioBusqueda
 }) => {
 
   return (
@@ -85,6 +88,7 @@ const ConsultaClientes = ({
           searchTriggered = {searchTriggered}
           isLoading = {isLoading}
           setIsLoading = {setIsLoading}
+          criterioBusqueda = {criterioBusqueda}
         />
       </Box>
     </React.Fragment>

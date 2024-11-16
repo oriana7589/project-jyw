@@ -81,6 +81,7 @@ const ListaClientes = () => {
               inputStyles={{ width: "40ch" }} // Personalización opcional
               buttonStyles={{ backgroundColor: "rgb(255, 168, 0)" }} // Personalización opcional
             />
+
             <ActionAddBotton
               label="Agregar Cliente"
               onClick={handleAgregarClick}
@@ -93,6 +94,7 @@ const ListaClientes = () => {
             handleAgregarClick={handleAgregarClick}
             handleEditClick={handleEditClick}
             tabValue={tabValue}
+            criterioBusqueda={criterioBusqueda}
             selectCliente={selectCliente}
             setTabValue={setTabValue}
             clientes={clientes}
