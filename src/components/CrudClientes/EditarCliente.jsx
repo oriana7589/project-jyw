@@ -1,33 +1,21 @@
 import React, { useEffect } from "react";
-import {
-  Select,
-  TextField,
-  MenuItem,
-  Typography,
-  Autocomplete,
-  Paper,
-  IconButton,
-} from "@mui/material";
+import {Select,TextField,MenuItem,Typography,Autocomplete,Paper} from "@mui/material";
 import Decimal from "decimal.js";
 import contenidoCombos from "../../utils/ContenidoCombos.json";
-import { KeyboardBackspace } from "@mui/icons-material";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import {
-  getClientes,
-  postCrearCliente,
-  putModificarCliente,
-} from "../../Services/ApiService";
+import { getClientes,postCrearCliente,putModificarCliente} from "../../Services/ApiService";
+import ActionSaveBotton from "../../Util/ActionSaveBotton";
+import { styleBox, styleSelect, textStyles } from "../../Styles/MenuStyles";
 Decimal.set({ precision: 10 });
 
 function EditarCliente({
-  selectCliente,
-  listaDistritos,
-  vendedores,
-  setTabValue,
-  setClientes,
-  criterioBusqueda,
-    // Estados relacionados con el formulario
+    selectCliente,
+    listaDistritos,
+    vendedores,
+    setTabValue,
+    setClientes,
+    criterioBusqueda,
     documentoIdentidad,
     setDocumentoIdentidad,
     representante,
@@ -46,12 +34,8 @@ function EditarCliente({
     setCelular,
     correo,
     setCorreo,
-    tipoDocumento,
-    setTipoDocumento,
     razonSocial,
     setRazonSocial,
-    clipro,
-    setClipro,
     tipoDocumentoSeleccionado,
     setTipoDocumentoSeleccionado,
     estadoSeleccionado,
@@ -60,7 +44,6 @@ function EditarCliente({
     setTipoClienteSeleccionado,
     tipoConsumidorSeleccionado,
     setTipoConsumidorSeleccionado,
-    // Combos de ubicación
     paises,
     setPaises,
     departamentos,
@@ -114,8 +97,6 @@ function EditarCliente({
   }, [provinciaSeleccionada]);
 
   useEffect(() => {
-    console.log("cliente", selectCliente);
-    
     setTipoDocumentoSeleccionado(selectCliente.tipoDocumento);
     setDocumentoIdentidad(selectCliente.numDocumento ? selectCliente.numDocumento.trim() : "");
     setEstadoSeleccionado(selectCliente.estado);
@@ -140,61 +121,45 @@ function EditarCliente({
   }, [selectCliente]);
 
   useEffect(() => {
-    console.log("Pais seleccionado:", paisSeleccionado);
     if (paisSeleccionado) {
       const departamentos = Object.entries(paisSeleccionado[1].departamentos);
-      console.log("Departamentos cargados:", departamentos);
       setDepartamentos(departamentos);
-
       // Preseleccionar el departamento si ya está seleccionado
       if (selectCliente && selectCliente.codigoDepartamento) {
         const deptoSeleccionado = departamentos.find(
           ([key, value]) => key === selectCliente.codigoDepartamento
         );
-        console.log("Departamento seleccionado:", deptoSeleccionado);
         setDepartamentoSeleccionado(deptoSeleccionado);
       }
     }
   }, [paisSeleccionado, selectCliente]);
 
   useEffect(() => {
-    console.log("Departamento seleccionado:", departamentoSeleccionado);
     if (departamentoSeleccionado && departamentoSeleccionado[1]) {
       const provincias = Object.entries(departamentoSeleccionado[1].provincias);
-      console.log("Provincias cargadas:", provincias);
       setProvincias(provincias);
-
-      // Preseleccionar la provincia
       if (selectCliente && selectCliente.codigoProvincia) {
         const provSeleccionada = provincias.find(
           ([key, value]) => key === selectCliente.codigoProvincia
         );
-        console.log("Provincia seleccionada:", provSeleccionada);
         setProvinciaSeleccionada(provSeleccionada);
       }
     } else {
-      console.log("Departamento no válido o sin provincias");
       setProvincias([]);
     }
   }, [departamentoSeleccionado, selectCliente]);
 
   useEffect(() => {
-    console.log("Provincia seleccionada:", provinciaSeleccionada);
     if (provinciaSeleccionada && provinciaSeleccionada[1]) {
       const distritos = provinciaSeleccionada[1].distritos;
-      console.log("Distritos cargados:", distritos);
       setDistritos(distritos);
-
-      // Preseleccionar el distrito
       if (selectCliente && selectCliente.codigoDistrito) {
         const distSeleccionado = distritos.find(
           (distrito) => distrito.codigo === selectCliente.codigoDistrito
         );
-        console.log("Distrito seleccionado:", distSeleccionado);
         setDistritoSeleccionado(distSeleccionado);
       }
     } else {
-      console.log("Provincia no válida o sin distritos");
       setDistritos([]);
     }
   }, [provinciaSeleccionada, selectCliente]);  
@@ -245,7 +210,6 @@ function EditarCliente({
     }
 
     try {
-      console.log("codigoCliente", selectCliente.codigoCliente);
       if (selectCliente.codigoCliente == null) {
         const response = await postCrearCliente(clienteData);
         toast.success("Cliente guardado correctamente");
@@ -292,53 +256,15 @@ function EditarCliente({
 
   return (
     <div style={{ width: "100%", paddingTop: 10 }}>
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between", // Coloca los botones en extremos opuestos
-          padding: "10px 20px",
-        }}
-      >
-        <IconButton
-          style={{
-            backgroundColor: "rgb(237, 237, 237)",
-            borderRadius: "5px",
-            marginBottom: "5px",
-            width: "40px",
-            height: "40px",
-          }}
-          onClick={(event) => {
-            event.stopPropagation(); // Evita la propagación del evento al acordeón
-            handleIconClick();
-          }}
-        >
-          <KeyboardBackspace
-            style={{ color: "rgb(131,131,131)", marginLeft: 4 }}
-          />
-        </IconButton>
-        <IconButton
-          style={{
-            backgroundColor: "rgb(226, 52, 48)",
-            borderRadius: "0",
-            height: "34px",
-            width: "160px",
-            marginRight: 5,
-          }}
-          onClick={(event) => {
-            event.stopPropagation(); // Evita la propagación del evento al acordeón
-            handleSubmit(event);
-          }}
-        >
-          <Typography
-            style={{
-              color: "rgb(255, 255, 255)",
-              borderRadius: "0",
-            }}
-          >
-            Guardar cliente
-          </Typography>
-        </IconButton>
-      </div>
+      <ActionSaveBotton
+        onBackClick={() =>   handleIconClick()}
+        onSubmitClick={() =>   handleSubmit(event)}
+        submitLabel="Guardar cliente"
+        backIconStyle={{ backgroundColor: "rgb(237, 237, 237)" }}
+        submitButtonStyle={{ backgroundColor: "rgb(226, 52, 48)" }}
+        submitLabelStyle={{ fontSize: "16px" }}
+        baseButtonStyle={{ height: "35px", width: "160px" }}
+      />
       <div style={{ overflow: "auto" }}>
         <div
           style={{
@@ -364,7 +290,6 @@ function EditarCliente({
               <Typography style={{ paddingTop: 10, marginLeft: 5 }}>
                 <strong>DATOS DEL CLIENTE</strong>
               </Typography>
-
               {/* Contenedor del formulario */}
               <div
                 style={{
@@ -383,12 +308,7 @@ function EditarCliente({
                       id="tipoDoc-select"
                       value={tipoDocumentoSeleccionado}
                       onChange={handleTipoDocumentoChange}
-                      sx={{
-                        width: "170px",
-                        height: "35px",
-                        fontSize: "14px",
-                        backgroundColor: "rgb(255,255,255)",
-                      }}
+                      sx={{...styleSelect}}
                     >
                       {contenidoCombos.TipoDocumento.map((item) => (
                         <MenuItem
@@ -429,12 +349,7 @@ function EditarCliente({
                       }}
                       variant="outlined"
                       InputProps={{
-                        style: {
-                          fontSize: "14px",
-                          width: "170px",
-                          height: "35px",
-                          textAlign: "center",
-                        },
+                        style: {...textStyles ,width: "170px"},
                       }}
                     />
                   </div>
@@ -444,12 +359,7 @@ function EditarCliente({
                       id="estado-select"
                       value={estadoSeleccionado}
                       onChange={handleEstadoChange}
-                      sx={{
-                        width: "170px",
-                        height: "35px",
-                        fontSize: "14px",
-                        backgroundColor: "rgb(255,255,255)",
-                      }}
+                      sx={{  ...styleSelect }}
                     >
                       {contenidoCombos.estadoCliente.map((item) => (
                         <MenuItem key={item.estado} value={item.estado}>
@@ -477,12 +387,7 @@ function EditarCliente({
                       }}
                       variant="outlined"
                       InputProps={{
-                        style: {
-                          fontSize: "14px",
-                          width: "675px",
-                          height: "35px",
-                          textAlign: "center",
-                        },
+                        style: {...textStyles ,width: "675px"},
                       }}
                     />
                   </div>
@@ -498,12 +403,7 @@ function EditarCliente({
                       id="tipoCliente-select"
                       value={tipoClienteSeleccionado}
                       onChange={handleTipoClienteChange}
-                      sx={{
-                        width: "170px",
-                        height: "35px",
-                        fontSize: "14px",
-                        backgroundColor: "rgb(255,255,255)",
-                      }}
+                      sx={{ ...styleSelect }}
                     >
                       {contenidoCombos.tipoCliente.map((item) => (
                         <MenuItem key={item.tipo} value={item.tipo}>
@@ -520,12 +420,7 @@ function EditarCliente({
                       id="tipoConsumidor-select"
                       value={tipoConsumidorSeleccionado}
                       onChange={handleTipoConsumidorChange}
-                      sx={{
-                        width: "170px",
-                        height: "35px",
-                        fontSize: "14px",
-                        backgroundColor: "rgb(255,255,255)",
-                      }}
+                      sx={{...styleSelect }}
                     >
                       {contenidoCombos.TipoConsumidorCliente.map((item) => (
                         <MenuItem
@@ -566,12 +461,7 @@ function EditarCliente({
                       }}
                       variant="outlined"
                       InputProps={{
-                        style: {
-                          fontSize: "14px",
-                          width: "170px",
-                          height: "35px",
-                          textAlign: "center",
-                        },
+                        style: {...textStyles ,width: "170px"},
                       }}
                     />
                   </div>
@@ -590,12 +480,7 @@ function EditarCliente({
                     style={{ height: 35, backgroundColor: "rgb(255,255,255)" }}
                     variant="outlined"
                     InputProps={{
-                      style: {
-                        fontSize: "14px",
-                        width: "675px",
-                        height: "35px",
-                        textAlign: "center",
-                      },
+                      style: {...textStyles ,width: "675px"},
                     }}
                   />
                 </div>
@@ -628,12 +513,7 @@ function EditarCliente({
                       }}
                       variant="outlined"
                       InputProps={{
-                        style: {
-                          fontSize: "14px",
-                          width: "675px",
-                          height: "35px",
-                          textAlign: "center",
-                        },
+                        style: {...textStyles ,width: "675px"},
                       }}
                     />
                   </div>
@@ -646,30 +526,18 @@ function EditarCliente({
                     <Autocomplete
                       options={Object.entries(paises)}
                       getOptionLabel={(option) =>
-                        //option && option[1] ? option[1].nombre : ""
-                        option[1].nombre
+                        option[1].nombre || ""
                       }
-                      value={paisSeleccionado}
+                      value={paisSeleccionado || null}
                       onChange={(event, newValue) => {
                         setPaisSeleccionado(newValue);
-                        //setDepartamentoSeleccionado(null);
-                        //setProvinciaSeleccionada(null);
-                        //setDistritoSeleccionado(null);
                       }}
                       renderInput={(params) => (
                         <div ref={params.InputProps.ref}>
                           <input
                             type="text"
                             {...params.inputProps}
-                            style={{
-                              width: "150px",
-                              height: "35px",
-                              backgroundColor: "rgb(255,255,255)",
-                              border: "1px solid #ccc",
-                              borderRadius: "4px",
-                              paddingLeft: 5,
-                              fontSize: "14px",
-                            }}
+                            style={{   ...styleBox, width: "150px" }}
                           />
                         </div>
                       )}
@@ -681,27 +549,16 @@ function EditarCliente({
                     </Typography>
                     <Autocomplete
                       options={departamentos}
-                      getOptionLabel={(option) => option[1].nombre}
+                      getOptionLabel={(option) => option[1].nombre || ""}
                       value={departamentoSeleccionado || null}
                       onChange={(event, newValue) => {
-                        setDepartamentoSeleccionado(newValue);
-                        //setProvinciaSeleccionada(null);
-                        //setDistritoSeleccionado(null);
                       }}
                       renderInput={(params) => (
                         <div ref={params.InputProps.ref}>
                           <input
                             type="text"
                             {...params.inputProps}
-                            style={{
-                              width: "150px",
-                              height: "35px",
-                              backgroundColor: "rgb(255,255,255)",
-                              border: "1px solid #ccc",
-                              borderRadius: "4px",
-                              paddingLeft: 5,
-                              fontSize: "14px",
-                            }}
+                            style={{   ...styleBox, width: "150px" }}
                           />
                         </div>
                       )}
@@ -714,7 +571,7 @@ function EditarCliente({
                     </Typography>
                     <Autocomplete
                       options={provincias}
-                      getOptionLabel={(option) => option[1].nombre}
+                      getOptionLabel={(option) => option[1].nombre || ""}
                       value={provinciaSeleccionada || null}
                       onChange={(event, newValue) => {
                         setProvinciaSeleccionada(newValue);
@@ -725,15 +582,7 @@ function EditarCliente({
                           <input
                             type="text"
                             {...params.inputProps}
-                            style={{
-                              width: "150px",
-                              height: "35px",
-                              backgroundColor: "rgb(255,255,255)",
-                              border: "1px solid #ccc",
-                              borderRadius: "4px",
-                              paddingLeft: 5,
-                              fontSize: "14px",
-                            }}
+                            style={{   ...styleBox, width: "150px" }}
                           />
                         </div>
                       )}
@@ -746,7 +595,7 @@ function EditarCliente({
                     </Typography>
                     <Autocomplete
                       options={distritos}
-                      getOptionLabel={(option) => option.nombre}
+                      getOptionLabel={(option) => option.nombre || ""}
                       value={distritoSeleccionado || null}
                       onChange={(event, newValue) => {
                         setDistritoSeleccionado(newValue);
@@ -756,15 +605,7 @@ function EditarCliente({
                           <input
                             type="text"
                             {...params.inputProps}
-                            style={{
-                              width: "150px",
-                              height: "35px",
-                              backgroundColor: "rgb(255,255,255)",
-                              border: "1px solid #ccc",
-                              borderRadius: "4px",
-                              paddingLeft: 5,
-                              fontSize: "14px",
-                            }}
+                            style={{   ...styleBox, width: "150px" }}
                           />
                         </div>
                       )}
@@ -806,12 +647,7 @@ function EditarCliente({
                       }}
                       variant="outlined"
                       InputProps={{
-                        style: {
-                          fontSize: "14px",
-                          width: "480px",
-                          height: "35px",
-                          textAlign: "center",
-                        },
+                        style: {...textStyles ,width: "400px"},
                       }}
                     />
                   </div>
@@ -834,15 +670,7 @@ function EditarCliente({
                           <input
                             type="text"
                             {...params.inputProps}
-                            style={{
-                              width: "170px",
-                              height: "35px",
-                              border: "1px solid #ccc",
-                              borderRadius: "4px",
-                              paddingLeft: 5,
-                              backgroundColor: "rgb(255,255,255)",
-                              fontSize: "14px",
-                            }}
+                            style={{   ...styleBox, width: "150px" }}
                           />
                         </div>
                       )}
@@ -885,12 +713,7 @@ function EditarCliente({
                       }}
                       variant="outlined"
                       InputProps={{
-                        style: {
-                          fontSize: "14px",
-                          width: "170px",
-                          height: "35px",
-                          textAlign: "center",
-                        },
+                        style: {...textStyles ,width: "170px"},
                       }}
                     />
                   </div>
@@ -929,12 +752,7 @@ function EditarCliente({
                       }}
                       variant="outlined"
                       InputProps={{
-                        style: {
-                          fontSize: "14px",
-                          width: "170px",
-                          height: "35px",
-                          textAlign: "center",
-                        },
+                        style: {...textStyles ,width: "170px"},
                       }}
                     />
                   </div>
@@ -973,12 +791,7 @@ function EditarCliente({
                       }}
                       variant="outlined"
                       InputProps={{
-                        style: {
-                          fontSize: "14px",
-                          width: "170px",
-                          height: "35px",
-                          textAlign: "center",
-                        },
+                        style: {...textStyles ,width: "170px"},
                       }}
                     />
                   </div>

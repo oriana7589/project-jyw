@@ -33,3 +33,24 @@ export const containerStyle = {
     fontSize: "1rem",
     fontWeight: "bold",
   };
+
+  export const styleBox={
+    height: "35px",
+    backgroundColor: "rgb(255,255,255)",
+    border: "1px solid #ccc",
+    borderRadius: "4px",
+    paddingLeft: 5,
+    fontSize: "14px",
+  }
+  export const styleSelect={
+    width: "170px",
+    height: "35px",
+    fontSize: "14px",
+    backgroundColor: "rgb(255,255,255)",
+  }
+
+  export const textStyles={
+    fontSize: "14px",
+    height: "35px",
+     textAlign: "center"
+  }

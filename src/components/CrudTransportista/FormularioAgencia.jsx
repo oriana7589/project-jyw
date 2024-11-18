@@ -1,5 +1,6 @@
 import { Autocomplete, Button, TextField, Typography } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
+import { styleBox, textStyles } from "../../Styles/MenuStyles";
 
 function FormularioAgencia({
     listaDistritos,
@@ -32,8 +33,6 @@ function FormularioAgencia({
   
 }) {
   
-  //----
-
   useEffect(() => {
     setPaises(listaDistritos);
   }, []);
@@ -80,61 +79,44 @@ function FormularioAgencia({
   }, [provinciaSeleccionada]);
 
   useEffect(() => {
-    console.log('Pais seleccionado:', paisSeleccionado);
     if (paisSeleccionado) {
       const departamentos = Object.entries(paisSeleccionado[1].departamentos);
-      console.log('Departamentos cargados:', departamentos);
       setDepartamentos(departamentos);
-      
-      // Preseleccionar el departamento si ya está seleccionado
       if (formData && formData.codigoDepartamento) {
         const deptoSeleccionado = departamentos.find(
           ([key, value]) => key === formData.codigoDepartamento
         );
-        console.log('Departamento seleccionado:', deptoSeleccionado);
         setDepartamentoSeleccionado(deptoSeleccionado);
       }
     }    
   }, [paisSeleccionado, formData]);
   
   useEffect(() => {
-    console.log('Departamento seleccionado:', departamentoSeleccionado);
     if (departamentoSeleccionado && departamentoSeleccionado[1]) {
       const provincias = Object.entries(departamentoSeleccionado[1].provincias);
-      console.log('Provincias cargadas:', provincias);
       setProvincias(provincias);
-      
-      // Preseleccionar la provincia
       if (formData && formData.codigoProvincia) {
         const provSeleccionada = provincias.find(
           ([key, value]) => key === formData.codigoProvincia
         );
-        console.log('Provincia seleccionada:', provSeleccionada);
         setProvinciaSeleccionada(provSeleccionada);
       }
     } else {
-      console.log('Departamento no válido o sin provincias');
       setProvincias([]);
     }
   }, [departamentoSeleccionado, formData]);
   
   useEffect(() => {
-    console.log('Provincia seleccionada:', provinciaSeleccionada);
     if (provinciaSeleccionada && provinciaSeleccionada[1]) {
       const distritos = provinciaSeleccionada[1].distritos;
-      console.log('Distritos cargados:', distritos);
       setDistritos(distritos);
-      
-      // Preseleccionar el distrito
       if (formData && formData.codigoDistrito) {
         const distSeleccionado = distritos.find(
           (distrito) => distrito.codigo === formData.codigoDistrito
         );
-        console.log('Distrito seleccionado:', distSeleccionado);
         setDistritoSeleccionado(distSeleccionado);
       }
     } else {
-      console.log('Provincia no válida o sin distritos');
       setDistritos([]);
     }
   }, [provinciaSeleccionada, formData]);
@@ -163,12 +145,7 @@ function FormularioAgencia({
             style={{ height: 35 }}
             variant="outlined"
             InputProps={{
-              style: {
-                fontSize: "14px",
-                width: "250px",
-                height: "35px",
-                textAlign: "center",
-              },
+              style: { ... textStyles, width: "250px"},
             }}
           />
         </div>
@@ -198,12 +175,7 @@ function FormularioAgencia({
             style={{ height: 35 }}
             variant="outlined"
             InputProps={{
-              style: {
-                fontSize: "14px",
-                width: "170px",
-                height: "35px",
-                textAlign: "center",
-              },
+              style: { ... textStyles, width: "170px"},
             }}
           />
         </div>
@@ -233,12 +205,7 @@ function FormularioAgencia({
             style={{ height: 35 }}
             variant="outlined"
             InputProps={{
-              style: {
-                fontSize: "14px",
-                width: "170px",
-                height: "35px",
-                textAlign: "center",
-              },
+              style: { ... textStyles, width: "170px"},
             }}
           />
         </div>
@@ -254,12 +221,7 @@ function FormularioAgencia({
             style={{ height: 35 }}
             variant="outlined"
             InputProps={{
-              style: {
-                fontSize: "14px",
-                width: "450px",
-                height: "35px",
-                textAlign: "center",
-              },
+              style: { ... textStyles, width: "450px"},
             }}
           />
         </div>
@@ -272,29 +234,18 @@ function FormularioAgencia({
                 <Autocomplete
                   options={Object.entries(paises)}
                   getOptionLabel={(option) =>
-                    //option && option[1] ? option[1].nombre : ""
                     option[1].nombre
                   }
-                  value={paisSeleccionado}
+                  value={paisSeleccionado || null}
                   onChange={(event, newValue) => {
                     setPaisSeleccionado(newValue);
-                    //setDepartamentoSeleccionado(null);
-                    //setProvinciaSeleccionada(null);
-                    //setDistritoSeleccionado(null);
                   }}
                   renderInput={(params) => (
                     <div ref={params.InputProps.ref}>
                       <input
                         type="text"
                         {...params.inputProps}
-                        style={{
-                          width: "150px",
-                          height: "35px",
-                          border: "1px solid #ccc",
-                          borderRadius: "4px",
-                          paddingLeft: 5,
-                          fontSize: "14px",
-                        }}
+                        style={{   ...styleBox, width: "150px" }}
                       />
                     </div>
                   )}
@@ -310,22 +261,13 @@ function FormularioAgencia({
                   value={departamentoSeleccionado || null}
                   onChange={(event, newValue) => {
                     setDepartamentoSeleccionado(newValue);
-                    //setProvinciaSeleccionada(null);
-                    //setDistritoSeleccionado(null);
                   }}
                   renderInput={(params) => (
                     <div ref={params.InputProps.ref}>
                       <input
                         type="text"
                         {...params.inputProps}
-                        style={{
-                          width: "150px",
-                          height: "35px",
-                          border: "1px solid #ccc",
-                          borderRadius: "4px",
-                          paddingLeft: 5,
-                          fontSize: "14px",
-                        }}
+                        style={{   ...styleBox, width: "150px" }}
                       />
                     </div>
                   )}
@@ -342,21 +284,13 @@ function FormularioAgencia({
                   value={provinciaSeleccionada || null}
                   onChange={(event, newValue) => {
                     setProvinciaSeleccionada(newValue);
-                    //setDistritoSeleccionado(null);
                   }}
                   renderInput={(params) => (
                     <div ref={params.InputProps.ref}>
                       <input
                         type="text"
                         {...params.inputProps}
-                        style={{
-                          width: "150px",
-                          height: "35px",
-                          border: "1px solid #ccc",
-                          borderRadius: "4px",
-                          paddingLeft: 5,
-                          fontSize: "14px",
-                        }}
+                        style={{   ...styleBox, width: "150px" }}
                       />
                     </div>
                   )}
@@ -377,14 +311,7 @@ function FormularioAgencia({
                       <input
                         type="text"
                         {...params.inputProps}
-                        style={{
-                          width: "150px",
-                          height: "35px",
-                          border: "1px solid #ccc",
-                          borderRadius: "4px",
-                          paddingLeft: 5,
-                          fontSize: "14px",
-                        }}
+                        style={{   ...styleBox, width: "150px" }}
                       />
                     </div>
                   )}

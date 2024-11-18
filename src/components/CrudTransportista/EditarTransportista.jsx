@@ -1,30 +1,14 @@
 import React, { useEffect, useState } from "react";
-import {
-  Select,
-  TextField,
-  MenuItem,
-  Box,
-  Typography,
-  Grid,
-  Autocomplete,
-  Input,
-  Paper,
-  FormControl,
-  InputLabel,
-  IconButton,
-} from "@mui/material";
+import {Select, TextField, MenuItem,Typography, Paper} from "@mui/material";
 import Decimal from "decimal.js";
 import contenidoCombos from "../../utils/ContenidoCombos.json";
-import { KeyboardBackspace } from "@mui/icons-material";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import {
-  getAgenciaTransportista,
-  getTransportista,
-  postCrearTransportista,
-  putModificarTransportista,
+import {getAgenciaTransportista, getTransportista, postCrearTransportista, putModificarTransportista,
 } from "../../Services/ApiService";
 import EditarAgencia from "./EditarAgencia";
+import ActionSaveBotton from "../../Util/ActionSaveBotton";
+import { textStyles } from "../../Styles/MenuStyles";
 
 Decimal.set({ precision: 10 });
 
@@ -33,7 +17,6 @@ function EditarTransportista({
   setTabValue,
   setTransportista,
   agencias,
-  transportista,
   criterioBusqueda,
   setAgencias,
   listaDistritos,
@@ -41,8 +24,7 @@ function EditarTransportista({
   const [docuemntoIdentidad, setDocuemntoIdentidad] = useState("");
   const [descripcionCorta, setDescripcionCorta] = useState("");
   const [razonSocial, setRazonSocial] = useState("");
-  const [tipoDocumentoSeleccionado, setTipoDocumentoSeleccionado] =
-    useState("");
+  const [tipoDocumentoSeleccionado, setTipoDocumentoSeleccionado] = useState("");
 
   useEffect(() => {
     getAgenciaTransportista(selectTransportista.codigoTransportista)
@@ -53,13 +35,10 @@ function EditarTransportista({
   const handleSubmit = async (event) => {
     const transportistaData = {
       codigoTransportista: selectTransportista.codigoTransportista,
-      tipoDocumento:
-        tipoDocumentoSeleccionado || selectTransportista.tipoDocumento,
-      numeroDocumentoIdentidad:
-        docuemntoIdentidad || selectTransportista.numeroDocumentoIdentidad.trim(), 
+      tipoDocumento: tipoDocumentoSeleccionado || selectTransportista.tipoDocumento,
+      numeroDocumentoIdentidad: docuemntoIdentidad || selectTransportista.numeroDocumentoIdentidad.trim(), 
       razonSocial: razonSocial || selectTransportista.razonSocial,
-      descripcionCorta:
-        descripcionCorta || selectTransportista.descripcionCorta,
+      descripcionCorta: descripcionCorta || selectTransportista.descripcionCorta,
     };
     if (tipoDocumentoSeleccionado === "RUC") {
       if (!/^[12]\d{10}$/.test(transportistaData.numeroDocumentoIdentidad)) {
@@ -69,15 +48,12 @@ function EditarTransportista({
     } else if (tipoDocumentoSeleccionado === "DNI") {
       // Validar que el DNI tenga 8 dígitos
       if (!/^\d{8}$/.test(transportistaData.numeroDocumentoIdentidad)) {
-        console.log("documento",transportistaData.numeroDocumentoIdentidad );
-        
         toast.error("El DNI debe tener exactamente 8 dígitos.");
         return;
       }
     }
 
     try {
-      console.log("codigoTrabsport", selectTransportista.codigoTransportista);
       if (selectTransportista.codigoTransportista == null) {
         const response = await postCrearTransportista(transportistaData);
         toast.success("Transportista guardado correctamente");
@@ -124,51 +100,15 @@ function EditarTransportista({
 
   return (
     <div style={{ width: "100%", paddingTop: 10 }}>
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between", // Coloca los botones en extremos opuestos
-          padding: "10px 10px",
-        }}
-      >
-        <IconButton
-          style={{
-            backgroundColor: "rgb(237, 237, 237)",
-            borderRadius: "5px",
-            marginBottom: "5px",
-            width: "40px",
-            height: "40px",
-          }}
-          onClick={(event) => {
-            event.stopPropagation(); // Evita la propagación del evento al acordeón
-            handleIconClick();
-          }}
-        >
-          <KeyboardBackspace style={{ color: "rgb(131,131,131)" }} />
-        </IconButton>
-
-        <IconButton
-          style={{
-            backgroundColor: "rgb(226, 52, 48)",
-            borderRadius: "0",
-            height: "34px",
-            width: "180px",
-          }}
-          onClick={(event) => {
-            event.stopPropagation(); // Evita la propagación del evento al acordeón
-            handleSubmit(event);
-          }}
-        >
-          <Typography
-            style={{
-              color: "rgb(255, 255, 255)",
-              borderRadius: "0",
-            }}
-          >
-            Guardar transportista
-          </Typography>
-        </IconButton>
-      </div>
+      <ActionSaveBotton
+        onBackClick={() =>   handleIconClick()}
+        onSubmitClick={() =>   handleSubmit(event)}
+        submitLabel="Guardar transportista"
+        backIconStyle={{ backgroundColor: "rgb(237, 237, 237)" }}
+        submitButtonStyle={{ backgroundColor: "rgb(226, 52, 48)" }}
+        submitLabelStyle={{ fontSize: "16px" }}
+        baseButtonStyle={{ height: "35px", width: "180px" }}
+      />
       <div style={{ overflow: "auto" }}>
         <div
           style={{
@@ -241,12 +181,7 @@ function EditarTransportista({
                   style={{ height: 35 }}
                   variant="outlined"
                   InputProps={{
-                    style: {
-                      fontSize: "14px",
-                      width: "auto",
-                      height: "35px",
-                      textAlign: "center",
-                    },
+                    style: { ... textStyles, width: "auto"},
                   }}
                 />
               </div>
@@ -262,12 +197,7 @@ function EditarTransportista({
                   style={{ height: 35 }}
                   variant="outlined"
                   InputProps={{
-                    style: {
-                      fontSize: "14px",
-                      width: "210px",
-                      height: "35px",
-                      textAlign: "center",
-                    },
+                    style: { ... textStyles, width: "210px"},
                   }}
                 />
               </div>
@@ -286,12 +216,7 @@ function EditarTransportista({
                   style={{ height: 35 }}
                   variant="outlined"
                   InputProps={{
-                    style: {
-                      fontSize: "14px",
-                      width: "450px",
-                      height: "35px",
-                      textAlign: "center",
-                    },
+                    style: { ... textStyles, width: "450px"},
                   }}
                 />
               </div>
