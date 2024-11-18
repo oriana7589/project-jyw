@@ -1,16 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import {
   Select,
   TextField,
   MenuItem,
-  Box,
   Typography,
-  Grid,
   Autocomplete,
-  Input,
   Paper,
-  FormControl,
-  InputLabel,
   IconButton,
 } from "@mui/material";
 import Decimal from "decimal.js";
@@ -31,39 +26,58 @@ function EditarCliente({
   vendedores,
   setTabValue,
   setClientes,
-  criterioBusqueda
+  criterioBusqueda,
+    // Estados relacionados con el formulario
+    documentoIdentidad,
+    setDocumentoIdentidad,
+    representante,
+    setRepresentante,
+    direccion,
+    setDireccion,
+    vendedor,
+    setVendedor,
+    dniRepresentante,
+    setDniRepresentante,
+    telefono1,
+    setTelefono1,
+    telefono2,
+    setTelefono2,
+    celular,
+    setCelular,
+    correo,
+    setCorreo,
+    tipoDocumento,
+    setTipoDocumento,
+    razonSocial,
+    setRazonSocial,
+    clipro,
+    setClipro,
+    tipoDocumentoSeleccionado,
+    setTipoDocumentoSeleccionado,
+    estadoSeleccionado,
+    setEstadoSeleccionado,
+    tipoClienteSeleccionado,
+    setTipoClienteSeleccionado,
+    tipoConsumidorSeleccionado,
+    setTipoConsumidorSeleccionado,
+    // Combos de ubicación
+    paises,
+    setPaises,
+    departamentos,
+    setDepartamentos,
+    provincias,
+    setProvincias,
+    distritos,
+    setDistritos,
+    paisSeleccionado,
+    setPaisSeleccionado,
+    departamentoSeleccionado,
+    setDepartamentoSeleccionado,
+    provinciaSeleccionada,
+    setProvinciaSeleccionada,
+    distritoSeleccionado,
+    setDistritoSeleccionado,
 }) {
-  const [documentoIdentidad, setDocumentoIdentidad] = useState("");
-  const [representante, setRepresentante] = useState("");
-  const [direccion, setDireccion] = useState("");
-  const [vendedor, setVendedor] = useState("");
-  const [dniRepresentante, setDniRepresentante] = useState("");
-  const [telefono1, setTelefono1] = useState("");
-  const [telefono2, setTelefono2] = useState("");
-  const [celular, setCelular] = useState("");
-  const [correo, setCorreo] = useState("");
-  const [tipoDocumento, setTipoDocumento] = useState("");
-  const [razonSocial, setRazonSocial] = useState("");
-  const [clipro, setClipro] = useState("");
-  const [tipoDocumentoSeleccionado, setTipoDocumentoSeleccionado] =
-    useState("");
-  const [estadoSeleccionado, setEstadoSeleccionado] = useState("");
-  const [tipoClienteSeleccionado, setTipoClienteSeleccionado] = useState("");
-  const [tipoConsumidorSeleccionado, setTipoConsumidorSeleccionado] =
-    useState("");
-
-  //Combos de ubicacion
-  const [paises, setPaises] = useState([]);
-  const [departamentos, setDepartamentos] = useState([]);
-  const [provincias, setProvincias] = useState([]);
-  const [distritos, setDistritos] = useState([]);
-
-  const [paisSeleccionado, setPaisSeleccionado] = useState(null);
-  const [departamentoSeleccionado, setDepartamentoSeleccionado] = useState(null);
-  const [provinciaSeleccionada, setProvinciaSeleccionada] = useState(null);
-  const [distritoSeleccionado, setDistritoSeleccionado] = useState(null);
-
-  //----
 
   useEffect(() => {
     setPaises(listaDistritos);
@@ -100,20 +114,29 @@ function EditarCliente({
   }, [provinciaSeleccionada]);
 
   useEffect(() => {
+    console.log("cliente", selectCliente);
+    
     setTipoDocumentoSeleccionado(selectCliente.tipoDocumento);
     setDocumentoIdentidad(selectCliente.numDocumento ? selectCliente.numDocumento.trim() : "");
     setEstadoSeleccionado(selectCliente.estado);
     setRazonSocial(selectCliente.razonSocial);
     setTipoClienteSeleccionado(selectCliente.tipoClienteProveedor);
     setTipoConsumidorSeleccionado(selectCliente.tipoConsumidor);
-    setDniRepresentante(selectCliente.dniRepresentanteLegal);
+    setDniRepresentante(selectCliente.dniRepresentanteLegal ? selectCliente.dniRepresentanteLegal.trim() : "");
     setRepresentante(selectCliente.representanteLegal);
     setDireccion(selectCliente.direccion);
     setCorreo(selectCliente.correo);
-    setVendedor(selectCliente.vendedor);
-    setTelefono1(selectCliente.telefono1);
-    setTelefono2(selectCliente.telefono2);
-    setCelular(selectCliente.celular);
+    setTelefono1(selectCliente.telefono1 ? selectCliente.telefono1.trim() : "");
+    setTelefono2(selectCliente.telefono2 ? selectCliente.telefono2.trim() : "");
+    setCelular(selectCliente.celular ? selectCliente.celular.trim() : "");
+    if (selectCliente && selectCliente.codigoVendedor) {
+      const vendedorSeleccionado = vendedores.find(
+        (vendedor) => vendedor.codigoVendedor === selectCliente.codigoVendedor
+      );
+      setVendedor(vendedorSeleccionado || null); // Asigna null si no lo encuentra
+    } else {
+      setVendedor(null); // Limpia el estado si no hay código de vendedor
+    }
   }, [selectCliente]);
 
   useEffect(() => {
@@ -257,8 +280,6 @@ function EditarCliente({
       const razonSocialActual = razonSocial || criterioBusqueda || selectCliente.razonSocial ; // Usar el valor actualizado de razonSocial
       if (razonSocialActual) {
         const tablaTransportista = await getClientes(razonSocialActual);
-        console.log("Transpo", tablaTransportista);
-        
         setClientes(tablaTransportista);
       } else {
         setClientes([]);
@@ -384,7 +405,7 @@ function EditarCliente({
                       Num.Doc.Iden.
                     </Typography>
                     <TextField
-                      value={documentoIdentidad || selectCliente.numDocumento}
+                      value={documentoIdentidad}
                       fullWidth
                       autoComplete="off"
                       onChange={(e) => {
