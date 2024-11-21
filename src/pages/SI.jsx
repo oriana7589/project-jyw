@@ -94,7 +94,7 @@ const SI = ({
                           ? "rgba(0, 0, 0, 0.1)" // Color de fondo cuando el mouse está sobre el elemento
                           : "white",
                     }}
-                    onClick={() => handleItemSIClick(item.codigoInterno)}
+                    onDoubleClick={() => handleItemSIClick(item.codigoInterno)}
                     onMouseEnter={() => handleItemHover(item.codigoInterno)}
                     onMouseLeave={handleItemLeave}
                   >
@@ -163,7 +163,7 @@ const SI = ({
                           ? "rgba(0, 0, 0, 0.1)" // Color de fondo cuando el mouse está sobre el elemento
                           : "white",
                     }}
-                    onClick={() => handleItemSIClick(item.codigoInterno)}
+                    onDoubleClick={() => handleItemSIClick(item.codigoInterno)}
                     onMouseEnter={() => handleItemHover(item.codigoInterno)}
                     onMouseLeave={handleItemLeave}
                   >
@@ -247,7 +247,7 @@ const SI = ({
                           ? "rgba(0, 0, 0, 0.1)" // Color de fondo cuando el mouse está sobre el elemento
                           : "white",
                     }}
-                    onClick={() => handleItemSIClick(item.codigoInterno)}
+                    onDoubleClick={() => handleItemSIClick(item.codigoInterno)}
                     onMouseEnter={() => handleItemHover(item.codigoInterno)}
                     onMouseLeave={handleItemLeave}
                   >
@@ -331,7 +331,7 @@ const SI = ({
                           ? "rgba(0, 0, 0, 0.1)" // Color de fondo cuando el mouse está sobre el elemento
                           : "white",
                     }}
-                    onClick={() => handleItemSIClick(item.codigoInterno)}
+                    onDoubleClick={() => handleItemSIClick(item.codigoInterno)}
                     onMouseEnter={() => handleItemHover(item.codigoInterno)}
                     onMouseLeave={handleItemLeave}
                   >
@@ -415,7 +415,7 @@ const SI = ({
                           ? "rgba(0, 0, 0, 0.1)" // Color de fondo cuando el mouse está sobre el elemento
                           : "white",
                     }}
-                    onClick={() => handleItemSIClick(item.codigoInterno)}
+                    onDoubleClick={() => handleItemSIClick(item.codigoInterno)}
                     onMouseEnter={() => handleItemHover(item.codigoInterno)}
                     onMouseLeave={handleItemLeave}
                   >
@@ -503,7 +503,7 @@ const SI = ({
                             ? "rgba(0, 0, 0, 0.1)" // Color de fondo cuando el mouse está sobre el elemento
                             : "white",
                       }}
-                      onClick={() => handleItemSIClick(item.codigoInterno)}
+                      onDoubleClick={() => handleItemSIClick(item.codigoInterno)}
                       onMouseEnter={() => handleItemHover(item.codigoInterno)}
                       onMouseLeave={handleItemLeave}
                     >
