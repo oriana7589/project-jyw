@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {Select,TextField,MenuItem,Typography,Autocomplete,Paper} from "@mui/material";
 import Decimal from "decimal.js";
 import contenidoCombos from "../../utils/ContenidoCombos.json";
@@ -16,51 +16,34 @@ function EditarCliente({
     setTabValue,
     setClientes,
     criterioBusqueda,
-    documentoIdentidad,
-    setDocumentoIdentidad,
-    representante,
-    setRepresentante,
-    direccion,
-    setDireccion,
-    vendedor,
-    setVendedor,
-    dniRepresentante,
-    setDniRepresentante,
-    telefono1,
-    setTelefono1,
-    telefono2,
-    setTelefono2,
-    celular,
-    setCelular,
-    correo,
-    setCorreo,
-    razonSocial,
-    setRazonSocial,
-    tipoDocumentoSeleccionado,
-    setTipoDocumentoSeleccionado,
-    estadoSeleccionado,
-    setEstadoSeleccionado,
-    tipoClienteSeleccionado,
-    setTipoClienteSeleccionado,
-    tipoConsumidorSeleccionado,
-    setTipoConsumidorSeleccionado,
-    paises,
-    setPaises,
-    departamentos,
-    setDepartamentos,
-    provincias,
-    setProvincias,
-    distritos,
-    setDistritos,
-    paisSeleccionado,
-    setPaisSeleccionado,
-    departamentoSeleccionado,
-    setDepartamentoSeleccionado,
-    provinciaSeleccionada,
-    setProvinciaSeleccionada,
-    distritoSeleccionado,
-    setDistritoSeleccionado,
 }) {
+
+  const [documentoIdentidad, setDocumentoIdentidad] = useState("");
+  const [representante, setRepresentante] = useState("");
+  const [direccion, setDireccion] = useState("");
+  const [vendedor, setVendedor] = useState("");
+  const [dniRepresentante, setDniRepresentante] = useState("");
+  const [telefono1, setTelefono1] = useState("");
+  const [telefono2, setTelefono2] = useState("");
+  const [celular, setCelular] = useState("");
+  const [correo, setCorreo] = useState("");
+  const [tipoDocumento, setTipoDocumento] = useState("");
+  const [razonSocial, setRazonSocial] = useState("");
+  const [clipro, setClipro] = useState("");
+  const [tipoDocumentoSeleccionado, setTipoDocumentoSeleccionado] = useState("");
+  const [estadoSeleccionado, setEstadoSeleccionado] = useState("");
+  const [tipoClienteSeleccionado, setTipoClienteSeleccionado] = useState("");
+  const [tipoConsumidorSeleccionado, setTipoConsumidorSeleccionado] = useState("");
+
+  //Combos de ubicacion
+  const [paises, setPaises] = useState([]);
+  const [departamentos, setDepartamentos] = useState([]);
+  const [provincias, setProvincias] = useState([]);
+  const [distritos, setDistritos] = useState([]);
+  const [paisSeleccionado, setPaisSeleccionado] = useState(null);
+  const [departamentoSeleccionado, setDepartamentoSeleccionado] = useState(null);
+  const [provinciaSeleccionada, setProvinciaSeleccionada] = useState(null);
+  const [distritoSeleccionado, setDistritoSeleccionado] = useState(null);
 
   useEffect(() => {
     setPaises(listaDistritos);

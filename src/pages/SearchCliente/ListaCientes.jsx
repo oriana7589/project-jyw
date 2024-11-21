@@ -16,32 +16,6 @@ const ListaClientes = () => {
   const [listaDistritos, setListaDistritos] = useState("");
   const [searchTriggered, setSearchTriggered] = useState(false); // Si se ha buscado
   const [isLoading, setIsLoading] = useState(false); // Estado de carga
-  const [documentoIdentidad, setDocumentoIdentidad] = useState("");
-  const [representante, setRepresentante] = useState("");
-  const [direccion, setDireccion] = useState("");
-  const [vendedor, setVendedor] = useState("");
-  const [dniRepresentante, setDniRepresentante] = useState("");
-  const [telefono1, setTelefono1] = useState("");
-  const [telefono2, setTelefono2] = useState("");
-  const [celular, setCelular] = useState("");
-  const [correo, setCorreo] = useState("");
-  const [tipoDocumento, setTipoDocumento] = useState("");
-  const [razonSocial, setRazonSocial] = useState("");
-  const [clipro, setClipro] = useState("");
-  const [tipoDocumentoSeleccionado, setTipoDocumentoSeleccionado] = useState("");
-  const [estadoSeleccionado, setEstadoSeleccionado] = useState("");
-  const [tipoClienteSeleccionado, setTipoClienteSeleccionado] = useState("");
-  const [tipoConsumidorSeleccionado, setTipoConsumidorSeleccionado] = useState("");
-
-  //Combos de ubicacion
-  const [paises, setPaises] = useState([]);
-  const [departamentos, setDepartamentos] = useState([]);
-  const [provincias, setProvincias] = useState([]);
-  const [distritos, setDistritos] = useState([]);
-  const [paisSeleccionado, setPaisSeleccionado] = useState(null);
-  const [departamentoSeleccionado, setDepartamentoSeleccionado] = useState(null);
-  const [provinciaSeleccionada, setProvinciaSeleccionada] = useState(null);
-  const [distritoSeleccionado, setDistritoSeleccionado] = useState(null);
 
   useEffect(() => {
     getDistritos();
@@ -86,26 +60,7 @@ const ListaClientes = () => {
   };
   
   const limpiarEstados = () => {
-    setDocumentoIdentidad("");
-    setRepresentante("");
-    setDireccion("");
-    setVendedor("");
-    setDniRepresentante("");
-    setTelefono1("");
-    setTelefono2("");
-    setCelular("");
-    setCorreo("");
-    setTipoDocumento("");
-    setRazonSocial("");
-    setClipro("");
-    setTipoDocumentoSeleccionado("");
-    setEstadoSeleccionado("");
-    setTipoClienteSeleccionado("");
-    setTipoConsumidorSeleccionado("");
-    setPaisSeleccionado(null);
-    setDepartamentoSeleccionado(null);
-    setProvinciaSeleccionada(null);
-    setDistritoSeleccionado(null);
+    setSelectCliente("");
   };
 
   useEffect(() => {}, [tabValue, handleEditClick]);
@@ -153,56 +108,6 @@ const ListaClientes = () => {
             searchTriggered={searchTriggered}
             isLoading={isLoading}
             setIsLoading={setIsLoading}
-            // Estados relacionados con el formulario
-            documentoIdentidad={documentoIdentidad}
-            setDocumentoIdentidad={setDocumentoIdentidad}
-            representante={representante}
-            setRepresentante={setRepresentante}
-            direccion={direccion}
-            setDireccion={setDireccion}
-            vendedor={vendedor}
-            setVendedor={setVendedor}
-            dniRepresentante={dniRepresentante}
-            setDniRepresentante={setDniRepresentante}
-            telefono1={telefono1}
-            setTelefono1={setTelefono1}
-            telefono2={telefono2}
-            setTelefono2={setTelefono2}
-            celular={celular}
-            setCelular={setCelular}
-            correo={correo}
-            setCorreo={setCorreo}
-            tipoDocumento={tipoDocumento}
-            setTipoDocumento={setTipoDocumento}
-            razonSocial={razonSocial}
-            setRazonSocial={setRazonSocial}
-            clipro={clipro}
-            setClipro={setClipro}
-            tipoDocumentoSeleccionado={tipoDocumentoSeleccionado}
-            setTipoDocumentoSeleccionado={setTipoDocumentoSeleccionado}
-            estadoSeleccionado={estadoSeleccionado}
-            setEstadoSeleccionado={setEstadoSeleccionado}
-            tipoClienteSeleccionado={tipoClienteSeleccionado}
-            setTipoClienteSeleccionado={setTipoClienteSeleccionado}
-            tipoConsumidorSeleccionado={tipoConsumidorSeleccionado}
-            setTipoConsumidorSeleccionado={setTipoConsumidorSeleccionado}
-            // Combos de ubicación
-            paises={paises}
-            setPaises={setPaises}
-            departamentos={departamentos}
-            setDepartamentos={setDepartamentos}
-            provincias={provincias}
-            setProvincias={setProvincias}
-            distritos={distritos}
-            setDistritos={setDistritos}
-            paisSeleccionado={paisSeleccionado}
-            setPaisSeleccionado={setPaisSeleccionado}
-            departamentoSeleccionado={departamentoSeleccionado}
-            setDepartamentoSeleccionado={setDepartamentoSeleccionado}
-            provinciaSeleccionada={provinciaSeleccionada}
-            setProvinciaSeleccionada={setProvinciaSeleccionada}
-            distritoSeleccionado={distritoSeleccionado}
-            setDistritoSeleccionado={setDistritoSeleccionado}
           />
         </Collapse>
       </Card>
