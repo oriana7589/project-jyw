@@ -40,11 +40,11 @@ const data = [
 const FirstTable = ({ detalleProducto }) => {
   return (
     <div style={cardStyle}>
-    <div style={{...cardItemStyle,  maxWidth: "15%"}}>
+    <div style={{...cardItemStyle,  maxWidth: "12%"}}>
       <strong style={{  marginTop: "0.4rem" }}>LINEAS</strong>
       <Typography style={{ ...textItemCardStyle }}  > {detalleProducto.codigoLinea}</Typography>
     </div>
-    <div style={{...cardItemStyle,  maxWidth: "20%"}}>
+    <div style={{...cardItemStyle,  maxWidth: "23%"}}>
       <strong style={{  marginTop: "0.4rem" }}>CODIGO</strong>
       <Typography  variant="body1" style={{ ...textItemCardStyle }}>{detalleProducto.codigoArticulo}</Typography>
     </div>
@@ -61,11 +61,11 @@ const SecondTable = ({ detalleProducto, fechaLlegada }) => {
   const currentData = data;
   return (
     <div style={cardStyle}>
-    <div style={{...cardItemStyle,  maxWidth: "15%"}}>
+    <div style={{...cardItemStyle,  maxWidth: "12%"}}>
       <strong style={{  marginTop: "0.4rem" }}>STOCK</strong>
       <Typography style={{ ...textItemCardStyle }}>   {detalleProducto.stockArticulo}</Typography>
     </div>
-    <div style={{...cardItemStyle,  maxWidth: "20%"}}>
+    <div style={{...cardItemStyle,  maxWidth: "23%"}}>
       <strong style={{  marginTop: "0.4rem" }}>MARCA</strong>
       <Typography style={{ ...textItemCardStyle }}>  {detalleProducto.descripcionMarca}</Typography>
     </div>
@@ -294,10 +294,12 @@ const ThirdTable = ({
                       inputProps={{ type: "text", inputMode: "numeric" }}
                       InputProps={{
                         style: {
-                          fontSize: "14px",
+                          fontSize: "16px",
                           width: "105px",
                           height: "35px",
                           textAlign: "center",
+                          marginLeft:14,
+                          marginBottom:5
                         },
                       }}
                     />
@@ -312,17 +314,17 @@ const ThirdTable = ({
                     colSpan="2"
                     style={{
                       display: "flex",
-                      justifyContent: "flex-end",
-                      textAlign: "right",
+                      
                     }}
                   >
                     <IconButton
                       style={{
                         border: "1px solid rgb(226, 52, 48)",
                         borderRadius: "50px",
-                        marginTop: "7px",
+                        marginTop: "5px",
                         width: "30px",
                         height: "30px",
+                        marginRight:5
                       }}
                       onClick={handleDecrement}
                     >
@@ -336,8 +338,6 @@ const ThirdTable = ({
                       variant="outlined"
                       autoComplete="off"
                       style={{
-                        margin: 10,
-                        marginTop: "5px",
                       }}
                       value={ticketCount}
                       onFocus={handleFocus}
@@ -346,10 +346,11 @@ const ThirdTable = ({
                       onKeyDown={(e) => handleKeyDown(e, descuentoARef, true)}
                       InputProps={{
                         style: {
-                          fontSize: "14px",
-                          width: "80px",
+                          fontSize: "16px",
+                          width: "105px",
                           height: "35px",
                           textAlign: "center",
+                          marginBottom:5,
                         },
                       }}
                     />
@@ -358,8 +359,9 @@ const ThirdTable = ({
                         border: "1px solid rgb(226, 52, 48)",
                         borderRadius: "50px",
                         width: "30px",
-                        marginTop: "7px",
+                        marginTop: "5px",
                         height: "30px",
+                        marginLeft:5
                       }}
                       onClick={handleIncrement}
                     >
@@ -389,10 +391,12 @@ const ThirdTable = ({
                       onKeyDown={(e) => handleKeyDown(e, descuentBRef, true)}
                       InputProps={{
                         style: {
-                          fontSize: "14px",
+                          fontSize: "16px",
                           width: "105px",
                           height: "35px",
                           textAlign: "center",
+                          marginBottom:5,
+                          marginLeft:14,
                         },
                         disabled: isChecked,
                       }}
@@ -415,10 +419,12 @@ const ThirdTable = ({
                       onKeyDown={(e) => handleKeyDown(e, codigoRef, false)}
                       InputProps={{
                         style: {
-                          fontSize: "14px",
+                          fontSize: "16px",
                           width: "105px",
                           height: "35px",
                           textAlign: "center",
+                          marginBottom:5,
+                          marginLeft:14,
                         },
                         disabled: isChecked,
                       }}
@@ -445,10 +451,11 @@ const ThirdTable = ({
                       onChange={handlPrecioFinalChange}
                       InputProps={{
                         style: {
-                          fontSize: "14px",
+                          fontSize: "16px",
                           width: "105px",
                           height: "35px",
                           textAlign: "center",
+                          marginLeft:14,
                         },
                         disabled: !isChecked,
                       }}
