@@ -67,6 +67,12 @@ function EditarAgencia({
     setEditingAgencia(null); // Asegúrate de que no haya ninguna agencia en edición
     setFormData({
       ...formData,
+      codigoPais: "",
+      codigoDepartamento: "",
+      codigoProvincia: "",
+      codigoDistrito: "",
+      telefono1: "",
+      telefono2: "",
       descripcionAgencia: "",
       direccion: "",
       codigoAgencia: "",
