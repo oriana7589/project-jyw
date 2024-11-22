@@ -60,7 +60,7 @@ const ListaClientes = () => {
   };
   
   const limpiarEstados = () => {
-    setSelectCliente("");
+    setSelectCliente([]);
   };
 
   useEffect(() => {}, [tabValue, handleEditClick]);
