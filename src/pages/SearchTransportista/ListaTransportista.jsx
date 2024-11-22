@@ -50,7 +50,7 @@ const ListaTransportista = () => {
     };
   
     const handleAgregarClick = () => {
-      setSelectTransportista("");
+      setSelectTransportista([]);
       setTabValue(1);
     };
   

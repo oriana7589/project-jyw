@@ -80,19 +80,19 @@ function EditarCliente({
   }, [provinciaSeleccionada]);
 
   useEffect(() => {
-    setTipoDocumentoSeleccionado(selectCliente.tipoDocumento);
-    setDocumentoIdentidad(selectCliente.numDocumento ? selectCliente.numDocumento.trim() : "");
-    setEstadoSeleccionado(selectCliente.estado);
-    setRazonSocial(selectCliente.razonSocial);
-    setTipoClienteSeleccionado(selectCliente.tipoClienteProveedor);
-    setTipoConsumidorSeleccionado(selectCliente.tipoConsumidor);
-    setDniRepresentante(selectCliente.dniRepresentanteLegal ? selectCliente.dniRepresentanteLegal.trim() : "");
-    setRepresentante(selectCliente.representanteLegal);
-    setDireccion(selectCliente.direccion);
-    setCorreo(selectCliente.correo);
-    setTelefono1(selectCliente.telefono1 ? selectCliente.telefono1.trim() : "");
-    setTelefono2(selectCliente.telefono2 ? selectCliente.telefono2.trim() : "");
-    setCelular(selectCliente.celular ? selectCliente.celular.trim() : "");
+    setTipoDocumentoSeleccionado(selectCliente.tipoDocumento || "");
+    setDocumentoIdentidad(selectCliente.numDocumento || "");
+    setEstadoSeleccionado(selectCliente.estado || "");
+    setRazonSocial(selectCliente.razonSocial || "");
+    setTipoClienteSeleccionado(selectCliente.tipoClienteProveedor || "");
+    setTipoConsumidorSeleccionado(selectCliente.tipoConsumidor || "");
+    setDniRepresentante(selectCliente.dniRepresentanteLegal || "");
+    setRepresentante(selectCliente.representanteLegal || "");
+    setDireccion(selectCliente.direccion || "");
+    setCorreo(selectCliente.correo || "");
+    setTelefono1(selectCliente.telefono1 || "");
+    setTelefono2(selectCliente.telefono2 || "");
+    setCelular(selectCliente.celular || "");
     if (selectCliente && selectCliente.codigoVendedor) {
       const vendedorSeleccionado = vendedores.find(
         (vendedor) => vendedor.codigoVendedor === selectCliente.codigoVendedor
@@ -102,6 +102,14 @@ function EditarCliente({
       setVendedor(null); // Limpia el estado si no hay código de vendedor
     }
   }, [selectCliente]);
+
+  useEffect(() => {
+    if (!selectCliente.codigoDepartamento) {
+      setDepartamentoSeleccionado(null);
+      setProvinciaSeleccionada(null);
+      setDistritoSeleccionado(null);
+    }
+  },[selectCliente]);
 
   useEffect(() => {
     if (paisSeleccionado) {
@@ -114,7 +122,7 @@ function EditarCliente({
         );
         setDepartamentoSeleccionado(deptoSeleccionado);
       }
-    }
+    }    
   }, [paisSeleccionado, selectCliente]);
 
   useEffect(() => {
