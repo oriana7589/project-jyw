@@ -19,6 +19,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import "react-toastify/dist/ReactToastify.css";
 import Decimal from "decimal.js";
+import { cardItemStyle, cardStyle, textItemCardStyle } from "../Styles/MenuStyles";
 Decimal.set({ precision: 10 });
 
 const data = [
@@ -38,26 +39,20 @@ const data = [
 // Primera tabla
 const FirstTable = ({ detalleProducto }) => {
   return (
-    <table style={{ borderCollapse: "collapse", width: "100%" }}>
-      <thead>
-        <tr>
-          <th style={{ textAlign: "center", width: "5%" }}>LINEAS</th>
-          <th style={{ textAlign: "center", width: "20%" }}>CODIGO</th>
-          <th style={{ textAlign: "center", width: "75%" }}>DESCRIPCIÓN</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td style={{ textAlign: "center" }}>{detalleProducto.codigoLinea}</td>
-          <td style={{ textAlign: "center" }}>
-            {detalleProducto.codigoArticulo}
-          </td>
-          <td style={{ textAlign: "center" }}>
-            {detalleProducto.descripcionArticulo}
-          </td>
-        </tr>
-      </tbody>
-    </table>
+    <div style={cardStyle}>
+    <div style={{...cardItemStyle,  maxWidth: "15%"}}>
+      <strong style={{  marginTop: "0.4rem" }}>LINEAS</strong>
+      <Typography style={{ ...textItemCardStyle }}  > {detalleProducto.codigoLinea}</Typography>
+    </div>
+    <div style={{...cardItemStyle,  maxWidth: "20%"}}>
+      <strong style={{  marginTop: "0.4rem" }}>CODIGO</strong>
+      <Typography  variant="body1" style={{ ...textItemCardStyle }}>{detalleProducto.codigoArticulo}</Typography>
+    </div>
+    <div style={{...cardItemStyle,  maxWidth: "65%"}}>
+      <strong style={{  marginTop: "0.4rem" }}>DESCRIPCIÓN</strong>
+      <Typography style={{ ...textItemCardStyle }} >{detalleProducto.descripcionArticulo}</Typography>
+    </div>
+  </div>
   );
 };
 
@@ -65,30 +60,24 @@ const FirstTable = ({ detalleProducto }) => {
 const SecondTable = ({ detalleProducto, fechaLlegada }) => {
   const currentData = data;
   return (
-    <table style={{ borderCollapse: "collapse", width: "100%", marginTop: 10 }}>
-      <thead>
-        <tr>
-          <th style={{ textAlign: "center", width: "5%" }}>STOCK</th>
-          <th style={{ textAlign: "center", width: "20%" }}>MARCA</th>
-          <th style={{ textAlign: "center" }}>ÚLT.LLEGADA</th>
-          <th style={{ textAlign: "center" }}>PRÓX.LLEGADA</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td style={{ textAlign: "center" }}>
-            {detalleProducto.stockArticulo}
-          </td>
-          <td style={{ textAlign: "center" }}>
-            {detalleProducto.descripcionMarca}
-          </td>
-          <td style={{ textAlign: "center" }}>
-            {fechaLlegada.FechaUltimaLlegada}
-          </td>
-          <td style={{ textAlign: "center" }}>{fechaLlegada.FechaLlegada}</td>
-        </tr>
-      </tbody>
-    </table>
+    <div style={cardStyle}>
+    <div style={{...cardItemStyle,  maxWidth: "20%"}}>
+      <strong style={{  marginTop: "0.4rem" }}>STOCK</strong>
+      <Typography style={{ ...textItemCardStyle }}>   {detalleProducto.stockArticulo}</Typography>
+    </div>
+    <div style={{...cardItemStyle,  maxWidth: "20%"}}>
+      <strong style={{  marginTop: "0.4rem" }}>MARCA</strong>
+      <Typography style={{ ...textItemCardStyle }}>  {detalleProducto.descripcionMarca}</Typography>
+    </div>
+    <div style={{...cardItemStyle,  maxWidth: "35%"}}>
+      <strong style={{  marginTop: "0.4rem" }}>ÚLT.LLEGADA</strong>
+      <Typography style={{ ...textItemCardStyle }}>  {fechaLlegada.FechaUltimaLlegada}</Typography>
+    </div>
+    <div style={{...cardItemStyle,  maxWidth: "35%"}}>
+      <strong style={{  marginTop: "0.4rem" }}>PRÓX.LLEGADA</strong>
+      <Typography style={{ ...textItemCardStyle }}> {fechaLlegada.FechaLlegada}</Typography>
+    </div>
+  </div>
   );
 };
 
