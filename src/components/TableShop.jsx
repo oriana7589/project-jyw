@@ -61,7 +61,7 @@ const SecondTable = ({ detalleProducto, fechaLlegada }) => {
   const currentData = data;
   return (
     <div style={cardStyle}>
-    <div style={{...cardItemStyle,  maxWidth: "20%"}}>
+    <div style={{...cardItemStyle,  maxWidth: "15%"}}>
       <strong style={{  marginTop: "0.4rem" }}>STOCK</strong>
       <Typography style={{ ...textItemCardStyle }}>   {detalleProducto.stockArticulo}</Typography>
     </div>
