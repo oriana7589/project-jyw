@@ -21,7 +21,7 @@ function EditarTransportista({
   setAgencias,
   listaDistritos,
 }) {
-  const [docuemntoIdentidad, setDocuemntoIdentidad] = useState("");
+  const [documentoIdentidad, setDocumentoIdentidad] = useState("");
   const [descripcionCorta, setDescripcionCorta] = useState("");
   const [razonSocial, setRazonSocial] = useState("");
   const [tipoDocumentoSeleccionado, setTipoDocumentoSeleccionado] = useState("");
@@ -36,7 +36,7 @@ function EditarTransportista({
     const transportistaData = {
       codigoTransportista: selectTransportista.codigoTransportista,
       tipoDocumento: tipoDocumentoSeleccionado || selectTransportista.tipoDocumento,
-      numeroDocumentoIdentidad: docuemntoIdentidad || selectTransportista.numeroDocumentoIdentidad.trim(), 
+      numeroDocumentoIdentidad: documentoIdentidad || selectTransportista.numeroDocumentoIdentidad.trim(), 
       razonSocial: razonSocial || selectTransportista.razonSocial,
       descripcionCorta: descripcionCorta || selectTransportista.descripcionCorta,
     };
@@ -71,11 +71,17 @@ function EditarTransportista({
     }
   };
 
+  useEffect(()=> {
+    if(!selectTransportista.codigoTransportista) {
+      setAgencias({});
+    }
+  },[selectTransportista])
+
   useEffect(() => {
-    setTipoDocumentoSeleccionado(selectTransportista.tipoDocumento );
-    setDocuemntoIdentidad(selectTransportista.numeroDocumentoIdentidad ? selectTransportista.numeroDocumentoIdentidad.trim() : "");  
-    setRazonSocial(selectTransportista.razonSocial);
-    setDescripcionCorta(  selectTransportista.descripcionCorta );
+    setTipoDocumentoSeleccionado(selectTransportista.tipoDocumento || "");
+    setDocumentoIdentidad(selectTransportista.numeroDocumentoIdentidad || "");  
+    setRazonSocial(selectTransportista.razonSocial || "");
+    setDescripcionCorta(  selectTransportista.descripcionCorta || "");
    
   },[selectTransportista]);
 
@@ -133,7 +139,7 @@ function EditarTransportista({
             <div style={{ display: "flex" }}>
               <div style={{}}>
                 <Typography style={{ fontWeight: "bold", width: 100 }}>
-                  Tipo Doc
+                  Tipo Doc.
                 </Typography>
                 <Select
                   id="tipoDoc-select"
@@ -155,18 +161,18 @@ function EditarTransportista({
               </div>
               <div style={{ paddingLeft: 25 }}>
                 <Typography style={{ fontWeight: "bold" }}>
-                  Num.Doc.Iden.
+                  Documento
                 </Typography>
                 <TextField
                   value={
-                    docuemntoIdentidad.trim()}
+                    documentoIdentidad.trim()}
                   fullWidth
                   autoComplete="off"
                   onChange={(e) => {
                     const value = e.target.value;
                     if (/^\d*$/.test(value)) {
                       // Solo permite números
-                      setDocuemntoIdentidad(value);
+                      setDocumentoIdentidad(value);
                     }
                   }}
                   onKeyDown={(e) => {
