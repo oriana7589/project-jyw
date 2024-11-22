@@ -71,11 +71,10 @@ export const cardStyle = {
 
 export const cardItemStyle = {
   flex: "1 1 calc(33.33% - 0rem)",
-  background:
-    "linear-gradient(180deg, rgb(225, 235, 242,25), rgba(225, 235, 242, 0.6), rgba(225, 235, 242, 0.1))",
-  borderRadius: "4px",
+  background:"rgb(255, 255, 255,25)",
+  borderRadius: "5px",
   textAlign: "center",
-  boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
+  boxShadow: "0 2px 8px rgba(0, 0, 0, 0.15)", // Elevación suave
   color: "rgb(0,0,0)",
   display: "flex",
   flexDirection: "column",
