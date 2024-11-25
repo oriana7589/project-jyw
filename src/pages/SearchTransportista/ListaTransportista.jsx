@@ -5,7 +5,6 @@ import ConsultaTransportista from "../SearchTransportista/ConsultaTransportista"
 import { getListaDeDistritos, getTransportista } from "../../Services/ApiService";
 import SearchBar from "../../Util/SearchBar";
 import ActionAddBotton from "../../Util/ActionAddBotton";
-import CustomScroll from "../../components/CustomScroll";
 import CustomScrollPage from "../../components/CustomScrollPage";
 const ListaTransportista = () => {
     const [transportista, setTransportista] = useState([]);

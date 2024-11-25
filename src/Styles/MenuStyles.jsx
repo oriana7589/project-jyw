@@ -105,3 +105,48 @@ export const descripcionCont = {
   fontSize: "0.9rem", 
   paddingLeft:5,
 }
+
+export const tableItem = {
+  textAlign: "center",
+  fontSize: "0.9rem",
+  backgroundColor: "rgb(255, 255, 255)",
+}
+export const tableItemColum = {
+  textAlign: "center",
+  fontSize: "0.9rem",
+  backgroundColor: "rgb(255, 168, 0)",
+  borderTop: "1px solid black",
+  paddingLeft: 7,
+  paddingRight: 7,
+}
+
+export const tableItemsCont = {
+  textAlign: "center",
+  fontSize: "0.9rem",
+  backgroundColor: "rgb(255, 168, 0)",
+  border: "1px solid black",
+}
+
+export const itemComp={
+  textAlign: "center",
+  fontSize: "0.9rem",
+  backgroundColor: "rgb(255, 168, 0)",
+  border: "1px solid black",
+  paddingLeft: 7,
+  paddingRight: 7,
+}
+
+export const descripItem = {
+  fontSize: "0.8rem",
+  padding: 0.5,
+  border: "1px solid black",
+  whiteSpace: "nowrap",
+  overflow: "hidden",
+}
+
+export const descriItem = {
+  fontSize: "0.8rem",
+  padding: 0.5,
+  border: "1px solid black",
+  whiteSpace: "nowrap",
+}

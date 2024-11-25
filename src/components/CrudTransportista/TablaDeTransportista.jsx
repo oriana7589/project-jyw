@@ -15,8 +15,6 @@ import { getAgenciaTransportista } from "../../Services/ApiService";
 import { tableCellStyle } from "../../Styles/MenuStyles";
 import LoadingIndicator from "../../Util/LoadingIndicator";
 import CenteredContent from "../../Util/CenteredContent";
-import CustomScrollPage from "../CustomScrollPage";
-import CustomScroll from "../CustomScroll";
 import CustomScrollTable from "../CustomScrollTable";
 const TablaDeTransportista = ({
   handleEditClick,
