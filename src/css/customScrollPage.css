@@ -1,0 +1,22 @@
+.custom-scroll-page {
+  height: 100%; /* Asegura que el contenedor ocupe toda la altura */
+  overflow: auto; /* Habilita el desplazamiento */
+}
+
+.custom-scroll-page::-webkit-scrollbar {
+  width: 10px; /* Ancho del scrollbar */
+  height: 10px; /* Altura del scrollbar horizontal */
+}
+
+.custom-scroll-page::-webkit-scrollbar-thumb {
+  background: #888; /* Color del thumb */
+  border-radius: 10px; /* Redondear el thumb */
+}
+
+.custom-scroll-page::-webkit-scrollbar-thumb:hover {
+  background: #555; /* Color del thumb al pasar el mouse */
+}
+
+.custom-scroll-page::-webkit-scrollbar-track {
+  background: #f1f1f1; /* Color del fondo del scrollbar */
+}

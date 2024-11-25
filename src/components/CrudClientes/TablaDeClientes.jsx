@@ -13,6 +13,7 @@ import "react-toastify/dist/ReactToastify.css";
 import CenteredContent from "../../Util/CenteredContent";
 import LoadingIndicator from "../../Util/LoadingIndicator";
 import { tableCellStyle } from "../../Styles/MenuStyles";
+import CustomScrollTable from "../CustomScrollTable";
 const TablaDeClientes = ({
   handleEditClick,
   clientes,
@@ -56,8 +57,9 @@ const TablaDeClientes = ({
     {/* Mostrar tabla si hay clientes */}
     {!isLoading && searchTriggered  && (
       <div style={{ overflow: "auto" }}>
-        <TableContainer style={{ maxHeight: 510 }}>
-          <Table
+        <TableContainer style={{  }}>
+        <CustomScrollTable style={{ maxHeight: "800px" }}>
+        <Table
             stickyHeader
             sx={{
               borderCollapse: "collapse",
@@ -150,6 +152,8 @@ const TablaDeClientes = ({
               )}
             </TableBody>
           </Table>
+          </CustomScrollTable>
+        
         </TableContainer>
       <TablePagination
           component="div"

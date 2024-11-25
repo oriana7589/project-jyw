@@ -45,9 +45,10 @@ export const styleBox = {
   borderRadius: "4px",
   paddingLeft: 5,
   fontSize: "14px",
+  width: "100%"
 };
 export const styleSelect = {
-  width: "170px",
+  width: "100%",
   height: "35px",
   fontSize: "14px",
   backgroundColor: "rgb(255,255,255)",
@@ -56,6 +57,7 @@ export const styleSelect = {
 export const textStyles = {
   fontSize: "14px",
   height: "35px",
+  width: "100%",
   textAlign: "center",
 };
 

@@ -5,6 +5,7 @@ import { getClientes,getListaDeDistritos, getListVendedores} from "../../Service
 import ConsultaClientes from "../SearchCliente/ConsultaClientes";
 import ActionAddBotton from "../../Util/ActionAddBotton";
 import SearchBar from "../../Util/SearchBar";
+import CustomScrollPage from "../../components/CustomScrollPage";
 
 const ListaClientes = () => {
   const [expandedPanels, setExpandedPanels] = useState([0]);
@@ -66,8 +67,9 @@ const ListaClientes = () => {
   useEffect(() => {}, [tabValue, handleEditClick]);
 
   return (
-    <React.Fragment>
-      <CssBaseline />
+    <CustomScrollPage style={{ height: "100vh" }}>
+       <div style={{ minWidth: "100vh" }}>
+        <React.Fragment>
       <Card sx={{ borderRadius: 0, boxShadow: "none" }}>
         <CardActions
           disableSpacing
@@ -87,7 +89,7 @@ const ListaClientes = () => {
             />
 
             <ActionAddBotton
-              label="Agregar Cliente"
+              label="Nuevo Cliente"
               onClick={handleAgregarClick}
               buttonStyles={{ backgroundColor: "rgb(226, 52, 48)", width: "200px" }} // Personalización opcional
               textStyles={{ fontSize: "1rem" }} // Personalización opcional
@@ -112,6 +114,8 @@ const ListaClientes = () => {
         </Collapse>
       </Card>
     </React.Fragment>
+    </div>
+   </CustomScrollPage>
   );
 };
 

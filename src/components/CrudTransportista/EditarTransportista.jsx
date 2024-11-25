@@ -117,7 +117,7 @@ function EditarTransportista({
       />
       <div style={{ overflow: "auto" }}>
         <div
-          style={{
+           style={{
             width: "100%",
             display: "flex",
             paddingTop: 5,

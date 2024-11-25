@@ -5,6 +5,8 @@ import ConsultaTransportista from "../SearchTransportista/ConsultaTransportista"
 import { getListaDeDistritos, getTransportista } from "../../Services/ApiService";
 import SearchBar from "../../Util/SearchBar";
 import ActionAddBotton from "../../Util/ActionAddBotton";
+import CustomScroll from "../../components/CustomScroll";
+import CustomScrollPage from "../../components/CustomScrollPage";
 const ListaTransportista = () => {
     const [transportista, setTransportista] = useState([]);
     const [expandedPanels, setExpandedPanels] = useState([0]);
@@ -57,8 +59,10 @@ const ListaTransportista = () => {
     useEffect(() => {}, [tabValue, handleEditClick]); 
 
     return (
-        <React.Fragment>
-          <CssBaseline />
+      <CustomScrollPage style={{ height: "100vh", overflowX: "auto" }}>
+      <CssBaseline />
+      <div style={{ minWidth: "100vh" }}>
+      <React.Fragment>
           <Card sx={{ borderRadius: 0, boxShadow: "none" }}>
             <CardActions
               disableSpacing
@@ -78,7 +82,7 @@ const ListaTransportista = () => {
                 />
 
                 <ActionAddBotton
-                label="Agregar T."
+                label="Nuevo Transportista"
                 onClick={handleAgregarClick}
                 buttonStyles={{ backgroundColor: "rgb(226, 52, 48)", width: "200px" }} // Personalización opcional
                 textStyles={{ fontSize: "1rem" }} // Personalización opcional
@@ -104,6 +108,9 @@ const ListaTransportista = () => {
             </Collapse>
           </Card>
         </React.Fragment>
+        </div>
+      
+        </CustomScrollPage>
       );
 };
 export default ListaTransportista;

@@ -290,8 +290,8 @@ function EditarCliente({
                 }}
               >
                 {/* Primer bloque de información */}
-                <div style={{ display: "flex", marginTop: 0 }}>
-                  <div>
+                <div style={{ display: "flex", marginTop: 0, height:"100%" }}>
+                <div style={{ flex: "1 1 30%" }}>
                     <Typography style={{ fontWeight: "bold", width: 100 }}>
                       Tipo Doc
                     </Typography>
@@ -311,7 +311,7 @@ function EditarCliente({
                       ))}
                     </Select>
                   </div>
-                  <div style={{ paddingLeft: 25 }}>
+                  <div style={{ flex: "1 1 30%",paddingLeft:10 }}>
                     <Typography style={{ fontWeight: "bold" }}>
                       Num.Doc.Iden.
                     </Typography>
@@ -336,15 +336,14 @@ function EditarCliente({
                       }}
                       style={{
                         height: 35,
-                        backgroundColor: "rgb(255,255,255)",
                       }}
                       variant="outlined"
                       InputProps={{
-                        style: {...textStyles ,width: "170px"},
+                        style: {...textStyles , backgroundColor: "rgb(255,255,255)",},
                       }}
                     />
                   </div>
-                  <div style={{ paddingLeft: 25 }}>
+                  <div style={{ flex: "1 1 30%",paddingLeft:10 }}>
                     <Typography sx={{ fontWeight: "bold" }}>Estado</Typography>
                     <Select
                       id="estado-select"
@@ -363,7 +362,7 @@ function EditarCliente({
 
                 {/* Segundo bloque de información */}
                 <div style={{ display: "flex", paddingTop: 10 }}>
-                  <div>
+                 <div style={{ flex: "1 1 30%" }}>
                     <Typography style={{ fontWeight: "bold" }}>
                       Razón social
                     </Typography>
@@ -378,7 +377,7 @@ function EditarCliente({
                       }}
                       variant="outlined"
                       InputProps={{
-                        style: {...textStyles ,width: "675px"},
+                        style: {...textStyles },
                       }}
                     />
                   </div>
@@ -386,7 +385,7 @@ function EditarCliente({
 
                 {/* Tercer bloque de información */}
                 <div style={{ display: "flex", paddingTop: 10 }}>
-                  <div>
+                <div style={{ flex: "1 1 30%" }}>
                     <Typography sx={{ fontWeight: "bold" }}>
                       Tipo Cliente
                     </Typography>
@@ -403,7 +402,7 @@ function EditarCliente({
                       ))}
                     </Select>
                   </div>
-                  <div style={{ paddingLeft: 25 }}>
+                  <div style={{ flex: "1 1 30%", paddingLeft:10 }}>
                     <Typography sx={{ fontWeight: "bold" }}>
                       Tipo Consumidor
                     </Typography>
@@ -423,7 +422,7 @@ function EditarCliente({
                       ))}
                     </Select>
                   </div>
-                  <div style={{ paddingLeft: 25 }}>
+                  <div style={{ flex: "1 1 30%", paddingLeft:10 }}>
                     <Typography style={{ fontWeight: "bold" }}>
                       DNI Representante
                     </Typography>
@@ -447,19 +446,19 @@ function EditarCliente({
                         }
                       }}
                       style={{
-                        height: 35,
-                        backgroundColor: "rgb(255,255,255)",
+                        height: 35
                       }}
                       variant="outlined"
                       InputProps={{
-                        style: {...textStyles ,width: "170px"},
+                        style: {...textStyles ,
+                          backgroundColor: "rgb(255,255,255)",},
                       }}
                     />
                   </div>
                 </div>
 
                 {/* Cuarto bloque de información */}
-                <div style={{ paddingTop: 10 }}>
+                <div style={{ flex: "1 1 30%" , paddingTop:10}}>
                   <Typography style={{ fontWeight: "bold" }}>
                     Representante
                   </Typography>
@@ -468,10 +467,10 @@ function EditarCliente({
                     fullWidth
                     autoComplete="off"
                     onChange={(e) => setRepresentante(e.target.value)}
-                    style={{ height: 35, backgroundColor: "rgb(255,255,255)" }}
+                    style={{ height: 35  }}
                     variant="outlined"
                     InputProps={{
-                      style: {...textStyles ,width: "675px"},
+                      style: {...textStyles ,backgroundColor: "rgb(255,255,255)"},
                     }}
                   />
                 </div>
@@ -489,7 +488,7 @@ function EditarCliente({
                 }}
               >
                 <div style={{ display: "flex" }}>
-                  <div>
+                 <div style={{ flex: "1 1 30%" }}>
                     <Typography style={{ fontWeight: "bold" }}>
                       Dirección
                     </Typography>
@@ -504,13 +503,13 @@ function EditarCliente({
                       }}
                       variant="outlined"
                       InputProps={{
-                        style: {...textStyles ,width: "675px"},
+                        style: {...textStyles },
                       }}
                     />
                   </div>
                 </div>
                 <div style={{ display: "flex", paddingTop: 10 }}>
-                  <div style={{}}>
+                <div style={{ flex: "1 1 25%" }}>
                     <Typography style={{ fontWeight: "bold", width: 100 }}>
                       País
                     </Typography>
@@ -528,13 +527,13 @@ function EditarCliente({
                           <input
                             type="text"
                             {...params.inputProps}
-                            style={{   ...styleBox, width: "150px" }}
+                            style={{   ...styleBox }}
                           />
                         </div>
                       )}
                     />
                   </div>
-                  <div style={{ paddingLeft: 25 }}>
+                  <div style={{ flex: "1 1 25%", paddingLeft:10 }}>
                     <Typography style={{ fontWeight: "bold" }}>
                       Departamento
                     </Typography>
@@ -549,14 +548,14 @@ function EditarCliente({
                           <input
                             type="text"
                             {...params.inputProps}
-                            style={{   ...styleBox, width: "150px" }}
+                            style={{   ...styleBox}}
                           />
                         </div>
                       )}
                       disabled={!paisSeleccionado}
                     />
                   </div>
-                  <div style={{ paddingLeft: 25 }}>
+                  <div style={{ flex: "1 1 25%", paddingLeft:10 }}>
                     <Typography style={{ fontWeight: "bold" }}>
                       Provincia
                     </Typography>
@@ -573,14 +572,14 @@ function EditarCliente({
                           <input
                             type="text"
                             {...params.inputProps}
-                            style={{   ...styleBox, width: "150px" }}
+                            style={{   ...styleBox }}
                           />
                         </div>
                       )}
                       disabled={!departamentoSeleccionado || !paisSeleccionado}
                     />
                   </div>
-                  <div style={{ paddingLeft: 25 }}>
+                  <div style={{ flex: "1 1 25%", paddingLeft:10 }}>
                     <Typography style={{ fontWeight: "bold" }}>
                       Distrito
                     </Typography>
@@ -596,7 +595,7 @@ function EditarCliente({
                           <input
                             type="text"
                             {...params.inputProps}
-                            style={{   ...styleBox, width: "150px" }}
+                            style={{   ...styleBox }}
                           />
                         </div>
                       )}
@@ -623,7 +622,7 @@ function EditarCliente({
                 }}
               >
                 <div style={{ display: "flex" }}>
-                  <div style={{}}>
+                <div style={{ flex: "1 1 63.5%" }}>
                     <Typography style={{ fontWeight: "bold", width: 100 }}>
                       Correo
                     </Typography>
@@ -638,11 +637,11 @@ function EditarCliente({
                       }}
                       variant="outlined"
                       InputProps={{
-                        style: {...textStyles ,width: "400px"},
+                        style: {...textStyles },
                       }}
                     />
                   </div>
-                  <div style={{ paddingLeft: 25 }}>
+                  <div style={{ flex: "1 1 30%", paddingLeft:10 }}>
                     <Typography style={{ fontWeight: "bold" }}>
                       Vendedor
                     </Typography>
@@ -661,7 +660,7 @@ function EditarCliente({
                           <input
                             type="text"
                             {...params.inputProps}
-                            style={{   ...styleBox, width: "150px" }}
+                            style={{   ...styleBox }}
                           />
                         </div>
                       )}
@@ -669,7 +668,7 @@ function EditarCliente({
                   </div>
                 </div>
                 <div style={{ display: "flex", paddingTop: 10 }}>
-                  <div style={{}}>
+                <div style={{ flex: "1 1 30%" }}>
                     <Typography
                       style={{
                         fontWeight: "bold",
@@ -704,11 +703,11 @@ function EditarCliente({
                       }}
                       variant="outlined"
                       InputProps={{
-                        style: {...textStyles ,width: "170px"},
+                        style: {...textStyles },
                       }}
                     />
                   </div>
-                  <div style={{ paddingLeft: 25 }}>
+                  <div style={{ flex: "1 1 30%", paddingLeft:10 }}>
                     <Typography
                       style={{
                         fontWeight: "bold",
@@ -743,11 +742,11 @@ function EditarCliente({
                       }}
                       variant="outlined"
                       InputProps={{
-                        style: {...textStyles ,width: "170px"},
+                        style: {...textStyles },
                       }}
                     />
                   </div>
-                  <div style={{ paddingLeft: 25 }}>
+                  <div style={{ flex: "1 1 30%", paddingLeft:10 }}>
                     <Typography
                       style={{
                         fontWeight: "bold",
@@ -782,7 +781,7 @@ function EditarCliente({
                       }}
                       variant="outlined"
                       InputProps={{
-                        style: {...textStyles ,width: "170px"},
+                        style: {...textStyles },
                       }}
                     />
                   </div>

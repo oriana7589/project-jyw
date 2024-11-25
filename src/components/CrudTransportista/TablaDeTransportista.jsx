@@ -15,6 +15,9 @@ import { getAgenciaTransportista } from "../../Services/ApiService";
 import { tableCellStyle } from "../../Styles/MenuStyles";
 import LoadingIndicator from "../../Util/LoadingIndicator";
 import CenteredContent from "../../Util/CenteredContent";
+import CustomScrollPage from "../CustomScrollPage";
+import CustomScroll from "../CustomScroll";
+import CustomScrollTable from "../CustomScrollTable";
 const TablaDeTransportista = ({
   handleEditClick,
   transportista,
@@ -82,9 +85,10 @@ const TablaDeTransportista = ({
 
       {/* Mostrar tabla si hay clientes */}
         {!isLoading && searchTriggered  && (
-              <div style={{ overflow: "auto" }}>
-                <TableContainer style={{ maxHeight: 610 }}>
-                  <Table
+              <div style={{ overflow: "hidden" }}>
+                 <CustomScrollTable style={{ maxHeight: "800px" }}>
+                 <TableContainer style={{  }}>
+                <Table
                     stickyHeader
                     sx={{
                       borderCollapse: "collapse",
@@ -198,8 +202,9 @@ const TablaDeTransportista = ({
                                               AGENCIAS
                                             </Typography>
                                             <TableContainer
-                                              style={{ maxHeight: 200, overflow: "auto" }}
+                                              style={{ maxHeight: 280, overflow: "auto" }}
                                             >
+                                              <CustomScrollTable style={{ maxHeight: "280px" }}>
                                               <Table size="small">
                                                 <TableHead>
                                                   <TableRow>
@@ -274,6 +279,8 @@ const TablaDeTransportista = ({
                                                   )}
                                                 </TableBody>
                                               </Table>
+                                              </CustomScrollTable>
+                                             
                                             </TableContainer>
                                           </Box>
                                         </Paper>
@@ -300,7 +307,11 @@ const TablaDeTransportista = ({
                         )}
                       </TableBody>
                   </Table>
+                 
                 </TableContainer>
+
+                 </CustomScrollTable>
+           
                 <TablePagination
                   component="div"
                   count={transportista.length}

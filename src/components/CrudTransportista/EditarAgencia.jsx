@@ -20,6 +20,8 @@ import {
 import FormularioAgencia from "./FormularioAgencia";
 import "react-toastify/dist/ReactToastify.css";
 import { toast, ToastContainer } from "react-toastify";
+import CustomScroll from "../CustomScroll";
+import CustomScrollPage from "../CustomScrollPage";
 function EditarAgencia({
   selectTransportista,
   listaDistritos,
@@ -49,7 +51,8 @@ function EditarAgencia({
   const [direccion, setDireccion] = useState("");
   const [telefono1, setTelefono1] = useState("");
   const [telefono2, setTelefono2] = useState("");
-
+ //const [activeRowId, setActiveRowId] = useState(null); 
+ const [showNewForm, setShowNewForm] = useState(false);
   //Combos de ubicacion
   const [paises, setPaises] = useState([]);
   const [departamentos, setDepartamentos] = useState([]);
@@ -61,11 +64,21 @@ function EditarAgencia({
     useState(null);
   const [provinciaSeleccionada, setProvinciaSeleccionada] = useState(null);
   const [distritoSeleccionado, setDistritoSeleccionado] = useState(null);
+  const [activeRowId, setActiveRowId] = useState(null); // ID de la fila activa
 
   const handleAddClick = () => {
-    setFormMode("add");
-    setEditingAgencia(null); // Asegúrate de que no haya ninguna agencia en edición
-    setFormData({
+    setShowNewForm((prev) => {
+      if (!prev) {
+        // Si estás abriendo "Nueva Agencia", cierra el formulario de edición
+        setActiveRowId(null);
+        setEditingAgencia(null);
+        setShowForm(false); // Cierra el formulario de edición si está abierto
+      }
+      return !prev; // Alterna el estado de "Nueva Agencia"
+    });
+
+  if (!showNewForm) {
+   setFormData({
       ...formData,
       codigoPais: "",
       codigoDepartamento: "",
@@ -77,13 +90,19 @@ function EditarAgencia({
       direccion: "",
       codigoAgencia: "",
     }); // Resetea los datos del formulario
-    setShowForm(!showForm); // Muestra el formulario
+  }
   };
 
   const handleEditClick = (agencia) => {
-    setFormMode("edit"); // Establece el modo en editar
-    setShowForm(!showForm);
-    setEditingAgencia(agencia); // Establece la agencia que se está editando
+    if (activeRowId === agencia.codigoAgencia) {
+      // Si haces clic en la misma fila, cierra el formulario
+      setActiveRowId(null);
+      setShowForm(false);
+    } else {
+      setShowNewForm(false);
+      setActiveRowId(agencia.codigoAgencia);
+      setFormMode("edit");
+      setEditingAgencia(agencia);// Establece la agencia que se está editando
     setFormData({
       ...formData,
       codigoPais: agencia.codigoPais,
@@ -96,6 +115,8 @@ function EditarAgencia({
       direccion: agencia.direccion,
       codigoAgencia: agencia.codigoAgencia,
     });
+      setShowForm(true);
+     }
   };
 
   const handleFormChange = (e) => {
@@ -140,7 +161,10 @@ function EditarAgencia({
       );
       setAgencias(updatedAgencias);
       setShowForm(false);
-      setEditingAgencia(null); // Restablece la agencia en edición
+      setActiveRowId(null); 
+      setEditingAgencia(null);
+      setShowNewForm(false);
+     // setShowNewForm(null); // Restablece la agencia en edición
     } catch (error) {
       toast.error(`${error}`);
     }
@@ -170,14 +194,14 @@ function EditarAgencia({
           onClick={handleAddClick}
         >
           <Typography style={{ color: "rgb(255, 255, 255)" }}>
-            Agregar Agencia
+            Nueva Agencia
           </Typography>
         </IconButton>
       </div>
 
       {/* Formulario para "Agregar" */}
-      {formMode === "add" && showForm && (
-        <Collapse in={showForm}>
+      { showNewForm  && (
+        <Collapse in={showNewForm}>
           <FormularioAgencia
             listaDistritos={listaDistritos}
             formData={formData}
@@ -213,12 +237,13 @@ function EditarAgencia({
 
       <TableContainer
         style={{
-          maxHeight: 400,
+          maxHeight: 485,
           overflow: "auto",
           border: "1px solid rgb(200, 200, 200)",
           borderRadius: "4px",
         }}
       >
+        <CustomScrollPage>
         <Table size="small">
           <TableHead>
             <TableRow>
@@ -253,11 +278,10 @@ function EditarAgencia({
 
                   {/* Formulario para "Editar" en cada fila */}
                   {formMode === "edit" &&
-                    showForm &&
-                    editingAgencia?.codigoAgencia === agencia.codigoAgencia && (
+                     activeRowId === agencia.codigoAgencia && (
                       <TableRow>
                         <TableCell colSpan={4} style={{ padding: 0 ,    backgroundColor: "rgb(251, 251, 251 )",}}>
-                          <Collapse in={showForm}>
+                          <Collapse in={activeRowId === agencia.codigoAgencia}>
                             <FormularioAgencia
                               listaDistritos={listaDistritos}
                               formData={formData}
@@ -309,6 +333,8 @@ function EditarAgencia({
             )}
           </TableBody>
         </Table>
+        </CustomScrollPage>
+        
       </TableContainer>
     </div>
   );
