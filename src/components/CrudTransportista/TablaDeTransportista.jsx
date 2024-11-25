@@ -157,9 +157,23 @@ const TablaDeTransportista = ({
                                       width: 20,
                                     }}
                                   >
-                                    <IconButton onClick={() => handleEditClick(item)}>
-                                      <EditIcon />
-                                    </IconButton>
+                                  <IconButton
+                                    style={{
+                                      backgroundColor: "rgb(182, 205, 229)",
+                                      borderRadius: "25px",
+                                      width: "36px",
+                                      height: "36px",
+                                    }}
+                                    onClick={() => handleEditClick(item)}
+                                  >
+                                    <EditIcon
+                                      style={{
+                                        color: "rgb(12, 55, 100)",
+                                        height: 20,
+                                        width: 20,
+                                      }}
+                                    />
+                                  </IconButton>
                                   </TableCell>
                                   <TableCell>
                                     <IconButton
@@ -180,9 +194,7 @@ const TablaDeTransportista = ({
                                     <TableCell
                                       colSpan={5}
                                       style={{
-                                        padding: 1,
-                                        paddingLeft: 25,
-                                        paddingRight: 25,
+                                        padding: 0,
                                       }}
                                     >
                                       <Collapse
@@ -191,7 +203,10 @@ const TablaDeTransportista = ({
                                         <Paper
                                           style={{
                                             borderRadius: 0,
-                                            backgroundColor: "rgb(249, 252, 255)",
+                                            paddingLeft: 25,
+                                            paddingRight: 25,
+                                            backgroundColor: "rgb(245, 245, 245)", 
+                                            boxShadow: "inset 0px 0px 5px 0px rgba(0, 0, 0, 0.2)"
                                           }}
                                         >
                                           <Box sx={{ paddingTop: 2, paddingLeft: 2 }}>
@@ -205,8 +220,8 @@ const TablaDeTransportista = ({
                                               style={{ maxHeight: 280, overflow: "auto" }}
                                             >
                                               <CustomScrollTable style={{ maxHeight: "280px" }}>
-                                              <Table size="small">
-                                                <TableHead>
+                                              <Table size="small" stickyHeader>
+                                                <TableHead >
                                                   <TableRow>
                                                     <TableCell
                                                       style={{
@@ -214,6 +229,7 @@ const TablaDeTransportista = ({
                                                         textAlign: "left",
                                                         fontSize: "1rem",
                                                         fontWeight: "bold",
+                                                        backgroundColor: "rgb(245, 245, 245)"
                                                       }}
                                                     >
                                                       Orden
@@ -224,6 +240,7 @@ const TablaDeTransportista = ({
                                                         textAlign: "left",
                                                         fontSize: "1rem",
                                                         fontWeight: "bold",
+                                                        backgroundColor: "rgb(245, 245, 245)"
                                                       }}
                                                     >
                                                       Nombre
@@ -234,6 +251,7 @@ const TablaDeTransportista = ({
                                                         textAlign: "left",
                                                         fontSize: "1rem",
                                                         fontWeight: "bold",
+                                                        backgroundColor: "rgb(245, 245, 245)"
                                                       }}
                                                     >
                                                       Dirección
@@ -247,7 +265,7 @@ const TablaDeTransportista = ({
                                                         <TableRow key={idx}>
                                                           <TableCell
                                                             style={{
-                                                              borderColor: "rgb(255,255,255)",
+                                                              borderColor: "rgb(200,200,200)",
                                                               paddingBottom: 15,
                                                             }}
                                                           >
@@ -255,14 +273,14 @@ const TablaDeTransportista = ({
                                                           </TableCell>
                                                           <TableCell
                                                             style={{
-                                                              borderColor: "rgb(255,255,255)",
+                                                              borderColor: "rgb(200,200,200)",
                                                             }}
                                                           >
                                                             {agencia.descripcionAgencia}
                                                           </TableCell>
                                                           <TableCell
                                                             style={{
-                                                              borderColor: "rgb(255,255,255)",
+                                                              borderColor: "rgb(200,200,200)",
                                                             }}
                                                           >
                                                             {agencia.direccion}

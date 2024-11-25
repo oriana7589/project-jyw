@@ -8,7 +8,7 @@ import {getAgenciaTransportista, getTransportista, postCrearTransportista, putMo
 } from "../../Services/ApiService";
 import EditarAgencia from "./EditarAgencia";
 import ActionSaveBotton from "../../Util/ActionSaveBotton";
-import { textStyles } from "../../Styles/MenuStyles";
+import { styleSelect, textStyles } from "../../Styles/MenuStyles";
 
 Decimal.set({ precision: 10 });
 
@@ -106,15 +106,6 @@ function EditarTransportista({
 
   return (
     <div style={{ width: "100%", paddingTop: 10 }}>
-      <ActionSaveBotton
-        onBackClick={() =>   handleIconClick()}
-        onSubmitClick={() =>   handleSubmit(event)}
-        submitLabel="Guardar transportista"
-        backIconStyle={{ backgroundColor: "rgb(237, 237, 237)" }}
-        submitButtonStyle={{ backgroundColor: "rgb(226, 52, 48)" }}
-        submitLabelStyle={{ fontSize: "16px" }}
-        baseButtonStyle={{ height: "35px", width: "180px" }}
-      />
       <div style={{ overflow: "auto" }}>
         <div
            style={{
@@ -131,13 +122,24 @@ function EditarTransportista({
               display: "flex",
               width: "100%",
               flexDirection: "column",
+              backgroundColor: "rgb(251, 251, 251 )",
             }}
           >
-            <Typography style={{ paddingBottom: 5 }}>
+            <ActionSaveBotton
+            onBackClick={() =>   handleIconClick()}
+            onSubmitClick={() =>   handleSubmit(event)}
+            submitLabel="Guardar transportista"
+            backIconStyle={{ backgroundColor: "rgb(237, 237, 237)" }}
+            submitButtonStyle={{ backgroundColor: "rgb(226, 52, 48)" }}
+            submitLabelStyle={{ fontSize: "16px" }}
+            baseButtonStyle={{ height: "35px", width: "180px" }}
+            />
+             <div style={{ marginLeft: 10, marginRight: 10 }}>
+             <Typography style={{ paddingBottom: 5 }}>
               <strong>DATOS DEL TRANSPORTISTA</strong>{" "}
             </Typography>
             <div style={{ display: "flex" }}>
-              <div style={{}}>
+            <div style={{ flex: "1 1 30%" }}>
                 <Typography style={{ fontWeight: "bold", width: 100 }}>
                   Tipo Doc.
                 </Typography>
@@ -147,7 +149,7 @@ function EditarTransportista({
                     tipoDocumentoSeleccionado 
                   }
                   onChange={handleTipoDocumentoChange}
-                  sx={{ width: "170px", height: "35px", fontSize: "14px" }}
+                  sx={{...styleSelect}}
                 >
                   {contenidoCombos.TipoDocumento.map((item) => (
                     <MenuItem
@@ -159,7 +161,7 @@ function EditarTransportista({
                   ))}
                 </Select>
               </div>
-              <div style={{ paddingLeft: 25 }}>
+              <div style={{ flex: "1 1 30%", paddingLeft:10 }}>
                 <Typography style={{ fontWeight: "bold" }}>
                   Documento
                 </Typography>
@@ -184,14 +186,14 @@ function EditarTransportista({
                       e.preventDefault(); // Evita la entrada de cualquier cosa que no sea un número
                     }
                   }}
-                  style={{ height: 35 }}
+                  style={{ height: 35,backgroundColor: "rgb(255,255,255)"  }}
                   variant="outlined"
                   InputProps={{
-                    style: { ... textStyles, width: "auto"},
+                    style: { ... textStyles},
                   }}
                 />
               </div>
-              <div style={{ paddingLeft: 25 }}>
+              <div style={{ flex: "1 1 30%", paddingLeft:10 }}>
                 <Typography style={{ fontWeight: "bold" }}>
                   Razón social
                 </Typography>
@@ -200,16 +202,16 @@ function EditarTransportista({
                   fullWidth
                   autoComplete="off"
                   onChange={(e) => setRazonSocial(e.target.value)}
-                  style={{ height: 35 }}
+                  style={{ height: 35, backgroundColor: "rgb(255,255,255)"  }}
                   variant="outlined"
                   InputProps={{
-                    style: { ... textStyles, width: "210px"},
+                    style: { ... textStyles},
                   }}
                 />
               </div>
             </div>
             <div style={{ display: "flex", paddingTop: 10 }}>
-              <div style={{}}>
+            <div style={{ flex: "1 1 30%" }}>
                 <Typography style={{ fontWeight: "bold" }}>
                   Descripción
                 </Typography>
@@ -219,14 +221,16 @@ function EditarTransportista({
                   fullWidth
                   autoComplete="off"
                   onChange={(e) => setDescripcionCorta(e.target.value)}
-                  style={{ height: 35 }}
+                  style={{ height: 35,backgroundColor: "rgb(255,255,255)"  }}
                   variant="outlined"
                   InputProps={{
-                    style: { ... textStyles, width: "450px"},
+                    style: { ... textStyles},
                   }}
                 />
               </div>
             </div>
+             </div>
+            
             <div
               style={{
                 width: "100%",

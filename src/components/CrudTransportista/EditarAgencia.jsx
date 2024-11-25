@@ -51,8 +51,8 @@ function EditarAgencia({
   const [direccion, setDireccion] = useState("");
   const [telefono1, setTelefono1] = useState("");
   const [telefono2, setTelefono2] = useState("");
- //const [activeRowId, setActiveRowId] = useState(null); 
- const [showNewForm, setShowNewForm] = useState(false);
+  //const [activeRowId, setActiveRowId] = useState(null);
+  const [showNewForm, setShowNewForm] = useState(false);
   //Combos de ubicacion
   const [paises, setPaises] = useState([]);
   const [departamentos, setDepartamentos] = useState([]);
@@ -77,20 +77,20 @@ function EditarAgencia({
       return !prev; // Alterna el estado de "Nueva Agencia"
     });
 
-  if (!showNewForm) {
-   setFormData({
-      ...formData,
-      codigoPais: "",
-      codigoDepartamento: "",
-      codigoProvincia: "",
-      codigoDistrito: "",
-      telefono1: "",
-      telefono2: "",
-      descripcionAgencia: "",
-      direccion: "",
-      codigoAgencia: "",
-    }); // Resetea los datos del formulario
-  }
+    if (!showNewForm) {
+      setFormData({
+        ...formData,
+        codigoPais: "",
+        codigoDepartamento: "",
+        codigoProvincia: "",
+        codigoDistrito: "",
+        telefono1: "",
+        telefono2: "",
+        descripcionAgencia: "",
+        direccion: "",
+        codigoAgencia: "",
+      }); // Resetea los datos del formulario
+    }
   };
 
   const handleEditClick = (agencia) => {
@@ -102,21 +102,21 @@ function EditarAgencia({
       setShowNewForm(false);
       setActiveRowId(agencia.codigoAgencia);
       setFormMode("edit");
-      setEditingAgencia(agencia);// Establece la agencia que se está editando
-    setFormData({
-      ...formData,
-      codigoPais: agencia.codigoPais,
-      codigoDepartamento: agencia.codigoDepartamento,
-      codigoProvincia: agencia.codigoProvincia,
-      codigoDistrito: agencia.codigoDistrito,
-      telefono1: agencia.telefono1,
-      telefono2: agencia.telefono2,
-      descripcionAgencia: agencia.descripcionAgencia,
-      direccion: agencia.direccion,
-      codigoAgencia: agencia.codigoAgencia,
-    });
+      setEditingAgencia(agencia); // Establece la agencia que se está editando
+      setFormData({
+        ...formData,
+        codigoPais: agencia.codigoPais,
+        codigoDepartamento: agencia.codigoDepartamento,
+        codigoProvincia: agencia.codigoProvincia,
+        codigoDistrito: agencia.codigoDistrito,
+        telefono1: agencia.telefono1,
+        telefono2: agencia.telefono2,
+        descripcionAgencia: agencia.descripcionAgencia,
+        direccion: agencia.direccion,
+        codigoAgencia: agencia.codigoAgencia,
+      });
       setShowForm(true);
-     }
+    }
   };
 
   const handleFormChange = (e) => {
@@ -161,10 +161,10 @@ function EditarAgencia({
       );
       setAgencias(updatedAgencias);
       setShowForm(false);
-      setActiveRowId(null); 
+      setActiveRowId(null);
       setEditingAgencia(null);
       setShowNewForm(false);
-     // setShowNewForm(null); // Restablece la agencia en edición
+      // setShowNewForm(null); // Restablece la agencia en edición
     } catch (error) {
       toast.error(`${error}`);
     }
@@ -200,7 +200,7 @@ function EditarAgencia({
       </div>
 
       {/* Formulario para "Agregar" */}
-      { showNewForm  && (
+      {showNewForm && (
         <Collapse in={showNewForm}>
           <FormularioAgencia
             listaDistritos={listaDistritos}
@@ -237,104 +237,149 @@ function EditarAgencia({
 
       <TableContainer
         style={{
-          maxHeight: 485,
+          maxHeight: 450,
           overflow: "auto",
           border: "1px solid rgb(200, 200, 200)",
           borderRadius: "4px",
         }}
       >
         <CustomScrollPage>
-        <Table size="small">
-          <TableHead>
-            <TableRow>
-              <TableCell style={{ backgroundColor: "rgb(226, 231, 235)" }}>
-                Orden
-              </TableCell>
-              <TableCell style={{ backgroundColor: "rgb(226, 231, 235)" }}>
-                Nombre
-              </TableCell>
-              <TableCell style={{ backgroundColor: "rgb(226, 231, 235)" }}>
-                Dirección
-              </TableCell>
-              <TableCell style={{ backgroundColor: "rgb(226, 231, 235)" }}>
-                Editar
-              </TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {agencias?.length > 0 ? (
-              agencias.map((agencia, idx) => (
-                <React.Fragment key={idx}>
-                  <TableRow>
-                    <TableCell>{idx + 1}</TableCell>
-                    <TableCell>{agencia.descripcionAgencia}</TableCell>
-                    <TableCell>{agencia.direccion}</TableCell>
-                    <TableCell>
-                      <IconButton onClick={() => handleEditClick(agencia)}>
-                        <EditIcon />
-                      </IconButton>
-                    </TableCell>
-                  </TableRow>
-
-                  {/* Formulario para "Editar" en cada fila */}
-                  {formMode === "edit" &&
-                     activeRowId === agencia.codigoAgencia && (
-                      <TableRow>
-                        <TableCell colSpan={4} style={{ padding: 0 ,    backgroundColor: "rgb(251, 251, 251 )",}}>
-                          <Collapse in={activeRowId === agencia.codigoAgencia}>
-                            <FormularioAgencia
-                              listaDistritos={listaDistritos}
-                              formData={formData}
-                              handleFormChange={handleFormChange}
-                              handleFormSubmit={handleFormSubmit}
-                              nombre={nombre}
-                              setNombre={setNombre}
-                              paises={paises}
-                              setPaises={setPaises}
-                              direccion={direccion}
-                              setDireccion={setDireccion}
-                              telefono1={telefono1}
-                              setTelefono1={setTelefono1}
-                              telefono2={telefono2}
-                              setTelefono2={setTelefono2}
-                              departamentos={departamentos}
-                              setDepartamentos={setDepartamentos}
-                              provincias={provincias}
-                              setProvincias={setProvincias}
-                              distritos={distritos}
-                              setDistritos={setDistritos}
-                              paisSeleccionado={paisSeleccionado}
-                              setPaisSeleccionado={setPaisSeleccionado}
-                              departamentoSeleccionado={
-                                departamentoSeleccionado
-                              }
-                              setDepartamentoSeleccionado={
-                                setDepartamentoSeleccionado
-                              }
-                              provinciaSeleccionada={provinciaSeleccionada}
-                              setProvinciaSeleccionada={
-                                setProvinciaSeleccionada
-                              }
-                              distritoSeleccionado={distritoSeleccionado}
-                              setDistritoSeleccionado={setDistritoSeleccionado}
-                            />
-                          </Collapse>
-                        </TableCell>
-                      </TableRow>
-                    )}
-                </React.Fragment>
-              ))
-            ) : (
+          <Table size="small">
+            <TableHead>
               <TableRow>
-                <TableCell colSpan={4} align="center">
-                  No hay agencias disponibles
+                <TableCell
+                  style={{
+                    width: "10%",
+                    backgroundColor: "rgb(226, 231, 235)",
+                  }}
+                >
+                  Orden
+                </TableCell>
+                <TableCell
+                  style={{
+                    width: "30%",
+                    backgroundColor: "rgb(226, 231, 235)",
+                  }}
+                >
+                  Nombre
+                </TableCell>
+                <TableCell
+                  style={{
+                    width: "50%",
+                    backgroundColor: "rgb(226, 231, 235)",
+                  }}
+                >
+                  Dirección
+                </TableCell>
+                <TableCell
+                  style={{
+                    width: "10%",
+                    backgroundColor: "rgb(226, 231, 235)",
+                  }}
+                >
+                  Editar
                 </TableCell>
               </TableRow>
-            )}
-          </TableBody>
-        </Table>
+            </TableHead>
+            <TableBody>
+              {agencias?.length > 0 ? (
+                agencias.map((agencia, idx) => (
+                  <React.Fragment key={idx}>
+                    <TableRow>
+                      <TableCell>{idx + 1}</TableCell>
+                      <TableCell>{agencia.descripcionAgencia}</TableCell>
+                      <TableCell>{agencia.direccion}</TableCell>
+                      <TableCell>
+                        <IconButton
+                          style={{
+                            backgroundColor: "rgb(182, 205, 229)",
+                            borderRadius: "25px",
+                            width: "36px",
+                            height: "36px",
+                          }}
+                          onClick={() => handleEditClick(agencia)}
+                        >
+                          <EditIcon
+                            style={{
+                              color: "rgb(12, 55, 100)",
+                              height: 20,
+                              width: 20,
+                            }}
+                          />
+                        </IconButton>
+                      </TableCell>
+                    </TableRow>
+
+                    {/* Formulario para "Editar" en cada fila */}
+                    {formMode === "edit" &&
+                      activeRowId === agencia.codigoAgencia && (
+                        <TableRow>
+                          <TableCell
+                            colSpan={4}
+                            style={{
+                              padding: 0,
+                              backgroundColor: "rgb(245, 245, 245)",
+                              boxShadow:
+                                "inset 0px 0px 5px 0px rgba(0, 0, 0, 0.2)",
+                            }}
+                          >
+                            <Collapse
+                              in={activeRowId === agencia.codigoAgencia}
+                            >
+                              <FormularioAgencia
+                                listaDistritos={listaDistritos}
+                                formData={formData}
+                                handleFormChange={handleFormChange}
+                                handleFormSubmit={handleFormSubmit}
+                                nombre={nombre}
+                                setNombre={setNombre}
+                                paises={paises}
+                                setPaises={setPaises}
+                                direccion={direccion}
+                                setDireccion={setDireccion}
+                                telefono1={telefono1}
+                                setTelefono1={setTelefono1}
+                                telefono2={telefono2}
+                                setTelefono2={setTelefono2}
+                                departamentos={departamentos}
+                                setDepartamentos={setDepartamentos}
+                                provincias={provincias}
+                                setProvincias={setProvincias}
+                                distritos={distritos}
+                                setDistritos={setDistritos}
+                                paisSeleccionado={paisSeleccionado}
+                                setPaisSeleccionado={setPaisSeleccionado}
+                                departamentoSeleccionado={
+                                  departamentoSeleccionado
+                                }
+                                setDepartamentoSeleccionado={
+                                  setDepartamentoSeleccionado
+                                }
+                                provinciaSeleccionada={provinciaSeleccionada}
+                                setProvinciaSeleccionada={
+                                  setProvinciaSeleccionada
+                                }
+                                distritoSeleccionado={distritoSeleccionado}
+                                setDistritoSeleccionado={
+                                  setDistritoSeleccionado
+                                }
+                              />
+                            </Collapse>
+                          </TableCell>
+                        </TableRow>
+                      )}
+                  </React.Fragment>
+                ))
+              ) : (
+                <TableRow>
+                  <TableCell colSpan={4} align="center">
+                    No hay agencias disponibles
+                  </TableCell>
+                </TableRow>
+              )}
+            </TableBody>
+          </Table>
         </CustomScrollPage>
-        
       </TableContainer>
     </div>
   );

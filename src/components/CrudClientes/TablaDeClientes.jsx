@@ -118,8 +118,8 @@ const TablaDeClientes = ({
                       style={{
                         backgroundColor: "rgb(182, 205, 229)",
                         borderRadius: "25px",
-                        width: "30px",
-                        height: "30px",
+                        width: "36px",
+                        height: "36px",
                       }}
                       onClick={() => handleEditClick(item)}
                     >

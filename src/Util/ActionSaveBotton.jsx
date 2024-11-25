@@ -16,7 +16,7 @@ const ActionSaveBotton = ({
       style={{
         display: "flex",
         justifyContent: "space-between",
-        padding: "10px 20px",
+        padding: "10px 0px",
       }}
     >
       <IconButton

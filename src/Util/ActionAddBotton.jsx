@@ -8,7 +8,13 @@ const ActionAddBotton = ({
   textStyles = {},
 }) => {
   return (
-    <Container sx={{ display: "flex" }}>
+    <div
+      style={{
+        display: "flex",
+        justifyContent: "space-between",
+        padding: "00px 5px",
+      }}
+    >
       <IconButton
         style={{
           backgroundColor: "rgb(226, 52, 48)",
@@ -32,7 +38,7 @@ const ActionAddBotton = ({
           {label}
         </Typography>
       </IconButton>
-    </Container>
+    </div>
   );
 };
 

@@ -247,15 +247,7 @@ function EditarCliente({
 
   return (
     <div style={{ width: "100%", paddingTop: 10 }}>
-      <ActionSaveBotton
-        onBackClick={() =>   handleIconClick()}
-        onSubmitClick={() =>   handleSubmit(event)}
-        submitLabel="Guardar cliente"
-        backIconStyle={{ backgroundColor: "rgb(237, 237, 237)" }}
-        submitButtonStyle={{ backgroundColor: "rgb(226, 52, 48)" }}
-        submitLabelStyle={{ fontSize: "16px" }}
-        baseButtonStyle={{ height: "35px", width: "160px" }}
-      />
+      
       <div style={{ overflow: "auto" }}>
         <div
           style={{
@@ -276,9 +268,19 @@ function EditarCliente({
               flexDirection: "column",
             }}
           >
+       
+            <ActionSaveBotton
+              onBackClick={() =>   handleIconClick()}
+              onSubmitClick={() =>   handleSubmit(event)}
+              submitLabel="Guardar cliente"
+              backIconStyle={{ backgroundColor: "rgb(237, 237, 237)" }}
+              submitButtonStyle={{ backgroundColor: "rgb(226, 52, 48)" }}
+              submitLabelStyle={{ fontSize: "16px" }}
+              baseButtonStyle={{ height: "35px", width: "160px" }}
+            />
             <div style={{ marginLeft: 10, marginRight: 10 }}>
               {/* Título del formulario */}
-              <Typography style={{ paddingTop: 10, marginLeft: 5 }}>
+              <Typography style={{ marginLeft: 5 }}>
                 <strong>DATOS DEL CLIENTE</strong>
               </Typography>
               {/* Contenedor del formulario */}

@@ -128,28 +128,27 @@ function FormularioAgencia({
         flexDirection: "column",
         gap: "10px",
         marginLeft:30,
-        marginBottom:10,
-        marginTop:10,
-        paddingRight: "20px",
-        backgroundColor: "rgb(251, 251, 251)"
+        marginBottom:20,
+        marginTop:20,
+        paddingRight: 30,
       }}
     >
       <div style={{ display: "flex" }}>
-        <div style={{}}>
+      <div style={{ flex: "1 1 60%" }}>
           <Typography style={{ fontWeight: "bold", width: "100%" }}>Descripción</Typography>
           <TextField
             value={nombre}
             fullWidth
             autoComplete="off"
             onChange={(e) => setNombre(e.target.value)}
-            style={{ height: 35 }}
+            style={{ height: 35,backgroundColor: "rgb(255,255,255)" }}
             variant="outlined"
             InputProps={{
-              style: { ... textStyles, width: "250px"},
+              style: { ... textStyles},
             }}
           />
         </div>
-        <div style={{ paddingLeft: 25 }}>
+        <div style={{ flex: "1 1 30%", paddingLeft:10 }}>
           <Typography style={{ fontWeight: "bold", width: 100 }}>
             Telefono 1
           </Typography>
@@ -172,14 +171,14 @@ function FormularioAgencia({
                 e.preventDefault();
               }
             }}
-            style={{ height: 35 }}
+            style={{ height: 35, backgroundColor: "rgb(255,255,255)" }}
             variant="outlined"
             InputProps={{
-              style: { ... textStyles, width: "170px"},
+              style: { ... textStyles},
             }}
           />
         </div>
-        <div style={{ paddingLeft: 25 }}>
+        <div style={{ flex: "1 1 30%", paddingLeft:10 }}>
         <Typography style={{ fontWeight: "bold", width: 100 }}>
             Telefono 2
           </Typography>
@@ -202,32 +201,32 @@ function FormularioAgencia({
                 e.preventDefault();
               }
             }}
-            style={{ height: 35 }}
+            style={{ height: 35, backgroundColor: "rgb(255,255,255)" }}
             variant="outlined"
             InputProps={{
-              style: { ... textStyles, width: "170px"},
+              style: { ... textStyles},
             }}
           />
         </div>
       </div>
       <div style={{ display: "flex"}}>
-        <div style={{}}>
+      <div style={{ flex: "1 1 30%"}}>
           <Typography style={{ fontWeight: "bold" }}>Dirección</Typography>
           <TextField
             value={direccion || formData.direccion}
             fullWidth
             autoComplete="off"
             onChange={(e) => setDireccion(e.target.value)}
-            style={{ height: 35 }}
+            style={{ height: 35 , backgroundColor: "rgb(255,255,255)"}}
             variant="outlined"
             InputProps={{
-              style: { ... textStyles, width: "450px"},
+              style: { ... textStyles},
             }}
           />
         </div>
         </div>
             <div style={{ display: "flex" }}>
-              <div style={{}}>
+            <div style={{ flex: "1 1 25%" }}>
                 <Typography style={{ fontWeight: "bold", width: 100 }}>
                   País
                 </Typography>
@@ -245,13 +244,13 @@ function FormularioAgencia({
                       <input
                         type="text"
                         {...params.inputProps}
-                        style={{   ...styleBox, width: "150px" }}
+                        style={{   ...styleBox }}
                       />
                     </div>
                   )}
                 />
               </div>
-              <div style={{ paddingLeft: 25 }}>
+              <div style={{ flex: "1 1 25%", paddingLeft:10 }}>
                 <Typography style={{ fontWeight: "bold" }}>
                   Departamento
                 </Typography>
@@ -267,14 +266,14 @@ function FormularioAgencia({
                       <input
                         type="text"
                         {...params.inputProps}
-                        style={{   ...styleBox, width: "150px" }}
+                        style={{   ...styleBox }}
                       />
                     </div>
                   )}
                   disabled={!paisSeleccionado}
                 />
               </div>
-              <div style={{ paddingLeft: 25 }}>
+              <div style={{ flex: "1 1 25%", paddingLeft:10 }}>
                 <Typography style={{ fontWeight: "bold" }}>
                   Provincia
                 </Typography>
@@ -290,14 +289,14 @@ function FormularioAgencia({
                       <input
                         type="text"
                         {...params.inputProps}
-                        style={{   ...styleBox, width: "150px" }}
+                        style={{   ...styleBox }}
                       />
                     </div>
                   )}
                   disabled={!departamentoSeleccionado || !paisSeleccionado}
                 />
               </div>
-              <div style={{ paddingLeft: 25 }}>
+              <div style={{ flex: "1 1 25%", paddingLeft:10 }}>
                 <Typography style={{ fontWeight: "bold" }}>Distrito</Typography>
                 <Autocomplete
                   options={distritos}
@@ -311,7 +310,7 @@ function FormularioAgencia({
                       <input
                         type="text"
                         {...params.inputProps}
-                        style={{   ...styleBox, width: "150px" }}
+                        style={{   ...styleBox}}
                       />
                     </div>
                   )}
@@ -323,7 +322,7 @@ function FormularioAgencia({
                 />
         </div>
       </div>
-      <div style={{display: "flex", justifyContent: "center"}}>
+      <div style={{display: "flex", justifyContent: "center", paddingTop:10, paddingBottom:5}}>
         <Button variant="contained" style={{backgroundColor:"rgb(12, 55, 100)", width: "50%"}} onClick={handleFormSubmit}>
           Guardar Cambios
         </Button>
