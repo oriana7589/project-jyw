@@ -12,6 +12,7 @@ import Result from "../image/result.png";
 import { Typography } from "@mui/material";
 import SquareSharpIcon from '@mui/icons-material/SquareSharp';
 import CustomScroll from "./CustomScroll";
+import { descripcionCont, descripcionItem } from "../Styles/MenuStyles";
 
 const TableComponent = ({ items, onProductSelect,itemsPerPage }) => {
   const [selectProductos, setSelectedProductos] = useState(null);
@@ -92,17 +93,17 @@ const TableComponent = ({ items, onProductSelect,itemsPerPage }) => {
            <table style={{ borderCollapse: 'collapse', border: 1, borderSpacing:"25px" , marginBottom:10}}>
             <thead style={{ position: "sticky", top: 0, zIndex: 1}} >
               <tr style={{ height: 20 }}>
-                <th style={{  fontSize: "0.9rem", paddingBottom:5,backgroundColor: "rgb(255,17,17)"}}></th>
-                <th style={{  fontSize: "0.9rem", paddingLeft:5}}>En travesia</th>
+                <th style={{  ...descripcionItem ,backgroundColor: "rgb(255,17,17)"}}></th>
+                <th style={{  ...descripcionCont}}>En travesia</th>
                 <th style={{ }}></th>
-                <th style={{ fontSize: "0.9rem", paddingBottom:5,backgroundColor: "rgb(251,255,170)",width:55}}></th>
-                <th style={{ fontSize: "0.9rem", paddingLeft:5 }}>Local</th>
+                <th style={{ ...descripcionItem ,backgroundColor: "rgb(251,255,170)",width:55}}></th>
+                <th style={{ ...descripcionCont }}>Local</th>
                 <th style={{ width:50}}></th>
-                <th style={{  fontSize: "0.9rem", paddingBottom:5,backgroundColor: "rgb(128,247,60)",width:55}}></th>
-                <th style={{ fontSize: "0.9rem", paddingLeft:5, textAlign:"left"}}>Original</th>
+                <th style={{ ...descripcionItem ,backgroundColor: "rgb(128,247,60)",width:55}}></th>
+                <th style={{ ...descripcionCont, textAlign:"left"}}>Original</th>
                 <th style={{ width:50}}></th>
-                <th style={{ fontSize: "0.9rem", paddingBottom:5,backgroundColor: "rgb(255, 168, 0)",width:55}}></th>
-                <th style={{  fontSize: "0.9rem", paddingLeft:5}}>Stock Total</th>
+                <th style={{ ...descripcionItem ,backgroundColor: "rgb(255, 168, 0)",width:55}}></th>
+                <th style={{ ...descripcionCont }}>Stock Total</th>
                 <th style={{ }}></th>
              </tr>
              <tr style={{ height: 8 }}>

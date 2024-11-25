@@ -14,6 +14,7 @@ import LlegadaProducto from "../components/ConsultasPrecios/LlegadaProducto";
 import VentasMensuales from "../components/ConsultasPrecios/VentasMensuales";
 import GraficaArticulo from "../components/ConsultasPrecios/GraficaArticulo";
 import DataTecnica from "../components/ConsultasPrecios/DataTecnica";
+import LoadingIndicator from "../Util/LoadingIndicator";
 
 const CustomClickableTab = styled(Tab)(({ theme, selected, clickable }) => ({
   color: selected
@@ -190,30 +191,7 @@ const PreciosStock = ({
             resumenDevoluciones={resumenDevoluciones}
           />
         ) : (
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "center",
-              alignItems: "center",
-              height: "584px",
-              width: "900px",
-              paddingLeft: 200,
-            }}
-          >
-            <img
-              src={Logo}
-              alt="Logo"
-              style={{ width: 120, height: 30, marginBottom: 20 }}
-            />
-            <CircularProgress
-              style={{
-                color: "rgb(12, 55, 100)",
-                height: "50px",
-                width: "50px",
-              }}
-            />
-          </div>
+          <LoadingIndicator/>
         )}
       </Box>
     </React.Fragment>

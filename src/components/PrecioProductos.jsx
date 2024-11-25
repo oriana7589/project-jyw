@@ -250,7 +250,7 @@ function PrecioProductos({
               Fecha de emision
             </Typography>
             <TextField
-              value={formatearFechaEmision(proformaSeleccionada.fechaEmision)}
+              value={formatearFechaEmision(proformaSeleccionada.fechaEmision || new Date().toISOString())}
               fullWidth
               style={{ height: 35 }}
               variant="outlined"
@@ -277,7 +277,7 @@ function PrecioProductos({
               disabled={formaPagos.codigoFormaPago !== "CRE" || proformaSeleccionada.estado === 'FAC'}
             >
               {" "}
-              <MenuItem value={cantidad}>{cantidad}</MenuItem>
+             
               <MenuItem value={0}>0</MenuItem>
               <MenuItem value={7}>7</MenuItem>
               <MenuItem value={15}>15</MenuItem>

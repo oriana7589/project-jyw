@@ -95,3 +95,13 @@ export const textItemCardStyle = {
   textAlign: "center",
   maxWidth: "100%",
 };
+
+export const descripcionItem = {
+   fontSize: "0.9rem", 
+   paddingBottom:5,
+}
+
+export const descripcionCont = {
+  fontSize: "0.9rem", 
+  paddingLeft:5,
+}

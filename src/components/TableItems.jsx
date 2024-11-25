@@ -115,7 +115,7 @@ const TableItems = ({
                       ? "rgba(0, 0, 0, 0.1)" // Color de fondo cuando el mouse está sobre el elemento
                       : "white",
                 }}
-                onClick={() => handleItemClick(item.codigoInterno)}
+                onDoubleClick={() => handleItemClick(item.codigoInterno)}
                 onMouseEnter={() => handleItemHover(item.codigoInterno)}
                 onMouseLeave={handleItemLeave}
               >
@@ -190,7 +190,7 @@ const TableItems = ({
                       ? "rgba(0, 0, 0, 0.1)" // Color de fondo cuando el mouse está sobre el elemento
                       : "white",
                 }}
-                onClick={() => handleItemClick(item.codigoInterno)}
+                onDoubleClick={() => handleItemClick(item.codigoInterno)}
                 onMouseEnter={() => handleItemHover(item.codigoInterno)}
                 onMouseLeave={handleItemLeave}
               >
