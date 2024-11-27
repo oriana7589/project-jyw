@@ -66,6 +66,7 @@ const ConsultasPrecios = () => {
     if (codigo === "") {
       toast.warning("Por favor, ingrese el primer campo");
     } else {
+      setIsLoading(false)
       setDatosDisponibles(true);
       getProdutosFiltrados(codigo, descripcion, marca).then(
         (tablaProductos) => {
@@ -237,6 +238,8 @@ const ConsultasPrecios = () => {
                   llegadaProducto={llegadaProducto}
                   resumenVentas={resumenVentas}
                   resumenDevoluciones={resumenDevoluciones}
+                  isLoading = {isLoading}
+                  setIsLoading = {setIsLoading}
                 />
               ) : (
                 <div

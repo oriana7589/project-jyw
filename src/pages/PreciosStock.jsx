@@ -47,7 +47,9 @@ const PestañaContenido = ({
   ultimasCompras,
   llegadaProducto,
   resumenDevoluciones,
-  resumenVentas
+  resumenVentas,
+  isLoading,
+  setIsLoading
 }) => {
   switch (value) {
     case 0:
@@ -57,6 +59,8 @@ const PestañaContenido = ({
           onProductSelect={onProductSelect}
           filaSeleccionada={filaSeleccionada}
           setFilaSeleccionada={setFilaSeleccionada}
+          isLoading = {isLoading}
+          setIsLoading = {setIsLoading}
         />
       );
     case 1:
@@ -105,6 +109,8 @@ const PreciosStock = ({
   llegadaProducto,
   resumenVentas,
   resumenDevoluciones,
+  isLoading,
+  setIsLoading
 }) => {
   const [tabValue, setTabValue] = useState(0);
 
@@ -189,6 +195,8 @@ const PreciosStock = ({
             llegadaProducto={llegadaProducto}
             resumenVentas={resumenVentas}
             resumenDevoluciones={resumenDevoluciones}
+            isLoading = {isLoading}
+            setIsLoading = {setIsLoading}
           />
         ) : (
           <LoadingIndicator/>
