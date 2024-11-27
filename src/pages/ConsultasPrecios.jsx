@@ -68,9 +68,12 @@ const ConsultasPrecios = () => {
     } else {
       setIsLoading(false)
       setDatosDisponibles(true);
+      console.log('isLoading antes', isLoading)
       getProdutosFiltrados(codigo, descripcion, marca).then(
         (tablaProductos) => {
           setProductos(tablaProductos);
+          setIsLoading(false);
+          console.log('isLoading despues', isLoading)
         }
       );
     }

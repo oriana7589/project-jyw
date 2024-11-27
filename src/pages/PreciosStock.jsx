@@ -118,6 +118,8 @@ const PreciosStock = ({
     setTabValue(newValue);
   };
 
+  console.log('isLoading', isLoading)
+
   return (
     <React.Fragment>
       <CssBaseline />
@@ -182,8 +184,7 @@ const PreciosStock = ({
             }}
             clickable="true"
           />
-        </CustomTabs>
-        {productos.length > 0 ? (
+        </CustomTabs>        
           <PestañaContenido
             value={tabValue}
             productos={productos}
@@ -197,10 +198,7 @@ const PreciosStock = ({
             resumenDevoluciones={resumenDevoluciones}
             isLoading = {isLoading}
             setIsLoading = {setIsLoading}
-          />
-        ) : (
-          <LoadingIndicator/>
-        )}
+          />    
       </Box>
     </React.Fragment>
   );

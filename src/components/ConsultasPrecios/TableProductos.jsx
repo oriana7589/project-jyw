@@ -28,6 +28,8 @@ const TableProductos = ({
   const [page, setPage] = useState(0);
   itemsPerPage = 14;
 
+  console.log('isLoading', isLoading)
+
  const handleRowDoubleClick = (datosItems) => {
     setSelectedProductos(datosItems);
     onProductSelect(datosItems);
