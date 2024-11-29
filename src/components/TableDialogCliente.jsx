@@ -40,13 +40,14 @@ const TableComponent = ({isLoading,setIsLoading, clientes, onClientSelect, items
     <div
       style={{
         padding: 10,
-        width: "850px",
+       
         overflow: "hidden",
         display: "grid",
         gridTemplateRows: "1fr auto",
         flexDirection: "column",
         alignItems: "center",
         justifyContent: "center",
+        width: "850px",
       }}
     >
       {isLoading ? ( // Si está cargando, muestra el indicador de carga

@@ -20,6 +20,7 @@ import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import "react-toastify/dist/ReactToastify.css";
 import Decimal from "decimal.js";
 import { cardItemStyle, cardStyle, textItemCardStyle } from "../Styles/MenuStyles";
+import { SaveOutlined } from "@mui/icons-material";
 Decimal.set({ precision: 10 });
 
 const data = [
@@ -495,9 +496,9 @@ const ThirdTable = ({
                             fontSize: "0.7rem",
                           }}
                         >
-                          EDITAR PRODUCTO
+                          GUARDAR EDICIÓN
                         </Typography>
-                        <EditIcon
+                        <SaveOutlined
                           style={{
                             color: "rgb(12, 55, 100)",
                             marginLeft: 3,
