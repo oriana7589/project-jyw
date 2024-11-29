@@ -11,7 +11,8 @@ export default function CreditosYCobranzas({
   letrasPendientes,
   totalPendiente,
   promedioDias,
-  promedioCredito
+  promedioCredito,
+  isLoading
 }) {
   return (
     <React.Fragment>
@@ -30,6 +31,7 @@ export default function CreditosYCobranzas({
             totalPendiente={totalPendiente}
             documentosPendientes={documentosPendientes}
             letrasPendientes={letrasPendientes}
+            isLoading= {isLoading}
           />
         </div>
         <div style={{ flex: 1 }}>

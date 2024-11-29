@@ -10,29 +10,14 @@ import TablePagination from "@mui/material/TablePagination";
 import Logo from "../image/logo.png";
 import Result from "../image/result.png";
 import { Typography } from "@mui/material";
+import NoResults from "../Util/NoResults";
+import LoadingIndicator from "../Util/LoadingIndicator";
 
-const TableComponent = ({ clientes, onClientSelect, itemsPerPage }) => {
+const TableComponent = ({isLoading,setIsLoading, clientes, onClientSelect, itemsPerPage }) => {
   const [selectedClient, setSelectedClient] = useState(null);
   const [highlightedRow, setHighlightedRow] = useState(null);
-  const [isLoading, setIsLoading] = useState(true); // Estado de carga
   const [page, setPage] = useState(0);
   itemsPerPage = 10;
-  
-  useEffect(() => {
-    // Simular una carga de datos con un retraso de 1.5 segundos
-    const timer = setTimeout(() => {
-      setIsLoading(false);
-    }, 2500);
-  
-    // Limpia el temporizador en caso de que el componente se desmonte antes de que se complete la carga
-    return () => clearTimeout(timer);
-  }, []);
-
-  useEffect(() => {
-    if (clientes.length > 0) {
-      setIsLoading(false);
-    }
-  }, [clientes]);
 
   const handleRowDoubleClick = (datosCliente) => {
     setSelectedClient(datosCliente);
@@ -59,28 +44,13 @@ const TableComponent = ({ clientes, onClientSelect, itemsPerPage }) => {
         overflow: "hidden",
         display: "grid",
         gridTemplateRows: "1fr auto",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
       }}
     >
       {isLoading ? ( // Si está cargando, muestra el indicador de carga
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-            alignItems: "center",
-            height: "300px",
-            width: "800px",
-          }}
-        >
-          <img src={Logo} alt="Logo" style={{ width: 120, height: 30, marginBottom:20 }} />
-          <CircularProgress
-            style={{
-              color: "rgb(12, 55, 100)",
-              height: "50px",
-              width: "50px",
-            }}
-          />
-        </div>
+        <LoadingIndicator height={300}/>
       ) : clientes.length > 0 ? (
         <div style={{ overflow: "auto" }}>
           <TableContainer style={{ maxHeight: 515 }}>
@@ -191,19 +161,7 @@ const TableComponent = ({ clientes, onClientSelect, itemsPerPage }) => {
         </div>
       ) : (
         // Si no está cargando y no hay datos de clientes
-        <div
-          style={{display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-            alignItems: "center",
-            textAlign: "center",
-            height: "300px",
-            width: "800px"
-          }}
-        >
-        <img src={Result} alt="Logo" style={{ width: 180, height: 160 , opacity:0.7}} />
-         <Typography style={{color: "rgb(12, 55, 100)",  opacity:0.7,  fontWeight: "bold",}} fontSize={18}>No se encontraron resultados</Typography>
-        </div>
+        <NoResults imageSrc={Result}/>
       )}
     </div>
   );

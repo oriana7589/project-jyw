@@ -15,7 +15,7 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
 
   }));
 
-export default function DialogProductos({ openProduct, handleProductClose, items, onProductSelect }) {
+export default function DialogProductos({ isLoading, setIsLoading, openProduct, handleProductClose, items, onProductSelect }) {
     return (
         <React.Fragment>
           <BootstrapDialog
@@ -28,7 +28,8 @@ export default function DialogProductos({ openProduct, handleProductClose, items
             <DialogTitle sx={{ m: 0, p: 1.8 }} style={{backgroundColor: "rgb(12, 55, 100)", color:"rgb(255,255,255)"}} id="customized-dialog-title" >
              Busqueda de Productos
             </DialogTitle>
-           <TableDialogItems  items={items} onProductSelect = {onProductSelect}  />
+           <TableDialogItems  
+             isLoading={isLoading} setIsLoading={setIsLoading} items={items} onProductSelect = {onProductSelect}  />
           </BootstrapDialog>
         </React.Fragment>
       );

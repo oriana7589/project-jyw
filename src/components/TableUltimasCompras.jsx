@@ -6,24 +6,14 @@ import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
 import TableRow from "@mui/material/TableRow";
 import TablePagination from "@mui/material/TablePagination";
+import LoadingIndicator from "../Util/LoadingIndicator";
 
 
-const TableUltimasCompras = ({ ultimasCompras, itemsPerPage, setNumeroProforma, handleBuscarProforma }) => {
+const TableUltimasCompras = ({ isLoading, ultimasCompras, itemsPerPage, setNumeroProforma, handleBuscarProforma }) => {
   const [selectedClient, setSelectedClient] = useState(null);
   const [highlightedRow, setHighlightedRow] = useState(null);
-  const [isLoading, setIsLoading] = useState(true); // Estado de carga
   const [page, setPage] = useState(0);
   itemsPerPage = 12;
-  
-  useEffect(() => {
-    // Simular una carga de datos con un retraso de 1.5 segundos
-    const timer = setTimeout(() => {
-      setIsLoading(false);
-    }, 2500);
-  
-    // Limpia el temporizador en caso de que el componente se desmonte antes de que se complete la carga
-    return () => clearTimeout(timer);
-  }, []);
 
   const handleRowDoubleClick = (datosCliente) => {
     setSelectedClient(datosCliente);
@@ -52,8 +42,10 @@ const TableUltimasCompras = ({ ultimasCompras, itemsPerPage, setNumeroProforma, 
         display: "grid",
         gridTemplateRows: "1fr auto",
       }}
-    >
-        <div style={{ overflow: "auto" }}>
+    > {isLoading ? (
+      <LoadingIndicator/>
+    ): (
+      <div style={{ overflow: "auto" }}>
           <TableContainer style={{ maxHeight: 580 }}>
             <Table
               stickyHeader
@@ -169,7 +161,8 @@ const TableUltimasCompras = ({ ultimasCompras, itemsPerPage, setNumeroProforma, 
                 </TableRow>
               </TableHead>
               <TableBody>
-                {ultimasCompras
+              {ultimasCompras.length > 0 ? (
+                ultimasCompras
                   .slice(page * itemsPerPage, (page + 1) * itemsPerPage)
                   .map((item, index) => (
                     <TableRow
@@ -198,7 +191,23 @@ const TableUltimasCompras = ({ ultimasCompras, itemsPerPage, setNumeroProforma, 
                       <TableCell style={{textAlign: "left",paddingLeft: "10px",fontSize: "0.9rem"}}>{item.numFacElectronico}</TableCell>
                       <TableCell style={{textAlign: "left", paddingLeft: "10px",fontSize: "0.9rem"}}>{item.estadoCobranza}</TableCell>
                     </TableRow>
-                  ))}
+                     ))
+                    ) : (
+                      // Mostrar mensaje de "No se encontraron clientes" dentro de la tabla
+                      <TableRow>
+                      <TableCell
+                        colSpan={10} // Combinar las celdas
+                        style={{
+                          textAlign: "center",
+                          fontSize: "1rem",
+                          color: "#757575",
+                          padding: "20px 0",
+                        }}
+                      >
+                        No se encontraron ultimas compras
+                      </TableCell>
+                    </TableRow>
+                  )}
               </TableBody>
             </Table>
           </TableContainer>
@@ -211,6 +220,10 @@ const TableUltimasCompras = ({ ultimasCompras, itemsPerPage, setNumeroProforma, 
             rowsPerPageOptions={[itemsPerPage]}
           />
         </div>
+    )
+    
+    }
+        
     </div>
   );
 };

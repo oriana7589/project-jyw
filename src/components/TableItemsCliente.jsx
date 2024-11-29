@@ -141,7 +141,7 @@ EnhancedTableHead.propTypes = {
   rowCount: PropTypes.number.isRequired,
 };
 
-export default function TableItemsCliente({ itemsComprados, itemsPerPage }) {
+export default function TableItemsCliente({ isLoading, itemsComprados, itemsPerPage }) {
   const [order, setOrder] = React.useState("desc");
   const [orderBy, setOrderBy] = React.useState("calories");
   const [selected, setSelected] = React.useState([]);
@@ -222,99 +222,122 @@ export default function TableItemsCliente({ itemsComprados, itemsPerPage }) {
         display: "grid",
         gridTemplateRows: "1fr auto",
       }}
-    >
+    > {isLoading ? (
+      <LoadingIndicator/>
+    ): (
+      <div>
       <TableContainer style={{ maxHeight: 580 }}>
-        <Table
-          stickyHeader
-          sx={{ minWidth: 750 }}
-          aria-labelledby="tableTitle"
-          size={dense ? "small" : "medium"}
+          <Table
+            stickyHeader
+            sx={{ minWidth: 750 }}
+            aria-labelledby="tableTitle"
+            size={dense ? "small" : "medium"}
+          >
+            <EnhancedTableHead
+              numSelected={selected.length}
+              order={order}
+              orderBy={orderBy}
+              onSelectAllClick={handleSelectAllClick}
+              onRequestSort={handleRequestSort}
+              rowCount={itemsComprados.length}
+            />
+            <TableBody>
+            {visibleRows.length > 0 ? (
+              visibleRows.map((row, index) => {
+                const isItemSelected = isSelected(row.id);
+                const labelId = `enhanced-table-checkbox-${index}`;
+                return (
+                  <TableRow key={row.id}>
+                    <TableCell style={{ textAlign: "left", fontSize: "0.8rem" }}>
+                      {row.codigoArticulo}
+                    </TableCell>
+                    <TableCell
+                      style={{
+                        textAlign: "left",
+                        padding: "8px",
+                        fontSize: "0.8rem",
+                      }}
+                    >
+                      {row.descripcionArticulo}
+                    </TableCell>
+                    <TableCell
+                      style={{
+                        textAlign: "center",
+                        padding: "8px",
+                        fontSize: "0.8rem",
+                      }}
+                    >
+                      {row.descripcionMarca}
+                    </TableCell>
+                    <TableCell
+                      style={{
+                        textAlign: "center",
+                        padding: "8px",
+                        fontSize: "0.8rem",
+                      }}
+                    >
+                      {row.codigoLinea}
+                    </TableCell>
+                    <TableCell
+                      style={{
+                        textAlign: "center",
+                        padding: "8px",
+                        fontSize: "0.8rem",
+                      }}
+                    >
+                      {row.cantidad}
+                    </TableCell>
+                    <TableCell
+                      style={{
+                        textAlign: "center",
+                        padding: "8px",
+                        fontSize: "0.8rem",
+                      }}
+                    >
+                      {row.total}
+                    </TableCell>
+                  </TableRow>
+                 )})
+              ) : (
+                // Mostrar mensaje de "No se encontraron clientes" dentro de la tabla
+                <TableRow>
+                <TableCell
+                  colSpan={10} // Combinar las celdas
+                  style={{
+                    textAlign: "center",
+                    fontSize: "1rem",
+                    color: "#757575",
+                    padding: "20px 0",
+                  }}
+                >
+                  No se encontraron items mas comprados
+                </TableCell>
+              </TableRow>
+            )}
+            </TableBody>
+          </Table>
+        </TableContainer>
+        <div
+          style={{
+            position: "sticky",
+            bottom: 0,
+            backgroundColor: "white",
+            zIndex: 1,
+          }}
         >
-          <EnhancedTableHead
-            numSelected={selected.length}
-            order={order}
-            orderBy={orderBy}
-            onSelectAllClick={handleSelectAllClick}
-            onRequestSort={handleRequestSort}
-            rowCount={itemsComprados.length}
+          <TablePagination
+            component="div"
+            count={itemsComprados.length}
+            page={page}
+            onPageChange={handleChangePage}
+            rowsPerPage={itemsPerPage}
+            rowsPerPageOptions={[itemsPerPage]}
           />
-          <TableBody>
-            {visibleRows.map((row, index) => {
-              const isItemSelected = isSelected(row.id);
-              const labelId = `enhanced-table-checkbox-${index}`;
-              return (
-                <TableRow key={row.id}>
-                  <TableCell style={{ textAlign: "left", fontSize: "0.8rem" }}>
-                    {row.codigoArticulo}
-                  </TableCell>
-                  <TableCell
-                    style={{
-                      textAlign: "left",
-                      padding: "8px",
-                      fontSize: "0.8rem",
-                    }}
-                  >
-                    {row.descripcionArticulo}
-                  </TableCell>
-                  <TableCell
-                    style={{
-                      textAlign: "center",
-                      padding: "8px",
-                      fontSize: "0.8rem",
-                    }}
-                  >
-                    {row.descripcionMarca}
-                  </TableCell>
-                  <TableCell
-                    style={{
-                      textAlign: "center",
-                      padding: "8px",
-                      fontSize: "0.8rem",
-                    }}
-                  >
-                    {row.codigoLinea}
-                  </TableCell>
-                  <TableCell
-                    style={{
-                      textAlign: "center",
-                      padding: "8px",
-                      fontSize: "0.8rem",
-                    }}
-                  >
-                    {row.cantidad}
-                  </TableCell>
-                  <TableCell
-                    style={{
-                      textAlign: "center",
-                      padding: "8px",
-                      fontSize: "0.8rem",
-                    }}
-                  >
-                    {row.total}
-                  </TableCell>
-                </TableRow>
-              );
-            })}
-          </TableBody>
-        </Table>
-      </TableContainer>
-      <div
-        style={{
-          position: "sticky",
-          bottom: 0,
-          backgroundColor: "white",
-          zIndex: 1,
-        }}
-      >
-        <TablePagination
-          component="div"
-          count={itemsComprados.length}
-          page={page}
-          onPageChange={handleChangePage}
-          rowsPerPage={itemsPerPage}
-          rowsPerPageOptions={[itemsPerPage]}
-        />
+        </div>
       </div>
+    )}
+    
+      
     </div>
   );
 }

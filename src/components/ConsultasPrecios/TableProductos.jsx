@@ -14,6 +14,7 @@ import {
 } from "../../Styles/MenuStyles";
 import LoadingIndicator from "../../Util/LoadingIndicator";
 import NoResults from "../../Util/NoResults";
+import Result from "../../image/result.png"
 
 const TableProductos = ({
   productos,
@@ -27,8 +28,6 @@ const TableProductos = ({
   const [highlightedRow, setHighlightedRow] = useState(null);
   const [page, setPage] = useState(0);
   itemsPerPage = 14;
-
-  console.log('isLoading', isLoading)
 
  const handleRowDoubleClick = (datosItems) => {
     setSelectedProductos(datosItems);
@@ -64,7 +63,7 @@ const TableProductos = ({
     >
       {" "}
       {isLoading ? (
-        <LoadingIndicator />
+        <LoadingIndicator height={500} />
       ) : productos.length > 0 ? (
         <div style={{ width: "100%", paddingRight: 10 }}>
           <div style={{ position: "sticky", top: 0, zIndex: 1 }}>
@@ -431,7 +430,7 @@ const TableProductos = ({
           </div>
         </div>
       ) : (
-        <NoResults />
+        <NoResults  imageSrc = {Result}/>
       )}
     </div>
   );

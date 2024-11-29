@@ -15,7 +15,7 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
 
   }));
 
-export default function DialogCliente({ open, handleClose, clientes, onClientSelect }) {
+export default function DialogCliente({isLoading, setIsLoading,open, handleClose, clientes, onClientSelect }) {
     return (
         <React.Fragment>
           <BootstrapDialog
@@ -29,7 +29,7 @@ export default function DialogCliente({ open, handleClose, clientes, onClientSel
             <DialogTitle sx={{ m: 0, p: 1.8 }} style={{backgroundColor: "rgb(12, 55, 100)", color:"rgb(255,255,255)"}} id="customized-dialog-title" >
              Busqueda de clientes
             </DialogTitle>
-            <TableDialogCliente clientes={clientes} onClientSelect = {onClientSelect}/>
+            <TableDialogCliente isLoading={isLoading} setIsLoading={setIsLoading} clientes={clientes} onClientSelect = {onClientSelect}/>
           </BootstrapDialog>
         </React.Fragment>
       );

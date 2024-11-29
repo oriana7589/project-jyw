@@ -9,7 +9,6 @@ const NoResults = ({ imageSrc, message, style = {}, imageStyle = {}, textStyle =
         justifyContent: "center",
         alignItems: "center",
         textAlign: "center",
-        height: "80vh", 
         width: "100vw",
         ...style,
       }}

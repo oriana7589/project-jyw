@@ -5,7 +5,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import TableItemsCliente from "../components/TableItemsCliente";
 import ChartItemsCliente from "../components/ChartItemsCliente";
 
-export default function DashboardItems({ itemsComprados }) {  
+export default function DashboardItems({ isLoading, itemsComprados }) {  
 
   return (
     <React.Fragment>
@@ -23,7 +23,7 @@ export default function DashboardItems({ itemsComprados }) {
           <ChartItemsCliente itemsComprados={itemsComprados} />
         </div>
         <div style={{ flex: "70%",}}>
-          <TableItemsCliente itemsComprados={itemsComprados} />
+          <TableItemsCliente itemsComprados={itemsComprados} isLoading = {isLoading} />
         </div>
       </Container>
     </React.Fragment>

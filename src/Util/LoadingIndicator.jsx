@@ -1,11 +1,11 @@
 import React from "react";
 import { CircularProgress } from "@mui/material";
 import Logo from "../../src/image/logo.png"
-const LoadingIndicator = ({ size = 80, color = "#0C3764", containerStyle = {} }) => {
+const LoadingIndicator = ({ size = 80, color = "#0C3764", containerStyle = {}, height }) => {
   return (
     <div
       style={{
-        height: "580px", // Altura predeterminada
+        height: height, // Altura predeterminada
         display: "flex",
         flexDirection: "column",
         alignItems: "center",

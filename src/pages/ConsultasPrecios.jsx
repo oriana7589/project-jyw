@@ -2,7 +2,6 @@ import React, { useState, useEffect, useRef } from "react";
 import {
   Card,
   CardActions,
-  CircularProgress,
   Collapse,
   Container,
   CssBaseline,
@@ -47,16 +46,6 @@ const ConsultasPrecios = () => {
   const marcaRef = useRef(null);
 
   useEffect(() => {
-    // Simular una carga de datos con un retraso de 1.5 segundos
-    const timer = setTimeout(() => {
-      setIsLoading(false);
-    }, 2500);
-
-    // Limpia el temporizador en caso de que el componente se desmonte antes de que se complete la carga
-    return () => clearTimeout(timer);
-  }, []);
-
-  useEffect(() => {
     if (productos.length > 0) {
       setIsLoading(false);
     }
@@ -66,14 +55,12 @@ const ConsultasPrecios = () => {
     if (codigo === "") {
       toast.warning("Por favor, ingrese el primer campo");
     } else {
-      setIsLoading(false)
+      setIsLoading(true)
       setDatosDisponibles(true);
-      console.log('isLoading antes', isLoading)
       getProdutosFiltrados(codigo, descripcion, marca).then(
         (tablaProductos) => {
           setProductos(tablaProductos);
           setIsLoading(false);
-          console.log('isLoading despues', isLoading)
         }
       );
     }

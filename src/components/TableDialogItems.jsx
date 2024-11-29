@@ -7,29 +7,14 @@ import { Typography } from "@mui/material";
 import SquareSharpIcon from '@mui/icons-material/SquareSharp';
 import CustomScroll from "./CustomScroll";
 import { descripcionCont, descripcionItem, descripItem, itemComp, tableItem, tableItemColum, tableItemsCont } from "../Styles/MenuStyles";
+import LoadingIndicator from "../Util/LoadingIndicator";
+import NoResults from "../Util/NoResults";
 
-const TableComponent = ({ items, onProductSelect,itemsPerPage }) => {
+const TableComponent = ({ isLoading,setIsLoading, items, onProductSelect,itemsPerPage }) => {
   const [selectProductos, setSelectedProductos] = useState(null);
   const [highlightedRow, setHighlightedRow] = useState(null);
-  const [isLoading, setIsLoading] = useState(true); // Estado de carga
   const [page, setPage] = useState(0);
   itemsPerPage = 13;
-   
-  useEffect(() => {
-    // Simular una carga de datos con un retraso de 1.5 segundos
-    const timer = setTimeout(() => {
-      setIsLoading(false);
-    }, 2500);
-  
-    // Limpia el temporizador en caso de que el componente se desmonte antes de que se complete la carga
-    return () => clearTimeout(timer);
-  }, []);
-
-  useEffect(() => {
-    if (items.length > 0) {
-      setIsLoading(false);
-    }
-  }, [items]);
 
   const handleRowDoubleClick = (datosItems) => {
     setSelectedProductos(datosItems);
@@ -59,30 +44,17 @@ const TableComponent = ({ items, onProductSelect,itemsPerPage }) => {
         overflow: "hidden",
         display: "grid",
         gridTemplateRows: "1fr auto",
+        width:1090,
+        height: 600,
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
       }}
     >
       {isLoading ? ( // Si está cargando, muestra el indicador de carga
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-            alignItems: "center",
-            height: "300px",
-            width: "900px",
-          }}
-        >
-          <img src={Logo} alt="Logo" style={{ width: 120, height: 30, marginBottom:20 }} />
-          <CircularProgress
-            style={{
-              color: "rgb(12, 55, 100)",
-              height: "50px",
-              width: "50px",
-            }}
-          />
-        </div>
+         <LoadingIndicator height={300}/>
       ) : items.length > 0 ? (
-        <div style={{ width:1090}}>
+        <div style={{ width:"100%"}}>
          <div style={{ position: "sticky", top: 0, zIndex: 1 }}>
            <table style={{ borderCollapse: 'collapse', border: 1, borderSpacing:"25px" , marginBottom:10}}>
             <thead style={{ position: "sticky", top: 0, zIndex: 1}} >
@@ -232,19 +204,7 @@ const TableComponent = ({ items, onProductSelect,itemsPerPage }) => {
      </div>  
   </div>
       ) : (
-        <div
-          style={{display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-            alignItems: "center",
-            textAlign: "center",
-            height: "300px",
-            width: "800px"
-          }}
-        >
-        <img src={Result} alt="Logo" style={{ width: 180, height: 160 , opacity:0.7}} />
-         <Typography style={{color: "rgb(12, 55, 100)",  opacity:0.7,  fontWeight: "bold",}} fontSize={18}>No se encontraron resultados</Typography>
-        </div>
+        <NoResults imageSrc={Result}/>
       )}
     </div>
   );

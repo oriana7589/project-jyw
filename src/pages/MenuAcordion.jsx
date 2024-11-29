@@ -788,12 +788,14 @@ const TuComponente = () => {
 
     getDocumentosPendientes(selectedClient.codigoCliente).then(
       (documentosPendientes) => {
+          setIsLoading(false)
         setDocumentosPendientes(documentosPendientes);
       }
     );
 
     getLetrasPendientes(selectedClient.codigoCliente).then(
       (letrasPendientes) => {
+        setIsLoading(false)
         setLetrasPendientes(letrasPendientes);
       }
     );
@@ -855,12 +857,14 @@ const TuComponente = () => {
 
     getUltimasComprasCliente(selectedClient.codigoCliente).then(
       (ultimasCompras) => {
+        setIsLoading(false)
         setUltimasCompras(ultimasCompras);
       }
     );
 
     getItemsMasComprados(selectedClient.codigoCliente).then(
       (itemsComprados) => {
+        setIsLoading(false)
         setItemsComprados(itemsComprados);
       }
     );
@@ -1093,14 +1097,18 @@ const TuComponente = () => {
   };
 
   const handleIconButtonClick = () => {
-    setDialogOpen(true);
-    if (criterioBusqueda !== "") {
+    if (criterioBusqueda === "") {
+      setToastOpen(true);
+      toast.warning("Por favor, ingrese el primer campo");
+    }else{
+      setIsLoading(true)
+      setDialogOpen(true);
       getClientes(criterioBusqueda).then((tablaClientes) => {
         setClientes(tablaClientes);
+        setIsLoading(false)
       });
-    } else {
-      setClientes([]);
     }
+    setClientes([]);
   };
 
   const handleCloseDialog = () => {
@@ -1109,15 +1117,15 @@ const TuComponente = () => {
 
   const handleIconButtonItemsClick = () => {
     if (criterio1 === "") {
-      // Si el criterio1 está vacío, mostrar el toast
       setToastOpen(true);
       toast.warning("Por favor, ingrese el primer campo");
     } else {
-      // Abrir el diálogo y obtener los productos filtrados
+      setIsLoading(true)
       setDialogProductOpen(true);
       getProdutosFiltrados(criterio1, criterio2, criterio3).then(
         (tablaProductos) => {
           setItems(tablaProductos);
+          setIsLoading(false);
         }
       );
     }
@@ -1756,6 +1764,8 @@ const TuComponente = () => {
         open={dialogOpen}
         handleClose={handleCloseDialog}
         onBackdropClick={handleCloseDialog}
+        isLoading={isLoading}
+        setIsLoading={setIsLoading}
       />
       <DialogProductos
         items={items}
@@ -1763,6 +1773,8 @@ const TuComponente = () => {
         openProduct={dialogProductOpen}
         handleProductClose={handleCloseDialogProduct}
         onBackdropClick={handleCloseDialogProduct}
+        isLoading={isLoading}
+        setIsLoading={setIsLoading}
       />
       <ToastContainer
         position="top-right"

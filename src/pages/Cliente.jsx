@@ -83,10 +83,11 @@ const PestañaContenido = ({
           handleBuscarProforma={handleBuscarProforma}
           ultimasCompras={ultimasCompras}
           setNumeroProforma={setNumeroProforma}
+          isLoading={isLoading}
         />
       );
     case 2:
-      return <DashboardItems itemsComprados={itemsComprados} />;
+      return <DashboardItems itemsComprados={itemsComprados} isLoading={isLoading} />;
     case 3:
       return (
         <CreditosYCobranzas
@@ -96,6 +97,7 @@ const PestañaContenido = ({
           itemsComprados={itemsComprados}
           promedioDias={promedioDias}
           promedioCredito={promedioCredito}
+          isLoading={isLoading}
         />
       );
     default:

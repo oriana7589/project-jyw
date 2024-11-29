@@ -6,6 +6,7 @@ import TableUltimasCompras from "../components/TableUltimasCompras";
 
 export default function UltimasCompras({
   ultimasCompras,
+  isLoading,
   handleBuscarProforma,
   setNumeroProforma
 }) {
@@ -26,6 +27,7 @@ export default function UltimasCompras({
             ultimasCompras={ultimasCompras}
             handleBuscarProforma={handleBuscarProforma}
             setNumeroProforma = {setNumeroProforma}
+            isLoading={isLoading}
           />
         </div>
       </Container>

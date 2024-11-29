@@ -7,6 +7,7 @@ function FacturasPendientes({
   totalPendiente,
   documentosPendientes,
   letrasPendientes,
+  isLoading
 }) {
   const [estadoVisible, setEstadoVisible] = useState(false);
 
@@ -50,11 +51,13 @@ function FacturasPendientes({
           {estadoVisible ? (
             <TableEstadoLetras
               letrasPendientes={letrasPendientes}
+              isLoading = {isLoading}
             />
           ) : (
             <TableFacturas
               totalPendiente={totalPendiente}
               documentosPendientes={documentosPendientes}
+              isLoading = {isLoading}
             />
           )}
         </CardContent>
