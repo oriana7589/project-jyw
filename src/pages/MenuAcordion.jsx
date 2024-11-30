@@ -119,6 +119,7 @@ const TuComponente = () => {
   const [vendedor, setVendedor] = React.useState("");
   const [formaPagos, setFormaPagos] = React.useState("");
   const [transporte, setTransporte] = React.useState("");
+  const [agencia, setAgencia] = React.useState("");
   const [pdfData, setPDFData] = React.useState("");
   const [cantidad, setCantidad] = React.useState(0);
   const [dias, setDias] = React.useState("");
@@ -1755,6 +1756,8 @@ const TuComponente = () => {
             setUrlImagen={setUrlImagen}
             numeroProforma={numeroProforma}
             codigoRef={codigoRef}
+            agencia = {agencia}
+            setAgencia = {setAgencia}
           />
         </Collapse>
       </Card>

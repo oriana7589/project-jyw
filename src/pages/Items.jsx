@@ -136,7 +136,9 @@ const PestañaContenido = ({
   urlImagen,
   numeroProforma,
   setUrlImagen,
-  codigoRef
+  codigoRef,
+  agencia ,
+  setAgencia 
 }) => {
   switch (value) {
     case 0:
@@ -236,6 +238,8 @@ const PestañaContenido = ({
           actualizarProforma={actualizarProforma}
           selectedClient={selectedClient}
           numeroProforma = {numeroProforma}
+          agencia = {agencia}
+          setAgencia = {setAgencia}
         />
       );
     case 2:
@@ -354,7 +358,9 @@ const Items = ({
   urlImagen,
   setUrlImagen,
   numeroProforma,
-  codigoRef
+  codigoRef,
+  agencia ,
+  setAgencia 
 }) => {
   const handleChangeTab = (event, newValue) => {
     setTabValue(newValue);
@@ -537,6 +543,8 @@ const Items = ({
             setUrlImagen={setUrlImagen}
             numeroProforma = {numeroProforma}
             codigoRef={codigoRef}
+            agencia = {agencia}
+            setAgencia = {setAgencia}
           />
         ) : !selectedClient ? (
           <div

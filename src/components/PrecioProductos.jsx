@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Select,
   TextField,
@@ -10,6 +10,7 @@ import {
   Input,
 } from "@mui/material";
 import Decimal from "decimal.js";
+import { getAgenciaTransportista } from "../Services/ApiService";
 Decimal.set({ precision: 10 });
 
 function PrecioProductos({
@@ -43,10 +44,14 @@ function PrecioProductos({
   totalConvertido,
   proformaSeleccionada,
   selectedClient,
+  agencia,
+  setAgencia
 }) {
   let razonSocial = "";
   let ruc = "";
-  
+  const [agencias, setAgencias] = useState([]);
+
+
   if (selectedClient) {
     razonSocial = selectedClient.razonSocial || proformaSeleccionada.razonSocialCliente;
     ruc = selectedClient.numDocumento || proformaSeleccionada.razonSocialCliente;
@@ -99,6 +104,16 @@ function PrecioProductos({
 
     calcularFechaVencimiento();
   }, [cantidad]);
+
+  useEffect(() => {
+    if (transporte && transporte.codigoTransportista) {
+      getAgenciaTransportista(transporte.codigoTransportista).then((agencia) => {
+        setAgencias(agencia); 
+      });
+    } 
+    setAgencia("");
+    setAgencias([]);
+  }, [transporte]); 
 
   if (transporte === null || transporte === undefined) {
     transporte = { descripcionCorta: "Seleccione transportista" };
@@ -199,6 +214,67 @@ function PrecioProductos({
         </Grid>
       </Grid>
       <Grid container spacing={2}>
+      <Grid item xs={6}>
+          <Box sx={{ marginBottom: 2 }}>
+            <Typography style={{ fontWeight: "bold" }}>
+              Tipo de moneda
+            </Typography>
+            <Select
+              value={monedaValue}
+              onChange={(e) => setMonedaValue(e.target.value)}
+              fullWidth
+              style={{ height: 35 }}
+              variant="outlined"
+              disabled={proformaSeleccionada.estado === 'FAC'}
+            >
+              {tipoMoneda.map((tipoMonedaItem, index) => (
+                <MenuItem key={index} value={tipoMonedaItem.descripcionMoneda}>
+                  {tipoMonedaItem.descripcionMoneda}
+                </MenuItem>
+              ))}
+            </Select>
+          </Box>
+        </Grid>
+      <Grid item xs={6}>
+          <Box sx={{ marginBottom: 2 }}>
+            <label style={{ fontWeight: "bold" }}>
+              Agencia
+              <Autocomplete
+                value={agencia} 
+                onChange={(event, newValue) => {
+                  setAgencia(newValue);
+                }}
+                disabled={
+                  !transporte || proformaSeleccionada.estado === 'FAC'
+                }
+                options={agencias} 
+                getOptionLabel={(optionItems) =>
+                  optionItems
+                    ? optionItems.descripcionAgencia
+                    : "Seleccione Agencia"
+                }
+                noOptionsText="No hay agencias disponibles" 
+                renderInput={(params) => (
+                  <div ref={params.InputProps.ref}>
+                    <input
+                      type="text"
+                      {...params.inputProps}
+                      style={{
+                        width: "100%",
+                        height: "40px",
+                        border: "1px solid #ccc",
+                        borderRadius: "4px",
+                        padding: "8px",
+                      }}
+                    />
+                  </div>
+                )}
+              />
+            </label>
+          </Box>
+        </Grid>
+      </Grid>
+      <Grid container spacing={2}>
         <Grid item xs={6}>
           <Box sx={{ marginBottom: 2 }}>
             <Typography style={{ fontWeight: "bold" }}>
@@ -223,29 +299,9 @@ function PrecioProductos({
           </Box>
         </Grid>
 
-        <Grid item xs={6}>
+        
+        <Grid item xs={6} >
           <Box sx={{ marginBottom: 2 }}>
-            <Typography style={{ fontWeight: "bold" }}>
-              Tipo de moneda
-            </Typography>
-            <Select
-              value={monedaValue}
-              onChange={(e) => setMonedaValue(e.target.value)}
-              fullWidth
-              style={{ height: 35 }}
-              variant="outlined"
-              disabled={proformaSeleccionada.estado === 'FAC'}
-            >
-              {tipoMoneda.map((tipoMonedaItem, index) => (
-                <MenuItem key={index} value={tipoMonedaItem.descripcionMoneda}>
-                  {tipoMonedaItem.descripcionMoneda}
-                </MenuItem>
-              ))}
-            </Select>
-          </Box>
-        </Grid>
-        <Grid item xs={3} >
-          <Box sx={{ marginBottom: 2, marginTop: -2 }}>
             <Typography style={{ fontWeight: "bold" }}>
               Fecha de emision
             </Typography>
@@ -258,7 +314,6 @@ function PrecioProductos({
               InputProps={{
                 style: {
                   fontSize: "14px",
-                  width: "170px",
                   height: "35px",
                   textAlign: "center",
                 },

@@ -55,7 +55,9 @@ export default function CarritoCompras({
   isAddProformaVisible,
   actualizarProforma,
   selectedClient,
-  numeroProforma
+  numeroProforma,
+  agencia,
+  setAgencia 
 }) {
  
   return (
@@ -104,6 +106,8 @@ export default function CarritoCompras({
             proformaSeleccionada = {proformaSeleccionada}
             totalConvertido = {totalConvertido}
             selectedClient = {selectedClient}
+            agencia = {agencia}
+            setAgencia = {setAgencia}
           />
         </div>
         <div style={{ flex: 0.5 }}>
