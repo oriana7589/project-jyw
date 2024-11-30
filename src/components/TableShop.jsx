@@ -102,8 +102,13 @@ const ThirdTable = ({
   calcularUtilidad,
   isAddToCartVisible,
   isEditToCartVisible,
-  codigoRef
+  codigoRef,
+  precioVentaUnitario,
+  setPrecioVentaUnitario,
+  precioItemActual,
+  setPrecioItemActual
 }) => {
+  const [precioLista, setPrecioLista] = useState("");
   const currentData = historialPrecios;
   const cantidadRef = useRef(null);
   const descuentoARef = useRef(null);
@@ -112,6 +117,51 @@ const ThirdTable = ({
   const handleIncrement = () => {
     setTicketCount(ticketCount + 1);
     cantidadRef.current.focus();
+  };
+
+  useEffect(() => {
+    setPrecioVentaUnitario(detalleProducto.precioVenta);
+  },[detalleProducto]);
+  
+  const handlePrecioVentaUnitario = (event) => {
+    const value = event.target.value.trim();
+    setPrecioVentaUnitario(value);
+  };
+
+  const handleChangeValues = (field, value) => {
+    const updatedItem = { ...precioItemActual, [field]: value };
+    
+    const descA = updatedItem.descuentoA.dividedBy(100).neg().plus(1);
+    const descB = updatedItem.descuentoB.dividedBy(100).neg().plus(1);
+
+    const precioUnitario = 
+      monedaValue === "DOLARES AMERICANOS" ? updatedItem.precioVentaUnitarioUSD : updatedItem.precioVentaUnitarioSOL;
+
+    const totalItem = new Decimal(precioUnitario)
+      .times(updatedItem.cantidad)
+      .times(descA)//validar cada campo por separado
+      .times(descB);
+
+    updatedItem.totalItemUSD = monedaValue === "DOLARES AMERICANOS" ? totalItem : totalItem.dividedBy(precioItemActual.precioVentaUnitarioSOL).times(precioItemActual.precioVentaUnitarioUSD);
+    updatedItem.totalItemSOL = monedaValue === "SOLES"? totalItem : totalItem.dividedBy(precioItemActual.precioVentaUnitarioUSD).times(precioItemActual.precioVentaUnitarioSOL);
+    console.log('updatedItem.totalItemUSD', updatedItem.totalItemUSD)
+    console.log('updatedItem.totalItemSOL', updatedItem.totalItemSOL)
+
+    updatedItem.subTotalItemUSD = updatedItem.totalItemUSD.dividedBy(1.18);
+    updatedItem.subTotalItemSOL = updatedItem.totalItemSOL.dividedBy(1.18);
+
+    setPrecioItemActual(updatedItem);
+  };
+
+  const filtroDecimales = (decimal) => {
+    const value = decimal.trim();
+    // Expresión regular para validar números positivos con hasta dos decimales
+    const regex = /^(\d+(\.\d{0,2})?|\.\d{1,2})$/;
+    if (value === "") {
+      return 0;
+    } else if (regex.test(value)) {      
+      return value;
+    }
   };
 
   const handleAddToCart = () => {
@@ -290,8 +340,13 @@ const ThirdTable = ({
                       variant="outlined"
                       autoComplete="off"
                       style={{ paddingLeft: 20 }}
-                      value={detalleProducto.precioVenta} // Valor del estado
-                      inputProps={{ type: "text", inputMode: "numeric" }}
+                      value={
+                        monedaValue === "SOLES"
+                        ? precioItemActual.precioVentaUnitarioSOL
+                        : precioItemActual.precioVentaUnitarioUSD
+                      }
+                      onChange={(e) => handleChangeValues(monedaValue === "SOLES" ? "precioVentaUnitarioSOL" : "precioVentaUnitarioUSD", filtroDecimales(e.target.value))}
+                      inputProps={{ type: "text" }}
                       InputProps={{
                         style: {
                           fontSize: "16px",
@@ -339,9 +394,9 @@ const ThirdTable = ({
                       autoComplete="off"
                       style={{
                       }}
-                      value={ticketCount}
+                      value={precioItemActual.cantidad}
                       onFocus={handleFocus}
-                      onChange={handleChange}
+                      onChange={(e) => handleChangeValues("cantidad", e.target.value)}
                       inputRef={cantidadRef}
                       onKeyDown={(e) => handleKeyDown(e, descuentoARef, true)}
                       InputProps={{
@@ -383,10 +438,10 @@ const ThirdTable = ({
                       variant="outlined"
                       autoComplete="off"
                       style={{ paddingLeft: 20 }}
-                      value={descuentoA} // Valor del estado
+                      value={precioItemActual.descuentoA} // Valor del estado
                       onFocus={handleFocus}
                       inputProps={{ type: "text", inputMode: "numeric" }}
-                      onChange={handleDescuentoAChange}
+                      onChange={(e) => handleChangeValues("descuentoA", e.target.value)}
                       inputRef={descuentoARef}
                       onKeyDown={(e) => handleKeyDown(e, descuentBRef, true)}
                       InputProps={{
@@ -411,10 +466,10 @@ const ThirdTable = ({
                     <TextField
                       variant="outlined"
                       autoComplete="off"
-                      value={descuentoB} // Valor del estado
+                      value={precioItemActual.descuentoB} // Valor del estado
                       style={{ paddingLeft: 20 }}
                       onFocus={handleFocus}
-                      onChange={handleDescuentoBChange}
+                      onChange={(e) => handleChangeValues("descuentoB", e.target.value)}
                       inputRef={descuentBRef}
                       onKeyDown={(e) => handleKeyDown(e, codigoRef, false)}
                       InputProps={{
@@ -433,7 +488,7 @@ const ThirdTable = ({
                 </tr>
                 <tr>
                   <td style={{ fontSize: "1.1rem", fontWeight: "bold" }}>
-                    TOTAL INC. IGV({monedaValue === "SOLES" ? "S/" : "$"}):
+                    TOTAL C/ IGV({monedaValue === "SOLES" ? "S/" : "$"}):
                   </td>
                   <td
                     style={{
@@ -445,10 +500,13 @@ const ThirdTable = ({
                     <TextField
                       variant="outlined"
                       autoComplete="off"
-                      value={total} // Valor del estado
+                      value={
+                        monedaValue === "SOLES"
+                        ? precioItemActual.totalItemSOL
+                        : precioItemActual.totalItemUSD
+                      }
                       onFocus={handleFocus}
-                      style={{ paddingLeft: 20 }}
-                      onChange={handlPrecioFinalChange}
+                      style={{ paddingLeft: 20 }}                      
                       InputProps={{
                         style: {
                           fontSize: "16px",
@@ -456,8 +514,8 @@ const ThirdTable = ({
                           height: "35px",
                           textAlign: "center",
                           marginLeft:14,
-                        },
-                        disabled: !isChecked,
+                        },                        
+                        readOnly: true
                       }}
                     />
                     <Checkbox
@@ -571,7 +629,11 @@ const TableShop = ({
   isEditToCartVisible,
   selectedClient,
   proformaSeleccionada,
-  codigoRef
+  codigoRef,
+  precioVentaUnitario,
+  setPrecioVentaUnitario,
+  precioItemActual,
+  setPrecioItemActual
 }) => {
   let razonSocial = "";
   let ruc = "";
@@ -580,6 +642,7 @@ const TableShop = ({
     razonSocial = selectedClient.razonSocial || proformaSeleccionada.razonSocialCliente;
     ruc = selectedClient.numDocumento || proformaSeleccionada.razonSocialCliente;
   }
+
   return (
     <div style={{ paddingLeft: 20 }}>
       <div style={{
@@ -698,6 +761,10 @@ const TableShop = ({
         isAddToCartVisible={isAddToCartVisible}
         isEditToCartVisible={isEditToCartVisible}
         codigoRef={codigoRef}
+        precioVentaUnitario={precioVentaUnitario}
+        setPrecioVentaUnitario={setPrecioVentaUnitario}
+        precioItemActual={precioItemActual}
+        setPrecioItemActual={setPrecioItemActual}
       />
     </div>
   );

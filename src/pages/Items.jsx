@@ -136,7 +136,11 @@ const PestañaContenido = ({
   urlImagen,
   numeroProforma,
   setUrlImagen,
-  codigoRef
+  codigoRef,
+  precioVentaUnitario,
+  setPrecioVentaUnitario,
+  precioItemActual,
+  setPrecioItemActual
 }) => {
   switch (value) {
     case 0:
@@ -182,6 +186,10 @@ const PestañaContenido = ({
           selectedClient = {selectedClient}
           proformaSeleccionada={proformaSeleccionada}
           codigoRef={codigoRef}
+          precioVentaUnitario={precioVentaUnitario}
+          setPrecioVentaUnitario={setPrecioVentaUnitario}
+          precioItemActual={precioItemActual}
+          setPrecioItemActual={setPrecioItemActual}
         />
       );
     case 1:
@@ -354,7 +362,11 @@ const Items = ({
   urlImagen,
   setUrlImagen,
   numeroProforma,
-  codigoRef
+  codigoRef,
+  precioVentaUnitario,
+  setPrecioVentaUnitario,
+  precioItemActual,
+  setPrecioItemActual
 }) => {
   const handleChangeTab = (event, newValue) => {
     setTabValue(newValue);
@@ -537,6 +549,10 @@ const Items = ({
             setUrlImagen={setUrlImagen}
             numeroProforma = {numeroProforma}
             codigoRef={codigoRef}
+            precioVentaUnitario={precioVentaUnitario}
+            setPrecioVentaUnitario={setPrecioVentaUnitario}
+            precioItemActual={precioItemActual}
+            setPrecioItemActual={setPrecioItemActual}
           />
         ) : !selectedClient ? (
           <div

@@ -135,10 +135,24 @@ const TuComponente = () => {
   const [isEditProformaVisible, setIsEditProformaVisible] = useState(false);
   const [totalSubtotal, setTotalSubtotal] = useState(0);
   const [total1, setTotal1] = useState(0);
+  const [precioVentaUnitario, setPrecioVentaUnitario] = useState(0);
   const [produtosSugeridosCliente, setProductosSugeridosCliente] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [monedaType, setMonedaType] = useState("");
   const [urlImagen, setUrlImagen] = useState(imagenNoDisponible);
+  const [precioItemActual, setPrecioItemActual] = useState({
+    codigoInterno: "",
+    precioVentaUnitarioUSD: "",
+    precioVentaUnitarioSOL: "",
+    descuentoA: new Decimal(0),
+    descuentoB: new Decimal(0),
+    subTotalItemUSD: new Decimal(0),
+    subTotalItemsol: new Decimal(0),
+    totalItemUSD: new Decimal(0),
+    totalItemSOL: new Decimal(0),
+    cantidad: 1,
+    utilidad: new Decimal(0)
+  });
 
   const codigoRef = useRef(null);
   const descripcionRef = useRef(null);
@@ -302,6 +316,12 @@ const TuComponente = () => {
     return precioFinaln;
   };
 
+  useEffect(()=> {
+    if(precioVentaUnitario){
+      setMonto(new Decimal(precioVentaUnitario).dividedBy(new Decimal(1.18)));
+    }   
+  },[precioVentaUnitario]);
+
   const [total, setTotal] = useState(calcularPrecioFinal().toString());
 
   useEffect(() => {
@@ -433,12 +453,25 @@ const TuComponente = () => {
       const impuesto = new Decimal(1.18);
       const precioVentaSinIGV = precioVenta.dividedBy(impuesto);
       const precio = Math.round(precioVentaSinIGV.times(100)) / 100;
+
+      const precioUSD = new Decimal(detalleProducto.precioVenta || 0);
+      const precioSOL = precioUSD.times(moneda).toDecimalPlaces(2);
       //const precio = precioVentaSinIGV.toDecimalPlaces(2);
       setDescuentoA(0);
       setDescuentoB(0);
       setTicketCount(1);
       setMonto(precio);
       setMonedaType("");
+      setPrecioItemActual({
+        ...precioItemActual,
+        codigoInterno: detalleProducto.codigoInterno,
+        precioVentaUnitarioUSD: precioUSD,
+        precioVentaUnitarioSOL: precioSOL,
+        totalItemUSD: precioUSD,
+        totalItemSOL: precioSOL,
+        subTotalItemUSD: precioUSD.dividedBy(1.18).toDecimalPlaces(2),
+        subTotalItemSOL: precioSOL.dividedBy(1.18).toDecimalPlaces(2),
+      })
     });
 
     if (!selectedClient) {
@@ -615,6 +648,20 @@ const TuComponente = () => {
     };
     setCartItems([...cartItems, newItem]);
   };
+
+  // const precioItem = {    
+  //   codigoInterno: "",
+  //   precioVentaUnitarioUSD: new Decimal(0),
+  //   precioVentaUnitarioSOL: new Decimal(0),
+  //   descuentoA: new Decimal(0),
+  //   descuentoB: new Decimal(0),
+  //   subTotalItemUSD: new Decimal(0),
+  //   subTotalItemsol: new Decimal(0),
+  //   totalItemUSD: new Decimal(0),
+  //   totalItemSOL: new Decimal(0),
+  //   cantidad: 0,
+  //   utilidad: new Decimal(0)
+  // };
 
   const editCartItem = (
     precioFinal,
@@ -1747,6 +1794,10 @@ const TuComponente = () => {
             setUrlImagen={setUrlImagen}
             numeroProforma={numeroProforma}
             codigoRef={codigoRef}
+            precioVentaUnitario={precioVentaUnitario}
+            setPrecioVentaUnitario={setPrecioVentaUnitario}
+            precioItemActual={precioItemActual}
+            setPrecioItemActual={setPrecioItemActual}
           />
         </Collapse>
       </Card>

@@ -35,7 +35,11 @@ const TableDescripcionItems = ({
   isEditToCartVisible,
   selectedClient,
   proformaSeleccionada,
-  codigoRef
+  codigoRef,
+  precioVentaUnitario,
+  setPrecioVentaUnitario,
+  precioItemActual,
+  setPrecioItemActual
 }) => {
 
   return (
@@ -71,6 +75,10 @@ const TableDescripcionItems = ({
         selectedClient = {selectedClient}
         proformaSeleccionada={proformaSeleccionada}
         codigoRef={codigoRef}
+        precioVentaUnitario={precioVentaUnitario}
+        setPrecioVentaUnitario={setPrecioVentaUnitario}
+        precioItemActual={precioItemActual}
+        setPrecioItemActual={setPrecioItemActual}
       />
       <div>
  
