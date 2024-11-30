@@ -94,7 +94,7 @@ export default function DashboardCliente({isLoading, dataGraficaActual, dataGraf
           display: "flex",
           justifyContent: "space-between",
           bgcolor: "#ffffff",
-          height: "calc(100vh - 17.5rem)",
+          height: "calc(100vh - 17.7rem)",
         }}
       >
         {isLoading && (

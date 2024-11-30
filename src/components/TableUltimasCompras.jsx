@@ -7,6 +7,8 @@ import TableCell from "@mui/material/TableCell";
 import TableRow from "@mui/material/TableRow";
 import TablePagination from "@mui/material/TablePagination";
 import LoadingIndicator from "../Util/LoadingIndicator";
+import CustomScrollPage from "./CustomScrollPage";
+import CustomScrollTable from "./CustomScrollTable";
 
 
 const TableUltimasCompras = ({ isLoading, ultimasCompras, itemsPerPage, setNumeroProforma, handleBuscarProforma }) => {
@@ -45,9 +47,10 @@ const TableUltimasCompras = ({ isLoading, ultimasCompras, itemsPerPage, setNumer
     > {isLoading ? (
       <LoadingIndicator/>
     ): (
-      <div style={{ overflow: "auto" }}>
-          <TableContainer style={{ maxHeight: 580 }}>
-            <Table
+      <div style={{ overflow: "hidden" }}>
+         <CustomScrollTable style={{ maxHeight:"calc(100vh - 21.5rem)"}}>
+         <TableContainer >
+          <Table
               stickyHeader
               sx={{
                 borderCollapse: "collapse",
@@ -210,7 +213,11 @@ const TableUltimasCompras = ({ isLoading, ultimasCompras, itemsPerPage, setNumer
                   )}
               </TableBody>
             </Table>
-          </TableContainer>
+            </TableContainer>
+         </CustomScrollTable>
+         
+           
+         
           <TablePagination
             component="div"
             count={ultimasCompras.length}

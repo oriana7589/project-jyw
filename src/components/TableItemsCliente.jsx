@@ -10,7 +10,7 @@ import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
 import TableSortLabel from "@mui/material/TableSortLabel";
 import { visuallyHidden } from "@mui/utils";
-
+import CustomScrollTable from "./CustomScrollTable";
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
     return -1;
@@ -226,7 +226,8 @@ export default function TableItemsCliente({ isLoading, itemsComprados, itemsPerP
       <LoadingIndicator/>
     ): (
       <div>
-      <TableContainer style={{ maxHeight: 580 }}>
+        <CustomScrollTable style={{ maxHeight:"calc(100vh - 21.5rem)"}}>
+          <TableContainer>
           <Table
             stickyHeader
             sx={{ minWidth: 750 }}
@@ -317,6 +318,8 @@ export default function TableItemsCliente({ isLoading, itemsComprados, itemsPerP
             </TableBody>
           </Table>
         </TableContainer>
+          </CustomScrollTable>
+     
         <div
           style={{
             position: "sticky",

@@ -16,7 +16,7 @@ export default function DashboardItems({ isLoading, itemsComprados }) {
           display: "flex",
           justifyContent: "space-between",
           bgcolor: "#ffffff",
-          height: "calc(100vh - 17.5rem)",
+          height: "calc(100vh - 17.7rem)",
         }}
       >
         <div style={{ flex: "30%", }}>
