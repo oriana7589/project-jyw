@@ -20,6 +20,7 @@ import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import "react-toastify/dist/ReactToastify.css";
 import Decimal from "decimal.js";
 import { cardItemStyle, cardStyle, textItemCardStyle } from "../Styles/MenuStyles";
+import { prepareColumns } from "material-react-table";
 Decimal.set({ precision: 10 });
 
 const data = [
@@ -106,7 +107,8 @@ const ThirdTable = ({
   precioVentaUnitario,
   setPrecioVentaUnitario,
   precioItemActual,
-  setPrecioItemActual
+  setPrecioItemActual,
+  moneda
 }) => {
   const [precioLista, setPrecioLista] = useState("");
   const currentData = historialPrecios;
@@ -129,38 +131,83 @@ const ThirdTable = ({
   };
 
   const handleChangeValues = (field, value) => {
-    const updatedItem = { ...precioItemActual, [field]: value };
+
+    if(field === "precioVentaUnitarioUSD") {
+      const precioVentaUnitario_ = filtroDecimales(value);
+      const updatedItem = { ...precioItemActual, [field]: precioVentaUnitario_ };    
+  
+      const descA = updatedItem.descuentoA;
+      const descB = updatedItem.descuentoB;
+      const dctA = new Decimal(descA).dividedBy(100).neg().plus(1);
+      const dctB = new Decimal(descB).dividedBy(100).neg().plus(1);
+  
+      const precioUnitarioUSD = updatedItem.precioVentaUnitarioUSD === "" ? 0 : updatedItem.precioVentaUnitarioUSD;
+      const precioUnitarioSOL = new Decimal(precioUnitarioUSD).times(moneda).toDecimalPlaces(2);
+      updatedItem.precioVentaUnitarioSOL = precioUnitarioSOL;
+  
+      const totalItemUSD = new Decimal(precioUnitarioUSD)
+        .times(updatedItem.cantidad)
+        .times(dctA)
+        .times(dctB);
+  
+      const totalItemSOL = new Decimal(precioUnitarioSOL)
+        .times(updatedItem.cantidad)
+        .times(dctA)
+        .times(dctB); 
+
+      updatedItem.totalItemUSD = totalItemUSD;
+      updatedItem.totalItemSOL = totalItemSOL;
+      console.log('updatedItem.totalItemUSD', updatedItem.totalItemUSD)
+      console.log('updatedItem.totalItemSOL', updatedItem.totalItemSOL)
+  
+      updatedItem.subTotalItemUSD = totalItemUSD.dividedBy(1.18);
+      updatedItem.subTotalItemSOL = totalItemSOL.dividedBy(1.18);
+  
+      setPrecioItemActual(updatedItem);
+    } else {
+      const precioVentaUnitario_ = filtroDecimales(value);
+      const updatedItem = { ...precioItemActual, [field]: precioVentaUnitario_ };    
+  
+      const descA = updatedItem.descuentoA;
+      const descB = updatedItem.descuentoB;
+      const dctA = new Decimal(descA).dividedBy(100).neg().plus(1);
+      const dctB = new Decimal(descB).dividedBy(100).neg().plus(1);      
+  
+      const precioUnitarioSOL = updatedItem.precioVentaUnitarioSOL === "" ? 0 : updatedItem.precioVentaUnitarioSOL;
+      const precioUnitarioUSD = new Decimal(precioUnitarioSOL).dividedBy(moneda).toDecimalPlaces(2);
+      updatedItem.precioVentaUnitarioUSD = precioUnitarioUSD;
+  
+      const totalItemUSD = new Decimal(precioUnitarioUSD)
+        .times(updatedItem.cantidad)
+        .times(dctA)
+        .times(dctB);
+  
+      const totalItemSOL = new Decimal(precioUnitarioSOL)
+        .times(updatedItem.cantidad)
+        .times(dctA)
+        .times(dctB);
+      
+      updatedItem.totalItemUSD = totalItemUSD;
+      updatedItem.totalItemSOL = totalItemSOL;
+      console.log('updatedItem.totalItemUSD', updatedItem.totalItemUSD)
+      console.log('updatedItem.totalItemSOL', updatedItem.totalItemSOL)
+  
+      updatedItem.subTotalItemUSD = totalItemUSD.dividedBy(1.18);
+      updatedItem.subTotalItemSOL = totalItemSOL.dividedBy(1.18);
+  
+      setPrecioItemActual(updatedItem);
+    }
     
-    const descA = updatedItem.descuentoA.dividedBy(100).neg().plus(1);
-    const descB = updatedItem.descuentoB.dividedBy(100).neg().plus(1);
-
-    const precioUnitario = 
-      monedaValue === "DOLARES AMERICANOS" ? updatedItem.precioVentaUnitarioUSD : updatedItem.precioVentaUnitarioSOL;
-
-    const totalItem = new Decimal(precioUnitario)
-      .times(updatedItem.cantidad)
-      .times(descA)//validar cada campo por separado
-      .times(descB);
-
-    updatedItem.totalItemUSD = monedaValue === "DOLARES AMERICANOS" ? totalItem : totalItem.dividedBy(precioItemActual.precioVentaUnitarioSOL).times(precioItemActual.precioVentaUnitarioUSD);
-    updatedItem.totalItemSOL = monedaValue === "SOLES"? totalItem : totalItem.dividedBy(precioItemActual.precioVentaUnitarioUSD).times(precioItemActual.precioVentaUnitarioSOL);
-    console.log('updatedItem.totalItemUSD', updatedItem.totalItemUSD)
-    console.log('updatedItem.totalItemSOL', updatedItem.totalItemSOL)
-
-    updatedItem.subTotalItemUSD = updatedItem.totalItemUSD.dividedBy(1.18);
-    updatedItem.subTotalItemSOL = updatedItem.totalItemSOL.dividedBy(1.18);
-
-    setPrecioItemActual(updatedItem);
   };
 
   const filtroDecimales = (decimal) => {
-    const value = decimal.trim();
+    //const value = decimal.trim();
     // Expresión regular para validar números positivos con hasta dos decimales
     const regex = /^(\d+(\.\d{0,2})?|\.\d{1,2})$/;
-    if (value === "") {
-      return 0;
-    } else if (regex.test(value)) {      
-      return value;
+    if (decimal === "") {
+      return "";
+    } else if (regex.test(decimal)) {      
+      return decimal;
     }
   };
 
