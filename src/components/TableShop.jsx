@@ -162,6 +162,9 @@ const ThirdTable = ({
   
       updatedItem.subTotalItemUSD = totalItemUSD.dividedBy(1.18);
       updatedItem.subTotalItemSOL = totalItemSOL.dividedBy(1.18);
+
+      const utilidad = calcularUtilidadU(new Decimal(precioUnitarioUSD), dctA, dctB);
+      updatedItem.utilidad = utilidad;
   
       setPrecioItemActual(updatedItem);
     } else {
@@ -189,15 +192,30 @@ const ThirdTable = ({
       
       updatedItem.totalItemUSD = totalItemUSD;
       updatedItem.totalItemSOL = totalItemSOL;
-      console.log('updatedItem.totalItemUSD', updatedItem.totalItemUSD)
-      console.log('updatedItem.totalItemSOL', updatedItem.totalItemSOL)
   
       updatedItem.subTotalItemUSD = totalItemUSD.dividedBy(1.18);
       updatedItem.subTotalItemSOL = totalItemSOL.dividedBy(1.18);
   
+      const utilidad = calcularUtilidadU(precioUnitarioUSD, dctA, dctB);
+      updatedItem.utilidad = utilidad;
+  
       setPrecioItemActual(updatedItem);
     }
     
+  };
+
+  const calcularUtilidadU = (precioVentaUSD, dctA, dctB) => {
+    const precioVentaSinIGV = precioVentaUSD
+      .dividedBy(1.18)
+      .dividedBy(1.18)
+      .times(dctA)
+      .times(dctB);
+    const precioCompraSinIGV = new Decimal(detalleProducto.precioCompra).dividedBy(1.18);
+    const utilidad = precioVentaSinIGV
+      .minus(precioCompraSinIGV)
+      .dividedBy(precioCompraSinIGV)
+      .toDecimalPlaces(2);
+    return utilidad;
   };
 
   const filtroDecimales = (decimal) => {
@@ -222,9 +240,10 @@ const ThirdTable = ({
       monto,
       precioFinal,
       monedaValue,
-      utilidad
+      utilidad,
+      precioItemActual
     );
-    console.log('monto - addtocart', monto);
+    console.log('monto - addtocart', precioItemActual);
     console.log('total - addtocart', total);
   };
 

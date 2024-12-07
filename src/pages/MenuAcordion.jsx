@@ -147,7 +147,7 @@ const TuComponente = () => {
     descuentoA: new Decimal(0),
     descuentoB: new Decimal(0),
     subTotalItemUSD: new Decimal(0),
-    subTotalItemsol: new Decimal(0),
+    subTotalItemSOL: new Decimal(0),
     totalItemUSD: new Decimal(0),
     totalItemSOL: new Decimal(0),
     cantidad: 1,
@@ -607,7 +607,8 @@ const TuComponente = () => {
     monto,
     precioFinal,
     monedaValue,
-    utilidad
+    utilidad,
+    precioItem
   ) => {
     if (precioFinal === "") {
       precioFinal = 0;
@@ -632,18 +633,18 @@ const TuComponente = () => {
       product: detalleProducto.descripcionArticulo,
       codigoInterno: detalleProducto.codigoInterno,
       linea: detalleProducto.codigoLinea,
-      precioLista: detalleProducto.precioVenta,
+      precioLista: precioItemActual.precioVentaUnitarioUSD,
       precioCompra: detalleProducto.precioCompra,
       codigoArticulo: detalleProducto.codigoArticulo,
       marca: detalleProducto.descripcionMarca,
       tipoCompra: detalleProducto.tipoCompra,
-      descuentoA: descuentoA,
-      descuentoB: descuentoB,
-      monto: subTotalItem,
+      descuentoA: precioItemActual.descuentoA,
+      descuentoB: precioItemActual.descuentoB,
+      monto: precioItemActual.subTotalItemUSD,
       monedaType: monedaType,
-      precioFinal: new Decimal(precioFinal),
-      ticketCount: ticketCount,
-      utilidad: utilidad,
+      precioFinal: precioItemActual.totalItemUSD,
+      ticketCount: precioItemActual.cantidad,
+      utilidad: precioItemActual.utilidad,
       codigoAlmacen: detalleProducto.codigoAlmacen,
     };
     setCartItems([...cartItems, newItem]);
