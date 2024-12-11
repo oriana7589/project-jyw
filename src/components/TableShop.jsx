@@ -130,79 +130,141 @@ const ThirdTable = ({
     setPrecioVentaUnitario(value);
   };
 
-  const handleChangeValues = (field, value) => {
-
-    if(field === "precioVentaUnitarioUSD") {
-      const precioVentaUnitario_ = filtroDecimales(value);
-      const updatedItem = { ...precioItemActual, [field]: precioVentaUnitario_ };    
-  
-      const descA = updatedItem.descuentoA;
-      const descB = updatedItem.descuentoB;
-      const dctA = new Decimal(descA).dividedBy(100).neg().plus(1);
-      const dctB = new Decimal(descB).dividedBy(100).neg().plus(1);
-  
-      const precioUnitarioUSD = updatedItem.precioVentaUnitarioUSD === "" ? 0 : updatedItem.precioVentaUnitarioUSD;
-      const precioUnitarioSOL = new Decimal(precioUnitarioUSD).times(moneda).toDecimalPlaces(2);
-      updatedItem.precioVentaUnitarioSOL = precioUnitarioSOL;
-  
-      const totalItemUSD = new Decimal(precioUnitarioUSD)
-        .times(updatedItem.cantidad)
-        .times(dctA)
-        .times(dctB);
-  
-      const totalItemSOL = new Decimal(precioUnitarioSOL)
-        .times(updatedItem.cantidad)
-        .times(dctA)
-        .times(dctB); 
-
-      updatedItem.totalItemUSD = totalItemUSD;
-      updatedItem.totalItemSOL = totalItemSOL;
-      console.log('updatedItem.totalItemUSD', updatedItem.totalItemUSD)
-      console.log('updatedItem.totalItemSOL', updatedItem.totalItemSOL)
-  
-      updatedItem.subTotalItemUSD = totalItemUSD.dividedBy(1.18);
-      updatedItem.subTotalItemSOL = totalItemSOL.dividedBy(1.18);
-
-      const utilidad = calcularUtilidadU(new Decimal(precioUnitarioUSD), dctA, dctB);
-      updatedItem.utilidad = utilidad;
-  
-      setPrecioItemActual(updatedItem);
-    } else {
-      const precioVentaUnitario_ = filtroDecimales(value);
-      const updatedItem = { ...precioItemActual, [field]: precioVentaUnitario_ };    
-  
-      const descA = updatedItem.descuentoA;
-      const descB = updatedItem.descuentoB;
-      const dctA = new Decimal(descA).dividedBy(100).neg().plus(1);
-      const dctB = new Decimal(descB).dividedBy(100).neg().plus(1);      
-  
-      const precioUnitarioSOL = updatedItem.precioVentaUnitarioSOL === "" ? 0 : updatedItem.precioVentaUnitarioSOL;
-      const precioUnitarioUSD = new Decimal(precioUnitarioSOL).dividedBy(moneda).toDecimalPlaces(2);
-      updatedItem.precioVentaUnitarioUSD = precioUnitarioUSD;
-  
-      const totalItemUSD = new Decimal(precioUnitarioUSD)
-        .times(updatedItem.cantidad)
-        .times(dctA)
-        .times(dctB);
-  
-      const totalItemSOL = new Decimal(precioUnitarioSOL)
-        .times(updatedItem.cantidad)
-        .times(dctA)
-        .times(dctB);
-      
-      updatedItem.totalItemUSD = totalItemUSD;
-      updatedItem.totalItemSOL = totalItemSOL;
-  
-      updatedItem.subTotalItemUSD = totalItemUSD.dividedBy(1.18);
-      updatedItem.subTotalItemSOL = totalItemSOL.dividedBy(1.18);
-  
-      const utilidad = calcularUtilidadU(precioUnitarioUSD, dctA, dctB);
-      updatedItem.utilidad = utilidad;
-  
-      setPrecioItemActual(updatedItem);
+  const handleChangeCantidad = (cantidad) => {    
+    const regex = /^$|^[1-9]\d*|0$/;
+    if(regex.test(cantidad)) {
+      const updatedItem = {...precioItemActual, cantidad : cantidad}
+      calcularTotalItem(updatedItem);
     }
+  }
+
+  const handleChangeDescuentos = (nombre, descuento) => {    
+    const regex = /^$|^(100|[1-9]?\d)$/;    
+    if(regex.test(descuento)) {
+      const updatedItem = {...precioItemActual, [nombre] : descuento};
+      calcularTotalItem(updatedItem);
+    }
+  }
+
+  const handleChangePrecioUnitario = (field, value) => {
+
+    // if(field === "precioVentaUnitarioUSD") {
+    //   const precioVentaUnitario_ = filtroDecimales(value);
+    //   const updatedItem = { ...precioItemActual, [field]: precioVentaUnitario_ };    
+  
+    //   const descA = updatedItem.descuentoA;
+    //   const descB = updatedItem.descuentoB;
+    //   const dctA = new Decimal(descA).dividedBy(100).neg().plus(1);
+    //   const dctB = new Decimal(descB).dividedBy(100).neg().plus(1);
+  
+    //   const precioUnitarioUSD = updatedItem.precioVentaUnitarioUSD === "" ? 0 : updatedItem.precioVentaUnitarioUSD;
+    //   const precioUnitarioSOL = new Decimal(precioUnitarioUSD).times(moneda).toDecimalPlaces(2);
+    //   updatedItem.precioVentaUnitarioSOL = precioUnitarioSOL;
+  
+    //   const totalItemUSD = new Decimal(precioUnitarioUSD)
+    //     .times(updatedItem.cantidad)
+    //     .times(dctA)
+    //     .times(dctB);
+  
+    //   const totalItemSOL = new Decimal(precioUnitarioSOL)
+    //     .times(updatedItem.cantidad)
+    //     .times(dctA)
+    //     .times(dctB); 
+
+    //   updatedItem.totalItemUSD = totalItemUSD;
+    //   updatedItem.totalItemSOL = totalItemSOL;
+    //   console.log('updatedItem.totalItemUSD', updatedItem.totalItemUSD)
+    //   console.log('updatedItem.totalItemSOL', updatedItem.totalItemSOL)
+  
+    //   updatedItem.subTotalItemUSD = totalItemUSD.dividedBy(1.18);
+    //   updatedItem.subTotalItemSOL = totalItemSOL.dividedBy(1.18);
+
+    //   const utilidad = calcularUtilidadU(new Decimal(precioUnitarioUSD), dctA, dctB);
+    //   updatedItem.utilidad = utilidad;
+  
+    //   setPrecioItemActual(updatedItem);
+    // } else {
+    //   const precioVentaUnitario_ = filtroDecimales(value);
+    //   const updatedItem = { ...precioItemActual, [field]: precioVentaUnitario_ };    
+  
+    //   const descA = updatedItem.descuentoA;
+    //   const descB = updatedItem.descuentoB;
+    //   const dctA = new Decimal(descA).dividedBy(100).neg().plus(1);
+    //   const dctB = new Decimal(descB).dividedBy(100).neg().plus(1);      
+  
+    //   const precioUnitarioSOL = updatedItem.precioVentaUnitarioSOL === "" ? 0 : updatedItem.precioVentaUnitarioSOL;
+    //   const precioUnitarioUSD = new Decimal(precioUnitarioSOL).dividedBy(moneda).toDecimalPlaces(2);
+    //   updatedItem.precioVentaUnitarioUSD = precioUnitarioUSD;
+  
+    //   const totalItemUSD = new Decimal(precioUnitarioUSD)
+    //     .times(updatedItem.cantidad)
+    //     .times(dctA)
+    //     .times(dctB);
+  
+    //   const totalItemSOL = new Decimal(precioUnitarioSOL)
+    //     .times(updatedItem.cantidad)
+    //     .times(dctA)
+    //     .times(dctB);
+      
+    //   updatedItem.totalItemUSD = totalItemUSD;
+    //   updatedItem.totalItemSOL = totalItemSOL;
+  
+    //   updatedItem.subTotalItemUSD = totalItemUSD.dividedBy(1.18);
+    //   updatedItem.subTotalItemSOL = totalItemSOL.dividedBy(1.18);
+  
+    //   const utilidad = calcularUtilidadU(precioUnitarioUSD, dctA, dctB);
+    //   updatedItem.utilidad = utilidad;
+  
+    //   setPrecioItemActual(updatedItem);
+    // }   
     
+      const precioVentaUnitario_ = filtroDecimales(value);
+      const updatedItem = { ...precioItemActual, [field]: precioVentaUnitario_ }; 
+      
+      calcularTotalItem(updatedItem);
   };
+
+  const calcularTotalItem = (updatedItem) => {
+
+    let precioUnitarioSOL = "";
+    let precioUnitarioUSD = "";
+    const descA = updatedItem.descuentoA === "" ? 0 : updatedItem.descuentoA;
+    const descB = updatedItem.descuentoB === "" ? 0 : updatedItem.descuentoB;
+    const dctA = new Decimal(descA).dividedBy(100).neg().plus(1);
+    const dctB = new Decimal(descB).dividedBy(100).neg().plus(1);
+    const cantidad = updatedItem.cantidad === "" ? 0 : updatedItem.cantidad
+
+    if (monedaValue == "SOLES") {
+      precioUnitarioSOL = updatedItem.precioVentaUnitarioSOL === "" ? 0 : updatedItem.precioVentaUnitarioSOL;
+      precioUnitarioUSD = new Decimal(precioUnitarioSOL).dividedBy(moneda).toDecimalPlaces(2);
+      updatedItem.precioVentaUnitarioUSD = precioUnitarioUSD;
+    } else {
+      precioUnitarioUSD = updatedItem.precioVentaUnitarioUSD === "" ? 0 : updatedItem.precioVentaUnitarioUSD;
+      precioUnitarioSOL = new Decimal(precioUnitarioUSD).times(moneda).toDecimalPlaces(2);
+      updatedItem.precioVentaUnitarioSOL = precioUnitarioSOL;
+    }    
+
+    const totalItemUSD = new Decimal(precioUnitarioUSD)
+      .times(cantidad)
+      .times(dctA)
+      .times(dctB);
+
+    const totalItemSOL = new Decimal(precioUnitarioSOL)
+      .times(cantidad)
+      .times(dctA)
+      .times(dctB); 
+
+    updatedItem.totalItemUSD = totalItemUSD;
+    updatedItem.totalItemSOL = totalItemSOL;
+
+    updatedItem.subTotalItemUSD = totalItemUSD.dividedBy(1.18);
+    updatedItem.subTotalItemSOL = totalItemSOL.dividedBy(1.18);
+
+    const utilidad = calcularUtilidadU(new Decimal(precioUnitarioUSD), dctA, dctB);
+    updatedItem.utilidad = utilidad;
+
+    setPrecioItemActual(updatedItem)
+  }
 
   const calcularUtilidadU = (precioVentaUSD, dctA, dctB) => {
     const precioVentaSinIGV = precioVentaUSD
@@ -210,13 +272,22 @@ const ThirdTable = ({
       .dividedBy(1.18)
       .times(dctA)
       .times(dctB);
+
     const precioCompraSinIGV = new Decimal(detalleProducto.precioCompra).dividedBy(1.18);
+
     const utilidad = precioVentaSinIGV
       .minus(precioCompraSinIGV)
       .dividedBy(precioCompraSinIGV)
       .toDecimalPlaces(2);
+      
     return utilidad;
   };
+
+  const handleBlurCamposVacios = (campo, valor) => {
+    if (valor.trim() === "") {
+      setPrecioItemActual({...precioItemActual, [campo]: 0})
+    }
+  }
 
   const filtroDecimales = (decimal) => {
     //const value = decimal.trim();
@@ -411,7 +482,9 @@ const ThirdTable = ({
                         ? precioItemActual.precioVentaUnitarioSOL
                         : precioItemActual.precioVentaUnitarioUSD
                       }
-                      onChange={(e) => handleChangeValues(monedaValue === "SOLES" ? "precioVentaUnitarioSOL" : "precioVentaUnitarioUSD", filtroDecimales(e.target.value))}
+                      onFocus={handleFocus}
+                      onChange={(e) => handleChangePrecioUnitario(monedaValue === "SOLES" ? "precioVentaUnitarioSOL" : "precioVentaUnitarioUSD", filtroDecimales(e.target.value))}
+                      onBlur={(e) => handleBlurCamposVacios(monedaValue === "SOLES" ? "precioVentaUnitarioSOL" : "precioVentaUnitarioUSD", e.target.value)}
                       inputProps={{ type: "text" }}
                       InputProps={{
                         style: {
@@ -462,9 +535,10 @@ const ThirdTable = ({
                       }}
                       value={precioItemActual.cantidad}
                       onFocus={handleFocus}
-                      onChange={(e) => handleChangeValues("cantidad", e.target.value)}
+                      onChange={(e) => handleChangeCantidad(e.target.value)}
                       inputRef={cantidadRef}
                       onKeyDown={(e) => handleKeyDown(e, descuentoARef, true)}
+                      onBlur={(e) => handleBlurCamposVacios("cantidad", e.target.value)}
                       InputProps={{
                         style: {
                           fontSize: "16px",
@@ -507,9 +581,10 @@ const ThirdTable = ({
                       value={precioItemActual.descuentoA} // Valor del estado
                       onFocus={handleFocus}
                       inputProps={{ type: "text", inputMode: "numeric" }}
-                      onChange={(e) => handleChangeValues("descuentoA", e.target.value)}
+                      onChange={(e) => handleChangeDescuentos("descuentoA", e.target.value)}
                       inputRef={descuentoARef}
                       onKeyDown={(e) => handleKeyDown(e, descuentBRef, true)}
+                      onBlur={(e) => handleBlurCamposVacios("descuentoA", e.target.value)}
                       InputProps={{
                         style: {
                           fontSize: "16px",
@@ -535,7 +610,8 @@ const ThirdTable = ({
                       value={precioItemActual.descuentoB} // Valor del estado
                       style={{ paddingLeft: 20 }}
                       onFocus={handleFocus}
-                      onChange={(e) => handleChangeValues("descuentoB", e.target.value)}
+                      onChange={(e) => handleChangeDescuentos("descuentoB", e.target.value)}
+                      onBlur={(e) => handleBlurCamposVacios("descuentoB", e.target.value)}
                       inputRef={descuentBRef}
                       onKeyDown={(e) => handleKeyDown(e, codigoRef, false)}
                       InputProps={{
