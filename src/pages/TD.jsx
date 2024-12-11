@@ -61,7 +61,11 @@ export default function TD({
   proformaSeleccionada,
   urlImagen,
   setUrlImagen,
-  codigoRef
+  codigoRef,
+  precioVentaUnitario,
+  setPrecioVentaUnitario,
+  precioItemActual,
+  setPrecioItemActual
 }) {
   const [page, setPage] = useState(1);
   const [imagenArticulo, setImagenArticulo] = useState([]);
@@ -202,6 +206,10 @@ export default function TD({
             selectedClient = {selectedClient}
             proformaSeleccionada={proformaSeleccionada}
             codigoRef={codigoRef}
+            precioVentaUnitario={precioVentaUnitario}
+            setPrecioVentaUnitario={setPrecioVentaUnitario}
+            precioItemActual={precioItemActual}
+            setPrecioItemActual={setPrecioItemActual}
           />
         </div>
       </Container>

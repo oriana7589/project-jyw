@@ -20,7 +20,11 @@ import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import "react-toastify/dist/ReactToastify.css";
 import Decimal from "decimal.js";
 import { cardItemStyle, cardStyle, textItemCardStyle } from "../Styles/MenuStyles";
+
 import { SaveOutlined } from "@mui/icons-material";
+
+import { prepareColumns } from "material-react-table";
+
 Decimal.set({ precision: 10 });
 
 const data = [
@@ -103,8 +107,14 @@ const ThirdTable = ({
   calcularUtilidad,
   isAddToCartVisible,
   isEditToCartVisible,
-  codigoRef
+  codigoRef,
+  precioVentaUnitario,
+  setPrecioVentaUnitario,
+  precioItemActual,
+  setPrecioItemActual,
+  moneda
 }) => {
+  const [precioLista, setPrecioLista] = useState("");
   const currentData = historialPrecios;
   const cantidadRef = useRef(null);
   const descuentoARef = useRef(null);
@@ -113,6 +123,185 @@ const ThirdTable = ({
   const handleIncrement = () => {
     setTicketCount(ticketCount + 1);
     cantidadRef.current.focus();
+  };
+
+  useEffect(() => {
+    setPrecioVentaUnitario(detalleProducto.precioVenta);
+  },[detalleProducto]);
+  
+  const handlePrecioVentaUnitario = (event) => {
+    const value = event.target.value.trim();
+    setPrecioVentaUnitario(value);
+  };
+
+  const handleChangeCantidad = (cantidad) => {    
+    const regex = /^$|^[1-9]\d*|0$/;
+    if(regex.test(cantidad)) {
+      const updatedItem = {...precioItemActual, cantidad : cantidad}
+      calcularTotalItem(updatedItem);
+    }
+  }
+
+  const handleChangeDescuentos = (nombre, descuento) => {    
+    const regex = /^$|^(100|[1-9]?\d)$/;    
+    if(regex.test(descuento)) {
+      const updatedItem = {...precioItemActual, [nombre] : descuento};
+      calcularTotalItem(updatedItem);
+    }
+  }
+
+  const handleChangePrecioUnitario = (field, value) => {
+
+    // if(field === "precioVentaUnitarioUSD") {
+    //   const precioVentaUnitario_ = filtroDecimales(value);
+    //   const updatedItem = { ...precioItemActual, [field]: precioVentaUnitario_ };    
+  
+    //   const descA = updatedItem.descuentoA;
+    //   const descB = updatedItem.descuentoB;
+    //   const dctA = new Decimal(descA).dividedBy(100).neg().plus(1);
+    //   const dctB = new Decimal(descB).dividedBy(100).neg().plus(1);
+  
+    //   const precioUnitarioUSD = updatedItem.precioVentaUnitarioUSD === "" ? 0 : updatedItem.precioVentaUnitarioUSD;
+    //   const precioUnitarioSOL = new Decimal(precioUnitarioUSD).times(moneda).toDecimalPlaces(2);
+    //   updatedItem.precioVentaUnitarioSOL = precioUnitarioSOL;
+  
+    //   const totalItemUSD = new Decimal(precioUnitarioUSD)
+    //     .times(updatedItem.cantidad)
+    //     .times(dctA)
+    //     .times(dctB);
+  
+    //   const totalItemSOL = new Decimal(precioUnitarioSOL)
+    //     .times(updatedItem.cantidad)
+    //     .times(dctA)
+    //     .times(dctB); 
+
+    //   updatedItem.totalItemUSD = totalItemUSD;
+    //   updatedItem.totalItemSOL = totalItemSOL;
+    //   console.log('updatedItem.totalItemUSD', updatedItem.totalItemUSD)
+    //   console.log('updatedItem.totalItemSOL', updatedItem.totalItemSOL)
+  
+    //   updatedItem.subTotalItemUSD = totalItemUSD.dividedBy(1.18);
+    //   updatedItem.subTotalItemSOL = totalItemSOL.dividedBy(1.18);
+
+    //   const utilidad = calcularUtilidadU(new Decimal(precioUnitarioUSD), dctA, dctB);
+    //   updatedItem.utilidad = utilidad;
+  
+    //   setPrecioItemActual(updatedItem);
+    // } else {
+    //   const precioVentaUnitario_ = filtroDecimales(value);
+    //   const updatedItem = { ...precioItemActual, [field]: precioVentaUnitario_ };    
+  
+    //   const descA = updatedItem.descuentoA;
+    //   const descB = updatedItem.descuentoB;
+    //   const dctA = new Decimal(descA).dividedBy(100).neg().plus(1);
+    //   const dctB = new Decimal(descB).dividedBy(100).neg().plus(1);      
+  
+    //   const precioUnitarioSOL = updatedItem.precioVentaUnitarioSOL === "" ? 0 : updatedItem.precioVentaUnitarioSOL;
+    //   const precioUnitarioUSD = new Decimal(precioUnitarioSOL).dividedBy(moneda).toDecimalPlaces(2);
+    //   updatedItem.precioVentaUnitarioUSD = precioUnitarioUSD;
+  
+    //   const totalItemUSD = new Decimal(precioUnitarioUSD)
+    //     .times(updatedItem.cantidad)
+    //     .times(dctA)
+    //     .times(dctB);
+  
+    //   const totalItemSOL = new Decimal(precioUnitarioSOL)
+    //     .times(updatedItem.cantidad)
+    //     .times(dctA)
+    //     .times(dctB);
+      
+    //   updatedItem.totalItemUSD = totalItemUSD;
+    //   updatedItem.totalItemSOL = totalItemSOL;
+  
+    //   updatedItem.subTotalItemUSD = totalItemUSD.dividedBy(1.18);
+    //   updatedItem.subTotalItemSOL = totalItemSOL.dividedBy(1.18);
+  
+    //   const utilidad = calcularUtilidadU(precioUnitarioUSD, dctA, dctB);
+    //   updatedItem.utilidad = utilidad;
+  
+    //   setPrecioItemActual(updatedItem);
+    // }   
+    
+      const precioVentaUnitario_ = filtroDecimales(value);
+      const updatedItem = { ...precioItemActual, [field]: precioVentaUnitario_ }; 
+      
+      calcularTotalItem(updatedItem);
+  };
+
+  const calcularTotalItem = (updatedItem) => {
+
+    let precioUnitarioSOL = "";
+    let precioUnitarioUSD = "";
+    const descA = updatedItem.descuentoA === "" ? 0 : updatedItem.descuentoA;
+    const descB = updatedItem.descuentoB === "" ? 0 : updatedItem.descuentoB;
+    const dctA = new Decimal(descA).dividedBy(100).neg().plus(1);
+    const dctB = new Decimal(descB).dividedBy(100).neg().plus(1);
+    const cantidad = updatedItem.cantidad === "" ? 0 : updatedItem.cantidad
+
+    if (monedaValue == "SOLES") {
+      precioUnitarioSOL = updatedItem.precioVentaUnitarioSOL === "" ? 0 : updatedItem.precioVentaUnitarioSOL;
+      precioUnitarioUSD = new Decimal(precioUnitarioSOL).dividedBy(moneda).toDecimalPlaces(2);
+      updatedItem.precioVentaUnitarioUSD = precioUnitarioUSD;
+    } else {
+      precioUnitarioUSD = updatedItem.precioVentaUnitarioUSD === "" ? 0 : updatedItem.precioVentaUnitarioUSD;
+      precioUnitarioSOL = new Decimal(precioUnitarioUSD).times(moneda).toDecimalPlaces(2);
+      updatedItem.precioVentaUnitarioSOL = precioUnitarioSOL;
+    }    
+
+    const totalItemUSD = new Decimal(precioUnitarioUSD)
+      .times(cantidad)
+      .times(dctA)
+      .times(dctB);
+
+    const totalItemSOL = new Decimal(precioUnitarioSOL)
+      .times(cantidad)
+      .times(dctA)
+      .times(dctB); 
+
+    updatedItem.totalItemUSD = totalItemUSD;
+    updatedItem.totalItemSOL = totalItemSOL;
+
+    updatedItem.subTotalItemUSD = totalItemUSD.dividedBy(1.18);
+    updatedItem.subTotalItemSOL = totalItemSOL.dividedBy(1.18);
+
+    const utilidad = calcularUtilidadU(new Decimal(precioUnitarioUSD), dctA, dctB);
+    updatedItem.utilidad = utilidad;
+
+    setPrecioItemActual(updatedItem)
+  }
+
+  const calcularUtilidadU = (precioVentaUSD, dctA, dctB) => {
+    const precioVentaSinIGV = precioVentaUSD
+      .dividedBy(1.18)
+      .dividedBy(1.18)
+      .times(dctA)
+      .times(dctB);
+
+    const precioCompraSinIGV = new Decimal(detalleProducto.precioCompra).dividedBy(1.18);
+
+    const utilidad = precioVentaSinIGV
+      .minus(precioCompraSinIGV)
+      .dividedBy(precioCompraSinIGV)
+      .toDecimalPlaces(2);
+      
+    return utilidad;
+  };
+
+  const handleBlurCamposVacios = (campo, valor) => {
+    if (valor.trim() === "") {
+      setPrecioItemActual({...precioItemActual, [campo]: 0})
+    }
+  }
+
+  const filtroDecimales = (decimal) => {
+    //const value = decimal.trim();
+    // Expresión regular para validar números positivos con hasta dos decimales
+    const regex = /^(\d+(\.\d{0,2})?|\.\d{1,2})$/;
+    if (decimal === "") {
+      return "";
+    } else if (regex.test(decimal)) {      
+      return decimal;
+    }
   };
 
   const handleAddToCart = () => {
@@ -126,9 +315,10 @@ const ThirdTable = ({
       monto,
       precioFinal,
       monedaValue,
-      utilidad
+      utilidad,
+      precioItemActual
     );
-    console.log('monto - addtocart', monto);
+    console.log('monto - addtocart', precioItemActual);
     console.log('total - addtocart', total);
   };
 
@@ -291,8 +481,15 @@ const ThirdTable = ({
                       variant="outlined"
                       autoComplete="off"
                       style={{ paddingLeft: 20 }}
-                      value={detalleProducto.precioVenta} // Valor del estado
-                      inputProps={{ type: "text", inputMode: "numeric" }}
+                      value={
+                        monedaValue === "SOLES"
+                        ? precioItemActual.precioVentaUnitarioSOL
+                        : precioItemActual.precioVentaUnitarioUSD
+                      }
+                      onFocus={handleFocus}
+                      onChange={(e) => handleChangePrecioUnitario(monedaValue === "SOLES" ? "precioVentaUnitarioSOL" : "precioVentaUnitarioUSD", filtroDecimales(e.target.value))}
+                      onBlur={(e) => handleBlurCamposVacios(monedaValue === "SOLES" ? "precioVentaUnitarioSOL" : "precioVentaUnitarioUSD", e.target.value)}
+                      inputProps={{ type: "text" }}
                       InputProps={{
                         style: {
                           fontSize: "16px",
@@ -340,11 +537,12 @@ const ThirdTable = ({
                       autoComplete="off"
                       style={{
                       }}
-                      value={ticketCount}
+                      value={precioItemActual.cantidad}
                       onFocus={handleFocus}
-                      onChange={handleChange}
+                      onChange={(e) => handleChangeCantidad(e.target.value)}
                       inputRef={cantidadRef}
                       onKeyDown={(e) => handleKeyDown(e, descuentoARef, true)}
+                      onBlur={(e) => handleBlurCamposVacios("cantidad", e.target.value)}
                       InputProps={{
                         style: {
                           fontSize: "16px",
@@ -384,12 +582,13 @@ const ThirdTable = ({
                       variant="outlined"
                       autoComplete="off"
                       style={{ paddingLeft: 20 }}
-                      value={descuentoA} // Valor del estado
+                      value={precioItemActual.descuentoA} // Valor del estado
                       onFocus={handleFocus}
                       inputProps={{ type: "text", inputMode: "numeric" }}
-                      onChange={handleDescuentoAChange}
+                      onChange={(e) => handleChangeDescuentos("descuentoA", e.target.value)}
                       inputRef={descuentoARef}
                       onKeyDown={(e) => handleKeyDown(e, descuentBRef, true)}
+                      onBlur={(e) => handleBlurCamposVacios("descuentoA", e.target.value)}
                       InputProps={{
                         style: {
                           fontSize: "16px",
@@ -412,10 +611,11 @@ const ThirdTable = ({
                     <TextField
                       variant="outlined"
                       autoComplete="off"
-                      value={descuentoB} // Valor del estado
+                      value={precioItemActual.descuentoB} // Valor del estado
                       style={{ paddingLeft: 20 }}
                       onFocus={handleFocus}
-                      onChange={handleDescuentoBChange}
+                      onChange={(e) => handleChangeDescuentos("descuentoB", e.target.value)}
+                      onBlur={(e) => handleBlurCamposVacios("descuentoB", e.target.value)}
                       inputRef={descuentBRef}
                       onKeyDown={(e) => handleKeyDown(e, codigoRef, false)}
                       InputProps={{
@@ -434,7 +634,7 @@ const ThirdTable = ({
                 </tr>
                 <tr>
                   <td style={{ fontSize: "1.1rem", fontWeight: "bold" }}>
-                    TOTAL INC. IGV({monedaValue === "SOLES" ? "S/" : "$"}):
+                    TOTAL C/ IGV({monedaValue === "SOLES" ? "S/" : "$"}):
                   </td>
                   <td
                     style={{
@@ -446,10 +646,13 @@ const ThirdTable = ({
                     <TextField
                       variant="outlined"
                       autoComplete="off"
-                      value={total} // Valor del estado
+                      value={
+                        monedaValue === "SOLES"
+                        ? precioItemActual.totalItemSOL
+                        : precioItemActual.totalItemUSD
+                      }
                       onFocus={handleFocus}
-                      style={{ paddingLeft: 20 }}
-                      onChange={handlPrecioFinalChange}
+                      style={{ paddingLeft: 20 }}                      
                       InputProps={{
                         style: {
                           fontSize: "16px",
@@ -457,8 +660,8 @@ const ThirdTable = ({
                           height: "35px",
                           textAlign: "center",
                           marginLeft:14,
-                        },
-                        disabled: !isChecked,
+                        },                        
+                        readOnly: true
                       }}
                     />
                     <Checkbox
@@ -572,7 +775,11 @@ const TableShop = ({
   isEditToCartVisible,
   selectedClient,
   proformaSeleccionada,
-  codigoRef
+  codigoRef,
+  precioVentaUnitario,
+  setPrecioVentaUnitario,
+  precioItemActual,
+  setPrecioItemActual
 }) => {
   let razonSocial = "";
   let ruc = "";
@@ -581,6 +788,7 @@ const TableShop = ({
     razonSocial = selectedClient.razonSocial || proformaSeleccionada.razonSocialCliente;
     ruc = selectedClient.numDocumento || proformaSeleccionada.razonSocialCliente;
   }
+
   return (
     <div style={{ paddingLeft: 20 }}>
       <div style={{
@@ -699,6 +907,10 @@ const TableShop = ({
         isAddToCartVisible={isAddToCartVisible}
         isEditToCartVisible={isEditToCartVisible}
         codigoRef={codigoRef}
+        precioVentaUnitario={precioVentaUnitario}
+        setPrecioVentaUnitario={setPrecioVentaUnitario}
+        precioItemActual={precioItemActual}
+        setPrecioItemActual={setPrecioItemActual}
       />
     </div>
   );

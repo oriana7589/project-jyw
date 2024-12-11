@@ -136,10 +136,24 @@ const TuComponente = () => {
   const [isEditProformaVisible, setIsEditProformaVisible] = useState(false);
   const [totalSubtotal, setTotalSubtotal] = useState(0);
   const [total1, setTotal1] = useState(0);
+  const [precioVentaUnitario, setPrecioVentaUnitario] = useState(0);
   const [produtosSugeridosCliente, setProductosSugeridosCliente] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [monedaType, setMonedaType] = useState("");
   const [urlImagen, setUrlImagen] = useState(imagenNoDisponible);
+  const [precioItemActual, setPrecioItemActual] = useState({
+    codigoInterno: "",
+    precioVentaUnitarioUSD: "",
+    precioVentaUnitarioSOL: "",
+    descuentoA: 0,
+    descuentoB: 0,
+    subTotalItemUSD: new Decimal(0),
+    subTotalItemSOL: new Decimal(0),
+    totalItemUSD: new Decimal(0),
+    totalItemSOL: new Decimal(0),
+    cantidad: 1,
+    utilidad: new Decimal(0)
+  });
 
   const codigoRef = useRef(null);
   const descripcionRef = useRef(null);
@@ -303,6 +317,12 @@ const TuComponente = () => {
     return precioFinaln;
   };
 
+  useEffect(()=> {
+    if(precioVentaUnitario){
+      setMonto(new Decimal(precioVentaUnitario).dividedBy(new Decimal(1.18)));
+    }   
+  },[precioVentaUnitario]);
+
   const [total, setTotal] = useState(calcularPrecioFinal().toString());
 
   useEffect(() => {
@@ -434,12 +454,28 @@ const TuComponente = () => {
       const impuesto = new Decimal(1.18);
       const precioVentaSinIGV = precioVenta.dividedBy(impuesto);
       const precio = Math.round(precioVentaSinIGV.times(100)) / 100;
+
+      const precioUSD = new Decimal(detalleProducto.precioVenta || 0);
+      const precioSOL = precioUSD.times(moneda).toDecimalPlaces(2);
       //const precio = precioVentaSinIGV.toDecimalPlaces(2);
       setDescuentoA(0);
       setDescuentoB(0);
       setTicketCount(1);
       setMonto(precio);
       setMonedaType("");
+      setPrecioItemActual({
+        ...precioItemActual,
+        codigoInterno: detalleProducto.codigoInterno,
+        cantidad: 1,
+        descuentoA: 0,
+        descuentoB: 0,
+        precioVentaUnitarioUSD: precioUSD,
+        precioVentaUnitarioSOL: precioSOL,
+        totalItemUSD: precioUSD,
+        totalItemSOL: precioSOL,
+        subTotalItemUSD: precioUSD.dividedBy(1.18).toDecimalPlaces(2),
+        subTotalItemSOL: precioSOL.dividedBy(1.18).toDecimalPlaces(2),
+      })
     });
 
     if (!selectedClient) {
@@ -575,7 +611,8 @@ const TuComponente = () => {
     monto,
     precioFinal,
     monedaValue,
-    utilidad
+    utilidad,
+    precioItem
   ) => {
     if (precioFinal === "") {
       precioFinal = 0;
@@ -601,21 +638,42 @@ const TuComponente = () => {
       codigoInterno: detalleProducto.codigoInterno,
       linea: detalleProducto.codigoLinea,
       precioLista: detalleProducto.precioVenta,
+      precioVentaUnitarioUSD: precioItemActual.precioVentaUnitarioUSD,
+      precioVentaUnitarioSOL: precioItemActual.precioVentaUnitarioSOL,
       precioCompra: detalleProducto.precioCompra,
       codigoArticulo: detalleProducto.codigoArticulo,
       marca: detalleProducto.descripcionMarca,
       tipoCompra: detalleProducto.tipoCompra,
-      descuentoA: descuentoA,
-      descuentoB: descuentoB,
-      monto: subTotalItem,
+      descuentoA: precioItemActual.descuentoA,
+      descuentoB: precioItemActual.descuentoB,
+      monto: precioItemActual.subTotalItemUSD,
+      subTotalItemUSD: precioItemActual.subTotalItemUSD,
+      subTotalItemSOL: precioItemActual.subTotalItemSOL,
       monedaType: monedaType,
-      precioFinal: new Decimal(precioFinal),
-      ticketCount: ticketCount,
-      utilidad: utilidad,
-      codigoAlmacen: detalleProducto.codigoAlmacen,
+      precioFinal: precioItemActual.totalItemUSD,
+      totalItemUSD: precioItemActual.totalItemUSD,
+      totalItemSOL: precioItemActual.totalItemSOL,
+      ticketCount: precioItemActual.cantidad,
+      cantidad: precioItemActual.cantidad,
+      utilidad: precioItemActual.utilidad,
+      codigoAlmacen: detalleProducto.codigoAlmacen
     };
     setCartItems([...cartItems, newItem]);
   };
+
+  // const precioItem = {    
+  //   codigoInterno: "",
+  //   precioVentaUnitarioUSD: new Decimal(0),
+  //   precioVentaUnitarioSOL: new Decimal(0),
+  //   descuentoA: new Decimal(0),
+  //   descuentoB: new Decimal(0),
+  //   subTotalItemUSD: new Decimal(0),
+  //   subTotalItemsol: new Decimal(0),
+  //   totalItemUSD: new Decimal(0),
+  //   totalItemSOL: new Decimal(0),
+  //   cantidad: 0,
+  //   utilidad: new Decimal(0)
+  // };
 
   const editCartItem = (
     precioFinal,
@@ -946,29 +1004,29 @@ const TuComponente = () => {
       };
 
       const listaDetalle = cartItems.map((item, index) => {
-        const subTotalItem =
-          monedaValue === "SOLES"
-            ? item.monedaType === "SOLES"
-              ? new Decimal(item.monto).toDecimalPlaces(2)
-              : new Decimal(item.monto).times(moneda).toDecimalPlaces(2)
-            : monedaValue === "DOLARES AMERICANOS"
-            ? item.monedaType === "DOLARES AMERICANOS"
-              ? new Decimal(item.monto).toDecimalPlaces(2)
-              : new Decimal(item.monto)
-                  .dividedBy(new Decimal(moneda))
-                  .toDecimalPlaces(2)
-            : 0;
+        // const subTotalItem =
+        //   monedaValue === "SOLES"
+        //     ? item.monedaType === "SOLES"
+        //       ? new Decimal(item.monto).toDecimalPlaces(2)
+        //       : new Decimal(item.monto).times(moneda).toDecimalPlaces(2)
+        //     : monedaValue === "DOLARES AMERICANOS"
+        //     ? item.monedaType === "DOLARES AMERICANOS"
+        //       ? new Decimal(item.monto).toDecimalPlaces(2)
+        //       : new Decimal(item.monto)
+        //           .dividedBy(new Decimal(moneda))
+        //           .toDecimalPlaces(2)
+        //     : 0;
 
-        const precioVentaSinIGV = subTotalItem / item.ticketCount;
+        const subTotalItem = monedaValue === "SOLES" ? item.subTotalItemSOL : item.subTotalItemUSD;
+        const totalItem = monedaValue === "SOLES" ? item.totalItemSOL : item.totalItemUSD;
+        const precioVentaSinIGV = subTotalItem.dividedBy(item.cantidad).toDecimalPlaces(2);
         const precioCompraSinIGV = new Decimal(item.precioCompra);
-        const totalItemConIGV = new Decimal(item.precioFinal).toDecimalPlaces(
-          2
-        );
+        const totalItemConIGV = new Decimal(totalItem).toDecimalPlaces(2);
 
         return {
           numeroItem: index + 1,
           codigoInterno: item.codigoInterno,
-          cantidad: item.ticketCount,
+          cantidad: item.cantidad,
           precioCompra: precioCompraSinIGV, //item.precioCompra,
           precioLista: item.precioLista,
           precioVenta: precioVentaSinIGV,
@@ -1758,6 +1816,10 @@ const TuComponente = () => {
             codigoRef={codigoRef}
             agencia = {agencia}
             setAgencia = {setAgencia}
+            precioVentaUnitario={precioVentaUnitario}
+            setPrecioVentaUnitario={setPrecioVentaUnitario}
+            precioItemActual={precioItemActual}
+            setPrecioItemActual={setPrecioItemActual}
           />
         </Collapse>
       </Card>

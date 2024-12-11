@@ -79,6 +79,18 @@ function ItemsProductos({
     }
   };
 
+  const calcularSubTotalProforma = () => {
+    const totalNumero = total1
+      .toString()
+      .replace("S/", "")
+      .replace("$", "")
+      .trim();
+
+    const totalDecimal = new Decimal(totalNumero);
+    const subTotal = totalDecimal.dividedBy(1.18);
+    setTotalSubtotal(monedaValue === "SOLES" ? "S/" + subTotal : "$" + subTotal)    
+  };
+
   const calcularTotalPrecioFinal = () => {
     const total = cartItems.reduce((total, item) => {
       let precioFinal = new Decimal(item.precioFinal);
@@ -102,6 +114,15 @@ function ItemsProductos({
     } else if (monedaValue === "DOLARES AMERICANOS") {
       setTotal1("$" + total);
     }
+  };
+
+  const calcularTotalProforma = () => {
+    const total = cartItems.reduce((total, item) => {
+      total = total.plus(monedaValue === "SOLES" ? item.totalItemSOL : item.totalItemUSD)
+      return total;
+    }, new Decimal(0));
+
+    setTotal1(monedaValue === "SOLES" ? "S/" + total : "$" + total)
   };
 
   const calcularUtilidadCarrito = () => {
@@ -130,12 +151,14 @@ function ItemsProductos({
 
   // Llamar a la función para calcular el total al renderizar el componente
   useEffect(() => {
-    calcularTotalPrecioFinal();
-  }, [cartItems, monedaValue]);
+    //calcularTotalPrecioFinal();
+    calcularTotalProforma();
+  }, [cartItems, monedaValue, moneda]);
 
   useEffect(() => {
-    calcularSubTotal();
-    calcularUtilidadCarrito();
+    //calcularSubTotal();
+    calcularSubTotalProforma();
+    //calcularUtilidadCarrito();
   }, [total1, cartItems, monedaValue, moneda]);
 
   const handleMouseEnter = (index) => {
@@ -421,7 +444,7 @@ function ItemsProductos({
                         paddingRight={2}
                       >
                         <span style={{ fontWeight: "bold" }}> Cantidad: </span>{" "}
-                        {item.ticketCount}
+                        {item.cantidad}
                       </Typography>
                       <Typography
                         variant="body2"
@@ -488,7 +511,7 @@ function ItemsProductos({
                       fontSize="1.1rem"
                       style={{ fontWeight: "bold" }}
                     >
-                      {monedaValue === "SOLES"
+                      {/* {monedaValue === "SOLES"
                         ? "S/ " +
                           (item.monedaType === "SOLES"
                             ? new Decimal(item.precioFinal)
@@ -508,7 +531,9 @@ function ItemsProductos({
                                   .dividedBy(new Decimal(moneda))
                                   .toDecimalPlaces(2)
                                   .toString()
-                            : "")}
+                            : "")} */
+                        monedaValue === "SOLES" ? "S/ " + (item.totalItemSOL.toDecimalPlaces(2)) : "$ " + (item.totalItemUSD.toDecimalPlaces(2))                          
+                      }
                     </Typography>
                   </CardContent>
                   <CardContent sx={{ padding: 0, width: 100 }}>
