@@ -155,10 +155,8 @@ function ItemsProductos({
     calcularTotalProforma();
   }, [cartItems, monedaValue, moneda]);
 
-  useEffect(() => {
-    //calcularSubTotal();
-    calcularSubTotalProforma();
-    //calcularUtilidadCarrito();
+  useEffect(() => {    
+    calcularSubTotalProforma();    
   }, [total1, cartItems, monedaValue, moneda]);
 
   const handleMouseEnter = (index) => {
@@ -511,29 +509,7 @@ function ItemsProductos({
                       fontSize="1.1rem"
                       style={{ fontWeight: "bold" }}
                     >
-                      {/* {monedaValue === "SOLES"
-                        ? "S/ " +
-                          (item.monedaType === "SOLES"
-                            ? new Decimal(item.precioFinal)
-                                .toDecimalPlaces(2)
-                                .toString()
-                            : new Decimal(item.precioFinal)
-                                .times(moneda)
-                                .toDecimalPlaces(2)
-                                .toString())
-                        : "$ " +
-                          (monedaValue === "DOLARES AMERICANOS"
-                            ? item.monedaType === "DOLARES AMERICANOS"
-                              ? new Decimal(item.precioFinal)
-                                  .toDecimalPlaces(2)
-                                  .toString()
-                              : new Decimal(item.precioFinal)
-                                  .dividedBy(new Decimal(moneda))
-                                  .toDecimalPlaces(2)
-                                  .toString()
-                            : "")} */
-                        monedaValue === "SOLES" ? "S/ " + (item.totalItemSOL.toDecimalPlaces(2)) : "$ " + (item.totalItemUSD.toDecimalPlaces(2))                          
-                      }
+                      {monedaValue === "SOLES" ? "S/ " + (new Decimal(item.totalItemSOL).toDecimalPlaces(2)) : "$ " + (new Decimal(item.totalItemUSD).toDecimalPlaces(2))}
                     </Typography>
                   </CardContent>
                   <CardContent sx={{ padding: 0, width: 100 }}>
