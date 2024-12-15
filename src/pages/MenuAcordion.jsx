@@ -1058,29 +1058,16 @@ const TuComponente = () => {
       };
 
       const listaDetalle = cartItems.map((item, index) => {
-        const subTotalItem =
-          monedaValue === "SOLES"
-            ? item.monedaType === "SOLES"
-              ? new Decimal(item.monto).toDecimalPlaces(2)
-              : new Decimal(item.monto).times(moneda).toDecimalPlaces(2)
-            : monedaValue === "DOLARES AMERICANOS"
-            ? item.monedaType === "DOLARES AMERICANOS"
-              ? new Decimal(item.monto).toDecimalPlaces(2)
-              : new Decimal(item.monto)
-                  .dividedBy(new Decimal(moneda))
-                  .toDecimalPlaces(2)
-            : 0;
-
-        const precioVentaSinIGV = subTotalItem / item.ticketCount;
+        const subTotalItem = monedaValue === "SOLES" ? item.subTotalItemSOL : item.subTotalItemUSD;
+        const totalItem = monedaValue === "SOLES" ? item.totalItemSOL : item.totalItemUSD;
+        const precioVentaSinIGV = subTotalItem.dividedBy(item.cantidad).toDecimalPlaces(2);
         const precioCompraSinIGV = new Decimal(item.precioCompra);
-        const totalItemConIGV = new Decimal(item.precioFinal).toDecimalPlaces(
-          2
-        );
+        const totalItemConIGV = new Decimal(totalItem).toDecimalPlaces(2);
 
         return {
           numeroItem: index + 1,
           codigoInterno: item.codigoInterno,
-          cantidad: item.ticketCount,
+          cantidad: item.cantidad,
           precioCompra: precioCompraSinIGV, //item.precioCompra,
           precioLista: item.precioLista,
           precioVenta: precioVentaSinIGV,
@@ -1330,32 +1317,7 @@ const TuComponente = () => {
           utilidad: utilidad,
           codigoAlmacen: item.codigoAlmacen,
         };
-        newCartItems.push(newItems);
-        /*
-        product: detalleProducto.descripcionArticulo,
-      codigoInterno: detalleProducto.codigoInterno,
-      linea: detalleProducto.codigoLinea,
-      precioLista: detalleProducto.precioVenta,
-      precioVentaUnitarioUSD: precioItemActual.precioVentaUnitarioUSD, -
-      precioVentaUnitarioSOL: precioItemActual.precioVentaUnitarioSOL, -
-      precioCompra: detalleProducto.precioCompra,
-      codigoArticulo: detalleProducto.codigoArticulo,
-      marca: detalleProducto.descripcionMarca,
-      tipoCompra: detalleProducto.tipoCompra,
-      descuentoA: precioItemActual.descuentoA,
-      descuentoB: precioItemActual.descuentoB,
-      monto: precioItemActual.subTotalItemUSD,
-      subTotalItemUSD: precioItemActual.subTotalItemUSD, -
-      subTotalItemSOL: precioItemActual.subTotalItemSOL, -
-      monedaType: monedaType,
-      precioFinal: precioItemActual.totalItemUSD,
-      totalItemUSD: precioItemActual.totalItemUSD, -
-      totalItemSOL: precioItemActual.totalItemSOL, -
-      ticketCount: precioItemActual.cantidad,
-      cantidad: precioItemActual.cantidad, -
-      utilidad: precioItemActual.utilidad,
-      codigoAlmacen: detalleProducto.codigoAlmacen
-        */ 
+        newCartItems.push(newItems);        
       });
 
       setCartItems(newCartItems);
