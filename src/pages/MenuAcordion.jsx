@@ -342,21 +342,31 @@ const TuComponente = () => {
 
   const handleGoToTab1 = (
     codigoInterno,
-    precioFinal,
+    precioVentaUnitarioUSD,
+    precioVentaUnitarioSOL,
+    cantidad,
     descuentoA,
     descuentoB,
-    ticketCount,
-    monto,
+    subTotalItemUSD,
+    subTotalItemSOL,
+    totalItemUSD,
+    totalItemSOL, 
     monedaType
   ) => {
-    //console.log('precio al volver', precio)
-    setDescuentoA(descuentoA);
-    setDescuentoB(descuentoB);
-    setTotal(precioFinal);
-    setTicketCount(ticketCount);
-    setMonto(monto / ticketCount);
-    //setMonto(precio);
     setMonedaType(monedaType);
+    setPrecioItemActual({
+      ...precioItemActual,
+      codigoInterno: codigoInterno,
+      cantidad: cantidad,
+      descuentoA: descuentoA,
+      descuentoB: descuentoB,
+      precioVentaUnitarioUSD: precioVentaUnitarioUSD,
+      precioVentaUnitarioSOL: precioVentaUnitarioSOL,
+      totalItemUSD: totalItemUSD,
+      totalItemSOL: totalItemSOL,
+      subTotalItemUSD: subTotalItemUSD,
+      subTotalItemSOL: subTotalItemSOL,
+    });
 
     setTabValue(0);
 
@@ -367,13 +377,7 @@ const TuComponente = () => {
       const precioVentaSinIGV = precioVenta.dividedBy(impuesto);
       const precio = Math.round(precioVentaSinIGV.times(100)) / 100;
       setMonto(precio);
-      // if (monedaValue == "DOLARES AMERICANOS") {
-      //   setMonto(precio);
-      // } else {
-      //   const tipoCambio = moneda;
-      //   const precioSoles = Math.round(precioVentaSinIGV.times(tipoCambio).times(100)) / 100;
-      //   setMonto(precioSoles);
-      // }
+      
     });
 
     if (cartItems.length === 0) {
@@ -586,10 +590,7 @@ const TuComponente = () => {
     monedaValue,
     utilidad,
     precioItem
-  ) => {
-    if (precioFinal === "") {
-      precioFinal = 0;
-    }
+  ) => {   
 
     const alreadyInCart = cartItems.some(
       (item) => item.codigoInterno === detalleProducto.codigoInterno
@@ -602,10 +603,7 @@ const TuComponente = () => {
     setToastOpen(true);
     toast.success("Artículo agregado al carrito con éxito");
     const monedaType = monedaValue;
-
-    const subTotalItem = new Decimal(
-      new Decimal(precioFinal) / new Decimal(1.18)
-    ).toDecimalPlaces(2);
+    
     const newItem = {
       product: detalleProducto.descripcionArticulo,
       codigoInterno: detalleProducto.codigoInterno,
@@ -634,31 +632,17 @@ const TuComponente = () => {
     setCartItems([...cartItems, newItem]);
   };
 
-  // const precioItem = {    
-  //   codigoInterno: "",
-  //   precioVentaUnitarioUSD: new Decimal(0),
-  //   precioVentaUnitarioSOL: new Decimal(0),
-  //   descuentoA: new Decimal(0),
-  //   descuentoB: new Decimal(0),
-  //   subTotalItemUSD: new Decimal(0),
-  //   subTotalItemsol: new Decimal(0),
-  //   totalItemUSD: new Decimal(0),
-  //   totalItemSOL: new Decimal(0),
-  //   cantidad: 0,
-  //   utilidad: new Decimal(0)
-  // };
-
   const editCartItem = (
     precioFinal,
-    selectedItem,
+    codigoInternoSeleccionado,
     utilidad,
     descuentoA,
     descuentoB,
     ticketCount,
-    monedaValue
+    monedaValue,    
   ) => {
     const alreadyInCartIndex = cartItems.findIndex(
-      (item) => item.codigoInterno === selectedItem
+      (item) => item.codigoInterno === codigoInternoSeleccionado
     );
     if (alreadyInCartIndex !== -1) {
       // Si el producto ya está en el carrito, actualiza sus detalles
@@ -669,15 +653,46 @@ const TuComponente = () => {
       ).toDecimalPlaces(2);
       updatedCartItems[alreadyInCartIndex] = {
         ...updatedCartItems[alreadyInCartIndex],
-        descuentoA,
-        descuentoB,
+        descuentoA: precioItemActual.descuentoA,
+        descuentoB: precioItemActual.descuentoB,
+        precioVentaUnitarioUSD: precioItemActual.precioVentaUnitarioUSD,
+        precioVentaUnitarioSOL: precioItemActual.precioVentaUnitarioSOL,
         monto: subTotalItem,
+        subTotalItemUSD: precioItemActual.subTotalItemUSD,
+        subTotalItemSOL: precioItemActual.subTotalItemSOL,
         monedaType: monedaType,
         precioFinal: new Decimal(precioFinal),
-        utilidad,
-        ticketCount,
+        totalItemUSD: precioItemActual.totalItemUSD,
+        totalItemSOL: precioItemActual.totalItemSOL,
+        utilidad: precioItemActual.utilidad,
+        cantidad: precioItemActual.cantidad,
       };
 
+      /*const newItem = {
+      product: detalleProducto.descripcionArticulo,
+      codigoInterno: detalleProducto.codigoInterno,
+      linea: detalleProducto.codigoLinea,
+      precioLista: detalleProducto.precioVenta,
+      precioVentaUnitarioUSD: precioItemActual.precioVentaUnitarioUSD,
+      precioVentaUnitarioSOL: precioItemActual.precioVentaUnitarioSOL,
+      precioCompra: detalleProducto.precioCompra,
+      codigoArticulo: detalleProducto.codigoArticulo,
+      marca: detalleProducto.descripcionMarca,
+      tipoCompra: detalleProducto.tipoCompra,
+      descuentoA: precioItemActual.descuentoA,
+      descuentoB: precioItemActual.descuentoB,
+      monto: precioItemActual.subTotalItemUSD,
+      subTotalItemUSD: precioItemActual.subTotalItemUSD,
+      subTotalItemSOL: precioItemActual.subTotalItemSOL,
+      monedaType: monedaType,
+      precioFinal: precioItemActual.totalItemUSD,
+      totalItemUSD: precioItemActual.totalItemUSD,
+      totalItemSOL: precioItemActual.totalItemSOL,
+      ticketCount: precioItemActual.cantidad,
+      cantidad: precioItemActual.cantidad,
+      utilidad: precioItemActual.utilidad,
+      codigoAlmacen: detalleProducto.codigoAlmacen
+    };*/
       setCartItems(updatedCartItems);
       setToastOpen(true);
       toast.success("El artículo se ha editado con éxito");
@@ -1192,8 +1207,7 @@ const TuComponente = () => {
   }, [proformaSeleccionada]);
 
   useEffect(() => {
-    if (proformaDetalle.length > 0) {
-      //COPIANDO EL CODIGO JAJA
+    if (proformaDetalle.length > 0) {      
 
       const clienteProforma = {
         codigoCliente: proformaSeleccionada.codigoClipro,
@@ -1273,14 +1287,6 @@ const TuComponente = () => {
       }
       let newCartItems = [];
       proformaDetalle.map((item) => {
-        const precioVenta = new Decimal(item.precioVenta);
-        const precioCompra = item.precioCompra;
-        const utilidad = precioVenta
-          .minus(precioCompra)
-          .dividedBy(precioCompra)
-          .toDecimalPlaces(2);
-        const monedaType = moneda;
-
         const totItemUSD = moneda_ === "SOLES" ? new Decimal(item.igvItem).dividedBy(moneda) : new Decimal(item.igvItem);
         const totItemSOL = moneda_ === "SOLES" ? new Decimal(item.igvItem) : new Decimal(item.igvItem).times(moneda);
 
@@ -1291,6 +1297,8 @@ const TuComponente = () => {
         const dctRealB = new Decimal(item.descuentoDos).dividedBy(100).neg().plus(1);
         const pvUnitarioUSD = totItemUSD.dividedBy(dctRealA).dividedBy(dctRealB).dividedBy(item.cantidad)
         const pvUnitarioSOL = totItemSOL.dividedBy(dctRealA).dividedBy(dctRealB).dividedBy(item.cantidad)
+
+        const utilidad = totItemUSD.dividedBy(1.18).dividedBy(item.cantidad).dividedBy(item.precioCompra).minus(1).toDecimalPlaces(2);
 
         const newItems = {
           product: item.descripcionArticulo,

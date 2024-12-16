@@ -547,11 +547,15 @@ function ItemsProductos({
                         onClick={() =>
                           handleGoToTab1(
                             item.codigoInterno,
-                            item.precioFinal,
+                            item.precioVentaUnitarioUSD,
+                            item.precioVentaUnitarioSOL,
+                            item.cantidad,
                             item.descuentoA,
                             item.descuentoB,
-                            item.ticketCount,
-                            item.monto,
+                            item.subTotalItemUSD,
+                            item.subTotalItemSOL,   
+                            item.totalItemUSD,
+                            item.totalItemSOL,      
                             item.monedaType
                           )
                         }

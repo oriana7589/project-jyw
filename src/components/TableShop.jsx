@@ -119,19 +119,23 @@ const ThirdTable = ({
   const descuentoARef = useRef(null);
   const descuentBRef = useRef(null);
 
-  const handleIncrement = () => {
-    setTicketCount(ticketCount + 1);
+  const handleIncrement = () => {   
+    const updatedItem = {...precioItemActual, cantidad: (precioItemActual.cantidad + 1)};
+    calcularTotalItem(updatedItem);
+    cantidadRef.current.focus();
+  };
+
+  const handleDecrement = () => {
+    if (precioItemActual.cantidad > 1) {
+      const updatedItem = {...precioItemActual, cantidad: (precioItemActual.cantidad - 1)};
+      calcularTotalItem(updatedItem);
+    }
     cantidadRef.current.focus();
   };
 
   useEffect(() => {
     setPrecioVentaUnitario(detalleProducto.precioVenta);
-  },[detalleProducto]);
-  
-  const handlePrecioVentaUnitario = (event) => {
-    const value = event.target.value.trim();
-    setPrecioVentaUnitario(value);
-  };
+  },[detalleProducto]); 
 
   const handleChangeCantidad = (cantidad) => {    
     const regex = /^$|^[1-9]\d*|0$/;
@@ -200,24 +204,7 @@ const ThirdTable = ({
       .toDecimalPlaces(2); //calcularUtilidadU(new Decimal(precioUnitarioUSD), dctA, dctB);    
 
     setPrecioItemActual(updatedItem)
-  }
-
-  const calcularUtilidadU = (precioVentaUSD, dctA, dctB) => {
-    const precioVentaSinIGV = precioVentaUSD
-      .dividedBy(1.18)
-      .dividedBy(1.18)
-      .times(dctA)
-      .times(dctB);
-
-    const precioCompraSinIGV = new Decimal(detalleProducto.precioCompra).dividedBy(1.18);
-
-    const utilidad = precioVentaSinIGV
-      .minus(precioCompraSinIGV)
-      .dividedBy(precioCompraSinIGV)
-      .toDecimalPlaces(2);
-      
-    return utilidad;
-  };
+  } 
 
   const handleBlurCamposVacios = (campo, valor) => {
     if (valor.trim() === "") {
@@ -256,29 +243,23 @@ const ThirdTable = ({
     console.log('total - addtocart', total);
   };
 
-  const handleEditSelectedItem = (selectedItem) => {
+  const handleEditSelectedItem = (codigoInternoSeleccionado) => {
     // Calcula los nuevos valores para el elemento seleccionado
     const precioFinal = total; //calcularPrecioFinal();
     const utilidad = calcularUtilidad();
+    calcularTotalItem(precioItemActual);
     editCartItem(
       precioFinal,
-      selectedItem,
+      codigoInternoSeleccionado,
       utilidad,
       descuentoA,
       descuentoB,
       ticketCount,
       monedaValue
     );
-    console.log('monto - addtocart', monto);
+    console.log('monto - addtocart', precioItemActual);
     console.log('total - addtocart', total);
-  };
-
-  const handleDecrement = () => {
-    if (ticketCount > 1) {
-      setTicketCount(ticketCount - 1);
-    }
-    cantidadRef.current.focus();
-  };
+  }; 
 
   const handleChange = (event) => {
     const value = event.target.value.trim(); // Eliminar espacios en blanco al principio y al final
@@ -423,6 +404,7 @@ const ThirdTable = ({
                       onFocus={handleFocus}
                       onChange={(e) => handleChangePrecioUnitario(monedaValue === "SOLES" ? "precioVentaUnitarioSOL" : "precioVentaUnitarioUSD", filtroDecimales(e.target.value))}
                       onBlur={(e) => handleBlurCamposVacios(monedaValue === "SOLES" ? "precioVentaUnitarioSOL" : "precioVentaUnitarioUSD", e.target.value)}
+                      onKeyDown={(e) => handleKeyDown(e, cantidadRef, true)}
                       inputProps={{ type: "text" }}
                       InputProps={{
                         style: {
@@ -601,6 +583,7 @@ const ThirdTable = ({
                     <Checkbox
                       checked={isChecked}
                       onChange={handleCheckBox}
+                      disabled={true}
                       sx={{
                         padding: 0,
                         marginLeft: 0.5,
