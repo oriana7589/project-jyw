@@ -370,7 +370,7 @@ function PrecioProductos({
         value={observaciones}
         onChange={(e) => setObservaciones(e.target.value)}
         multiline
-        rows={4}
+        rows={2}
         fullWidth
         variant="outlined"
         disabled={proformaSeleccionada.estado === 'FAC'}
