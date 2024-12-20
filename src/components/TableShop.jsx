@@ -108,6 +108,7 @@ const ThirdTable = ({
   isAddToCartVisible,
   isEditToCartVisible,
   codigoRef,
+  setTabValue,
   precioVentaUnitario,
   setPrecioVentaUnitario,
   precioItemActual,
@@ -224,10 +225,10 @@ const ThirdTable = ({
   };
 
   const handleAddToCart = () => {
-    const precioFinal = total; //calcularPrecioFinal();
+    const precioFinal = total; 
     const utilidad = calcularUtilidad();
     calcularTotalItem(precioItemActual);
-
+   
     addToCart(
       ticketCount,
       detalleProducto,
@@ -241,6 +242,8 @@ const ThirdTable = ({
     );
     console.log('monto - addtocart', precioItemActual);
     console.log('total - addtocart', total);
+    setTabValue(1)
+    codigoRef.current.focus();
   };
 
   const handleEditSelectedItem = (codigoInternoSeleccionado) => {
