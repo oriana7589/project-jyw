@@ -184,7 +184,7 @@ function ItemsProductos({
 
   return (
     <div>
-      <div style={{ display: "flex", alignItems: "center", marginBottom: 10 }}>
+      <div style={{ display: "flex", marginBottom: 10, width: "100%"}}>
         {proformaSeleccionada.estado === "FAC" ? (
           <div style={{ paddingLeft: 5, paddingTop: 5, display: "flex" }}>
             <Typography

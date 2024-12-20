@@ -120,7 +120,7 @@ function PrecioProductos({
   }
 
   return (
-    <div style={{ width: "90%", paddingTop: 10 }}>
+    <div style={{ width: "100%", paddingTop: 10 }}>
       <Grid container spacing={2}>
         {selectedClient && (
           <>
