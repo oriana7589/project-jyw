@@ -1,6 +1,6 @@
 import { Height } from "@mui/icons-material";
 import { hexToRgb } from "@mui/material";
-import { height } from "@mui/system";
+import { fontSize, height } from "@mui/system";
 
 export const containerStyle = {
   display: "flex",
@@ -93,6 +93,7 @@ export const textItemCardStyle = {
   whiteSpace: "normal",
   overflowWrap: "break-word",
   textAlign: "center",
+  fontSize:14.5,
   maxWidth: "100%",
 };
 
