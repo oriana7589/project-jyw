@@ -242,6 +242,7 @@ const ThirdTable = ({
     );
     console.log('monto - addtocart', precioItemActual);
     console.log('total - addtocart', total);
+    console.log('detalle', detalleProducto.precioVenta);
     setTabValue(1)
     codigoRef.current.focus();
   };

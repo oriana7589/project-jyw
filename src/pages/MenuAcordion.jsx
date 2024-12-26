@@ -611,6 +611,7 @@ const TuComponente = () => {
       precioLista: detalleProducto.precioVenta,
       precioVentaUnitarioUSD: precioItemActual.precioVentaUnitarioUSD,
       precioVentaUnitarioSOL: precioItemActual.precioVentaUnitarioSOL,
+      precioVenta: detalleProducto.precioVenta,
       precioCompra: detalleProducto.precioCompra,
       codigoArticulo: detalleProducto.codigoArticulo,
       marca: detalleProducto.descripcionMarca,

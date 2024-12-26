@@ -1,4 +1,5 @@
 import {
+  Box,
   Button,
   Card,
   CardContent,
@@ -7,6 +8,7 @@ import {
   Dialog,
   DialogActions,
   DialogContent,
+  Divider,
   IconButton,
   Typography,
 } from "@mui/material";
@@ -38,10 +40,10 @@ function ItemsProductos({
   isEditProformaVisible,
   isAddProformaVisible,
   actualizarProforma,
-  numeroProforma 
+  numeroProforma,
 }) {
   const [hoveredCard, setHoveredCard] = useState(null);
-  const [base64, setBase64] = useState('');
+  const [base64, setBase64] = useState("");
   const [dialogOpen, setDialogOpen] = useState(false);
   const [generarPDF, setGenerarPdf] = useState("");
   const handlePosition = () => {
@@ -88,7 +90,9 @@ function ItemsProductos({
 
     const totalDecimal = new Decimal(totalNumero);
     const subTotal = totalDecimal.dividedBy(1.18);
-    setTotalSubtotal(monedaValue === "SOLES" ? "S/" + subTotal : "$" + subTotal)    
+    setTotalSubtotal(
+      monedaValue === "SOLES" ? "S/" + subTotal : "$" + subTotal
+    );
   };
 
   const calcularTotalPrecioFinal = () => {
@@ -118,11 +122,13 @@ function ItemsProductos({
 
   const calcularTotalProforma = () => {
     const total = cartItems.reduce((total, item) => {
-      total = total.plus(monedaValue === "SOLES" ? item.totalItemSOL : item.totalItemUSD)
+      total = total.plus(
+        monedaValue === "SOLES" ? item.totalItemSOL : item.totalItemUSD
+      );
       return total;
     }, new Decimal(0));
 
-    setTotal1(monedaValue === "SOLES" ? "S/" + total : "$" + total)
+    setTotal1(monedaValue === "SOLES" ? "S/" + total : "$" + total);
   };
 
   const calcularUtilidadCarrito = () => {
@@ -138,9 +144,7 @@ function ItemsProductos({
         );
       }
 
-      const precioCompraSinIGVDolares = new Decimal(
-        item.precioCompra
-      );
+      const precioCompraSinIGVDolares = new Decimal(item.precioCompra);
       const utilidad = precioVentaSinIGVDolares
         .minus(precioCompraSinIGVDolares)
         .dividedBy(precioCompraSinIGVDolares)
@@ -155,8 +159,8 @@ function ItemsProductos({
     calcularTotalProforma();
   }, [cartItems, monedaValue, moneda]);
 
-  useEffect(() => {    
-    calcularSubTotalProforma();    
+  useEffect(() => {
+    calcularSubTotalProforma();
   }, [total1, cartItems, monedaValue, moneda]);
 
   const handleMouseEnter = (index) => {
@@ -167,24 +171,22 @@ function ItemsProductos({
     setHoveredCard(null);
   };
 
-  const handleDownloadPDF = async (numeroProforma) => {       
+  const handleDownloadPDF = async (numeroProforma) => {
     const url = `http://10.10.0.25:9696/api/Proforma/GenerarPdfProforma/${numeroProforma}`;
-    window.open(url, '_blank')    
+    window.open(url, "_blank");
   };
 
   const esAceptado = (utilidad, tipoCompra) => {
-    if (tipoCompra == 'LOC') {
-      return utilidad <= 0.1 ? true : false
-    }
-    else {
-      return utilidad <= 0.2 ? true : false
+    if (tipoCompra == "LOC") {
+      return utilidad <= 0.1 ? true : false;
+    } else {
+      return utilidad <= 0.2 ? true : false;
     }
   };
 
-
   return (
     <div>
-      <div style={{ display: "flex", marginBottom: 10, width: "100%"}}>
+      <div style={{ display: "flex", marginBottom: 10, width: "100%" }}>
         {proformaSeleccionada.estado === "FAC" ? (
           <div style={{ paddingLeft: 5, paddingTop: 5, display: "flex" }}>
             <Typography
@@ -206,9 +208,7 @@ function ItemsProductos({
                 borderColor: "rgb(226, 52, 48)",
                 border: "1px solid rgb(226, 52, 48)",
               }}
-              onClick={() =>
-                handleDownloadPDF(numeroProforma)
-              }
+              onClick={() => handleDownloadPDF(numeroProforma)}
             >
               <Typography
                 style={{
@@ -234,7 +234,7 @@ function ItemsProductos({
               style={{ paddingTop: 16 }}
               onChange={() => handleCheckboxChange(1)}
             />
-            <label htmlFor="checkbox1" style={{ paddingTop: 16 , width:90}}>
+            <label htmlFor="checkbox1" style={{ paddingTop: 16, width: 90 }}>
               Por facturar
             </label>
             <Checkbox
@@ -264,9 +264,7 @@ function ItemsProductos({
                       borderColor: "rgb(226, 52, 48)",
                       border: "1px solid rgb(226, 52, 48)",
                     }}
-                    onClick={() =>
-                      handleDownloadPDF(numeroProforma)
-                    }
+                    onClick={() => handleDownloadPDF(numeroProforma)}
                   >
                     <Typography
                       style={{
@@ -357,7 +355,17 @@ function ItemsProductos({
         </div>
       ) : (
         <>
-          <div style={{ padding: 5, maxHeight: "700px", overflowY: "auto" }}>
+          <div
+            style={{
+              padding: 5,
+              maxHeight: "580px",
+              overflowY: "auto",
+              width: "100%",
+              display: "flex", // Flexbox para organizar los hijos
+              flexDirection: "column", // Asegura que los hijos estén en columna
+              gap: "16px", // Espaciado entre Cards
+            }}
+          >
             {cartItems.map((item, index) => (
               <Card
                 key={index}
@@ -365,24 +373,23 @@ function ItemsProductos({
                 onMouseLeave={handleMouseLeave}
                 style={{
                   height: 165,
-                  width: 650,
-                  marginBottom: 15,
+                  flexShrink: 0,
                   boxShadow:
                     hoveredCard === index
                       ? "0 4px 8px 0 rgba(12, 55, 100, 0.2)"
                       : "0 4px 8px 0 rgba(12, 55, 100, 0.1)",
                   transition: "background-color 0.3s, box-shadow 0.3s",
-                  background:
-                    esAceptado(item.utilidad, item.tipoCompra)
-                      ? `linear-gradient(to bottom, rgba(255, 0, 0, 1) 0%, rgba(255, 0, 0, 0.5) 0%, transparent 30%)`
-                      : "white",
+                  background: esAceptado(item.utilidad, item.tipoCompra)
+                    ? `linear-gradient(to bottom, rgba(255, 0, 0, 1) 0%, rgba(255, 0, 0, 0.5) 0%, transparent 30%)`
+                    : "white",
                 }}
               >
+                <CardContent style={{ height: 45, padding:0, margin:0}}>
                 <Typography
                   gutterBottom
                   variant="body1"
                   component="div"
-                  paddingTop={2}
+                  paddingTop={1}
                   paddingLeft={2}
                   marginRight={2}
                   style={{
@@ -393,14 +400,18 @@ function ItemsProductos({
                 >
                   {index + 1}) {item.product}
                 </Typography>
+                </CardContent>
+              
                 <CardContent
-                  sx={{ display: "flex", padding: 0, width: "100%" }}
+                  sx={{ display: "flex", padding: 0, width: "100%" ,  height: 120}}
                 >
                   <CardMedia
                     component="div"
                     style={{
                       width: "16%",
-                      height: "16%",
+                      height: "100%",
+                      padding:0,
+                      margin:0,
                       alignSelf: "flex-start",
                       objectFit: "contain",
                     }}
@@ -408,7 +419,7 @@ function ItemsProductos({
                   >
                     <LazyImagen codigoArticulo={item.codigoArticulo.trim()} />
                   </CardMedia>
-                  <CardContent sx={{ padding: 0, width: "38%" }}>
+                  <CardContent sx={{ padding: 0, width: "40%" }}>
                     <CardContent sx={{ display: "flex", padding: 0 }}>
                       <Typography
                         variant="body2"
@@ -430,93 +441,159 @@ function ItemsProductos({
 
                     <CardContent
                       sx={{
-                        display: "flex",
+                        flexDirection: "column",
                         padding: 0,
                         marginBottom: 1,
                         marginTop: 1,
                       }}
                     >
-                      <Typography
-                        variant="body2"
-                        color="text.secondary"
-                        paddingRight={2}
+                      <CardContent
+                        sx={{
+                          display: "flex",
+                          padding: 0,
+                          marginBottom: 1,
+                          marginTop: 1,
+                        }}
                       >
-                        <span style={{ fontWeight: "bold" }}> Cantidad: </span>{" "}
-                        {item.cantidad}
-                      </Typography>
-                      <Typography
-                        variant="body2"
-                        color="text.secondary"
-                        paddingRight={2}
-                      >
-                        <span style={{ fontWeight: "bold" }}> Marca:</span>{" "}
-                        {item.marca.substring(0, 7)}
-                      </Typography>
-                    </CardContent>
+                        <Typography
+                          variant="body2"
+                          color="text.secondary"
+                          paddingRight={2}
+                        >
+                          <span style={{ fontWeight: "bold" }}>
+                            {" "}
+                            Cantidad:{" "}
+                          </span>{" "}
+                          {item.cantidad}
+                        </Typography>
+                        <Typography
+                          variant="body2"
+                          color="text.secondary"
+                          paddingRight={2}
+                        >
+                          <span style={{ fontWeight: "bold" }}> Marca:</span>{" "}
+                          {item.marca.substring(0, 7)}
+                        </Typography>
+                      </CardContent>
 
-                    <CardContent
-                      sx={{
-                        display: "flex",
-                        padding: 0,
-                        marginBottom: 1,
-                        marginTop: 1,
-                      }}
-                    >
+                      <CardContent
+                        sx={{
+                          display: "flex",
+                          padding: 0,
+                          marginBottom: 1,
+                          marginTop: 1,
+                        }}
+                      >
+                        <Typography
+                          variant="body2"
+                          color="text.secondary"
+                          paddingRight={2}
+                        >
+                          <span style={{ fontWeight: "bold" }}> Desc.1: </span>{" "}
+                          {item.descuentoA}
+                        </Typography>
+                        <Typography
+                          variant="body2"
+                          color="text.secondary"
+                          paddingRight={2}
+                        >
+                          <span style={{ fontWeight: "bold" }}> Desc.2: </span>{" "}
+                          {item.descuentoB}
+                        </Typography>
+                      </CardContent>
+                      {/**   */}
+                      <CardContent sx={{ display: "flex", padding: 0 }}>
+                        <Typography
+                          variant="body2"
+                          color="text.secondary"
+                          paddingRight={2}
+                        >
+                          <span style={{ fontWeight: "bold" }}>
+                            {" "}
+                            Utilidad:{" "}
+                          </span>{" "}
+                          {item.utilidad.toString()}
+                        </Typography>
+                        <Typography
+                          variant="body2"
+                          color="text.secondary"
+                          paddingRight={2}
+                        >
+                          <span style={{ fontWeight: "bold" }}>
+                            {" "}
+                            T.Compra:{" "}
+                          </span>{" "}
+                          {item.tipoCompra}
+                        </Typography>
+                      </CardContent>
+                    </CardContent>
+                  </CardContent>
+
+                  <CardContent
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      padding: 0,
+                      margin: 0,
+                      width: "15%",
+                    }}
+                  >
+                    <CardContent style={{ padding: 5, paddingTop:0 , paddingBottom:0}}>
+                      <span style={{ fontWeight: "bold" }}> P.U: </span>{" "}
                       <Typography
                         variant="body2"
                         color="text.secondary"
-                        paddingRight={2}
+                        fontSize="1.1rem"
+                        style={{  }}
                       >
-                        <span style={{ fontWeight: "bold" }}> Desc.1: </span>{" "}
-                        {item.descuentoA}
-                      </Typography>
-                      <Typography
-                        variant="body2"
-                        color="text.secondary"
-                        paddingRight={2}
-                      >
-                        <span style={{ fontWeight: "bold" }}> Desc.2: </span>{" "}
-                        {item.descuentoB}
+                        {"$"}
+                        {item.precioVenta}
                       </Typography>
                     </CardContent>
-                    {/**   */}
-                    <CardContent sx={{ display: "flex", padding: 0 }}>
+                    <CardContent style={{ padding: 5 }}>
+                      <span style={{ fontWeight: "bold" }}> P.D: </span>{" "}
                       <Typography
                         variant="body2"
                         color="text.secondary"
-                        paddingRight={2}
+                        fontSize="1.1rem"
+                        style={{ }}
                       >
-                        <span style={{ fontWeight: "bold" }}> Utilidad: </span>{" "}
-                        {item.utilidad.toString()}
-                      </Typography>
-                      <Typography
-                        variant="body2"
-                        color="text.secondary"
-                        paddingRight={2}
-                      >
-                        <span style={{ fontWeight: "bold" }}> T.Compra: </span>{" "}
-                        {item.tipoCompra}
+                        {"$"}
+                        {item.precioVenta}
                       </Typography>
                     </CardContent>
                   </CardContent>
 
                   <CardContent
-                    style={{ textAlign: "center", paddingTop: 30, width: 175 }}
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      justifyContent: "center",
+                      margin:0,
+                      padding:0,
+                      width: "15%",
+                    }}
                   >
                     <Typography
                       variant="body2"
                       color="text.secondary"
-                      fontSize="1.1rem"
+                      fontSize="1.3rem"
                       style={{ fontWeight: "bold" }}
                     >
-                      {monedaValue === "SOLES" ? "S/ " + (new Decimal(item.totalItemSOL).toDecimalPlaces(2)) : "$ " + (new Decimal(item.totalItemUSD).toDecimalPlaces(2))}
+                      {monedaValue === "SOLES"
+                        ? "S/ " +
+                          new Decimal(item.totalItemSOL).toDecimalPlaces(2)
+                        : "$ " +
+                          new Decimal(item.totalItemUSD).toDecimalPlaces(2)}
                     </Typography>
                   </CardContent>
-                  <CardContent sx={{ padding: 0, width: 100 }}>
+
+                  <CardContent sx={{ padding: 0, width: "10%",  display:"flex", flexDirection:"column"}}>
                     <div
                       style={{
                         display: "flex",
                         flexDirection: "column",
+                        justifyContent: "center",
                         alignItems: "flex-end",
                       }}
                     >
@@ -524,8 +601,7 @@ function ItemsProductos({
                         style={{
                           backgroundColor: "rgb(237, 237, 237)",
                           borderRadius: "25px",
-                          marginLeft: "10px",
-                          marginBottom: "5px",
+                          marginBottom: "15px",
                           width: "40px",
                           height: "40px",
                         }}
@@ -539,7 +615,6 @@ function ItemsProductos({
                         style={{
                           backgroundColor: "rgb(182, 205, 229)",
                           borderRadius: "25px",
-                          marginLeft: "10px",
                           width: "40px",
                           height: "40px",
                         }}
@@ -553,9 +628,9 @@ function ItemsProductos({
                             item.descuentoA,
                             item.descuentoB,
                             item.subTotalItemUSD,
-                            item.subTotalItemSOL,   
+                            item.subTotalItemSOL,
                             item.totalItemUSD,
-                            item.totalItemSOL,      
+                            item.totalItemSOL,
                             item.monedaType
                           )
                         }
@@ -586,7 +661,7 @@ function ItemsProductos({
             Cancelar
           </Button>
           <Button
-            onClick={()=>handleConfirmEdit(numeroProforma)}
+            onClick={() => handleConfirmEdit(numeroProforma)}
             variant="contained"
             style={{ backgroundColor: "rgb(255, 168, 0)" }}
             autoFocus
