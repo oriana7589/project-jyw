@@ -125,10 +125,10 @@ export default function TD({
           display: "flex",
           justifyContent: "space-between",
           bgcolor: "#ffffff",
-          height: "calc(100vh - 9.25rem)",
+          height: "calc(100vh - 6.2rem)",
         }}
       >
-        <div style={{ flex: 2, height: "100%" }}>
+        <div style={{ flex: 1, height: "100%" }}>
           <Box sx={{ width: "100%", maxWidth: 350, margin: "0 auto" }}>
             {imagenArticulo
               .slice((page - 1) * itemsPerPage, page * itemsPerPage)
@@ -173,7 +173,7 @@ export default function TD({
             handleItemClick={handleItemClick}
           />
         </div>
-        <div style={{ flex: 1 }}>
+        <div style={{ flex: 1, height: "100%" }}>
           <TableDescripcionItems
             addToCart={addToCart}
             editCartItem={editCartItem}

@@ -108,6 +108,7 @@ const ThirdTable = ({
   isAddToCartVisible,
   isEditToCartVisible,
   codigoRef,
+  setTabValue,
   precioVentaUnitario,
   setPrecioVentaUnitario,
   precioItemActual,
@@ -224,10 +225,10 @@ const ThirdTable = ({
   };
 
   const handleAddToCart = () => {
-    const precioFinal = total; //calcularPrecioFinal();
+    const precioFinal = total; 
     const utilidad = calcularUtilidad();
     calcularTotalItem(precioItemActual);
-
+   
     addToCart(
       ticketCount,
       detalleProducto,
@@ -241,6 +242,9 @@ const ThirdTable = ({
     );
     console.log('monto - addtocart', precioItemActual);
     console.log('total - addtocart', total);
+    console.log('detalle', detalleProducto.precioVenta);
+    setTabValue(1)
+    codigoRef.current.focus();
   };
 
   const handleEditSelectedItem = (codigoInternoSeleccionado) => {
@@ -299,15 +303,15 @@ const ThirdTable = ({
 
   return (
     <>
-      <Typography
-        style={{ fontWeight: "bold", fontSize: "1.1rem", marginTop: "15px" }}
-      >
-        HISTORIAL DE PRECIOS
-      </Typography>
       <div
         style={{ display: "flex", justifyContent: "flex-start", width: "100%" }}
       >
         <div style={{ flex: "0 0 50%", marginRight: "20px" }}>
+        <Typography
+        style={{ fontWeight: "bold", fontSize: "1.1rem", paddingTop:5 , paddingBottom:5}}
+      >
+        HISTORIAL DE PRECIOS
+      </Typography>
           <TableContainer>
             <Table sx={{ minWidth: 350 }} aria-label="simple table">
               <TableHead>
@@ -384,12 +388,44 @@ const ThirdTable = ({
 
         <div style={{ flex: "0 0 50%" }}>
           <TableContainer>
-            <table style={{ padding: 10 }} align="center">
+            <table style={{ padding: 0, paddingTop:5 }} align="center">
               {/* Filas adicionales para la información resumen */}
               <tbody style={{ width: 0 }}>
+              <tr>
+                  <td style={{  fontWeight: "bold" }}>
+                  PRECIO LISTA ($):
+                  </td>
+                  <td
+                    style={{
+                      fontWeight: "bold",
+                      margin: 0,
+                    }}
+                  >
+                    <TextField
+                      variant="outlined"
+                      autoComplete="off"
+                      value={
+                        detalleProducto.precioVenta
+                      }
+                      onFocus={handleFocus}
+                      style={{ paddingLeft: 20 }}                      
+                      InputProps={{
+                        style: {
+                          fontSize: "16px",
+                          width: "105px",
+                          height: "30px",
+                          textAlign: "center",
+                          marginLeft:14,
+                          marginBottom:5,
+                        },                        
+                        readOnly: true
+                      }}
+                    />
+                  </td>
+                </tr>
                 <tr>
                   <td colSpan="1" style={{ fontWeight: "bold" }}>
-                    PRECIO LISTA ($):
+                    PRECIO VENTA:
                   </td>
                   <td>
                     <TextField
@@ -410,10 +446,10 @@ const ThirdTable = ({
                         style: {
                           fontSize: "16px",
                           width: "105px",
-                          height: "35px",
+                          height: "30px",
                           textAlign: "center",
                           marginLeft:14,
-                          marginBottom:5
+                          marginBottom:5,
                         },
                       }}
                     />
@@ -428,14 +464,12 @@ const ThirdTable = ({
                     colSpan="2"
                     style={{
                       display: "flex",
-                      
                     }}
                   >
                     <IconButton
                       style={{
                         border: "1px solid rgb(226, 52, 48)",
                         borderRadius: "50px",
-                        marginTop: "5px",
                         width: "30px",
                         height: "30px",
                         marginRight:5
@@ -463,7 +497,7 @@ const ThirdTable = ({
                         style: {
                           fontSize: "16px",
                           width: "105px",
-                          height: "35px",
+                          height: "30px",
                           textAlign: "center",
                           marginBottom:5,
                         },
@@ -474,7 +508,6 @@ const ThirdTable = ({
                         border: "1px solid rgb(226, 52, 48)",
                         borderRadius: "50px",
                         width: "30px",
-                        marginTop: "5px",
                         height: "30px",
                         marginLeft:5
                       }}
@@ -509,7 +542,7 @@ const ThirdTable = ({
                         style: {
                           fontSize: "16px",
                           width: "105px",
-                          height: "35px",
+                          height: "30px",
                           textAlign: "center",
                           marginBottom:5,
                           marginLeft:14,
@@ -538,12 +571,39 @@ const ThirdTable = ({
                         style: {
                           fontSize: "16px",
                           width: "105px",
-                          height: "35px",
+                          height: "30px",
                           textAlign: "center",
                           marginBottom:5,
                           marginLeft:14,
                         },
                         disabled: isChecked,
+                      }}
+                    />
+                  </td>
+                </tr>
+                <tr>
+                  <td colSpan="1" style={{ fontWeight: "bold" }}>
+                    ALMACEN:
+                  </td>
+                  <td>
+                  <TextField
+                      variant="outlined"
+                      autoComplete="off"
+                      value={
+                        detalleProducto.codigoAlmacen
+                      }
+                      onFocus={handleFocus}
+                      style={{ paddingLeft: 20 }}                      
+                      InputProps={{
+                        style: {
+                          fontSize: "16px",
+                          width: "105px",
+                          height: "30px",
+                          textAlign: "center",
+                          marginLeft:14,
+                          marginBottom:5,
+                        },                        
+                        readOnly: true
                       }}
                     />
                   </td>
@@ -573,14 +633,14 @@ const ThirdTable = ({
                         style: {
                           fontSize: "16px",
                           width: "105px",
-                          height: "35px",
+                          height: "30px",
                           textAlign: "center",
                           marginLeft:14,
                         },                        
                         readOnly: true
                       }}
                     />
-                    <Checkbox
+                   {/* <Checkbox
                       checked={isChecked}
                       onChange={handleCheckBox}
                       disabled={true}
@@ -592,11 +652,12 @@ const ThirdTable = ({
                           color: "rgb(226, 52, 48)",
                         },
                       }}
-                    />
+                    />*/ } 
                   </td>
                 </tr>
+                
                 <tr>
-                  <td style={{ textAlign: "center", paddingTop: 20 }}>
+                  <td style={{ textAlign: "center", paddingTop: 1 }}>
                     {isEditToCartVisible ? (
                       <IconButton
                         style={{

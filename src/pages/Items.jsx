@@ -565,7 +565,7 @@ const Items = ({
         ) : !selectedClient ? (
           <div
             style={{
-              height: "calc(100vh - 15rem)",
+              height: "calc(100vh - 14.6rem)",
               display: "flex",
               flexDirection: "column",
               alignItems: "center",

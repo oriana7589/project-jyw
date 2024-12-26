@@ -232,8 +232,7 @@ export default function DrawerModel() {
         </Drawer>
       </div>
 
-      <Box component="main" sx={{ flexGrow: 1, marginTop: " -0.91rem" }}>
-        <DrawerHeader />
+      <Box component="main" sx={{ flexGrow: 1, marginTop: "0rem", padding: 0 }}>
         {content === "MenuAcordion" && <MenuAcordion key={menuKey} />}
       </Box>
 

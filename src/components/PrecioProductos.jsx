@@ -120,7 +120,7 @@ function PrecioProductos({
   }
 
   return (
-    <div style={{ width: "90%", paddingTop: 10 }}>
+    <div style={{ width: "100%", paddingTop: 10 }}>
       <Grid container spacing={2}>
         {selectedClient && (
           <>
@@ -261,7 +261,7 @@ function PrecioProductos({
                       {...params.inputProps}
                       style={{
                         width: "100%",
-                        height: "40px",
+                        height: "35px",
                         border: "1px solid #ccc",
                         borderRadius: "4px",
                         padding: "8px",
@@ -370,7 +370,7 @@ function PrecioProductos({
         value={observaciones}
         onChange={(e) => setObservaciones(e.target.value)}
         multiline
-        rows={4}
+        rows={2}
         fullWidth
         variant="outlined"
         disabled={proformaSeleccionada.estado === 'FAC'}
@@ -379,7 +379,7 @@ function PrecioProductos({
       />
 
       <table
-        style={{ marginTop: 25, justifyContent: "flex-end", width: "100%" }}
+        style={{ marginTop: 20, justifyContent: "flex-end", width: "100%" }}
       >
         <tbody>
           <tr>
