@@ -477,6 +477,10 @@ const TuComponente = () => {
         }
       );
     }
+    setCriterio1("");
+    setCriterio2("");
+    setCriterio3("");
+    handleExpandClick(2);
   };
   useEffect(() => {
     if (codigoSeleccionado) {
@@ -1122,6 +1126,7 @@ const TuComponente = () => {
       setToastOpen(true);
       toast.warning("Por favor, ingrese el primer campo");
     }else{
+      codigoRef.current.focus();
       setIsLoading(true)
       setDialogOpen(true);
       getClientes(criterioBusqueda).then((tablaClientes) => {
@@ -1367,6 +1372,7 @@ const TuComponente = () => {
       if (tipo === "proforma") {
         handleBuscarProforma(numeroProforma);
       } else {
+        codigoRef.current.focus();
         handleIconButtonClick();
       }
     }
@@ -1592,6 +1598,7 @@ const TuComponente = () => {
               InputLabelProps={{ style: { color: "rgb(255,255,255)" } }}
               style={{ marginLeft: "10px" }}
               placeholder="Código"
+              value={criterio1}
               onChange={(e) => setCriterio1(e.target.value)}
               onFocus={handleFocus}
               inputRef={codigoRef}
@@ -1614,6 +1621,7 @@ const TuComponente = () => {
               InputLabelProps={{ style: { color: "rgb(255,255,255)" } }}
               style={{ marginLeft: "10px" }}
               placeholder="Descripción"
+              value={criterio2}
               onChange={(e) => setCriterio2(e.target.value)}
               onFocus={handleFocus}
               inputRef={descripcionRef}
@@ -1648,6 +1656,7 @@ const TuComponente = () => {
               InputLabelProps={{ style: { color: "rgb(255,255,255)" } }}
               style={{ marginLeft: "10px" }}
               placeholder="Marca - País"
+              value={criterio3}
               onChange={(e) => setCriterio3(e.target.value)}
               onFocus={handleFocus}
               inputRef={marcaRef}
