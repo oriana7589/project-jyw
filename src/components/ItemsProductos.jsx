@@ -358,13 +358,14 @@ function ItemsProductos({
           <div
             style={{
               padding: 5,
-              maxHeight: "580px",
+              height: "calc(100vh - 10rem)",
               overflowY: "auto",
               width: "100%",
               display: "flex", // Flexbox para organizar los hijos
               flexDirection: "column", // Asegura que los hijos estén en columna
               gap: "16px", // Espaciado entre Cards
             }}
+            className="custom-scroll-page" 
           >
             {cartItems.map((item, index) => (
               <Card
