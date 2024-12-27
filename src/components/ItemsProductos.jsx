@@ -9,6 +9,7 @@ import {
   DialogActions,
   DialogContent,
   Divider,
+  FormControlLabel,
   IconButton,
   Typography,
 } from "@mui/material";
@@ -55,10 +56,9 @@ function ItemsProductos({
     });
   };
 
-  
-  const handleOpenDialogDocuemntos = () =>{
+  const handleOpenDialogDocuemntos = () => {
     setDialogOpenDocumentos(true);
-  }
+  };
 
   const handleCloseDialogDocuemntos = () => {
     setDialogOpenDocumentos(false);
@@ -197,10 +197,18 @@ function ItemsProductos({
   };
 
   return (
-    <div>
-      <div style={{ display: "flex", marginBottom: 10, width: "100%" }}>
+    <div style={{ width: "100%" }}>
+      <div
+        style={{
+          display: "flex",
+          marginBottom: 10,
+          flexDirection: "column",
+          justifyContent: "space-between", // Ajusta los elementos dentro del div
+          alignItems: "center",
+        }}
+      >
         {proformaSeleccionada.estado === "FAC" ? (
-          <div style={{ paddingLeft: 5, paddingTop: 5, display: "flex" }}>
+          <div style={{ paddingLeft: 5, paddingTop: 5 }}>
             <Typography
               style={{
                 fontWeight: "bold",
@@ -233,54 +241,68 @@ function ItemsProductos({
             </IconButton>
           </div>
         ) : (
-          <div style={{ display: "flex", width: "100%" }}>
-            <Checkbox
-              id="checkbox1"
-              checked={isChecked1}
-              sx={{
-                color: "rgb(226, 52, 48)",
-                "&.Mui-checked": {
-                  color: "rgb(226, 52, 48)",
-                },
-              }}
-              style={{ paddingTop: 16 }}
-              onChange={() => handleCheckboxChange(1)}
-            />
-            <label htmlFor="checkbox1" style={{ paddingTop: 16, width: 90 }}>
-              Por facturar
-            </label>
-            <Checkbox
-              id="checkbox2"
-              checked={isChecked2}
-              sx={{
-                color: "rgb(226, 52, 48)",
-                "&.Mui-checked": {
-                  color: "rgb(226, 52, 48)",
-                },
-              }}
-              onChange={() => handleCheckboxChange(2)}
-              style={{ marginLeft: 10, paddingTop: 16 }}
-            />
-            <label htmlFor="checkbox2" style={{ paddingTop: 16 }}>
-              Emitido
-            </label>
-            <div style={{ display: "flex", marginTop: 8,marginLeft:140, marginRight:10 }}>
-                <IconButton
-                  style={{
-                    backgroundColor: "rgba(240, 15, 15, 0.11)",
-                    borderRadius: "25px",
-                    width: "40px",
-                    height: "40px",
+          <div
+            style={{
+              display: "flex",
+              width: "100%",
+              justifyContent: "space-between",
+            }}
+          >
+            <FormControlLabel
+              control={
+                <Checkbox
+                  id="checkbox1"
+                  checked={isChecked1}
+                  sx={{
+                    color: "rgb(226, 52, 48)",
+                    "&.Mui-checked": {
+                      color: "rgb(226, 52, 48)",
+                    },
                   }}
-                  disabled={cartItems.length === 0}
-                  onClick={handleOpenDialogDocuemntos}
-                >
-                  <Description style={{ color: "hsl(0, 98.40%, 51.00%)" }} />
-                </IconButton>
-              </div>
-            <div style={{  paddingTop: 5, display: "flex" }}>
+                  onChange={() => handleCheckboxChange(1)}
+                />
+              }
+              label="Por facturar"
+            />
+            <FormControlLabel
+              control={
+                <Checkbox
+                id="checkbox2"
+                checked={isChecked2}
+                sx={{
+                  color: "rgb(226, 52, 48)",
+                  "&.Mui-checked": {
+                    color: "rgb(226, 52, 48)",
+                  },
+                }}
+              />
+              }
+              label="Emitido"
+              />
+            <div
+              style={{
+                display: "flex",
+                marginTop: 5,
+                marginLeft: 140,
+                marginRight: 10,
+              }}
+            >
+              <IconButton
+                style={{
+                  backgroundColor: "rgba(240, 15, 15, 0.11)",
+                  borderRadius: "25px",
+                  width: "40px",
+                  height: "40px",
+                }}
+                disabled={cartItems.length === 0}
+                onClick={handleOpenDialogDocuemntos}
+              >
+                <Description style={{ color: "hsl(0, 98.40%, 51.00%)" }} />
+              </IconButton>
+            </div>
+            <div style={{ paddingTop: 0 }}>
               {isEditProformaVisible ? (
-                <div style={{ paddingTop: 5, display: "flex" }}>
+                <div style={{  display: "flex" }}>
                   <IconButton
                     style={{
                       borderRadius: "0px",
@@ -323,7 +345,11 @@ function ItemsProductos({
                 </div>
               ) : isAddProformaVisible ? (
                 <div
-                  style={{ paddingTop: 5, display: "flex", justifyContent:"end" }}
+                  style={{
+                    paddingTop: 5,
+                    display: "flex",
+                    justifyContent: "end",
+                  }}
                 >
                   <IconButton
                     style={{
@@ -686,11 +712,11 @@ function ItemsProductos({
           </div>
         </>
       )}
-         <DialogDocumentos
-              open={dialogOpenDocumentos}
-              handleClose={handleCloseDialogDocuemntos}
-              cartItems = {cartItems}
-            />
+      <DialogDocumentos
+        open={dialogOpenDocumentos}
+        handleClose={handleCloseDialogDocuemntos}
+        cartItems={cartItems}
+      />
       {/* Dialog para Editar una proforma */}
       <Dialog open={dialogOpen} onClose={handleCloseDialog}>
         <DialogContent>
