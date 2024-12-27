@@ -21,6 +21,8 @@ import IconCarrito from "../image/carritoCompras.png";
 import Decimal from "decimal.js";
 import LazyImagen from "../components/LazyImagen";
 import { getGenerarPdfProforma } from "../Services/ApiService";
+import { Description, RemoveRedEye } from "@mui/icons-material";
+import DialogDocumentos from "./DialogDocumentos";
 
 function ItemsProductos({
   cartItems,
@@ -45,11 +47,21 @@ function ItemsProductos({
   const [hoveredCard, setHoveredCard] = useState(null);
   const [base64, setBase64] = useState("");
   const [dialogOpen, setDialogOpen] = useState(false);
+  const [dialogOpenDocumentos, setDialogOpenDocumentos] = useState(false);
   const [generarPDF, setGenerarPdf] = useState("");
   const handlePosition = () => {
     const position = cartItems.reduce((item, index) => {
       const numeroItems = index + 1;
     });
+  };
+
+  
+  const handleOpenDialogDocuemntos = () =>{
+    setDialogOpenDocumentos(true);
+  }
+
+  const handleCloseDialogDocuemntos = () => {
+    setDialogOpenDocumentos(false);
   };
 
   const handleOpenDialog = () => {
@@ -252,7 +264,21 @@ function ItemsProductos({
             <label htmlFor="checkbox2" style={{ paddingTop: 16 }}>
               Emitido
             </label>
-            <div style={{ paddingLeft: 50, paddingTop: 5, display: "flex" }}>
+            <div style={{ display: "flex", marginTop: 8,marginLeft:140, marginRight:10 }}>
+                <IconButton
+                  style={{
+                    backgroundColor: "rgba(240, 15, 15, 0.11)",
+                    borderRadius: "25px",
+                    width: "40px",
+                    height: "40px",
+                  }}
+                  disabled={cartItems.length === 0}
+                  onClick={handleOpenDialogDocuemntos}
+                >
+                  <Description style={{ color: "hsl(0, 98.40%, 51.00%)" }} />
+                </IconButton>
+              </div>
+            <div style={{  paddingTop: 5, display: "flex" }}>
               {isEditProformaVisible ? (
                 <div style={{ paddingTop: 5, display: "flex" }}>
                   <IconButton
@@ -297,7 +323,7 @@ function ItemsProductos({
                 </div>
               ) : isAddProformaVisible ? (
                 <div
-                  style={{ paddingLeft: 185, paddingTop: 5, display: "flex" }}
+                  style={{ paddingTop: 5, display: "flex", justifyContent:"end" }}
                 >
                   <IconButton
                     style={{
@@ -365,7 +391,7 @@ function ItemsProductos({
               flexDirection: "column", // Asegura que los hijos estén en columna
               gap: "16px", // Espaciado entre Cards
             }}
-            className="custom-scroll-page" 
+            className="custom-scroll-page"
           >
             {cartItems.map((item, index) => (
               <Card
@@ -385,34 +411,39 @@ function ItemsProductos({
                     : "white",
                 }}
               >
-                <CardContent style={{ height: 45, padding:0, margin:0}}>
-                <Typography
-                  gutterBottom
-                  variant="body1"
-                  component="div"
-                  paddingTop={1}
-                  paddingLeft={2}
-                  marginRight={2}
-                  style={{
-                    fontWeight: "bold",
-                    whiteSpace: "nowrap",
-                    overflow: "hidden",
-                  }}
-                >
-                  {index + 1}) {item.product}
-                </Typography>
+                <CardContent style={{ height: 45, padding: 0, margin: 0 }}>
+                  <Typography
+                    gutterBottom
+                    variant="body1"
+                    component="div"
+                    paddingTop={1}
+                    paddingLeft={2}
+                    marginRight={2}
+                    style={{
+                      fontWeight: "bold",
+                      whiteSpace: "nowrap",
+                      overflow: "hidden",
+                    }}
+                  >
+                    {index + 1}) {item.product}
+                  </Typography>
                 </CardContent>
-              
+
                 <CardContent
-                  sx={{ display: "flex", padding: 0, width: "100%" ,  height: 120}}
+                  sx={{
+                    display: "flex",
+                    padding: 0,
+                    width: "100%",
+                    height: 120,
+                  }}
                 >
                   <CardMedia
                     component="div"
                     style={{
                       width: "16%",
                       height: "100%",
-                      padding:0,
-                      margin:0,
+                      padding: 0,
+                      margin: 0,
                       alignSelf: "flex-start",
                       objectFit: "contain",
                     }}
@@ -539,13 +570,15 @@ function ItemsProductos({
                       width: "15%",
                     }}
                   >
-                    <CardContent style={{ padding: 5, paddingTop:0 , paddingBottom:0}}>
+                    <CardContent
+                      style={{ padding: 5, paddingTop: 0, paddingBottom: 0 }}
+                    >
                       <span style={{ fontWeight: "bold" }}> P.U: </span>{" "}
                       <Typography
                         variant="body2"
                         color="text.secondary"
                         fontSize="1.1rem"
-                        style={{  }}
+                        style={{}}
                       >
                         {"$"}
                         {item.precioVenta}
@@ -557,7 +590,7 @@ function ItemsProductos({
                         variant="body2"
                         color="text.secondary"
                         fontSize="1.1rem"
-                        style={{ }}
+                        style={{}}
                       >
                         {"$"}
                         {item.precioVenta}
@@ -570,8 +603,8 @@ function ItemsProductos({
                       display: "flex",
                       flexDirection: "column",
                       justifyContent: "center",
-                      margin:0,
-                      padding:0,
+                      margin: 0,
+                      padding: 0,
                       width: "15%",
                     }}
                   >
@@ -589,7 +622,14 @@ function ItemsProductos({
                     </Typography>
                   </CardContent>
 
-                  <CardContent sx={{ padding: 0, width: "10%",  display:"flex", flexDirection:"column"}}>
+                  <CardContent
+                    sx={{
+                      padding: 0,
+                      width: "10%",
+                      display: "flex",
+                      flexDirection: "column",
+                    }}
+                  >
                     <div
                       style={{
                         display: "flex",
@@ -646,6 +686,11 @@ function ItemsProductos({
           </div>
         </>
       )}
+         <DialogDocumentos
+              open={dialogOpenDocumentos}
+              handleClose={handleCloseDialogDocuemntos}
+              cartItems = {cartItems}
+            />
       {/* Dialog para Editar una proforma */}
       <Dialog open={dialogOpen} onClose={handleCloseDialog}>
         <DialogContent>
