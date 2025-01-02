@@ -20,6 +20,7 @@ const TableProductos = ({
   productos,
   onProductSelect,
   filaSeleccionada,
+  setSelectedProductos,
   setFilaSeleccionada,
   itemsPerPage,
   isLoading,
@@ -30,7 +31,7 @@ const TableProductos = ({
   itemsPerPage = 14;
 
  const handleRowDoubleClick = (datosItems) => {
-    setSelectedProductos(datosItems);
+  setFilaSeleccionada(datosItems);
     onProductSelect(datosItems);
   };
 
