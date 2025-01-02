@@ -51,7 +51,7 @@ const TablaDeClientes = ({
 
     {/* Mostrar círculo de carga */}
     {isLoading && (
-     <LoadingIndicator />
+     <LoadingIndicator height={500} />
     )}
 
     {/* Mostrar tabla si hay clientes */}
