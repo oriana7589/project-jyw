@@ -611,6 +611,7 @@ const TuComponente = () => {
     const newItem = {
       product: detalleProducto.descripcionArticulo,
       codigoInterno: detalleProducto.codigoInterno,
+      pais: detalleProducto.descripcionPais,
       linea: detalleProducto.codigoLinea,
       precioLista: detalleProducto.precioVenta,
       precioVentaUnitarioUSD: precioItemActual.precioVentaUnitarioUSD,

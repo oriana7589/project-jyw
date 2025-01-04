@@ -283,7 +283,7 @@ function ItemsProductos({
               style={{
                 display: "flex",
                 marginTop: 5,
-                marginLeft: 140,
+                marginLeft: 120,
                 marginRight: 10,
               }}
             >
@@ -425,7 +425,7 @@ function ItemsProductos({
                 onMouseEnter={() => handleMouseEnter(index)}
                 onMouseLeave={handleMouseLeave}
                 style={{
-                  height: 165,
+                  height: 175,
                   flexShrink: 0,
                   boxShadow:
                     hoveredCard === index
@@ -477,7 +477,7 @@ function ItemsProductos({
                   >
                     <LazyImagen codigoArticulo={item.codigoArticulo.trim()} />
                   </CardMedia>
-                  <CardContent sx={{ padding: 0, width: "40%" }}>
+                  <CardContent sx={{ padding: 0, width: "45%" }}>
                     <CardContent sx={{ display: "flex", padding: 0 }}>
                       <Typography
                         variant="body2"
@@ -593,7 +593,7 @@ function ItemsProductos({
                       flexDirection: "column",
                       padding: 0,
                       margin: 0,
-                      width: "15%",
+                      width: "11.5%",
                     }}
                   >
                     <CardContent

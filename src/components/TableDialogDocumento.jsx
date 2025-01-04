@@ -3,7 +3,8 @@ import { tableItemsCont } from "../Styles/MenuStyles";
 import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
 
 const TableDialogDocumento = ({ cartItems }) => {
-
+ console.log("ietms", cartItems);
+ 
     return (
         <TableContainer
         component={Paper}
@@ -13,15 +14,15 @@ const TableDialogDocumento = ({ cartItems }) => {
         <Table stickyHeader style={{ padding:10}}>
           <TableHead>
             <TableRow>
-            <TableCell style={{ fontWeight: "bold",padding:0 }}>Orden</TableCell>
+            <TableCell style={{ fontWeight: "bold",padding:0 }}>N°</TableCell>
               <TableCell style={{ fontWeight: "bold",padding:0 }}>Código</TableCell>
               <TableCell style={{ fontWeight: "bold",padding:0 }}>Línea</TableCell>
               <TableCell style={{ fontWeight: "bold",padding:0 }}>Descripción</TableCell>
+              <TableCell style={{ fontWeight: "bold",padding:0 }}>Pais</TableCell>
               <TableCell style={{ fontWeight: "bold",padding:0 }}>Marca</TableCell>
-              <TableCell style={{ fontWeight: "bold",padding:0 }}>Cantidad</TableCell>
+              <TableCell style={{ fontWeight: "bold",padding:0 }}>Cant.</TableCell>
               <TableCell style={{ fontWeight: "bold",padding:0 }}>Desc.1</TableCell>
               <TableCell style={{ fontWeight: "bold",padding:0 }}>Desc.2</TableCell>
-              <TableCell style={{ fontWeight: "bold",padding:0 }}>Utilidad</TableCell>
               <TableCell style={{ fontWeight: "bold",padding:0 }}>T.Compra</TableCell>
             </TableRow>
           </TableHead>
@@ -33,11 +34,11 @@ const TableDialogDocumento = ({ cartItems }) => {
                   <TableCell style={{ padding:0 }}>{item.codigoArticulo}</TableCell>
                   <TableCell style={{ padding:0 }}>{item.linea}</TableCell>
                   <TableCell style={{ padding:0 }}>{item.product}</TableCell>
+                  <TableCell style={{ padding:0 }}>{item.pais}</TableCell>
                   <TableCell style={{ padding:0 }}>{item.marca}</TableCell>
                   <TableCell style={{ padding:0 }}>{item.cantidad}</TableCell>
                   <TableCell style={{ padding:0 }}>{item.descuentoA}</TableCell>
                   <TableCell style={{ padding:0 }}>{item.descuentoB}</TableCell>
-                  <TableCell style={{ padding:0 }}>{item.utilidad.toString()}</TableCell>
                   <TableCell style={{ padding:0 }}>{item.tipoCompra}</TableCell>
                 </TableRow>
               ))
