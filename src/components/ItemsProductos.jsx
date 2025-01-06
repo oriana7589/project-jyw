@@ -606,8 +606,11 @@ function ItemsProductos({
                         fontSize="1.1rem"
                         style={{}}
                       >
-                        {"$"}
-                        {item.precioVenta}
+                        {monedaValue === "SOLES"
+                        ? "S/ " +
+                          new Decimal(item.precioVentaUnitarioSOL).toDecimalPlaces(2)
+                        : "$ " +
+                          new Decimal(item.precioVentaUnitarioUSD).toDecimalPlaces(2)}
                       </Typography>
                     </CardContent>
                     <CardContent style={{ padding: 5 }}>
@@ -618,8 +621,11 @@ function ItemsProductos({
                         fontSize="1.1rem"
                         style={{}}
                       >
-                        {"$"}
-                        {item.precioVenta}
+                        {monedaValue === "SOLES"
+                        ? "S/ " +
+                          new Decimal(item.totalItemSOL).dividedBy(item.cantidad).toDecimalPlaces(2)
+                        : "$ " +
+                          new Decimal(item.totalItemUSD).dividedBy(item.cantidad).toDecimalPlaces(2)}
                       </Typography>
                     </CardContent>
                   </CardContent>

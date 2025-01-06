@@ -204,7 +204,7 @@ const ThirdTable = ({
     updatedItem.subTotalItemSOL = totalItemSOL.dividedBy(1.18);
 
     updatedItem.utilidad = updatedItem.subTotalItemUSD
-      .dividedBy(updatedItem.cantidad)
+      .dividedBy(cantidad)
       .dividedBy(detalleProducto.precioCompra)
       .minus(1)
       .toDecimalPlaces(2); //calcularUtilidadU(new Decimal(precioUnitarioUSD), dctA, dctB);    
@@ -630,8 +630,8 @@ const ThirdTable = ({
                       autoComplete="off"
                       value={
                         monedaValue === "SOLES"
-                        ? precioItemActual.totalItemSOL
-                        : precioItemActual.totalItemUSD
+                        ? precioItemActual.totalItemSOL.toDecimalPlaces(2)
+                        : precioItemActual.totalItemUSD.toDecimalPlaces(2)
                       }
                       onFocus={handleFocus}
                       style={{ paddingLeft: 20 }}                      
