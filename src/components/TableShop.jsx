@@ -70,17 +70,21 @@ const SecondTable = ({ detalleProducto, fechaLlegada }) => {
       <strong style={{  marginTop: "0.4rem" }}>STOCK</strong>
       <Typography style={{ ...textItemCardStyle }}>   {detalleProducto.stockArticulo}</Typography>
     </div>
-    <div style={{...cardItemStyle,  maxWidth: "23%"}}>
+    <div style={{...cardItemStyle,  maxWidth: "28%"}}>
       <strong style={{  marginTop: "0.4rem" }}>MARCA</strong>
       <Typography style={{ ...textItemCardStyle }}>  {detalleProducto.descripcionMarca}</Typography>
     </div>
-    <div style={{...cardItemStyle,  maxWidth: "35%"}}>
-      <strong style={{  marginTop: "0.4rem" }}>ÚLT.LLEGADA</strong>
-      <Typography style={{ ...textItemCardStyle }}>  {fechaLlegada.FechaUltimaLlegada}</Typography>
+    <div style={{...cardItemStyle, maxWidth: "30%" }}>
+      <strong style={{  marginTop: "0.4rem" }}>INT MARCA</strong>
+      <Typography style={{ ...textItemCardStyle }}>  {detalleProducto.codigoInternoMarca}</Typography>
     </div>
-    <div style={{...cardItemStyle,  maxWidth: "35%"}}>
-      <strong style={{  marginTop: "0.4rem" }}>PRÓX.LLEGADA</strong>
-      <Typography style={{ ...textItemCardStyle }}> {fechaLlegada.FechaLlegada}</Typography>
+    <div style={{...cardItemStyle,  maxWidth: "16%"}}>
+      <strong style={{  marginTop: "0.4rem" }}>PAIS</strong>
+      <Typography style={{ ...textItemCardStyle }}>  {detalleProducto.descripcionPais}</Typography>
+    </div>
+    <div style={{...cardItemStyle,  maxWidth: "16%"}}>
+      <strong style={{  marginTop: "0.4rem" }}>TIPO</strong>
+      <Typography style={{ ...textItemCardStyle }}> {detalleProducto.tipoCompra}</Typography>
     </div>
   </div>
   );
