@@ -117,7 +117,8 @@ const ThirdTable = ({
   setPrecioVentaUnitario,
   precioItemActual,
   setPrecioItemActual,
-  moneda
+  moneda,
+  precioVentaRef
 }) => {  
   const currentData = historialPrecios;
   const cantidadRef = useRef(null);
@@ -445,6 +446,7 @@ const ThirdTable = ({
                       onChange={(e) => handleChangePrecioUnitario(monedaValue === "SOLES" ? "precioVentaUnitarioSOL" : "precioVentaUnitarioUSD", filtroDecimales(e.target.value))}
                       onBlur={(e) => handleBlurCamposVacios(monedaValue === "SOLES" ? "precioVentaUnitarioSOL" : "precioVentaUnitarioUSD", e.target.value)}
                       onKeyDown={(e) => handleKeyDown(e, cantidadRef, true)}
+                      inputRef={precioVentaRef}
                       inputProps={{ type: "text" }}
                       InputProps={{
                         style: {
@@ -761,7 +763,8 @@ const TableShop = ({
   precioVentaUnitario,
   setPrecioVentaUnitario,
   precioItemActual,
-  setPrecioItemActual
+  setPrecioItemActual,
+  precioVentaRef
 }) => {
   let razonSocial = "";
   let ruc = "";
@@ -893,6 +896,7 @@ const TableShop = ({
         setPrecioVentaUnitario={setPrecioVentaUnitario}
         precioItemActual={precioItemActual}
         setPrecioItemActual={setPrecioItemActual}
+        precioVentaRef={precioVentaRef}
       />
     </div>
   );

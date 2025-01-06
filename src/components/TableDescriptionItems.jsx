@@ -39,7 +39,8 @@ const TableDescripcionItems = ({
   precioVentaUnitario,
   setPrecioVentaUnitario,
   precioItemActual,
-  setPrecioItemActual
+  setPrecioItemActual,
+  precioVentaRef
 }) => {
 
   return (
@@ -79,6 +80,7 @@ const TableDescripcionItems = ({
         setPrecioVentaUnitario={setPrecioVentaUnitario}
         precioItemActual={precioItemActual}
         setPrecioItemActual={setPrecioItemActual}
+        precioVentaRef={precioVentaRef}
       />
       <div>
  

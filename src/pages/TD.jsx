@@ -65,7 +65,8 @@ export default function TD({
   precioVentaUnitario,
   setPrecioVentaUnitario,
   precioItemActual,
-  setPrecioItemActual
+  setPrecioItemActual,
+  precioVentaRef
 }) {
   const [page, setPage] = useState(1);
   const [imagenArticulo, setImagenArticulo] = useState([]);
@@ -210,6 +211,7 @@ export default function TD({
             setPrecioVentaUnitario={setPrecioVentaUnitario}
             precioItemActual={precioItemActual}
             setPrecioItemActual={setPrecioItemActual}
+            precioVentaRef={precioVentaRef}
           />
         </div>
       </Container>

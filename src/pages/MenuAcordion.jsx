@@ -158,6 +158,7 @@ const TuComponente = () => {
   const codigoRef = useRef(null);
   const descripcionRef = useRef(null);
   const marcaRef = useRef(null);
+  const precioVentaRef = useRef(null);
 
   const handleCheckboxChange = (checkboxNumber) => {
     if (checkboxNumber === 1) {
@@ -183,10 +184,11 @@ const TuComponente = () => {
       const diasSinComprar1 = 0; // Los productos sugeridos en este punto tienen 0 días sin comprar
       const diasSinComprar2 = 45; // Los productos sugeridos en este punto tienen 45 días sin comprar
       const diasSinComprar3 = 75; // Los productos sugeridos en este punto tienen 75 días sin comprar
+      
       setIsAddToCartVisible(true);
       setIsEditToCartVisible(false);
       setDialogOpen(false);
-
+      
       // getSugeridosPorClientePorCantidad(selectedClient.codigoCliente, diasSinComprar1)
       //   .then((produtosSugeridosCliente) => {
       //     setProductosSugeridosCliente(produtosSugeridosCliente); //Productos sugeridos al encontrar un cliente - primera sugerencia
@@ -225,6 +227,13 @@ const TuComponente = () => {
   const handleClientSelect = (cliente) => {
     setSelectedClient(cliente);
   };
+
+  // useEffect(()=> {    
+  //   if (codigoRef.current) {
+  //     console.log('codigoRef.current', codigoRef.current)
+  //    codigoRef.current.focus();
+  //   }
+  // },[selectedClient]);
 
   const handleItemClick = (codigoInterno) => {
     if (codigoInterno) {
@@ -387,18 +396,15 @@ const TuComponente = () => {
     }
   };
 
-  const handleItemsSelect = (productos) => {
-    //setSelectedItems(productos);
+  const handleItemsSelect = (productos) => {    
     setDialogProductOpen(false);
     setIsAddToCartVisible(true);
     setIsEditToCartVisible(false);
     const codigoInterno =
       productos.CodigoInterno || productos.codigoInterno || productos;
-    if (codigoInterno) {
-      // setSelectedItems(productos);
+    if (codigoInterno) {      
       setDialogProductOpen(false);
-      setCodigoSeleccionado(codigoInterno);
-      // fetchData(codigoInterno);
+      setCodigoSeleccionado(codigoInterno);      
     }
 
     getFechaLlegadaProductoSeleccionado(productos.CodigoInterno).then(
@@ -466,7 +472,8 @@ const TuComponente = () => {
         totalItemSOL: precioSOL,
         subTotalItemUSD: precioUSD.dividedBy(1.18).toDecimalPlaces(2),
         subTotalItemSOL: precioSOL.dividedBy(1.18).toDecimalPlaces(2),
-      })
+      })      
+      precioVentaRef.current.focus()
     });
 
     if (!selectedClient) {
@@ -1127,8 +1134,7 @@ const TuComponente = () => {
     if (criterioBusqueda === "") {
       setToastOpen(true);
       toast.warning("Por favor, ingrese el primer campo");
-    }else{
-      codigoRef.current.focus();
+    }else{      
       setIsLoading(true)
       setDialogOpen(true);
       getClientes(criterioBusqueda).then((tablaClientes) => {
@@ -1148,6 +1154,7 @@ const TuComponente = () => {
       setToastOpen(true);
       toast.warning("Por favor, ingrese el primer campo");
     } else {
+      
       setIsLoading(true)
       setDialogProductOpen(true);
       getProdutosFiltrados(criterio1, criterio2, criterio3).then(
@@ -1796,6 +1803,7 @@ const TuComponente = () => {
             setPrecioVentaUnitario={setPrecioVentaUnitario}
             precioItemActual={precioItemActual}
             setPrecioItemActual={setPrecioItemActual}
+            precioVentaRef={precioVentaRef}
           />
         </Collapse>
       </Card>

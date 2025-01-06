@@ -142,7 +142,8 @@ const PestañaContenido = ({
   precioVentaUnitario,
   setPrecioVentaUnitario,
   precioItemActual,
-  setPrecioItemActual
+  setPrecioItemActual,
+  precioVentaRef
 }) => {
   switch (value) {
     case 0:
@@ -192,6 +193,7 @@ const PestañaContenido = ({
           setPrecioVentaUnitario={setPrecioVentaUnitario}
           precioItemActual={precioItemActual}
           setPrecioItemActual={setPrecioItemActual}
+          precioVentaRef={precioVentaRef}
         />
       );
     case 1:
@@ -372,7 +374,8 @@ const Items = ({
   precioVentaUnitario,
   setPrecioVentaUnitario,
   precioItemActual,
-  setPrecioItemActual
+  setPrecioItemActual,
+  precioVentaRef
 }) => {
   const handleChangeTab = (event, newValue) => {
     setTabValue(newValue);
@@ -561,6 +564,7 @@ const Items = ({
             setPrecioVentaUnitario={setPrecioVentaUnitario}
             precioItemActual={precioItemActual}
             setPrecioItemActual={setPrecioItemActual}
+            precioVentaRef={precioVentaRef}
           />
         ) : !selectedClient ? (
           <div
