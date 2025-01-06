@@ -477,7 +477,7 @@ function ItemsProductos({
                   >
                     <LazyImagen codigoArticulo={item.codigoArticulo.trim()} />
                   </CardMedia>
-                  <CardContent sx={{ padding: 0, width: "45%" }}>
+                  <CardContent sx={{ padding: 0, width: "40%" }}>
                     <CardContent sx={{ display: "flex", padding: 0 }}>
                       <Typography
                         variant="body2"
@@ -593,17 +593,17 @@ function ItemsProductos({
                       flexDirection: "column",
                       padding: 0,
                       margin: 0,
-                      width: "11.5%",
+                      width: "14%",
                     }}
                   >
                     <CardContent
-                      style={{ padding: 5, paddingTop: 0, paddingBottom: 0 }}
+                      style={{ padding: 0  }}
                     >
-                      <span style={{ fontWeight: "bold" }}> P.U: </span>{" "}
+                      <span style={{ fontWeight: "bold", fontSize:"0.9rem" }}> P.U: </span>{" "}
                       <Typography
                         variant="body2"
                         color="text.secondary"
-                        fontSize="1.1rem"
+                        fontSize="0.95rem"
                         style={{}}
                       >
                         {monedaValue === "SOLES"
@@ -613,12 +613,12 @@ function ItemsProductos({
                           new Decimal(item.precioVentaUnitarioUSD).toDecimalPlaces(2)}
                       </Typography>
                     </CardContent>
-                    <CardContent style={{ padding: 5 }}>
-                      <span style={{ fontWeight: "bold" }}> P.D: </span>{" "}
+                    <CardContent style={{ padding: 0, paddingTop:8 }}>
+                      <span style={{ fontWeight: "bold", fontSize:"0.9rem" }}> P.D: </span>{" "}
                       <Typography
                         variant="body2"
                         color="text.secondary"
-                        fontSize="1.1rem"
+                        fontSize="0.95rem"
                         style={{}}
                       >
                         {monedaValue === "SOLES"
@@ -722,6 +722,7 @@ function ItemsProductos({
         open={dialogOpenDocumentos}
         handleClose={handleCloseDialogDocuemntos}
         cartItems={cartItems}
+        monedaValue = {monedaValue}
       />
       {/* Dialog para Editar una proforma */}
       <Dialog open={dialogOpen} onClose={handleCloseDialog}>

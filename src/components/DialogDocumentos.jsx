@@ -16,7 +16,7 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
 
   }));
 
-export default function DialogDocumentos({   open,handleClose, cartItems }) {
+export default function DialogDocumentos({   open,handleClose, cartItems, monedaValue }) {
     return (
         <React.Fragment>
           <BootstrapDialog
@@ -36,7 +36,7 @@ export default function DialogDocumentos({   open,handleClose, cartItems }) {
             <DialogTitle sx={{ m: 0, p: 1.8 }} style={{backgroundColor: "rgb(12, 55, 100)", color:"rgb(255,255,255)"}} id="customized-dialog-title" >
              Productos
             </DialogTitle>
-          <TableDialogDocumento cartItems = {cartItems}/>
+          <TableDialogDocumento cartItems = {cartItems} monedaValue = {monedaValue}/>
           </BootstrapDialog>
         </React.Fragment>
       );

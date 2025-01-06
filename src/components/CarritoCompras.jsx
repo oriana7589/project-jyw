@@ -73,7 +73,7 @@ export default function CarritoCompras({
           height: "calc(100vh - 6.1rem)",
         }}
       >
-        <div style={{ flex: 1, height: "100%" }}>
+        <div style={{ flex: 1.5, height: "100%" }}>
           <PrecioProductos
             cartItems={cartItems}
             vendedores={vendedores}
@@ -110,7 +110,7 @@ export default function CarritoCompras({
             setAgencia = {setAgencia}
           />
         </div>
-        <div style={{ flex: 1, height: "100%", paddingLeft: "5vw", }}>
+        <div style={{ flex: 2, height: "100%", paddingLeft: "5vw", }}>
           <ItemsProductos
             cartItems={cartItems}
             monedaValue={monedaValue}
