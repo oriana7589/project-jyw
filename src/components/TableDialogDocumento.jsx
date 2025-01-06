@@ -39,12 +39,9 @@ const TableDialogDocumento = ({ cartItems, monedaValue }) => {
                   <TableCell style={{ padding:0 }}>{item.product}</TableCell>
                   <TableCell style={{ padding:0 }}>{item.marca}</TableCell>
                   <TableCell style={{ padding:0 }}>{item.pais}</TableCell>
-                  <TableCell style={{ padding:0 }}> {monedaValue === "SOLES"
-                                          ? "S/ " +
-                                            new Decimal(item.precioVentaUnitarioSOL).toDecimalPlaces(2)
-                                          : "$ " +
-                                            new Decimal(item.precioVentaUnitarioUSD).toDecimalPlaces(2)}</TableCell>
                   <TableCell style={{ padding:0 }}>{item.cantidad}</TableCell>
+                  <TableCell style={{ padding:0 }}>{monedaValue === "SOLES" ? "S/ " + new Decimal(item.precioVentaUnitarioSOL).toDecimalPlaces(2)
+                                                                            : "$ " + new Decimal(item.precioVentaUnitarioUSD).toDecimalPlaces(2)} </TableCell>                  
                   <TableCell style={{ padding:0 }}>{item.descuentoA}</TableCell>
                   <TableCell style={{ padding:0 }}>{item.descuentoB}</TableCell>
                   <TableCell style={{ padding:0 }}>{item.tipoCompra}</TableCell>
