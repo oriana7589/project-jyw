@@ -48,7 +48,7 @@ const TableUltimasCompras = ({ isLoading, ultimasCompras, itemsPerPage, setNumer
       <LoadingIndicator/>
     ): (
       <div style={{ overflow: "hidden" }}>
-         <CustomScrollTable style={{ maxHeight:"calc(100vh - 21.5rem)"}}>
+         <CustomScrollTable style={{ maxHeight:"calc(100vh - 18.5rem)"}}>
          <TableContainer >
           <Table
               stickyHeader

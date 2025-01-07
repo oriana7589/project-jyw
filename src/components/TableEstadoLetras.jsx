@@ -5,7 +5,7 @@ import LoadingIndicator from "../Util/LoadingIndicator";
 const TableEstadoLetras = ({ isLoading, letrasPendientes }) => {
   // Estado para controlar la página actual y los elementos por página
   const [paginaActual, setPaginaActual] = useState(1);
-  const elementosPorPagina = 14; // Cambia este valor si deseas un número diferente de elementos por página
+  const elementosPorPagina = 10; // Cambia este valor si deseas un número diferente de elementos por página
 
   // Calcular los índices de inicio y fin para los elementos de la página actual
   const indiceInicio = (paginaActual - 1) * elementosPorPagina;

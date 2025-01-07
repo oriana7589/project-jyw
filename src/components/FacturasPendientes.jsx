@@ -17,7 +17,7 @@ function FacturasPendientes({
 
   return (
     <div style={{ padding: 5 }}>
-      <Card sx={{ borderRadius: 0, boxShadow: 2}}>
+      <Card sx={{ borderRadius: 0, boxShadow: 2, paddingTop:2, height: "calc(100vh - 15.1rem)",}}>
         <CardContent>
           <div style={{ display: "flex", justifyContent: "space-between" }}>
             <Typography
