@@ -12,7 +12,7 @@ import NoResults from "../Util/NoResults";
 
 const TableComponent = ({ isLoading,setIsLoading, items, onProductSelect,itemsPerPage }) => {
   const [selectProductos, setSelectedProductos] = useState(null);
-  const [highlightedRow, setHighlightedRow] = useState(null);
+  const [highlightedRow, setHighlightedRow] = useState(0);
   const [page, setPage] = useState(0);
   itemsPerPage = 13;
 
@@ -32,6 +32,32 @@ const TableComponent = ({ isLoading,setIsLoading, items, onProductSelect,itemsPe
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
+
+   useEffect(() => {
+      const handleKeyDown = (event) => {
+        if (items.length === 0) return; // Evitar manejar eventos si no hay clientes
+  
+        const visibleItems = items.slice(page * itemsPerPage, (page + 1) * itemsPerPage);
+        if (event.key === "ArrowDown") {
+          setHighlightedRow((prev) =>
+            prev === null || prev === visibleItems.length - 1 ? 0 : prev + 1
+          );
+        } else if (event.key === "ArrowUp") {
+          setHighlightedRow((prev) =>
+            prev === null || prev === 0 ? visibleItems.length - 1 : prev - 1
+          );
+        } else if (event.key === "Enter" && highlightedRow !== null) {
+          const selected = visibleItems[highlightedRow];
+          setSelectedProductos(selected);
+          onProductSelect(selected);
+        }
+      };
+  
+      window.addEventListener("keydown", handleKeyDown);
+      return () => {
+        window.removeEventListener("keydown", handleKeyDown);
+      };
+    }, [items, page, itemsPerPage, highlightedRow, onProductSelect]);
 
   const handleCellClick = (index) => {
   setExpandedCell(index === expandedCell ? null : index);
@@ -150,7 +176,6 @@ const TableComponent = ({ isLoading,setIsLoading, items, onProductSelect,itemsPe
           {items .slice(page * itemsPerPage, (page + 1) * itemsPerPage).map((item, index) => (
             <tr key={index}
             onMouseEnter={() => handleMouseEnter(index)}
-            onMouseLeave={handleMouseLeave}
             style={{
               backgroundColor:
                           selectProductos === item
@@ -161,6 +186,7 @@ const TableComponent = ({ isLoading,setIsLoading, items, onProductSelect,itemsPe
               cursor: "pointer"
             }}
             onDoubleClick={() => handleRowDoubleClick(item)}
+            onMouseLeave={() => setHighlightedRow(null)}
           >
               <td style={{ ...descripItem }}> <SquareSharpIcon style={{ color: item.OrdenCompra === -1 ? "rgb(179,180,177)" : item.OrdenCompra === 1 ? "rgb(128,247,60)" : "rgb(255,17,17)" }} /></td>
               <td style={{ ...descripItem ,paddingLeft:5 }}>{item.CodigoLinea}</td>

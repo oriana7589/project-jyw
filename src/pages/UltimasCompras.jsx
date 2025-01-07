@@ -19,7 +19,7 @@ export default function UltimasCompras({
           display: "flex",
           justifyContent: "space-between",
           bgcolor: "#ffffff",
-          height: "calc(100vh - 17.7rem)",
+          height: "calc(100vh - 14.6rem)",
         }}
       >
         <div style={{ flex: 1 }}>

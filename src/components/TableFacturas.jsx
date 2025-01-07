@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Pagination, Stack, Typography } from "@mui/material";
+import LoadingIndicator from "../Util/LoadingIndicator";
 
 const TableFacturas = ({isLoading, documentosPendientes, totalPendiente }) => {
   // Estado para controlar la página actual y los elementos por página
@@ -23,7 +24,7 @@ const TableFacturas = ({isLoading, documentosPendientes, totalPendiente }) => {
 
   return (
     <>
-      <div style={{height:270}}>
+      <div style={{height:240}}>
       {isLoading ? (
         <LoadingIndicator />
       ) : (
@@ -48,10 +49,10 @@ const TableFacturas = ({isLoading, documentosPendientes, totalPendiente }) => {
                     {item.tipoDocumento + " " + item.numeroDocumentoSunat}
                   </td>
                   <td style={{ textAlign: "center" }}>
-                    {item.fechaEmision.split("T")[0]}
+                    {item.fechaEmision ? item.fechaEmision.split("T")[0]: ""}
                   </td>
                   <td style={{ textAlign: "center" }}>
-                    {item.fechaVencimiento.split("T")[0]}
+                    {item.fechaVencimiento ? item.fechaVencimiento.split("T")[0]: ""}
                   </td>
                   <td style={{ textAlign: "center" }}>
                     {item.codigoMoneda + " " + item.importeTotal}

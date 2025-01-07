@@ -11,6 +11,7 @@ import TableRow from "@mui/material/TableRow";
 import TableSortLabel from "@mui/material/TableSortLabel";
 import { visuallyHidden } from "@mui/utils";
 import CustomScrollTable from "./CustomScrollTable";
+import LoadingIndicator from "../Util/LoadingIndicator";
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
     return -1;
@@ -226,7 +227,7 @@ export default function TableItemsCliente({ isLoading, itemsComprados, itemsPerP
       <LoadingIndicator/>
     ): (
       <div>
-        <CustomScrollTable style={{ maxHeight:"calc(100vh - 21.5rem)"}}>
+        <CustomScrollTable style={{ maxHeight:"calc(100vh - 18.5rem)"}}>
           <TableContainer>
           <Table
             stickyHeader
