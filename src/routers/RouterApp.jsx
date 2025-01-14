@@ -4,6 +4,8 @@ import ConsultasPrecios from "../pages/ConsultasPrecios";
 import ListaTransportista from "../pages/SearchTransportista/ListaTransportista";
 import ListaClientes from "../pages/SearchCliente/ListaCientes";
 import DrawerModel from "../components/DrawerModel";
+import { Login } from "@mui/icons-material";
+import SignInSide from "../pages/LogIn/SingInSide";
 
 function RouterApp() {
 
@@ -12,7 +14,8 @@ function RouterApp() {
   return (
     <Routes>
       <Route path="*" element={<h1>No encontrado... (404)</h1>}></Route>
-      <Route path="/" element={<DrawerModel />}></Route>
+      <Route path="/" element={<SignInSide />}></Route>
+      <Route path="/Ventas" element={<DrawerModel />}></Route>
       <Route path="/consultaPreciosYStock" element = {<ConsultasPrecios/>} ></Route>
       <Route path="/clientes" element = {<ListaClientes/>} ></Route>
       <Route path="/Transportista" element = {<ListaTransportista/>} ></Route>
