@@ -27,6 +27,25 @@ const baseUrlTransportista = () => {
   return "http://10.10.0.25:9696/api/Transportista";
 };
 
+const baseUrlAutenticar = () => {
+  return "http://10.10.0.25:9696/api/Autenticacion";
+};
+
+
+export async function postAutenticar(autenticar) {
+  try {
+    const response = await axios.post(`${baseUrlAutenticar()}/Autenticar`, autenticar);
+    return response.data; 
+  } catch (error) {
+    const errorMessage = error.response && error.response.data && error.response.data.message 
+    ? error.response.data.message 
+    : (error.response && error.response.data) 
+      ? error.response.data
+      : 'Ocurrió un error desconocido';
+    throw new Error(errorMessage);
+  }
+}
+
 export function getClientes(criterioBusqueda) {
   const listaClientesFiltrados = axios
     .get(`${baseUrlCliente()}/filtrados/${criterioBusqueda}`)
