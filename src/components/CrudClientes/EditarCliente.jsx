@@ -544,6 +544,7 @@ function EditarCliente({
                       getOptionLabel={(option) => option[1].nombre || ""}
                       value={departamentoSeleccionado || null}
                       onChange={(event, newValue) => {
+                        setDepartamentoSeleccionado(newValue);
                       }}
                       renderInput={(params) => (
                         <div ref={params.InputProps.ref}>

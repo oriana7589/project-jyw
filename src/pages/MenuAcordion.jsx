@@ -1006,6 +1006,8 @@ const TuComponente = () => {
 
       const listaDetalle = cartItems.map((item, index) => {   
         const subTotalItem = monedaValue === "SOLES" ? item.subTotalItemSOL : item.subTotalItemUSD;
+        const precioVentaUnitario = monedaValue === "SOLES" ? item.precioVentaUnitarioSOL : item.precioVentaUnitarioUSD;
+        const precioVentaUnitarioSinIGV = new Decimal(precioVentaUnitario).dividedBy(1.18).toDecimalPlaces(2);
         const totalItem = monedaValue === "SOLES" ? item.totalItemSOL : item.totalItemUSD;
         const precioVentaSinIGV = subTotalItem.dividedBy(item.cantidad).toDecimalPlaces(2);
         const precioCompraSinIGV = new Decimal(item.precioCompra);
@@ -1017,7 +1019,7 @@ const TuComponente = () => {
           cantidad: item.cantidad,
           precioCompra: precioCompraSinIGV, //item.precioCompra,
           precioLista: item.precioLista,
-          precioVenta: precioVentaSinIGV,
+          precioVenta: precioVentaUnitarioSinIGV,
           descuentoUno: item.descuentoA,
           descuentoDos: item.descuentoB,
           totalItem: parseFloat(subTotalItem),
@@ -1088,6 +1090,8 @@ const TuComponente = () => {
       const listaDetalle = cartItems.map((item, index) => {
         const subTotalItem = monedaValue === "SOLES" ? item.subTotalItemSOL : item.subTotalItemUSD;
         const totalItem = monedaValue === "SOLES" ? item.totalItemSOL : item.totalItemUSD;
+        const precioVentaUnitario = monedaValue === "SOLES" ? item.precioVentaUnitarioSOL : item.precioVentaUnitarioUSD;
+        const precioVentaUnitarioSinIGV = new Decimal(precioVentaUnitario).dividedBy(1.18).toDecimalPlaces(2);
         const precioVentaSinIGV = subTotalItem.dividedBy(item.cantidad).toDecimalPlaces(2);
         const precioCompraSinIGV = new Decimal(item.precioCompra);
         const totalItemConIGV = new Decimal(totalItem).toDecimalPlaces(2);
@@ -1098,7 +1102,7 @@ const TuComponente = () => {
           cantidad: item.cantidad,
           precioCompra: precioCompraSinIGV, //item.precioCompra,
           precioLista: item.precioLista,
-          precioVenta: precioVentaSinIGV,
+          precioVenta: precioVentaUnitarioSinIGV,
           descuentoUno: item.descuentoA,
           descuentoDos: item.descuentoB,
           totalItem: parseFloat(subTotalItem),
