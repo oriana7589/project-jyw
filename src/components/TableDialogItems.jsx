@@ -178,7 +178,7 @@ const TableComponent = ({ isLoading,setIsLoading, items, onProductSelect,itemsPe
              key={index}
              onMouseEnter={() => handleMouseEnter(index)}
              onMouseLeave={handleMouseLeave}
-             onDoubleClick={() => handleRowDoubleClick(item)}
+             onClick={() => handleRowDoubleClick(item)}
              style={{
                backgroundColor:
                  selectProductos === item
