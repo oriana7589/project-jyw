@@ -9,10 +9,22 @@ import Logo from "../image/logo.png";
 import LogoCom from "../image/logoCompleto.png";
 import MenuAcordion from "../pages/MenuAcordion";
 import ArticleIcon from "@mui/icons-material/Article";
-import {Dialog, DialogActions, DialogContent, Typography, Button} from "@mui/material";
+import {
+  Dialog,
+  DialogActions,
+  DialogContent,
+  Typography,
+  Button,
+  Avatar,
+} from "@mui/material";
 import PersonIcon from "@mui/icons-material/Person";
 import { LocalShipping } from "@mui/icons-material";
-import { containerStyle, hoveredContainerStyle, iconStyle, textStyle} from "../Styles/MenuStyles";
+import {
+  containerStyle,
+  hoveredContainerStyle,
+  iconStyle,
+  textStyle,
+} from "../Styles/MenuStyles";
 
 const drawerWidth = 240;
 
@@ -24,6 +36,18 @@ const openedMixin = (theme) => ({
   }),
   overflowX: "hidden",
 });
+
+const UserInfoContainer = styled("div")(({ theme, open }) => ({
+  position: "absolute",
+  bottom: 0,
+  width: "100%",
+  padding: theme.spacing(2),
+  textAlign: "left", // Garantiza que el texto dentro de los elementos esté alineado a la izquierda
+  display: "flex",
+  alignItems: "center",
+  justifyContent: open ? "flex-start" : "center", // Cambia space-between a flex-start
+  backgroundColor: "rgb(221, 222, 223)",
+}));
 
 const closedMixin = (theme) => ({
   transition: theme.transitions.create("width", {
@@ -74,11 +98,11 @@ const Drawer = styled(MuiDrawer, {
   }),
 }));
 
- const url = "http://localhost:5173/consultaPreciosYStock"; //url para desarrollo
+//const url = "http://localhost:5173/consultaPreciosYStock"; //url para desarrollo
 // const urlClientes = "http://localhost:5173/clientes"; //url para desarrollo
 // const urlTransportista = "http://localhost:5173/transportista"; //url para desarrollo
 
-//const url = "http://10.10.0.25:9697/consultaPreciosYStock"; //url para produccion
+const url = "http://10.10.0.25:9697/consultaPreciosYStock"; //url para produccion
 const urlClientes = "http://10.10.0.25:9697/clientes"; //url para produccion
 const urlTransportista = "http://10.10.0.25:9697/transportista"; //url para produccion
 
@@ -93,6 +117,10 @@ export default function DrawerModel() {
   const handleMouseEnter = (item) => setHoveredItem(item);
   const handleMouseLeave = () => setHoveredItem(null);
 
+  const [user, setUser] = useState({
+    name: "Juan",
+    apellido: "Pérez",
+  });
   const handleOpenDialog = () => {
     setDialogOpen(true);
   };
@@ -170,12 +198,14 @@ export default function DrawerModel() {
             )}
           </DrawerHeader>
           <Divider />
-          <div style={{ display: "flex", flexDirection: "column", width: "100%" }} >
+          <div
+            style={{ display: "flex", flexDirection: "column", width: "100%" }}
+          >
             {[
               {
                 id: 1,
                 label: "Nueva Proforma",
-                icon: <ArticleIcon sx={{ color: "rgb(12,55,100)" }}/>,
+                icon: <ArticleIcon sx={{ color: "rgb(12,55,100)" }} />,
                 onClick: () => {
                   handleOpenDialog();
                 },
@@ -183,52 +213,61 @@ export default function DrawerModel() {
               {
                 id: 2,
                 label: "Consultar precios",
-                icon: <CategoryIcon sx={{ color: "rgb(12,55,100)" }}/>,
-                onClick: () =>
-                  handleOpenWindow(url, 1110, 725), 
+                icon: <CategoryIcon sx={{ color: "rgb(12,55,100)" }} />,
+                onClick: () => handleOpenWindow(url, 1110, 725),
               },
               {
                 id: 3,
                 label: "Cliente",
-                icon: <PersonIcon sx={{ color: "rgb(12,55,100)" }}/>,
-                onClick: () =>
-                  handleOpenWindow(urlClientes, 830, 715),
+                icon: <PersonIcon sx={{ color: "rgb(12,55,100)" }} />,
+                onClick: () => handleOpenWindow(urlClientes, 830, 715),
               },
               {
                 id: 4,
                 label: "Transportista",
-                icon: <LocalShipping sx={{ color: "rgb(12,55,100)" }}/>,
-                onClick: () =>
-                  handleOpenWindow(urlTransportista, 870, 715), 
+                icon: <LocalShipping sx={{ color: "rgb(12,55,100)" }} />,
+                onClick: () => handleOpenWindow(urlTransportista, 870, 715),
               },
-            ].map((item,index, arr) => (
+            ].map((item, index, arr) => (
               <React.Fragment key={item.id}>
+                <div
+                  key={item.id}
+                  style={
+                    hoveredItem === item.id
+                      ? hoveredContainerStyle
+                      : containerStyle
+                  }
+                  onMouseEnter={() => handleMouseEnter(item.id)}
+                  onMouseLeave={handleMouseLeave}
+                  onClick={() => setOpen(!open)}
+                >
+                  <div style={iconStyle}>{item.icon}</div>
                   <div
-                    key={item.id}
-                    style={
-                      hoveredItem === item.id
-                        ? hoveredContainerStyle
-                        : containerStyle
-                    }
-                    onMouseEnter={() => handleMouseEnter(item.id)}
-                    onMouseLeave={handleMouseLeave}
-                    onClick={() => setOpen(!open)}
+                    style={textStyle(open)}
+                    onClick={(event) => {
+                      event.stopPropagation();
+                      item.onClick();
+                    }}
                   >
-                    <div style={iconStyle}>{item.icon}</div>
-                    <div
-                      style={textStyle(open)}
-                      onClick={(event) => {
-                        event.stopPropagation();
-                        item.onClick();
-                      }}
-                    >
-                      {item.label}
-                    </div>
+                    {item.label}
                   </div>
-                {index < arr.length  && <Divider />}
-             </React.Fragment>
-          ))}
+                </div>
+                {index < arr.length && <Divider />}
+              </React.Fragment>
+            ))}
           </div>
+          <UserInfoContainer open={open}>
+            <Avatar sx={{ bgcolor: "rgb(12,55,100)" }}>
+              {user.name.charAt(0)}
+              {user.apellido.charAt(0)}
+            </Avatar>
+            {open && (
+              <Box ml={2}>
+                <Typography style={{color: "rgb(12,55,100)"}} variant="body1">Vendedor</Typography>
+                <Typography style={{color: "rgb(12,55,100)"}} variant="body1">{user.name +" "+user.apellido}</Typography>
+              </Box>
+            )}
+          </UserInfoContainer>
         </Drawer>
       </div>
 
@@ -245,7 +284,9 @@ export default function DrawerModel() {
           </Typography>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleCloseDialog} color="error">Cancelar</Button>
+          <Button onClick={handleCloseDialog} color="error">
+            Cancelar
+          </Button>
           <Button
             onClick={handleNuevaProforma}
             variant="contained"
@@ -257,7 +298,6 @@ export default function DrawerModel() {
         </DialogActions>
       </Dialog>
       {/* Fin de Dialog para Actualizar menú acordion */}
-      
     </Box>
   );
 }
