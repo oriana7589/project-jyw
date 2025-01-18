@@ -19,7 +19,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import "react-toastify/dist/ReactToastify.css";
 import Decimal from "decimal.js";
-import { cardItemStyle, cardStyle, textItemCardStyle } from "../Styles/MenuStyles";
+import { cardItemStyle, cardStyle, specificCardItemStyle, textItemCardStyle } from "../Styles/MenuStyles";
 
 import { SaveOutlined } from "@mui/icons-material";
 
@@ -49,7 +49,7 @@ const FirstTable = ({ detalleProducto }) => {
       <strong style={{  marginTop: "0.4rem" }}>LINEAS</strong>
       <Typography style={{ ...textItemCardStyle }}  > {detalleProducto.codigoLinea}</Typography>
     </div>
-    <div style={{...cardItemStyle,  maxWidth: "23%"}}>
+    <div style={{...specificCardItemStyle,  maxWidth: "23%"}}>
       <strong style={{  marginTop: "0.4rem" }}>CODIGO</strong>
       <Typography  variant="body1" style={{ ...textItemCardStyle }}>{detalleProducto.codigoArticulo}</Typography>
     </div>

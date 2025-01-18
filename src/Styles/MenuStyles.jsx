@@ -76,12 +76,19 @@ export const cardItemStyle = {
   background:"rgb(255, 255, 255,25)",
   borderRadius: "5px",
   textAlign: "center",
-  boxShadow: "0 2px 8px rgba(0, 0, 0, 0.15)", // Elevación suave
+  boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.52)", // Elevación suave
   color: "rgb(0,0,0)",
   display: "flex",
   flexDirection: "column",
   height: "100px",
  // Asegura una altura fija para las tarjetas
+};
+
+export const specificCardItemStyle = {
+  ...cardItemStyle,
+  maxWidth: "23%",
+  boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.8)", // Sombra más oscura
+  borderRadius: "8px", // Opcional: Agrega bordes redondeados para que la sombra se vea mejor
 };
 
 export const textItemCardStyle = {
