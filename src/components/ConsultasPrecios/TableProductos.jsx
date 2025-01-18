@@ -239,7 +239,7 @@ const TableProductos = ({
              key={index}
              onMouseEnter={() => handleMouseEnter(index)}
              onMouseLeave={handleMouseLeave}
-             onDoubleClick={() => handleRowDoubleClick(item)}
+             onClick={() => handleRowDoubleClick(item)}
              style={{
                backgroundColor:
                productos === item
