@@ -249,6 +249,7 @@ function ItemsProductos({
             }}
           >
             <FormControlLabel
+              style={{marginTop:5}}
               control={
                 <Checkbox
                   id="checkbox1"
@@ -265,6 +266,7 @@ function ItemsProductos({
               label="Por facturar"
             />
             <FormControlLabel
+              style={{marginTop:5}}
               control={
                 <Checkbox
                 id="checkbox2"
@@ -283,7 +285,7 @@ function ItemsProductos({
               style={{
                 display: "flex",
                 marginTop: 5,
-                marginLeft: 120,
+                marginLeft: 10,
                 marginRight: 10,
               }}
             >
@@ -300,7 +302,9 @@ function ItemsProductos({
                 <Description style={{ color: "hsl(0, 98.40%, 51.00%)" }} />
               </IconButton>
             </div>
-            <div style={{ paddingTop: 0 }}>
+            <div style={{  paddingTop: 5,
+                    display: "flex",
+                    justifyContent: "end",}}>
               {isEditProformaVisible ? (
                 <div style={{  display: "flex" }}>
                   <IconButton
@@ -339,7 +343,7 @@ function ItemsProductos({
                         borderRadius: "0",
                       }}
                     >
-                      Editar proforma
+                     Guardar Cambios
                     </Typography>
                   </IconButton>
                 </div>

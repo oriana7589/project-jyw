@@ -140,6 +140,11 @@ export default function SignInCard(props) {
           <form
             onSubmit={handleSubmit}
             style={{ display: "flex", flexDirection: "column", gap: "16px" }}
+            onKeyDown={(event) => {
+              if (event.key === "Enter") {
+                handleSubmit(event); 
+              }
+            }}
           >
             <FormControl style={{ paddingTop: 30 }}>
               <FormLabel htmlFor="nombreUsuario">Usuario</FormLabel>
