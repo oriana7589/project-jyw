@@ -37,13 +37,13 @@ export async function postAutenticar(autenticar) {
     const response = await axios.post(`${baseUrlAutenticar()}/Autenticar`, autenticar);
     return response.data; 
   } catch (error) {
-    const errorMessage = error.response && error.response.data && error.response.data.message 
-    ? error.response.data.message 
-    : (error.response && error.response.data) 
-      ? error.response.data
-      : 'Ocurrió un error desconocido';
-    throw new Error(errorMessage);
-  }
+    const errorMessage =
+    (error.response && error.response?.data && error.response?.data.message) ||
+    (error.response && typeof error.response?.data === "string" && error.response?.data) ||
+    "Ocurrió un error desconocido";
+
+  throw new Error(errorMessage); // Lanza el mensaje específico del backend
+}
 }
 
 export function getClientes(criterioBusqueda) {

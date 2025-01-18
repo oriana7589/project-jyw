@@ -65,23 +65,31 @@ const SignUpContainer = styled(Stack)(({ theme }) => ({
 }));
 
 export default function SignInCard(props) {
-  const navigate = useNavigate(); //
+  const navigate = useNavigate();
   const [formErrors, setFormErrors] = React.useState({
     nombreUsuario: "",
     contraseña: "",
   });
   const [loading, setLoading] = React.useState(false); // Indicador de carga
-  const [apiError, setApiError] = React.useState(""); // Error de la API
+  const [apiError, setApiError] = React.useState(""); // Error genérico de la API
 
   const validateInputs = (values) => {
     const errors = {};
-    if (!values.nombreUsuario || !/\S+@\S+\.\S+/.test(values.nombreUsuario)) {
-      errors.nombreUsuario = "Ingresar usuario válido";
+    if (!values.nombreUsuario || values.nombreUsuario.trim() === "") {
+      errors.nombreUsuario = "El usuario no puede estar vacío";
     }
-    if (!values.contraseña || values.contraseña.length < 6) {
-      errors.contraseña = "Ingresar contraseña válida";
+    if (!values.contraseña || values.contraseña.trim() === "") {
+      errors.contraseña = "La contraseña no puede estar vacía";
     }
     return errors;
+  };
+
+  const handleInputChange = (event) => {
+    const { name } = event.target;
+    setFormErrors((prevErrors) => ({
+      ...prevErrors,
+      [name]: "",
+    }));
   };
 
   const handleSubmit = async (event) => {
@@ -91,23 +99,45 @@ export default function SignInCard(props) {
       nombreUsuario: data.get("nombreUsuario"),
       contraseña: data.get("contraseña"),
     };
+
     const errors = validateInputs(values);
     setFormErrors(errors);
-    setApiError(""); // Resetea el mensaje de error de la API
-      setLoading(true); // Activa el indicador de carga
-      try {
-        const response = await postAutenticar(values); // Llamada a la API
-        console.log("Autenticación exitosa:", response);
-        toast.success(response)
-        navigate("/ventas"); // Redirige a /ventas
-      } catch (error) {
-        console.error("Error de autenticación:", error.message);
-        toast.error(error.message);
-        setApiError(error.message); // Muestra el error de la API
-      } finally {
-        setLoading(false); // Desactiva el indicador de carga
+
+    if (Object.keys(errors).length > 0) {
+      return;
+    }
+
+    setApiError(""); 
+    setLoading(true); 
+
+    try {
+      const response = await postAutenticar(values); 
+      console.log("Autenticación exitosa:", response);
+      toast.success("Autenticación exitosa");
+      navigate("/ventas"); 
+    } catch (error) {
+        if (error) {
+          const apiErrorMessage = error.message;
+        if (apiErrorMessage === "El usuario no existe") {
+          setFormErrors({
+            nombreUsuario: apiErrorMessage,
+            contraseña: "",
+          });
+        } else if (apiErrorMessage === "Credenciales inválidas") {
+          setFormErrors({
+            nombreUsuario: "",
+            contraseña: "Contraseña Incorrecta",
+          });
+        } else {
+          setApiError("Error inesperado. Intente nuevamente.");
+        }
+      } else {
+        setApiError("Error inesperado. Por favor, intente nuevamente.");
       }
-    
+
+    } finally {
+      setLoading(false); 
+    }
   };
 
   return (
@@ -156,6 +186,7 @@ export default function SignInCard(props) {
                 placeholder="Ingresar Usuario"
                 error={!!formErrors.nombreUsuario}
                 helperText={formErrors.nombreUsuario}
+                onChange={handleInputChange} 
               />
             </FormControl>
             <FormControl>
@@ -169,6 +200,7 @@ export default function SignInCard(props) {
                 placeholder="Ingrese Contraseña"
                 error={!!formErrors.contraseña}
                 helperText={formErrors.contraseña}
+                onChange={handleInputChange} 
               />
             </FormControl>
             <Divider />
