@@ -56,11 +56,11 @@ function ItemsProductos({
     });
   };
 
-  const handleOpenDialogDocuemntos = () => {
+  const handleOpenDialogDocumentos = () => {
     setDialogOpenDocumentos(true);
   };
 
-  const handleCloseDialogDocuemntos = () => {
+  const handleCloseDialogDocumentos = () => {
     setDialogOpenDocumentos(false);
   };
 
@@ -277,6 +277,7 @@ function ItemsProductos({
                     color: "rgb(226, 52, 48)",
                   },
                 }}
+                onChange={() => handleCheckboxChange(2)}
               />
               }
               label="Emitido"
@@ -297,7 +298,7 @@ function ItemsProductos({
                   height: "40px",
                 }}
                 disabled={cartItems.length === 0}
-                onClick={handleOpenDialogDocuemntos}
+                onClick={handleOpenDialogDocumentos}
               >
                 <Description style={{ color: "hsl(0, 98.40%, 51.00%)" }} />
               </IconButton>
@@ -484,7 +485,7 @@ function ItemsProductos({
                   <CardContent sx={{ padding: 0, width: "40%" }}>
                     <CardContent sx={{ display: "flex", padding: 0 }}>
                       <Typography
-                        variant="body2"
+                        variant="body1"
                         color="text.secondary"
                         paddingRight={2}
                       >
@@ -492,12 +493,12 @@ function ItemsProductos({
                         {item.linea}
                       </Typography>
                       <Typography
-                        variant="body2"
+                        variant="body1"
                         color="text.secondary"
                         paddingRight={2}
                       >
                         <span style={{ fontWeight: "bold" }}> Código:</span>{" "}
-                        {item.codigoArticulo.substring(0, 10)}
+                        <span style={{ fontWeight: "bold", fontSize: "1.05rem "}}>{item.codigoArticulo.substring(0, 10)}</span>
                       </Typography>
                     </CardContent>
 
@@ -518,7 +519,7 @@ function ItemsProductos({
                         }}
                       >
                         <Typography
-                          variant="body2"
+                          variant="body1"
                           color="text.secondary"
                           paddingRight={2}
                         >
@@ -526,10 +527,10 @@ function ItemsProductos({
                             {" "}
                             Cantidad:{" "}
                           </span>{" "}
-                          {item.cantidad}
+                          <span style={{ fontWeight: "bold", fontSize: "1.05rem "}}>{item.cantidad}</span>
                         </Typography>
                         <Typography
-                          variant="body2"
+                          variant="body1"
                           color="text.secondary"
                           paddingRight={2}
                         >
@@ -547,7 +548,7 @@ function ItemsProductos({
                         }}
                       >
                         <Typography
-                          variant="body2"
+                          variant="body1"
                           color="text.secondary"
                           paddingRight={2}
                         >
@@ -555,7 +556,7 @@ function ItemsProductos({
                           {item.descuentoA}
                         </Typography>
                         <Typography
-                          variant="body2"
+                          variant="body1"
                           color="text.secondary"
                           paddingRight={2}
                         >
@@ -566,7 +567,7 @@ function ItemsProductos({
                       {/**   */}
                       <CardContent sx={{ display: "flex", padding: 0 }}>
                         <Typography
-                          variant="body2"
+                          variant="body1"
                           color="text.secondary"
                           paddingRight={2}
                         >
@@ -574,10 +575,10 @@ function ItemsProductos({
                             {" "}
                             Utilidad:{" "}
                           </span>{" "}
-                          {item.utilidad.toString()}
+                          <span style={{ fontWeight: "bold", fontSize: "1.05rem "}}>{item.utilidad.toString()}</span>
                         </Typography>
                         <Typography
-                          variant="body2"
+                          variant="body1"
                           color="text.secondary"
                           paddingRight={2}
                         >
@@ -605,10 +606,9 @@ function ItemsProductos({
                     >
                       <span style={{ fontWeight: "bold", fontSize:"0.9rem" }}> P.U: </span>{" "}
                       <Typography
-                        variant="body2"
-                        color="text.secondary"
-                        fontSize="0.95rem"
-                        style={{}}
+                        variant="body1"
+                        color="text.secondary"                        
+                       
                       >
                         {monedaValue === "SOLES"
                         ? "S/ " +
@@ -620,10 +620,9 @@ function ItemsProductos({
                     <CardContent style={{ padding: 0, paddingTop:8 }}>
                       <span style={{ fontWeight: "bold", fontSize:"0.9rem" }}> P.D: </span>{" "}
                       <Typography
-                        variant="body2"
+                        variant="body1"
                         color="text.secondary"
-                        fontSize="0.95rem"
-                        style={{}}
+                       
                       >
                         {monedaValue === "SOLES"
                         ? "S/ " +
@@ -645,7 +644,7 @@ function ItemsProductos({
                     }}
                   >
                     <Typography
-                      variant="body2"
+                      variant="body1"
                       color="text.secondary"
                       fontSize="1.3rem"
                       style={{ fontWeight: "bold" }}
@@ -724,7 +723,7 @@ function ItemsProductos({
       )}
       <DialogDocumentos
         open={dialogOpenDocumentos}
-        handleClose={handleCloseDialogDocuemntos}
+        handleClose={handleCloseDialogDocumentos}
         cartItems={cartItems}
         monedaValue = {monedaValue}
       />
