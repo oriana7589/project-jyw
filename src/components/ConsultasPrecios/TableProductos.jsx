@@ -236,20 +236,24 @@ const TableProductos = ({
                   .slice(page * itemsPerPage, (page + 1) * itemsPerPage)
                   .map((item, index) => (
                     <tr
-                      key={index}
-                      onMouseEnter={() => handleMouseEnter(index)}
-                      onMouseLeave={handleMouseLeave}
-                      style={{
-                        backgroundColor:
-                          filaSeleccionada === item
-                            ? "#B8B8B8"
-                            : highlightedRow === index
-                            ? "#F0F0F0"
-                            : "white",
-                        cursor: "pointer",
-                      }}
-                      onDoubleClick={() => handleRowDoubleClick(item)}
-                    >
+             key={index}
+             onMouseEnter={() => handleMouseEnter(index)}
+             onMouseLeave={handleMouseLeave}
+             onDoubleClick={() => handleRowDoubleClick(item)}
+             style={{
+               backgroundColor:
+               productos === item
+                   ? "#333" // Fondo oscuro para la fila seleccionada
+                   : highlightedRow === index
+                   ? "#555" // Fondo oscuro para la fila destacada
+                   : "white", // Fondo blanco para otras filas
+               color:
+               productos === item || highlightedRow === index
+                   ? "white" // Texto blanco para filas seleccionadas/destacadas
+                   : "black", // Texto negro para otras filas
+               cursor: "pointer",
+             }}
+           >
                       <td style={{ ...descripItem }}>
                         {" "}
                         <SquareSharpIcon
@@ -279,6 +283,7 @@ const TableProductos = ({
                           textAlign: "left",
                           paddingRight: 3.5,
                           paddingLeft: 5,
+                          color: "black",
                           background:
                             item.TipoCompra === "ORI"
                               ? "rgb(67,240,42)"
@@ -338,6 +343,7 @@ const TableProductos = ({
                           ...descripItem,
                           maxWidth: "55px",
                           paddingLeft: 5,
+                          color: "black",
                           textAlign: "end",
                           background: "rgb(29,241,255)",
                         }}
@@ -400,6 +406,7 @@ const TableProductos = ({
                         style={{
                           ...descripItem,
                           paddingLeft: 5,
+                          color: "black",
                           background: "rgb(29,241,255)",
                           textAlign: "end",
                         }}

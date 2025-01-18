@@ -174,38 +174,43 @@ const TableComponent = ({ isLoading,setIsLoading, items, onProductSelect,itemsPe
         </thead>
         <tbody >
           {items .slice(page * itemsPerPage, (page + 1) * itemsPerPage).map((item, index) => (
-            <tr key={index}
-            onMouseEnter={() => handleMouseEnter(index)}
-            style={{
-              backgroundColor:
-                          selectProductos === item
-                            ? "#B8B8B8"
-                            : highlightedRow === index
-                            ? "#F0F0F0"
-                            : "white",
-              cursor: "pointer"
-            }}
-            onDoubleClick={() => handleRowDoubleClick(item)}
-            onMouseLeave={() => setHighlightedRow(null)}
-          >
+             <tr
+             key={index}
+             onMouseEnter={() => handleMouseEnter(index)}
+             onMouseLeave={handleMouseLeave}
+             onDoubleClick={() => handleRowDoubleClick(item)}
+             style={{
+               backgroundColor:
+                 selectProductos === item
+                   ? "#333" // Fondo oscuro para la fila seleccionada
+                   : highlightedRow === index
+                   ? "#555" // Fondo oscuro para la fila destacada
+                   : "white", // Fondo blanco para otras filas
+               color:
+                 selectProductos === item || highlightedRow === index
+                   ? "white" // Texto blanco para filas seleccionadas/destacadas
+                   : "black", // Texto negro para otras filas
+               cursor: "pointer",
+             }}
+           >
               <td style={{ ...descripItem }}> <SquareSharpIcon style={{ color: item.OrdenCompra === -1 ? "rgb(179,180,177)" : item.OrdenCompra === 1 ? "rgb(128,247,60)" : "rgb(255,17,17)" }} /></td>
               <td style={{ ...descripItem ,paddingLeft:5 }}>{item.CodigoLinea}</td>
               <td style={{...descripItem ,maxWidth: "75px"}}>{item.CodigoArticulo}</td>
               <td style={{...descripItem ,maxWidth: "75px"}}>{item.CodigoInternoMarca}</td>
-              <td style={{ ...descripItem,paddingRight:3.5 ,textAlign:"left",paddingLeft:5 , background: item.TipoCompra === "ORI" ? "rgb(67,240,42)" : item.TipoCompra === "IMP" ? "rgb(227,216,249)" : item.TipoCompra === "LOC" ? "rgb(251,255,170)" : "rgb(255,255,255)" }}>{item.TipoCompra}</td>
+              <td style={{ ...descripItem,paddingRight:3.5 ,textAlign:"left",paddingLeft:5 , color: "black", background: item.TipoCompra === "ORI" ? "rgb(67,240,42)" : item.TipoCompra === "IMP" ? "rgb(227,216,249)" : item.TipoCompra === "LOC" ? "rgb(251,255,170)" : "rgb(255,255,255)" }}>{item.TipoCompra}</td>
               <td style={{  ...descripItem,paddingLeft:5 ,maxWidth: "315px",}} > <CustomScroll style={{ maxWidth: "315px", whiteSpace: "nowrap" }}>
                 {item.DescripcionArticulo}
               </CustomScroll></td>
               <td style={{ ...descripItem,paddingLeft:5,maxWidth:"75px",}}>{item.DescripcionPais}</td>
               <td style={{...descripItem, paddingLeft:5 ,maxWidth:"85px"}}>{item.DescripcionMarca}</td>
               <td style={{...descripItem,paddingLeft:5,  textAlign:"end" }}>{item.PrecioVenta}</td>
-              <td style={{ ...descripItem,paddingLeft:5,  textAlign:"end",maxWidth: "55px"  , background:"rgb(29,241,255)" }}>{item.PrecioDescuento}</td>
+              <td style={{ ...descripItem,paddingLeft:5,  textAlign:"end",maxWidth: "55px"  , color: "black", background:"rgb(29,241,255)" }}>{item.PrecioDescuento}</td>
               <td style={{ ...descripItem,textAlign:"end",paddingLeft:6.8 ,maxWidth: "30px" }}>{item.Stock01P1}</td>
               <td style={{ ...descripItem, textAlign:"end",paddingLeft:6.8 ,maxWidth:"30px" }}>{item.Stock01P3}</td>
               <td style={{ ...descripItem,  textAlign:"end" , paddingLeft:6.8 ,maxWidth:"30px" }}>{item.Stock01P4}</td>
               <td style={{ ...descripItem,  textAlign:"end",maxWidth:"30px" }}>{item.Stock02P1}</td>
               <td style={{...descripItem, textAlign:"end", paddingLeft:6.8 ,maxWidth:"30px" }}>{item.StockT1P1}</td>
-              <td style={{  ...descripItem,paddingLeft:5  , background:"rgb(29,241,255)",  textAlign:"end" }}>{item.StockTotal}</td>
+              <td style={{  ...descripItem,paddingLeft:5  , background:"rgb(29,241,255)", color: "black",  textAlign:"end" }}>{item.StockTotal}</td>
             </tr>
           ))}
         </tbody>
