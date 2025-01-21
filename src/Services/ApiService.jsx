@@ -385,17 +385,14 @@ export function getPDFDataTecnica(url) {
   return PDF;
 }
 
-export function getImagenArticulo(codigoArticulo) {
+export async function getImagenArticulo(codigoArticulo) {
   codigoArticulo = codigoArticulo.replace("/", "-");
-  const imagen = axios
-    .get(`${baseUrlGeneral()}/ObtenerImagenArticulo/${codigoArticulo}`, {
-      responseType: "blob",
-    })
-    .then((res) => {
-      const urlImagen = URL.createObjectURL(res.data);
-      return urlImagen;
-    });
-  return imagen;
+  const response = await axios
+    .get(`${baseUrlGeneral()}/ObtenerImagenArticulo/${codigoArticulo}`);
+
+  const base64Images = response.data; 
+  const urlImagen =  `data:image/jpeg;base64,${base64Images}`;
+  return urlImagen;
 }
 
 export async function getImagenesArticulos(codigoArticulo) {
@@ -403,7 +400,7 @@ export async function getImagenesArticulos(codigoArticulo) {
   const response = await axios.get(
     `${baseUrlGeneral()}/ObtenerImagenesArticulo/${codigoArticulo}`
   );
-  const base64Images = response.data; // Asume que response.data es el arreglo de imágenes en base64
+  const base64Images = response.data; 
   const urlImagenes = base64Images.map(
     (base64) => `data:image/jpeg;base64,${base64}`
   );
