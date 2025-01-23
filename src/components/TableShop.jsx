@@ -22,9 +22,6 @@ import Decimal from "decimal.js";
 import { cardItemStyle, cardStyle, specificCardItemStyle, textItemCardStyle } from "../Styles/MenuStyles";
 
 import { SaveOutlined } from "@mui/icons-material";
-
-import { prepareColumns } from "material-react-table";
-
 Decimal.set({ precision: 10 });
 
 const data = [
@@ -42,21 +39,23 @@ const data = [
   },
 ];
 // Primera tabla
-const FirstTable = ({ detalleProducto }) => {
+const FirstTable = ( {handleIconButtonItemsClick,detalleProducto  }) => {
   return (
     <div style={cardStyle}>
     <div style={{...cardItemStyle,  maxWidth: "12%"}}>
       <strong style={{  marginTop: "0.4rem" }}>LINEAS</strong>
       <Typography style={{ ...textItemCardStyle }}  > {detalleProducto.codigoLinea}</Typography>
     </div>
-    <div style={{...specificCardItemStyle,  maxWidth: "23%"}}>
+    <div  
+       onClick={(event) => { event.stopPropagation();handleIconButtonItemsClick(detalleProducto.codigoArticulo) }} style={{...specificCardItemStyle,  maxWidth: "23%" }}>
       <strong style={{  marginTop: "0.4rem" }}>CODIGO</strong>
-      <Typography  variant="body1" style={{ ...textItemCardStyle }}>{detalleProducto.codigoArticulo}</Typography>
+      <Typography   variant="body1" style={{ ...textItemCardStyle }}>{detalleProducto.codigoArticulo}</Typography>
     </div>
     <div style={{...cardItemStyle,  maxWidth: "65%"}}>
       <strong style={{  marginTop: "0.4rem" }}>DESCRIPCIÓN</strong>
       <Typography style={{ ...textItemCardStyle }} >{detalleProducto.descripcionArticulo}</Typography>
     </div>
+  
   </div>
   );
 };
@@ -86,6 +85,7 @@ const SecondTable = ({ detalleProducto, fechaLlegada }) => {
       <strong style={{  marginTop: "0.4rem" }}>TIPO</strong>
       <Typography style={{ ...textItemCardStyle }}> {detalleProducto.tipoCompra}</Typography>
     </div>
+   
   </div>
   );
 };
@@ -764,7 +764,8 @@ const TableShop = ({
   setPrecioVentaUnitario,
   precioItemActual,
   setPrecioItemActual,
-  precioVentaRef
+  precioVentaRef,
+  handleIconButtonItemsClick ,
 }) => {
   let razonSocial = "";
   let ruc = "";
@@ -857,7 +858,7 @@ const TableShop = ({
           </Select>
         </Box>
       </div>
-      <FirstTable detalleProducto={detalleProducto} />
+      <FirstTable handleIconButtonItemsClick = {handleIconButtonItemsClick} detalleProducto={detalleProducto} />
       <Divider />
       <SecondTable
         detalleProducto={detalleProducto}
@@ -898,6 +899,7 @@ const TableShop = ({
         setPrecioItemActual={setPrecioItemActual}
         precioVentaRef={precioVentaRef}
       />
+ 
     </div>
   );
 };

@@ -40,7 +40,8 @@ const TableDescripcionItems = ({
   setPrecioVentaUnitario,
   precioItemActual,
   setPrecioItemActual,
-  precioVentaRef
+  precioVentaRef,
+  handleIconButtonItemsClick 
 }) => {
 
   return (
@@ -81,6 +82,7 @@ const TableDescripcionItems = ({
         precioItemActual={precioItemActual}
         setPrecioItemActual={setPrecioItemActual}
         precioVentaRef={precioVentaRef}
+        handleIconButtonItemsClick = {handleIconButtonItemsClick}
       />
       <div>
  

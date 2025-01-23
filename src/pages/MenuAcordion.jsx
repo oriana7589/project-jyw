@@ -1153,12 +1153,11 @@ const TuComponente = () => {
     setDialogOpen(false);
   };
 
-  const handleIconButtonItemsClick = () => {
+  const handleIconButtonItemsClick = (criterio1) => {
     if (criterio1 === "") {
       setToastOpen(true);
       toast.warning("Por favor, ingrese el primer campo");
     } else {
-      
       setIsLoading(true)
       setDialogProductOpen(true);
       getProdutosFiltrados(criterio1, criterio2, criterio3).then(
@@ -1374,7 +1373,7 @@ const TuComponente = () => {
       if (ref) {
         ref.current.focus();
       } else {
-        handleIconButtonItemsClick();
+        handleIconButtonItemsClick(criterio1);
       }
     }
   };
@@ -1688,7 +1687,7 @@ const TuComponente = () => {
               }}
               onClick={(event) => {
                 event.stopPropagation();
-                handleIconButtonItemsClick();
+                handleIconButtonItemsClick(criterio1);
               }}
             >
               <Typography
@@ -1808,6 +1807,7 @@ const TuComponente = () => {
             precioItemActual={precioItemActual}
             setPrecioItemActual={setPrecioItemActual}
             precioVentaRef={precioVentaRef}
+            handleIconButtonItemsClick = {handleIconButtonItemsClick}
           />
         </Collapse>
       </Card>
