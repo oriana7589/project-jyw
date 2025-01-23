@@ -471,9 +471,10 @@ function ItemsProductos({
                   <CardMedia
                     component="div"
                     style={{
-                      width: "16%",
+                      width: "14.5%",
                       height: "100%",
                       padding: 0,
+                      marginRight:2,
                       margin: 0,
                       alignSelf: "flex-start",
                       objectFit: "contain",
@@ -482,7 +483,7 @@ function ItemsProductos({
                   >
                     <LazyImagen codigoArticulo={item.codigoArticulo.trim()} />
                   </CardMedia>
-                  <CardContent sx={{ padding: 0, width: "40%" }}>
+                  <CardContent sx={{ padding: 0, width: "44%" }}>
                     <CardContent sx={{ display: "flex", padding: 0 }}>
                       <Typography
                         variant="body1"

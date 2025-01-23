@@ -143,7 +143,7 @@ const PreciosStock = ({
             style={{
               minHeight: "25px",
               marginRight: "4px",
-              fontSize: "0.7rem",
+              fontSize: "1rem",
             }}
             clickable="true" // Puedes hacer clic en esta pestaña
           />
@@ -152,7 +152,7 @@ const PreciosStock = ({
             style={{
               minHeight: "25px",
               marginRight: "4px",
-              fontSize: "0.7rem",
+              fontSize: "1rem",
             }}
             clickable="true"
           />
@@ -161,7 +161,7 @@ const PreciosStock = ({
             label="GRAFICA "
             style={{
               minHeight: "25px",
-              fontSize: "0.7rem",
+              fontSize: "1rem",
               marginRight: "4px",
             }}
             clickable="true"
@@ -170,7 +170,7 @@ const PreciosStock = ({
             label="TD "
             style={{
               minHeight: "25px",
-              fontSize: "0.7rem",
+              fontSize: "1rem",
               marginRight: "4px",
             }}
             clickable="true"
@@ -179,7 +179,7 @@ const PreciosStock = ({
             label="VENTA MENSUAL"
             style={{
               minHeight: "25px",
-              fontSize: "0.7rem",
+              fontSize: "1rem",
               marginRight: "4px",
             }}
             clickable="true"

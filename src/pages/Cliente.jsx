@@ -322,7 +322,7 @@ const Cliente = ({
             style={{
               minHeight: "25px",
               marginRight: "4px",
-              fontSize: "0.7rem",
+              fontSize: "1rem",
             }}
             clickable="true" // Puedes hacer clic en esta pestaña
           />
@@ -331,13 +331,13 @@ const Cliente = ({
             style={{
               minHeight: "25px",
               marginRight: "4px",
-              fontSize: "0.7rem",
+              fontSize: "1rem",
             }}
             clickable="true"
           />
           <CustomClickableTab
             label="CREDITOS Y COBRANZAS"
-            style={{ minHeight: "25px", fontSize: "0.7rem" }}
+            style={{ minHeight: "25px",   fontSize: "1rem", }}
             clickable="true"
           />
         </CustomTabs>
