@@ -31,9 +31,38 @@ const TableProductos = ({
   itemsPerPage = 14;
 
  const handleRowDoubleClick = (datosItems) => {
-  setFilaSeleccionada(datosItems);
+    setFilaSeleccionada(datosItems);
     onProductSelect(datosItems);
   };
+
+  useEffect(() => {
+    const handleKeyDown = (event) => {
+      if (productos.length === 0) return; // Evitar manejar eventos si no hay productos
+  
+      const visibleItems = productos.slice(
+        page * itemsPerPage,
+        (page + 1) * itemsPerPage
+      );
+  
+      if (event.key === "ArrowDown") {
+        setHighlightedRow((prev) =>
+          prev === null || prev === visibleItems.length - 1 ? 0 : prev + 1
+        );
+      } else if (event.key === "ArrowUp") {
+        setHighlightedRow((prev) =>
+          prev === null || prev === 0 ? visibleItems.length - 1 : prev - 1
+        );
+      } else if (event.key === "Enter" && highlightedRow !== null) {
+        const selected = visibleItems[highlightedRow];
+        handleRowDoubleClick(selected); // Llama a la misma función que el mouse
+      }
+    };
+  
+    window.addEventListener("keydown", handleKeyDown);
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [productos, page, itemsPerPage, highlightedRow]);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -236,24 +265,24 @@ const TableProductos = ({
                   .slice(page * itemsPerPage, (page + 1) * itemsPerPage)
                   .map((item, index) => (
                     <tr
-             key={index}
-             onMouseEnter={() => handleMouseEnter(index)}
-             onMouseLeave={handleMouseLeave}
-             onClick={() => handleRowDoubleClick(item)}
-             style={{
-               backgroundColor:
-               productos === item
-                   ? "#333" // Fondo oscuro para la fila seleccionada
-                   : highlightedRow === index
-                   ? "#555" // Fondo oscuro para la fila destacada
-                   : "white", // Fondo blanco para otras filas
-               color:
-               productos === item || highlightedRow === index
-                   ? "white" // Texto blanco para filas seleccionadas/destacadas
-                   : "black", // Texto negro para otras filas
-               cursor: "pointer",
-             }}
-           >
+                        key={index}
+                        onMouseEnter={() => handleMouseEnter(index)}
+                        onMouseLeave={handleMouseLeave}
+                        onClick={() => handleRowDoubleClick(item)}
+                        style={{
+                          backgroundColor:
+                          filaSeleccionada  === item
+                              ? "#358" // Fondo oscuro para la fila seleccionada
+                              : highlightedRow === index
+                              ? "#555" // Fondo oscuro para la fila destacada
+                              : "white", // Fondo blanco para otras filas
+                          color:
+                          filaSeleccionada  === item || highlightedRow === index
+                              ? "white" // Texto blanco para filas seleccionadas/destacadas
+                              : "black", // Texto negro para otras filas
+                          cursor: "pointer",
+                        }}
+                      >
                       <td style={{ ...descripItem }}>
                         {" "}
                         <SquareSharpIcon
