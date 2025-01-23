@@ -1,4 +1,4 @@
-import { Card, CardContent, Typography } from "@mui/material";
+import { Card, CardContent, Container, CssBaseline, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import "react-toastify/dist/ReactToastify.css";
 import IconCarrito from "../image/carritoCompras.png";
@@ -50,7 +50,18 @@ function ListaProductos({ cartItems, pdfData }) {
   }, [codigo]);
 
   return (
-    <div style={{ display: "flex", width: "100%" }}>
+    <React.Fragment>
+      <CssBaseline />
+      <Container
+        maxWidth="false"
+        sx={{
+          display: "flex",
+          justifyContent: "space-between",
+          bgcolor: "#ffffff",
+          height: "calc(100vh - 6.2rem)",
+        }}
+      >
+ <div style={{ display: "flex", width: "100%" }}>
       {cartItems.length === 0 ? (
         <div
           style={{
@@ -170,7 +181,7 @@ function ListaProductos({ cartItems, pdfData }) {
                   src={pdfUrl}
                   type="application/pdf"
                   width="100%"
-                  height="765px"
+                  height="100%"
                 />
               )}
             </div>
@@ -206,6 +217,9 @@ function ListaProductos({ cartItems, pdfData }) {
         </>
       )}
     </div>
+      </Container>
+      </React.Fragment>
+   
   );
 }
 
