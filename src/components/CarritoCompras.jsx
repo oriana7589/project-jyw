@@ -133,6 +133,8 @@ export default function CarritoCompras({
             isAddProformaVisible = {isAddProformaVisible}
             actualizarProforma = {actualizarProforma}
             numeroProforma = {numeroProforma}
+            totalFinal = {totalFinal}
+            selectedClient = {selectedClient}
           />
         </div>
       </Container>

@@ -3,48 +3,49 @@ import { tableItemsCont } from "../Styles/MenuStyles";
 import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
 import Decimal from "decimal.js";
 
-const TableDialogDocumento = ({ cartItems, monedaValue }) => {
+const TableDialogDocumento = ({ totalFinal, cartItems, monedaValue }) => {
  console.log("ietms", cartItems);
  
     return (
-        <TableContainer
+   
+  <TableContainer
         component={Paper}
         style={{ maxHeight: 600, overflow: "auto", height: 800,  padding:0, margin:0}}
          className="custom-scroll-page"
       >
-        <Table stickyHeader style={{ padding:10}}>
+        <Table stickyHeader style={{ padding:10, width:"100%"}}>
           <TableHead>
             <TableRow>
-            <TableCell style={{ fontWeight: "bold",padding:0 }}>N°</TableCell>
-              <TableCell style={{ fontWeight: "bold",padding:0 }}>Código</TableCell>
-              <TableCell style={{ fontWeight: "bold",padding:0 }}>Línea</TableCell>
-              <TableCell style={{ fontWeight: "bold",padding:0 }}>Descripción</TableCell>
-              <TableCell style={{ fontWeight: "bold",padding:0 }}>Marca</TableCell>
-              <TableCell style={{ fontWeight: "bold",padding:0 }}>Pais</TableCell>
-              <TableCell style={{ fontWeight: "bold",padding:0 }}>Cant.</TableCell>
-              <TableCell style={{ fontWeight: "bold",padding:0 }}>P.U</TableCell>
-              <TableCell style={{ fontWeight: "bold",padding:0 }}>D.1</TableCell>
-              <TableCell style={{ fontWeight: "bold",padding:0 }}>D.2</TableCell>
-              <TableCell style={{ fontWeight: "bold",padding:0 }}>Tipo</TableCell>
-              <TableCell style={{ fontWeight: "bold",padding:0 }}>Total</TableCell>
+            <TableCell style={{ fontWeight: "bold",padding:0 , width:"2.5%"}}>N°</TableCell>
+              <TableCell style={{ fontWeight: "bold",padding:0 ,width:"6%"}}>Código</TableCell>
+              <TableCell style={{ fontWeight: "bold",padding:0,width:"3.5%" }}>Línea</TableCell>
+              <TableCell style={{ fontWeight: "bold",padding:0 ,width:"35%"}}>Descripción</TableCell>
+              <TableCell style={{ fontWeight: "bold",padding:0 ,width:"7%"}}>Marca</TableCell>
+              <TableCell style={{ fontWeight: "bold",padding:0,width:"4%" }}>Pais</TableCell>
+              <TableCell style={{ fontWeight: "bold",padding:0 ,width:"4%"}}>Cant.</TableCell>
+              <TableCell style={{ fontWeight: "bold",padding:0 ,width:"8%"}}>P.U</TableCell>
+              <TableCell style={{ fontWeight: "bold",padding:0 ,width:"3%"}}>D.1</TableCell>
+              <TableCell style={{ fontWeight: "bold",padding:0 ,width:"3%"}}>D.2</TableCell>
+              <TableCell style={{ fontWeight: "bold",padding:0,width:"3.5%" }}>Tipo</TableCell>
+              <TableCell style={{ fontWeight: "bold",padding:0,width:"8.5%"}}>Total</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {cartItems.length > 0 ? (
               cartItems.map((item, index) => (
                 <TableRow key={item.codigoInterno}>
-                  <TableCell style={{ padding:0 }}> {index + 1}</TableCell>
-                  <TableCell style={{ padding:0 }}>{item.codigoArticulo}</TableCell>
-                  <TableCell style={{ padding:0 }}>{item.linea}</TableCell>
-                  <TableCell style={{ padding:0 }}>{item.product}</TableCell>
-                  <TableCell style={{ padding:0 }}>{item.marca}</TableCell>
-                  <TableCell style={{ padding:0 }}>{item.pais}</TableCell>
-                  <TableCell style={{ padding:0 }}>{item.cantidad}</TableCell>
-                  <TableCell style={{ padding:0 }}>{monedaValue === "SOLES" ? "S/ " + new Decimal(item.precioVentaUnitarioSOL).toDecimalPlaces(2)
+                  <TableCell style={{ padding:0, whiteSpace: "nowrap",overflow: "hidden"}}> {index + 1}</TableCell>
+                  <TableCell style={{ padding:0, whiteSpace: "nowrap",overflow: "hidden" , paddingRight:10}}>{item.codigoArticulo}</TableCell>
+                  <TableCell style={{ padding:0, whiteSpace: "nowrap",overflow: "hidden" , paddingRight:10}}>{item.linea}</TableCell>
+                  <TableCell style={{ padding:0, whiteSpace: "nowrap",overflow: "hidden" , paddingRight:10}}>{item.product}</TableCell>
+                  <TableCell style={{ padding:0, whiteSpace: "nowrap",overflow: "hidden" , paddingRight:10}}>{item.marca}</TableCell>
+                  <TableCell style={{ padding:0, whiteSpace: "nowrap",overflow: "hidden", paddingRight:10 }}>{item.pais}</TableCell>
+                  <TableCell style={{ padding:0, whiteSpace: "nowrap",overflow: "hidden" , paddingRight:10}}>{item.cantidad}</TableCell>
+                  <TableCell style={{ padding:0, paddingRight:10 ,whiteSpace: "nowrap",overflow: "hidden"}}>{monedaValue === "SOLES" ? "S/ " + new Decimal(item.precioVentaUnitarioSOL).toDecimalPlaces(2)
                                                                             : "$ " + new Decimal(item.precioVentaUnitarioUSD).toDecimalPlaces(2)} </TableCell>                  
                   <TableCell style={{ padding:0 }}>{item.descuentoA}</TableCell>
                   <TableCell style={{ padding:0 }}>{item.descuentoB}</TableCell>
-                  <TableCell style={{ padding:0 }}>{item.tipoCompra}</TableCell>
+                  <TableCell style={{ padding:0, whiteSpace: "nowrap",overflow: "hidden" }}>{item.tipoCompra}</TableCell>
                   <TableCell style={{ padding:0 }}> {monedaValue === "SOLES"
                                           ? "S/ " +
                                             new Decimal(item.totalItemSOL).toDecimalPlaces(2)
@@ -61,7 +62,11 @@ const TableDialogDocumento = ({ cartItems, monedaValue }) => {
             )}
           </TableBody>
         </Table>
+       {/* Contenedor para el importe total */}
+ 
+
       </TableContainer>
+      
   );
 };
 

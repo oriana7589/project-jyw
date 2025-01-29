@@ -44,6 +44,8 @@ function ItemsProductos({
   isAddProformaVisible,
   actualizarProforma,
   numeroProforma,
+  totalFinal,
+  selectedClient
 }) {
   const [hoveredCard, setHoveredCard] = useState(null);
   const [base64, setBase64] = useState("");
@@ -727,6 +729,8 @@ function ItemsProductos({
         handleClose={handleCloseDialogDocumentos}
         cartItems={cartItems}
         monedaValue = {monedaValue}
+        totalFinal = {totalFinal}
+        selectedClient = {selectedClient}
       />
       {/* Dialog para Editar una proforma */}
       <Dialog open={dialogOpen} onClose={handleCloseDialog}>
