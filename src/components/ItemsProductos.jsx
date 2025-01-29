@@ -50,6 +50,7 @@ function ItemsProductos({
   const [hoveredCard, setHoveredCard] = useState(null);
   const [base64, setBase64] = useState("");
   const [dialogOpen, setDialogOpen] = useState(false);
+  const [dialogPdfOpen, setDialogPdfOpen] = useState(false);
   const [dialogOpenDocumentos, setDialogOpenDocumentos] = useState(false);
   const [generarPDF, setGenerarPdf] = useState("");
   const handlePosition = () => {
@@ -72,6 +73,14 @@ function ItemsProductos({
 
   const handleCloseDialog = () => {
     setDialogOpen(false);
+  };
+
+  const handleOpenPdfDialog = () => {
+    setDialogPdfOpen(true);
+  };
+
+  const handleCloseDialogPdf = () => {
+    setDialogPdfOpen(false);
   };
 
   const handleConfirmEdit = (numeroProforma) => {
@@ -185,10 +194,11 @@ function ItemsProductos({
     setHoveredCard(null);
   };
 
-  const handleDownloadPDF = async (numeroProforma) => {
-    const url = `http://10.10.0.25:9696/api/Proforma/GenerarPdfProforma/${numeroProforma}`;
+  const handleDownloadPDF = async (numeroProforma, conCodigos) => {
+    const url = `http://10.10.0.25:9696/api/Proforma/GenerarPdfProforma?NumeroProforma=${numeroProforma}&ConCodigos=${conCodigos}`;
     window.open(url, "_blank");
-  };
+    setDialogPdfOpen(false);
+};
 
   const esAceptado = (utilidad, tipoCompra) => {
     if (tipoCompra == "LOC") {
@@ -230,7 +240,7 @@ function ItemsProductos({
                 borderColor: "rgb(226, 52, 48)",
                 border: "1px solid rgb(226, 52, 48)",
               }}
-              onClick={() => handleDownloadPDF(numeroProforma)}
+              onClick={handleOpenPdfDialog}
             >
               <Typography
                 style={{
@@ -319,7 +329,7 @@ function ItemsProductos({
                       borderColor: "rgb(226, 52, 48)",
                       border: "1px solid rgb(226, 52, 48)",
                     }}
-                    onClick={() => handleDownloadPDF(numeroProforma)}
+                    onClick={handleOpenPdfDialog}
                   >
                     <Typography
                       style={{
@@ -732,6 +742,21 @@ function ItemsProductos({
         totalFinal = {totalFinal}
         selectedClient = {selectedClient}
       />
+       <Dialog open={dialogPdfOpen} onClose={handleCloseDialogPdf}>
+      <DialogContent>
+        <Typography>
+          ¿Mostrar codigos en el PDF de la proforma <strong>{numeroProforma}</strong>?
+        </Typography>
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={() => handleDownloadPDF(numeroProforma, false)} color="error">
+          No
+        </Button>
+        <Button   onClick={() => handleDownloadPDF(numeroProforma, true)} variant="contained" color="primary">
+          Si
+        </Button>
+      </DialogActions>
+    </Dialog>
       {/* Dialog para Editar una proforma */}
       <Dialog open={dialogOpen} onClose={handleCloseDialog}>
         <DialogContent>
