@@ -35,7 +35,7 @@ export default function DialogDocumentos({ selectedClient, totalFinal,  open,han
             }}
           >
             <DialogTitle sx={{ m: 0, p: 1.8 }} style={{backgroundColor: "rgb(12, 55, 100)", color:"rgb(255,255,255)"}} id="customized-dialog-title" >
-            {selectedClient.razonSocial}
+            {selectedClient?.razonSocial || "Producto"}
             </DialogTitle>
           <TableDialogDocumento totalFinal = {totalFinal} cartItems = {cartItems} monedaValue = {monedaValue}/>
           <div
