@@ -40,6 +40,7 @@ const data = [
 ];
 // Primera tabla
 const FirstTable = ( {handleIconButtonItemsClick,detalleProducto  }) => {
+  const [hover, setHover] = useState(false);
   return (
     <div style={cardStyle}>
     <div style={{...cardItemStyle,  maxWidth: "12%"}}>
@@ -47,7 +48,15 @@ const FirstTable = ( {handleIconButtonItemsClick,detalleProducto  }) => {
       <Typography style={{ ...textItemCardStyle }}  > {detalleProducto.codigoLinea}</Typography>
     </div>
     <div  
-       onClick={(event) => { event.stopPropagation();handleIconButtonItemsClick(detalleProducto.codigoArticulo) }} style={{...specificCardItemStyle,  maxWidth: "23%" }}>
+       onClick={(event) => { event.stopPropagation();handleIconButtonItemsClick(detalleProducto.codigoArticulo) }}
+       style={{...specificCardItemStyle,  
+                maxWidth: "23%", 
+                cursor: "pointer",       
+                backgroundColor: hover ? "rgb(237, 237, 237)" : "white", 
+                transition: "background-color 0.3s ease",  }}
+       onMouseEnter={() => setHover(true)} 
+       onMouseLeave={() => setHover(false)}
+       >
       <strong style={{  marginTop: "0.4rem" }}>CODIGO</strong>
       <Typography   variant="body1" style={{ ...textItemCardStyle }}>{detalleProducto.codigoArticulo}</Typography>
     </div>
@@ -398,6 +407,38 @@ const ThirdTable = ({
               <tbody style={{ width: 0 }}>
               <tr>
                   <td style={{  fontWeight: "bold" }}>
+                  PRECIO COMPRA:
+                  </td>
+                  <td
+                    style={{
+                      fontWeight: "bold",
+                      margin: 0,
+                    }}
+                  >
+                    <TextField
+                      variant="outlined"
+                      autoComplete="off"
+                      value={detalleProducto.tipoCompra === "LOC" ? detalleProducto.precioCompra : ""}
+                      onFocus={handleFocus}
+                      style={{ paddingLeft: 20 }}                      
+                      InputProps={{
+                        style: {
+                          fontSize: "16px",
+                          width: "105px",
+                          height: "30px",
+                          textAlign: "center",
+                          marginLeft:14,
+                          backgroundColor: detalleProducto.tipoCompra !== "LOC" ? "#f0f0f0" : "white", 
+                          marginBottom:5,
+                        },                        
+                        readOnly: true,
+                        disabled: detalleProducto.tipoCompra !== "LOC", // Se deshabilita si no es "loc"
+                      }}
+                    />
+                  </td>
+                </tr>
+              <tr>
+                  <td style={{  fontWeight: "bold" }}>
                   PRECIO LISTA ($):
                   </td>
                   <td
@@ -530,9 +571,9 @@ const ThirdTable = ({
 
                 <tr>
                   <td colSpan="1" style={{ fontWeight: "bold" }}>
-                    DESCUENTO A:
+                    DESCUENTOS:
                   </td>
-                  <td>
+                  <td style={{ display: "flex", alignItems: "center" }}>
                     <TextField
                       variant="outlined"
                       autoComplete="off"
@@ -547,7 +588,7 @@ const ThirdTable = ({
                       InputProps={{
                         style: {
                           fontSize: "16px",
-                          width: "105px",
+                          width: "50px",
                           height: "30px",
                           textAlign: "center",
                           marginBottom:5,
@@ -556,18 +597,10 @@ const ThirdTable = ({
                         disabled: isChecked,
                       }}
                     />
-                  </td>
-                </tr>
-                <tr>
-                  <td colSpan="1" style={{ fontWeight: "bold" }}>
-                    DESCUENTO B:
-                  </td>
-                  <td>
                     <TextField
                       variant="outlined"
                       autoComplete="off"
                       value={precioItemActual.descuentoB} // Valor del estado
-                      style={{ paddingLeft: 20 }}
                       onFocus={handleFocus}
                       onChange={(e) => handleChangeDescuentos("descuentoB", e.target.value)}
                       onBlur={(e) => handleBlurCamposVacios("descuentoB", e.target.value)}
@@ -576,11 +609,11 @@ const ThirdTable = ({
                       InputProps={{
                         style: {
                           fontSize: "16px",
-                          width: "105px",
+                          width: "50px",
                           height: "30px",
                           textAlign: "center",
                           marginBottom:5,
-                          marginLeft:14,
+                          marginLeft:5,
                         },
                         disabled: isChecked,
                       }}
