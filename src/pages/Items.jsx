@@ -268,8 +268,6 @@ const PestañaContenido = ({
           articuloSugeridoClientePorMonto75={articuloSugeridoClientePorMonto75}
         />
       );
-    case 4:
-      return <TD />;
     default:
       return null;
   }
@@ -460,17 +458,6 @@ const Items = ({
               marginTop: "4px",
             }}
             clickable="true" // Puedes hacer clic en esta pestaña
-          />
-
-          <CustomClickableTab
-            label="PH"
-            style={{
-              minHeight: "30px",
-              maxWidth: "30px",
-              marginTop: "4px",
-            }}
-            clickable="true"
-            disabled
           />
         </CustomTabs>
         {datosDisponibles ? (

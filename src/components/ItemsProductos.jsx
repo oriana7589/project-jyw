@@ -511,7 +511,7 @@ function ItemsProductos({
                         paddingRight={2}
                       >
                         <span style={{ fontWeight: "bold" }}> Código:</span>{" "}
-                        <span style={{ fontWeight: "bold", fontSize: "1.05rem "}}>{item.codigoArticulo.substring(0, 10)}</span>
+                        <span style={{ fontWeight: "bold", fontSize: "1.05rem "}}>{item.codigoArticulo}</span>
                       </Typography>
                     </CardContent>
 
@@ -548,7 +548,7 @@ function ItemsProductos({
                           paddingRight={2}
                         >
                           <span style={{ fontWeight: "bold" }}> Marca:</span>{" "}
-                          {item.marca.substring(0, 7)}
+                          {item.marca}
                         </Typography>
                       </CardContent>
 
