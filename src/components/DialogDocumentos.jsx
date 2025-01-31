@@ -4,7 +4,7 @@ import { styled } from '@mui/material/styles';
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
 import TableDialogDocumento from './TableDialogDocumento';
-import { Typography } from '@mui/material';
+import { Checkbox, FormControlLabel, Typography } from '@mui/material';
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
     padding: theme.spacing(1),
@@ -18,6 +18,11 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   }));
 
 export default function DialogDocumentos({ selectedClient, totalFinal,  open,handleClose, cartItems, monedaValue }) {
+  const [checked, setChecked] = React.useState(false);
+
+const handleCheckChange = (event) => {
+    setChecked(event.target.checked);
+};
     return (
         <React.Fragment>
           <BootstrapDialog
@@ -34,9 +39,32 @@ export default function DialogDocumentos({ selectedClient, totalFinal,  open,han
               },
             }}
           >
-            <DialogTitle sx={{ m: 0, p: 1.8 }} style={{backgroundColor: "rgb(12, 55, 100)", color:"rgb(255,255,255)"}} id="customized-dialog-title" >
-            {selectedClient?.razonSocial || "Productos"}
-            </DialogTitle>
+            <DialogTitle 
+            sx={{ m: 0, p: 1.8, display: "flex", justifyContent: "space-between", alignItems: "center" }}
+            style={{ backgroundColor: "rgb(12, 55, 100)", color: "rgb(255,255,255)" }}
+            id="customized-dialog-title"
+        >
+            <Typography variant="h6">
+                {selectedClient?.razonSocial.substring(0, 60) || "Productos"}
+            </Typography>
+
+             <FormControlLabel
+                control={
+                  <Checkbox
+                    id="checkbox1"
+                    checked={checked}
+                    sx={{
+                      color: "rgb(255, 255, 255)",
+                      "&.Mui-checked": {
+                        color: "rgb(255, 255, 255)",
+                      },
+                    }}
+                    onChange={handleCheckChange}
+                  />
+                }
+                label="Stock"
+              />
+        </DialogTitle>
           <TableDialogDocumento totalFinal = {totalFinal} cartItems = {cartItems} monedaValue = {monedaValue}/>
           <div
           style={{
