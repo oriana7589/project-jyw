@@ -63,24 +63,31 @@ const PestañaContenido = ({
           setIsLoading = {setIsLoading}
         />
       );
-    case 1:
+      case 1:
+      return (
+        <TableUltimasComprasItems
+          ultimasCompras={ultimasCompras}
+          filaSeleccionada={filaSeleccionada}
+        />
+      );
+    case 2:
       return (
         <TableUltimasVentas
           ultimasVentas={ultimasVentas}
           filaSeleccionada={filaSeleccionada}
         />
       );
-    case 2:
+    case 3:
       return (
         <GraficaArticulo
           filaSeleccionada={filaSeleccionada}/>
     );
-    case 3:
+    case 4:
       return (
         <DataTecnica
           filaSeleccionada={filaSeleccionada}/>
     );
-    case 4:
+    case 5:
       return (
         <VentasMensuales
           filaSeleccionada={filaSeleccionada}
@@ -118,7 +125,8 @@ const PreciosStock = ({
     setTabValue(newValue);
   };
 
-  console.log('isLoading', isLoading)
+ console.log("fila", filaSeleccionada);
+ 
 
   return (
     <React.Fragment>
@@ -146,6 +154,17 @@ const PreciosStock = ({
               fontSize: "1rem",
             }}
             clickable="true" // Puedes hacer clic en esta pestaña
+          />
+          <CustomClickableTab
+            label="ULTIMAS COMPRAS"
+            style={{
+              minHeight: "25px",
+              marginRight: "4px",
+              fontSize: "1rem",
+              pointerEvents: filaSeleccionada?.TipoCompra !== "LOC" ? "none" : "auto", // Bloquea la interacción
+              cursor: filaSeleccionada?.TipoCompra !== "LOC" ? "not-allowed" : "pointer", // Cambia el cursor visualmente
+            }}
+            clickable={filaSeleccionada?.TipoCompra === "LOC"} // Esto ya no es suficiente por sí solo
           />
           <CustomClickableTab
             label="ULTIMAS VENTAS"
