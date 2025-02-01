@@ -118,7 +118,8 @@ function PrecioProductos({
   if (transporte === null || transporte === undefined) {
     transporte = { descripcionCorta: "Seleccione transportista" };
   }
-
+ console.log("proforma selec", proformaSeleccionada);
+ 
   return (
     <div style={{ width: "100%", paddingTop: 10 }}>
       <Grid container spacing={2}>

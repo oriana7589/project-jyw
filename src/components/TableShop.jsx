@@ -327,36 +327,39 @@ const ThirdTable = ({
         HISTORIAL DE PRECIOS
       </Typography>
           <TableContainer>
-            <Table sx={{ minWidth: 350 }} aria-label="simple table">
+            <Table sx={{ minWidth: 350 }} aria-label="styled table">
               <TableHead>
                 <TableRow>
-                  <TableCell align="center" style={{ padding: 0, width: 10 }}>
+                  <TableCell align="center" style={{ padding: 0, width: 10,  fontWeight: "bold" }}>
                     Fecha
                   </TableCell>
-                  <TableCell align="center" style={{ padding: 0 }}>
+                  <TableCell align="center" style={{ padding: 0 , fontWeight: "bold"}}>
                     Cant{" "}
                   </TableCell>
-                  <TableCell align="center" style={{ padding: 0 }}>
+                  <TableCell align="center" style={{ padding: 0, fontWeight: "bold" }}>
                     PV
                   </TableCell>
-                  <TableCell align="center" style={{ padding: 0 }}>
+                  <TableCell align="center" style={{ padding: 0, fontWeight: "bold" }}>
                     D1
                   </TableCell>
-                  <TableCell align="center" style={{ padding: 0 }}>
+                  <TableCell align="center" style={{ padding: 0, fontWeight: "bold" }}>
                     D2
                   </TableCell>
-                  <TableCell align="center" style={{ padding: 0 }}>
+                  <TableCell align="center" style={{ padding: 0, fontWeight: "bold" }}>
                     Mon
                   </TableCell>
-                  <TableCell align="center" style={{ padding: 0 }}>
+                  <TableCell align="center" style={{ padding: 0, fontWeight: "bold" }}>
                     PF
                   </TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
-                {currentData.slice(0, 10).map((item, index) => (
-                  <TableRow key={index}>
-                    <TableCell style={{ padding: 0 }}>{item.fecha}</TableCell>
+                {currentData.slice(0, 8).map((item, index) => (
+                  <TableRow key={index}
+                  sx={{
+                    "&:hover": { backgroundColor: "#CFD8DC" } // Resaltado al pasar el mouse
+                  }}>
+                    <TableCell style={{ padding: 6 }}>{item.fecha}</TableCell>
                     <TableCell
                       style={{ fontSize: "0.8rem", padding: 0 }}
                       align="center"
