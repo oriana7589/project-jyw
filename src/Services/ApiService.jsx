@@ -583,6 +583,15 @@ export function getSeleccionarProformaCabecera(NumeroProforma) {
   return seleccionarProformaCabecera;
 }
 
+export function getSeleccionarStockProforma(NumeroProforma) {
+  const seleccionarStockProforma = axios
+    .get(`${baseUrlProforma()}/SeleccionarStockProforma/${NumeroProforma}`)
+    .then((res) => {
+      return res.data;
+    });
+  return seleccionarStockProforma;
+}
+
 export function getGenerarPdfProforma(NumeroProforma) {
   const generarPdf = axios
     .get(`${baseUrlProforma()}/GenerarPdfProforma/${NumeroProforma}`, {

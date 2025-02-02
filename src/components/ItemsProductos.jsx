@@ -741,6 +741,7 @@ function ItemsProductos({
         monedaValue = {monedaValue}
         totalFinal = {totalFinal}
         selectedClient = {selectedClient}
+        numeroProforma = {numeroProforma}
       />
        <Dialog open={dialogPdfOpen} onClose={handleCloseDialogPdf}>
       <DialogContent>

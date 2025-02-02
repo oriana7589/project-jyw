@@ -3,16 +3,13 @@ import { tableItemsCont } from "../Styles/MenuStyles";
 import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
 import Decimal from "decimal.js";
 
-const TableDialogDocumento = ({ totalFinal, cartItems, monedaValue }) => {
- console.log("ietms", cartItems);
- 
+const TableDialogDocumento = ({proformaSeleccionada, totalFinal, cartItems, monedaValue }) => {
+
     return (
-   
-  <TableContainer
+     <TableContainer
         component={Paper}
         style={{ maxHeight: 600, overflow: "auto", height: 800,  padding:0, margin:0}}
-         className="custom-scroll-page"
-      >
+         className="custom-scroll-page">
         <Table stickyHeader style={{ padding:10, width:"100%"}}>
           <TableHead>
             <TableRow>
@@ -20,6 +17,10 @@ const TableDialogDocumento = ({ totalFinal, cartItems, monedaValue }) => {
               <TableCell style={{ fontWeight: "bold",padding:0 ,width:"6%"}}>Código</TableCell>
               <TableCell style={{ fontWeight: "bold",padding:0,width:"3.5%" }}>Línea</TableCell>
               <TableCell style={{ fontWeight: "bold",padding:0 ,width:"35%"}}>Descripción</TableCell>
+              {proformaSeleccionada?.length > 0  && ( 
+                <TableCell style={{ fontWeight: "bold",padding:0,paddingRight: 10 ,width:"3.5%", 
+                backgroundColor:"rgb(243, 255, 72)"}}>Stock</TableCell> 
+                )}   
               <TableCell style={{ fontWeight: "bold",padding:0 ,width:"7%"}}>Marca</TableCell>
               <TableCell style={{ fontWeight: "bold",padding:0,width:"4%" }}>Pais</TableCell>
               <TableCell style={{ fontWeight: "bold",padding:0 ,width:"4%"}}>Cant.</TableCell>
@@ -31,36 +32,48 @@ const TableDialogDocumento = ({ totalFinal, cartItems, monedaValue }) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {cartItems.length > 0 ? (
-              cartItems.map((item, index) => (
+          {cartItems.length > 0 ? (
+            cartItems.map((item, index) => {
+              const proformaItem = proformaSeleccionada?.find(
+                (proforma) => proforma.codigoInterno === item.codigoInterno
+              );
+
+              return (
                 <TableRow key={item.codigoInterno}>
-                  <TableCell style={{ padding:0, whiteSpace: "nowrap",overflow: "hidden"}}> {index + 1}</TableCell>
-                  <TableCell style={{ padding:0, whiteSpace: "nowrap",overflow: "hidden" , paddingRight:10}}>{item.codigoArticulo}</TableCell>
-                  <TableCell style={{ padding:0, whiteSpace: "nowrap",overflow: "hidden" , paddingRight:10}}>{item.linea}</TableCell>
-                  <TableCell style={{ padding:0, whiteSpace: "nowrap",overflow: "hidden" , paddingRight:10}}>{item.product}</TableCell>
-                  <TableCell style={{ padding:0, whiteSpace: "nowrap",overflow: "hidden" , paddingRight:10}}>{item.marca}</TableCell>
-                  <TableCell style={{ padding:0, whiteSpace: "nowrap",overflow: "hidden", paddingRight:10 }}>{item.pais}</TableCell>
-                  <TableCell style={{ padding:0, whiteSpace: "nowrap",overflow: "hidden" , paddingRight:10}}>{item.cantidad}</TableCell>
-                  <TableCell style={{ padding:0, paddingRight:10 ,whiteSpace: "nowrap",overflow: "hidden"}}>{monedaValue === "SOLES" ? "S/ " + new Decimal(item.precioVentaUnitarioSOL).toDecimalPlaces(2)
-                                                                            : "$ " + new Decimal(item.precioVentaUnitarioUSD).toDecimalPlaces(2)} </TableCell>                  
-                  <TableCell style={{ padding:0 }}>{item.descuentoA}</TableCell>
-                  <TableCell style={{ padding:0 }}>{item.descuentoB}</TableCell>
-                  <TableCell style={{ padding:0, whiteSpace: "nowrap",overflow: "hidden" }}>{item.tipoCompra}</TableCell>
-                  <TableCell style={{ padding:0 }}> {monedaValue === "SOLES"
-                                          ? "S/ " +
-                                            new Decimal(item.totalItemSOL).toDecimalPlaces(2)
-                                          : "$ " +
-                                            new Decimal(item.totalItemUSD).toDecimalPlaces(2)}</TableCell>
+                  <TableCell style={{ padding: 0, whiteSpace: "nowrap", overflow: "hidden" }}>{index + 1}</TableCell>
+                  <TableCell style={{ padding: 0, whiteSpace: "nowrap", overflow: "hidden", paddingRight: 10 }}>{item.codigoArticulo}</TableCell>
+                  <TableCell style={{ padding: 0, whiteSpace: "nowrap", overflow: "hidden", paddingRight: 10 }}>{item.linea}</TableCell>
+                  <TableCell style={{ padding: 0, whiteSpace: "nowrap", overflow: "hidden", paddingRight: 10 }}>{item.product}</TableCell>
+                  {proformaItem  && (
+                    <TableCell style={{ padding: 0, paddingRight: 10, backgroundColor:"rgb(243, 255, 72)" }}>{proformaItem.stock}</TableCell>
+                  )}                  
+                  <TableCell style={{ padding: 0, whiteSpace: "nowrap", overflow: "hidden", paddingRight: 10 }}>{item.marca}</TableCell>
+                  <TableCell style={{ padding: 0, whiteSpace: "nowrap", overflow: "hidden", paddingRight: 10 }}>{item.pais}</TableCell>
+                  <TableCell style={{ padding: 0, whiteSpace: "nowrap", overflow: "hidden", paddingRight: 10 }}>{item.cantidad}</TableCell>
+                  <TableCell style={{ padding: 0, paddingRight: 10, whiteSpace: "nowrap", overflow: "hidden" }}>
+                    {monedaValue === "SOLES"
+                      ? "S/ " + new Decimal(item.precioVentaUnitarioSOL).toDecimalPlaces(2)
+                      : "$ " + new Decimal(item.precioVentaUnitarioUSD).toDecimalPlaces(2)}
+                  </TableCell>
+                  <TableCell style={{ padding: 0 }}>{item.descuentoA}</TableCell>
+                  <TableCell style={{ padding: 0 }}>{item.descuentoB}</TableCell>
+                  <TableCell style={{ padding: 0, whiteSpace: "nowrap", overflow: "hidden" }}>{item.tipoCompra}</TableCell>
+                  <TableCell style={{ padding: 0 }}>
+                    {monedaValue === "SOLES"
+                      ? "S/ " + new Decimal(item.totalItemSOL).toDecimalPlaces(2)
+                      : "$ " + new Decimal(item.totalItemUSD).toDecimalPlaces(2)}
+                  </TableCell>
                 </TableRow>
-              ))
-            ) : (
-              <TableRow>
-                <TableCell colSpan={9} align="center">
-                  <Typography>No hay datos disponibles.</Typography>
-                </TableCell>
-              </TableRow>
-            )}
-          </TableBody>
+              );
+            })
+          ) : (
+            <TableRow>
+              <TableCell colSpan={13} align="center">
+                <Typography>No hay datos disponibles.</Typography>
+              </TableCell>
+            </TableRow>
+          )}
+        </TableBody>
         </Table>
        {/* Contenedor para el importe total */}
  

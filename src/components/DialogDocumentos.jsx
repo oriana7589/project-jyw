@@ -5,6 +5,7 @@ import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
 import TableDialogDocumento from './TableDialogDocumento';
 import { Checkbox, FormControlLabel, Typography } from '@mui/material';
+import { getSeleccionarStockProforma } from '../Services/ApiService';
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
     padding: theme.spacing(1),
@@ -17,12 +18,26 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
 
   }));
 
-export default function DialogDocumentos({ selectedClient, totalFinal,  open,handleClose, cartItems, monedaValue }) {
+export default function DialogDocumentos({numeroProforma, selectedClient, totalFinal,  open,handleClose, cartItems, monedaValue }) {
   const [checked, setChecked] = React.useState(false);
+  const [proformaSeleccionada, setProformaSeleccionada] = React.useState([]);
+  const handleCheckChange = (event) => {
+    const isChecked = event.target.checked;
+    setChecked(isChecked);
+    if (isChecked && numeroProforma) {
+         getSeleccionarStockProforma(numeroProforma).then(
+          (proformaSeleccionada) => {
+            setProformaSeleccionada(proformaSeleccionada);
+            console.log("proforDta", proformaSeleccionada);
+          });
+    } else {
+      setProformaSeleccionada(null); // Si se desmarca, limpia la selección
+    }
+   
+    
+  };
 
-const handleCheckChange = (event) => {
-    setChecked(event.target.checked);
-};
+
     return (
         <React.Fragment>
           <BootstrapDialog
@@ -48,24 +63,26 @@ const handleCheckChange = (event) => {
                 {selectedClient?.razonSocial.substring(0, 60) || "Productos"}
             </Typography>
 
-             <FormControlLabel
-                control={
-                  <Checkbox
-                    id="checkbox1"
-                    checked={checked}
-                    sx={{
+            {numeroProforma && (
+            <FormControlLabel
+              control={
+                <Checkbox
+                  id="checkbox1"
+                  checked={checked}
+                  sx={{
+                    color: "rgb(255, 255, 255)",
+                    "&.Mui-checked": {
                       color: "rgb(255, 255, 255)",
-                      "&.Mui-checked": {
-                        color: "rgb(255, 255, 255)",
-                      },
-                    }}
-                    onChange={handleCheckChange}
-                  />
-                }
-                label="Stock"
-              />
+                    },
+                  }}
+                  onChange={handleCheckChange}
+                />
+              }
+              label="Stock"
+            />
+          )}
         </DialogTitle>
-          <TableDialogDocumento totalFinal = {totalFinal} cartItems = {cartItems} monedaValue = {monedaValue}/>
+          <TableDialogDocumento proformaSeleccionada= {proformaSeleccionada} totalFinal = {totalFinal} cartItems = {cartItems} monedaValue = {monedaValue}/>
           <div
           style={{
             position: "sticky",
