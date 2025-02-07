@@ -1014,6 +1014,7 @@ const TuComponente = () => {
         const totalItemConIGV = new Decimal(totalItem).toDecimalPlaces(2);
 
         return {
+          descripcionPais:item.pais,
           numeroItem: index + 1,
           codigoInterno: item.codigoInterno,
           cantidad: item.cantidad,
@@ -1105,6 +1106,7 @@ const TuComponente = () => {
           precioVenta: precioVentaUnitarioSinIGV,
           descuentoUno: item.descuentoA,
           descuentoDos: item.descuentoB,
+          descripcionPais:item.pais,
           totalItem: parseFloat(subTotalItem),
           aceptado: esAceptado(item.utilidad, item.tipoCompra),
           igvItem: parseFloat(totalItemConIGV),
@@ -1330,6 +1332,7 @@ const TuComponente = () => {
           tipoCompra: item.tipoCompra,
           descuentoA: item.descuentoUno,
           descuentoB: item.descuentoDos,
+          pais:item.descripcionPais,
           monto: item.totalItem,
           subTotalItemUSD: subTotItemUSD, 
           subTotalItemSOL: subTotItemSOL, 
