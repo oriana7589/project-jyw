@@ -4,7 +4,7 @@ import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow
 import Decimal from "decimal.js";
 
 const TableDialogDocumento = ({proformaSeleccionada, totalFinal, cartItems, monedaValue }) => {
-
+ 
     return (
      <TableContainer
         component={Paper}

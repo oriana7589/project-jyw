@@ -28,13 +28,11 @@ export default function DialogDocumentos({numeroProforma, selectedClient, totalF
          getSeleccionarStockProforma(numeroProforma).then(
           (proformaSeleccionada) => {
             setProformaSeleccionada(proformaSeleccionada);
-            console.log("proforDta", proformaSeleccionada);
           });
     } else {
       setProformaSeleccionada(null); // Si se desmarca, limpia la selección
     }
-   
-    
+  
   };
 
 
