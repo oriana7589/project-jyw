@@ -144,7 +144,8 @@ const PestañaContenido = ({
   precioItemActual,
   setPrecioItemActual,
   precioVentaRef,
-  handleIconButtonItemsClick
+  handleIconButtonItemsClick,
+  handleCancelEdit
 }) => {
   switch (value) {
     case 0:
@@ -196,6 +197,7 @@ const PestañaContenido = ({
           setPrecioItemActual={setPrecioItemActual}
           precioVentaRef={precioVentaRef}
           handleIconButtonItemsClick = {handleIconButtonItemsClick}
+          handleCancelEdit = {handleCancelEdit}
         />
       );
     case 1:
@@ -376,7 +378,8 @@ const Items = ({
   precioItemActual,
   setPrecioItemActual,
   precioVentaRef,
-  handleIconButtonItemsClick
+  handleIconButtonItemsClick,
+  handleCancelEdit
 }) => {
   const handleChangeTab = (event, newValue) => {
     setTabValue(newValue);
@@ -556,6 +559,7 @@ const Items = ({
             setPrecioItemActual={setPrecioItemActual}
             precioVentaRef={precioVentaRef}
             handleIconButtonItemsClick = {handleIconButtonItemsClick}
+            handleCancelEdit = {handleCancelEdit}
           />
         ) : !selectedClient ? (
           <div

@@ -611,6 +611,12 @@ const TuComponente = () => {
     return posiciones;
   };
 
+  const handleCancelEdit = () => {
+    setIsEditToCartVisible(false);
+    setIsAddToCartVisible(true);
+    setModoEdicionItem({activo: false, itemEditado: -1})
+  };
+
   const addToCart = (
     ticketCount,
     detalleProducto,
@@ -1815,6 +1821,7 @@ const TuComponente = () => {
             setPrecioItemActual={setPrecioItemActual}
             precioVentaRef={precioVentaRef}
             handleIconButtonItemsClick = {handleIconButtonItemsClick}
+            handleCancelEdit = {handleCancelEdit}
           />
         </Collapse>
       </Card>

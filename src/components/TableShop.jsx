@@ -21,7 +21,7 @@ import "react-toastify/dist/ReactToastify.css";
 import Decimal from "decimal.js";
 import { cardItemStyle, cardStyle, specificCardItemStyle, textItemCardStyle } from "../Styles/MenuStyles";
 
-import { SaveOutlined } from "@mui/icons-material";
+import { CloseOutlined, SaveOutlined } from "@mui/icons-material";
 Decimal.set({ precision: 10 });
 
 const data = [
@@ -127,7 +127,8 @@ const ThirdTable = ({
   precioItemActual,
   setPrecioItemActual,
   moneda,
-  precioVentaRef
+  precioVentaRef,
+  handleCancelEdit
 }) => {  
   const currentData = historialPrecios;
   const cantidadRef = useRef(null);
@@ -693,16 +694,15 @@ const ThirdTable = ({
                     />*/ } 
                   </td>
                 </tr>
-                
-                <tr>
-                  <td style={{ textAlign: "center", paddingTop: 1 }}>
-                    {isEditToCartVisible ? (
-                      <IconButton
+              </tbody>
+            </table>
+                 {isEditToCartVisible ? (
+                      <div style={{display:"flex", width:"100%"}}>
+                        <IconButton
                         style={{
                           backgroundColor: "rgb(182, 205, 229)",
                           borderRadius: "0",
-                          marginLeft: "70px",
-                          width: "100%",
+                          width: "70%",
                           height: "40px", // Oculta si el otro botón está visible
                         }}
                         onClick={() =>
@@ -724,12 +724,32 @@ const ThirdTable = ({
                           }}
                         />
                       </IconButton>
+                      
+                      <IconButton
+                          style={{
+                            backgroundColor: "rgb(207, 212, 216)",
+                            borderRadius: "0",
+                            marginLeft: "5px",
+                            width: "20%",
+                            height: "40px", // Oculta si el otro botón está visible
+                          }}
+                          onClick={handleCancelEdit} // Aquí se desactiva la edición
+
+                        >
+                          <CloseOutlined 
+                           style={{
+                            color: "rgb(12, 55, 100)",
+                            marginLeft: 3,
+                          }} />
+
+                        </IconButton>
+                      </div>
+
                     ) : isAddToCartVisible ? (
                       <IconButton
                         style={{
                           backgroundColor: "rgb(226, 52, 48)",
                           borderRadius: "0",
-                          marginLeft: "70px",
                           width: "100%",
                           height: "40px",
                         }}
@@ -750,10 +770,6 @@ const ThirdTable = ({
                     ) : (
                       <></>
                     )}
-                  </td>
-                </tr>
-              </tbody>
-            </table>
           </TableContainer>
         </div>
       </div>
@@ -798,6 +814,7 @@ const TableShop = ({
   setPrecioItemActual,
   precioVentaRef,
   handleIconButtonItemsClick ,
+  handleCancelEdit
 }) => {
   let razonSocial = "";
   let ruc = "";
@@ -930,6 +947,7 @@ const TableShop = ({
         precioItemActual={precioItemActual}
         setPrecioItemActual={setPrecioItemActual}
         precioVentaRef={precioVentaRef}
+        handleCancelEdit = {handleCancelEdit}
       />
  
     </div>
