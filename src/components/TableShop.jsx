@@ -269,10 +269,6 @@ const ThirdTable = ({
     editCartItem(
       precioFinal,
       codigoInternoSeleccionado,
-      utilidad,
-      descuentoA,
-      descuentoB,
-      ticketCount,
       monedaValue
     );
     console.log('monto - addtocart', precioItemActual);
