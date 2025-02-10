@@ -720,7 +720,8 @@ function ItemsProductos({
                             item.subTotalItemSOL,
                             item.totalItemUSD,
                             item.totalItemSOL,
-                            item.monedaType
+                            item.monedaType,
+                            index
                           )
                         }
                       >

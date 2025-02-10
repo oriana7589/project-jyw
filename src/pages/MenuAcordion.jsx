@@ -154,6 +154,10 @@ const TuComponente = () => {
     cantidad: 1,
     utilidad: new Decimal(0)
   });
+  const [modoEdicionItem, setModoEdicionItem] = useState({
+    activo: false,
+    itemEditado: -1
+  });
 
   const codigoRef = useRef(null);
   const descripcionRef = useRef(null);
@@ -240,6 +244,10 @@ const TuComponente = () => {
       setCodigoSeleccionado(codigoInterno);
       setIsAddToCartVisible(true);
       setIsEditToCartVisible(false);
+      if (modoEdicionItem.activo) {
+        setIsAddToCartVisible(false);
+        setIsEditToCartVisible(true);
+      }
       //fetchData(codigoInterno);
     }
   };
@@ -249,6 +257,10 @@ const TuComponente = () => {
       setCodigoSeleccionado(codigoInterno);
       setIsAddToCartVisible(true);
       setIsEditToCartVisible(false);
+      if (modoEdicionItem.activo) {
+        setIsAddToCartVisible(false);
+        setIsEditToCartVisible(true);
+      }
       setTabValue(0);
     }
   };
@@ -360,7 +372,8 @@ const TuComponente = () => {
     subTotalItemSOL,
     totalItemUSD,
     totalItemSOL, 
-    monedaType
+    monedaType,
+    index
   ) => {
     setMonedaType(monedaType);
     setPrecioItemActual({
@@ -376,7 +389,8 @@ const TuComponente = () => {
       subTotalItemUSD: subTotalItemUSD,
       subTotalItemSOL: subTotalItemSOL,
     });
-
+    
+    setModoEdicionItem({ activo: true, itemEditado: index });
     setTabValue(0);
 
     getProductoSeleccionado(codigoInterno).then((detalleProducto) => {
@@ -393,13 +407,19 @@ const TuComponente = () => {
       setIsEditToCartVisible(false);
     } else {
       setIsEditToCartVisible(true);
-    }
+    }//CONDICION SIN SENTIDO
   };
 
   const handleItemsSelect = (productos) => {    
     setDialogProductOpen(false);
     setIsAddToCartVisible(true);
     setIsEditToCartVisible(false);
+
+    if (modoEdicionItem.activo) {
+      setIsAddToCartVisible(false);
+      setIsEditToCartVisible(true);
+    }
+
     const codigoInterno =
       productos.CodigoInterno || productos.codigoInterno || productos;
     if (codigoInterno) {      
@@ -620,14 +640,15 @@ const TuComponente = () => {
       codigoInterno: detalleProducto.codigoInterno,
       pais: detalleProducto.descripcionPais,
       linea: detalleProducto.codigoLinea,
-      precioLista: detalleProducto.precioVenta,
-      precioVentaUnitarioUSD: precioItemActual.precioVentaUnitarioUSD,
-      precioVentaUnitarioSOL: precioItemActual.precioVentaUnitarioSOL,
+      precioLista: detalleProducto.precioVenta,      
       precioVenta: detalleProducto.precioVenta,
       precioCompra: detalleProducto.precioCompra,
       codigoArticulo: detalleProducto.codigoArticulo,
       marca: detalleProducto.descripcionMarca,
       tipoCompra: detalleProducto.tipoCompra,
+      codigoAlmacen: detalleProducto.codigoAlmacen,
+      precioVentaUnitarioUSD: precioItemActual.precioVentaUnitarioUSD,
+      precioVentaUnitarioSOL: precioItemActual.precioVentaUnitarioSOL,
       descuentoA: precioItemActual.descuentoA,
       descuentoB: precioItemActual.descuentoB,
       monto: precioItemActual.subTotalItemUSD,
@@ -640,23 +661,19 @@ const TuComponente = () => {
       ticketCount: precioItemActual.cantidad,
       cantidad: precioItemActual.cantidad,
       utilidad: precioItemActual.utilidad,
-      codigoAlmacen: detalleProducto.codigoAlmacen
     };
     setCartItems([...cartItems, newItem]);
   };
 
   const editCartItem = (
     precioFinal,
-    codigoInternoSeleccionado,
-    utilidad,
-    descuentoA,
-    descuentoB,
-    ticketCount,
-    monedaValue,    
+    codigoInternoSeleccionado,    
+    monedaValue   
   ) => {
-    const alreadyInCartIndex = cartItems.findIndex(
-      (item) => item.codigoInterno === codigoInternoSeleccionado
-    );
+    // const alreadyInCartIndex = cartItems.findIndex(
+    //   (item) => item.codigoInterno === codigoInternoSeleccionado 
+    // );
+    const alreadyInCartIndex = modoEdicionItem.itemEditado;
     if (alreadyInCartIndex !== -1) {
       // Si el producto ya está en el carrito, actualiza sus detalles
       const updatedCartItems = [...cartItems];
@@ -666,11 +683,22 @@ const TuComponente = () => {
       ).toDecimalPlaces(2);
       updatedCartItems[alreadyInCartIndex] = {
         ...updatedCartItems[alreadyInCartIndex],
-        descuentoA: precioItemActual.descuentoA,
-        descuentoB: precioItemActual.descuentoB,
+        product: detalleProducto.descripcionArticulo,
+        codigoInterno: detalleProducto.codigoInterno,
+        pais: detalleProducto.descripcionPais,
+        linea: detalleProducto.codigoLinea,
+        precioLista: detalleProducto.precioVenta,      
+        precioVenta: detalleProducto.precioVenta,
+        precioCompra: detalleProducto.precioCompra,
+        codigoArticulo: detalleProducto.codigoArticulo,
+        marca: detalleProducto.descripcionMarca,
+        tipoCompra: detalleProducto.tipoCompra,
+        codigoAlmacen: detalleProducto.codigoAlmacen,
         precioVentaUnitarioUSD: precioItemActual.precioVentaUnitarioUSD,
         precioVentaUnitarioSOL: precioItemActual.precioVentaUnitarioSOL,
-        monto: subTotalItem,
+        descuentoA: precioItemActual.descuentoA,
+        descuentoB: precioItemActual.descuentoB,        
+        monto: precioItemActual.subTotalItemUSD,
         subTotalItemUSD: precioItemActual.subTotalItemUSD,
         subTotalItemSOL: precioItemActual.subTotalItemSOL,
         monedaType: monedaType,
@@ -678,40 +706,16 @@ const TuComponente = () => {
         totalItemUSD: precioItemActual.totalItemUSD,
         totalItemSOL: precioItemActual.totalItemSOL,
         utilidad: precioItemActual.utilidad,
-        cantidad: precioItemActual.cantidad,
-      };
+        cantidad: precioItemActual.cantidad,        
+      };     
 
-      /*const newItem = {
-      product: detalleProducto.descripcionArticulo,
-      codigoInterno: detalleProducto.codigoInterno,
-      linea: detalleProducto.codigoLinea,
-      precioLista: detalleProducto.precioVenta,
-      precioVentaUnitarioUSD: precioItemActual.precioVentaUnitarioUSD,
-      precioVentaUnitarioSOL: precioItemActual.precioVentaUnitarioSOL,
-      precioCompra: detalleProducto.precioCompra,
-      codigoArticulo: detalleProducto.codigoArticulo,
-      marca: detalleProducto.descripcionMarca,
-      tipoCompra: detalleProducto.tipoCompra,
-      descuentoA: precioItemActual.descuentoA,
-      descuentoB: precioItemActual.descuentoB,
-      monto: precioItemActual.subTotalItemUSD,
-      subTotalItemUSD: precioItemActual.subTotalItemUSD,
-      subTotalItemSOL: precioItemActual.subTotalItemSOL,
-      monedaType: monedaType,
-      precioFinal: precioItemActual.totalItemUSD,
-      totalItemUSD: precioItemActual.totalItemUSD,
-      totalItemSOL: precioItemActual.totalItemSOL,
-      ticketCount: precioItemActual.cantidad,
-      cantidad: precioItemActual.cantidad,
-      utilidad: precioItemActual.utilidad,
-      codigoAlmacen: detalleProducto.codigoAlmacen
-    };*/
       setCartItems(updatedCartItems);
       setToastOpen(true);
       toast.success("El artículo se ha editado con éxito");
       setTabValue(1);
       setIsAddToCartVisible(true);
       setIsEditToCartVisible(false);
+      setModoEdicionItem({activo: false, itemEditado: -1})
     }
   };
 
