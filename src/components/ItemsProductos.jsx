@@ -196,7 +196,21 @@ function ItemsProductos({
 
   const handleDownloadPDF = async (numeroProforma, conCodigos) => {
     const url = `http://10.10.0.25:9696/api/Proforma/GenerarPdfProforma?NumeroProforma=${numeroProforma}&ConCodigos=${conCodigos}`;
-    window.open(url, "_blank");
+    try {
+      const response = await fetch(url);
+      if (!response.ok) {
+          throw new Error("No se pudo descargar el archivo.");
+      }
+      const blob = await response.blob();
+      const link = document.createElement("a");
+      link.href = URL.createObjectURL(blob);
+      link.download = `Proforma_${numeroProforma}.pdf`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+  } catch (error) {
+      console.error("Error al descargar el PDF:", error);
+  }
     setDialogPdfOpen(false);
 };
 
