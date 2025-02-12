@@ -407,7 +407,7 @@ const ThirdTable = ({
               <tbody style={{ width: 0 }}>
               <tr>
                   <td style={{  fontWeight: "bold" }}>
-                  PRECIO COMPRA:
+                  PRECIO COMPRA ($):
                   </td>
                   <td
                     style={{
@@ -418,7 +418,7 @@ const ThirdTable = ({
                     <TextField
                       variant="outlined"
                       autoComplete="off"
-                      value={detalleProducto.tipoCompra === "LOC" ? detalleProducto.precioCompra : ""}
+                      value={detalleProducto.tipoCompra === "LOC" ? (new Decimal(detalleProducto.precioCompra)).times(1.18).toDecimalPlaces(2) : ""}
                       onFocus={handleFocus}
                       style={{ paddingLeft: 20 }}                      
                       InputProps={{
