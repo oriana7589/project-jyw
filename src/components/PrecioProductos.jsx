@@ -49,12 +49,14 @@ function PrecioProductos({
 }) {
   let razonSocial = "";
   let ruc = "";
+  let direccion = "";
   const [agencias, setAgencias] = useState([]);
 
 
   if (selectedClient) {
     razonSocial = selectedClient.razonSocial || proformaSeleccionada.razonSocialCliente;
     ruc = selectedClient.numDocumento || proformaSeleccionada.razonSocialCliente;
+    direccion = selectedClient.direccion || proformaSeleccionada.direccion;
   }
 
   const formatearFechaEmision = (fecha) => {
@@ -142,6 +144,17 @@ function PrecioProductos({
             >
               <strong>RUC: </strong>
               {ruc}
+            </Typography>
+            <Typography
+              variant="body1"
+              style={{
+                paddingTop: 5,
+                paddingLeft: 17,
+                width: "100%"
+              }}
+            >
+              <strong>DIRECCIÓN: </strong>
+              {direccion}
             </Typography>
           </>
         )}
