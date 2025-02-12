@@ -95,6 +95,13 @@ const PestañaContenido = ({
           resumenDevoluciones={resumenDevoluciones}
         />
       );
+      case 6:
+      return (
+        <LlegadaProducto
+          filaSeleccionada={filaSeleccionada}
+          llegadaProducto={llegadaProducto}
+        />
+      );
     default:
       return null;
   }
@@ -196,6 +203,15 @@ const PreciosStock = ({
           />
           <CustomClickableTab
             label="VENTA MENSUAL"
+            style={{
+              minHeight: "25px",
+              fontSize: "1rem",
+              marginRight: "4px",
+            }}
+            clickable="true"
+          />
+          <CustomClickableTab
+            label="ÚLTIMA LLEGADA"
             style={{
               minHeight: "25px",
               fontSize: "1rem",
