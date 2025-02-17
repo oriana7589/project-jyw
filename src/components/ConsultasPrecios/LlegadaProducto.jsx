@@ -103,7 +103,7 @@ const LlegadaProducto = ({ llegadaProducto, filaSeleccionada }) => {
             </Paper>
           </div>
 
-          <div
+          {/* <div
             style={{
               width: "100%",
               display: "flex",
@@ -148,7 +148,7 @@ const LlegadaProducto = ({ llegadaProducto, filaSeleccionada }) => {
                 </div>
               </div>
             </Paper>
-          </div>
+          </div> */}
 
           <div
             style={{
@@ -169,7 +169,7 @@ const LlegadaProducto = ({ llegadaProducto, filaSeleccionada }) => {
               }}
             >
               <Typography style={{paddingBottom:5}}>
-                <strong>ORDEN DE COMPRA</strong>{" "}
+                <strong>FECHA DE PEDIDO</strong>{" "}
               </Typography>
               <div
                 style={{
@@ -178,10 +178,13 @@ const LlegadaProducto = ({ llegadaProducto, filaSeleccionada }) => {
                 }}
               >
                 <div>
-                  <Typography>
+                <Typography>
+                    <strong>Cantidad:</strong> {llegadaProducto.cantidad}
+                  </Typography>
+                  {/* <Typography>
                     <strong>Orden de compra:</strong>{" "}
                     {llegadaProducto.numeroOrdenCompra}
-                  </Typography>
+                  </Typography> */}
                   <Typography>
                     <strong>Fecha de llegada real:</strong>{" "}
                     {new Date(
@@ -228,9 +231,7 @@ const LlegadaProducto = ({ llegadaProducto, filaSeleccionada }) => {
                       }
                     )}
                   </Typography>
-                  <Typography>
-                    <strong>Cantidad:</strong> {llegadaProducto.cantidad}
-                  </Typography>
+                  
                 </div>
               </div>
             </Paper>
