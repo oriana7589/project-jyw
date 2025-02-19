@@ -25,6 +25,7 @@ import {
   iconStyle,
   textStyle,
 } from "../Styles/MenuStyles";
+import { useLocation } from "react-router-dom";
 
 const drawerWidth = 240;
 
@@ -116,6 +117,10 @@ export default function DrawerModel() {
   const [hoveredItem, setHoveredItem] = useState(null);
   const handleMouseEnter = (item) => setHoveredItem(item);
   const handleMouseLeave = () => setHoveredItem(null);
+  
+  const location = useLocation();
+  const usuario = location.state?.usuario || JSON.parse(localStorage.getItem("usuario"));
+
 
   const [user, setUser] = useState({
     name: "Juan",
@@ -258,13 +263,13 @@ export default function DrawerModel() {
           </div>
           <UserInfoContainer open={open}>
             <Avatar sx={{ bgcolor: "rgb(12,55,100)" }}>
-              {user.name.charAt(0)}
-              {user.apellido.charAt(0)}
+              {usuario.nombres.charAt(0)}
+              {usuario.apellidos.charAt(0)}
             </Avatar>
             {open && (
               <Box ml={2}>
-                <Typography style={{color: "rgb(12,55,100)"}} variant="body1">Vendedor</Typography>
-                <Typography style={{color: "rgb(12,55,100)"}} variant="body1">{user.name +" "+user.apellido}</Typography>
+                <Typography style={{color: "rgb(12,55,100)"}} variant="body1">{usuario?.rol}</Typography>
+                <Typography style={{color: "rgb(12,55,100)"}} variant="body1">{usuario?.nombres +" "+ usuario?.apellidos}</Typography>
               </Box>
             )}
           </UserInfoContainer>

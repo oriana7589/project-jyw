@@ -99,44 +99,38 @@ export default function SignInCard(props) {
       nombreUsuario: data.get("nombreUsuario"),
       contraseña: data.get("contraseña"),
     };
-
+  
     const errors = validateInputs(values);
     setFormErrors(errors);
-
+  
     if (Object.keys(errors).length > 0) {
       return;
     }
-
+  
     setApiError(""); 
     setLoading(true); 
-
+  
     try {
-      const response = await postAutenticar(values); 
-      console.log("Autenticación exitosa:", response);
-      toast.success("Autenticación exitosa");
-      navigate("/ventas"); 
-    } catch (error) {
-        if (error) {
-          const apiErrorMessage = error.message;
-        if (apiErrorMessage === "El usuario no existe") {
-          setFormErrors({
-            nombreUsuario: apiErrorMessage,
-            contraseña: "",
-          });
-        } else if (apiErrorMessage === "Credenciales inválidas") {
-          setFormErrors({
-            nombreUsuario: "",
-            contraseña: "Contraseña Incorrecta",
-          });
-        } else {
-          setApiError("Error inesperado. Intente nuevamente.");
-        }
+      const response = await postAutenticar(values);
+      if (response && response.nombreUsuario) {
+      localStorage.setItem("usuario", JSON.stringify(response));
+      navigate("/ventas", { state: { usuario: response } });
       } else {
-        setApiError("Error inesperado. Por favor, intente nuevamente.");
+        throw new Error("Usuario o contraseña incorrectos");
       }
-
+    } catch (error) {
+      const apiErrorMessage = error.message || "Error inesperado. Intente nuevamente.";
+  
+      if (apiErrorMessage === "Usuario o contraseña incorrectos") {
+        setFormErrors({
+          nombreUsuario: "Usuario o contraseña incorrectos",
+          contraseña: "Usuario o contraseña incorrectos",
+        });
+      } else {
+        setApiError(apiErrorMessage);
+      }
     } finally {
-      setLoading(false); 
+      setLoading(false);
     }
   };
 
