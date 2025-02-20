@@ -67,6 +67,12 @@ function PrecioProductos({
     return `${dia} - ${mes} - ${año}`;
   };
 
+  const vendedorUsuario = () => {
+    const usuario = JSON.parse(localStorage.getItem("usuario"));
+    const nombreCompletoUsuario = (usuario?.nombres.trim() + " " + usuario?.apellidos.trim()).toUpperCase();
+    return nombreCompletoUsuario;
+  }
+
   useEffect(() => {
 
     // Calcula la fecha de vencimiento basada en la fecha actual y la cantidad de días
@@ -163,15 +169,13 @@ function PrecioProductos({
             <label style={{ fontWeight: "bold" }}>
               Vendedor
               <Autocomplete
-                value={vendedor}
+                value={vendedores.find(v => v.nombreVendedor === vendedorUsuario()) || vendedores.find(v => v.nombreVendedor === "OFICINA")}
                 onChange={(event, newValue) => {
                   setVendedor(newValue);
                 }}
-                options={vendedores}
+                options={vendedores}                
                 disabled={proformaSeleccionada.estado === 'FAC'}
-                getOptionLabel={(option) =>
-                  option ? option.nombreVendedor : "OFICINA"
-                }
+                getOptionLabel={(option) => option ? option.nombreVendedor : ""}
                 renderInput={(params) => (
                   <div ref={params.InputProps.ref}>
                     <input
