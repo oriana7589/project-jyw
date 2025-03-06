@@ -65,13 +65,7 @@ function PrecioProductos({
     const mes = String(fechaObj.getMonth() + 1).padStart(2, "0");
     const año = fechaObj.getFullYear();
     return `${dia} - ${mes} - ${año}`;
-  };
-
-  const vendedorUsuario = () => {
-    const usuario = JSON.parse(localStorage.getItem("usuario"));
-    const nombreCompletoUsuario = (usuario?.nombres.trim() + " " + usuario?.apellidos.trim()).toUpperCase();
-    return nombreCompletoUsuario;
-  }
+  };  
 
   useEffect(() => {
 
@@ -169,7 +163,7 @@ function PrecioProductos({
             <label style={{ fontWeight: "bold" }}>
               Vendedor
               <Autocomplete
-                value={vendedores.find(v => v.nombreVendedor === vendedorUsuario()) || vendedores.find(v => v.nombreVendedor === "OFICINA")}
+                value={vendedor}
                 onChange={(event, newValue) => {
                   setVendedor(newValue);
                 }}

@@ -433,9 +433,9 @@ const TuComponente = () => {
       }
     );
 
-    getListVendedores().then((vendedores) => {
-      setVendedores(vendedores);
-    });
+    // getListVendedores().then((vendedores) => {
+    //   setVendedores(vendedores);
+    // });
 
     getCambioDeMoneda().then((moneda) => {
       setMoneda(moneda);
@@ -785,7 +785,14 @@ const TuComponente = () => {
     getArticulosSugeridos().then((articuloSugerido) => {
       setArticuloSugerido(articuloSugerido);
     });
+    
   }, []);
+
+  useEffect(() => {
+    if (vendedores.length > 0) {
+      elegirVendedorPorUsuario();
+    }    
+  },[vendedores]);
 
   useEffect(() => {
     if (ranking.length > 0 && selectedClient) {
@@ -1205,6 +1212,35 @@ const TuComponente = () => {
     );
     setVendedor(vendedor);
   };
+
+  const hallarVendedorPorNombre = (nombreVendedor) => {    
+    const vendedor = vendedores.find(
+      (v) => v.nombreVendedor === nombreVendedor
+    );
+    if (vendedor) {
+      setVendedor(vendedor);
+    } else {
+      const vendedorPorDefecto = vendedores.find(
+        (v) => v.nombreVendedor === "OFICINA"
+      );
+      setVendedor(vendedorPorDefecto);
+    }
+    
+  }
+
+  const vendedorUsuario = () => {
+      const usuario = JSON.parse(localStorage.getItem("usuario"));
+      const nombreCompletoUsuario = (usuario?.nombres.trim() + " " + usuario?.apellidos.trim()).toUpperCase();
+      console.log('nombreCompletoUsuario - vendedorUsuario', nombreCompletoUsuario)
+      console.log('vendedores', vendedores)
+      return nombreCompletoUsuario;
+  }
+
+  const elegirVendedorPorUsuario = () => {
+    console.log('funcion')
+    const nombreVendedorUsuario = vendedorUsuario();
+    hallarVendedorPorNombre(nombreVendedorUsuario)
+  }
 
   const hallarTransportistaPorCodigo = (codigoTransportista) => {
     const transportista = transportistas.find(
