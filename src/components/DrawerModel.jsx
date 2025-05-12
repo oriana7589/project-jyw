@@ -100,12 +100,12 @@ const Drawer = styled(MuiDrawer, {
 }));
 
 const url = "http://localhost:5173/consultaPreciosYStock"; //url para desarrollo
-// const urlClientes = "http://localhost:5173/clientes"; //url para desarrollo
-// const urlTransportista = "http://localhost:5173/transportista"; //url para desarrollo
+const urlClientes = "http://localhost:5173/clientes"; //url para desarrollo
+const urlTransportista = "http://localhost:5173/transportista"; //url para desarrollo
 
-//const url = "http://10.10.0.25:9697/consultaPreciosYStock"; //url para produccion
-const urlClientes = "http://10.10.0.25:9697/clientes"; //url para produccion
-const urlTransportista = "http://10.10.0.25:9697/transportista"; //url para produccion
+// const url = "http://10.10.0.25:9697/consultaPreciosYStock"; //url para produccion
+// const urlClientes = "http://10.10.0.25:9697/clientes"; //url para produccion
+// const urlTransportista = "http://10.10.0.25:9697/transportista"; //url para produccion
 
 export default function DrawerModel() {
   const theme = useTheme();
