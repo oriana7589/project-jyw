@@ -24,20 +24,6 @@ import { cardItemStyle, cardStyle, specificCardItemStyle, textItemCardStyle } fr
 import { CloseOutlined, SaveOutlined } from "@mui/icons-material";
 Decimal.set({ precision: 10 });
 
-const data = [
-  {
-    fecha: "2024-01-01",
-    monto: "10000.00",
-    factura: "F002-45000",
-    aplicacion: "vt2515 /2514",
-  },
-  {
-    fecha: "2024-01-01",
-    monto: "10000.00",
-    factura: "F002-45000",
-    aplicacion: "vt2515 /2514",
-  },
-];
 // Primera tabla
 const FirstTable = ( {handleIconButtonItemsClick,detalleProducto  }) => {
   const [hover, setHover] = useState(false);
@@ -71,7 +57,6 @@ const FirstTable = ( {handleIconButtonItemsClick,detalleProducto  }) => {
 
 // Segunda tabla
 const SecondTable = ({ detalleProducto, fechaLlegada }) => {
-  const currentData = data;
   return (
     <div style={cardStyle}>
     <div style={{...cardItemStyle,  maxWidth: "12%"}}>
@@ -114,7 +99,6 @@ const ThirdTable = ({
   ticketCount,
   monedaValue,
   isChecked,
-  handleCheckBox,
   total,
   handlPrecioFinalChange,
   calcularUtilidad,
@@ -134,6 +118,12 @@ const ThirdTable = ({
   const cantidadRef = useRef(null);
   const descuentoARef = useRef(null);
   const descuentBRef = useRef(null);
+  const [tipoProforma, setTipoProforma] = useState("");
+
+  useEffect(()=> {
+    setTipoProforma('EXPORTACION')
+  }, []);
+
 
   const handleIncrement = () => {   
     const updatedItem = {...precioItemActual, cantidad: (precioItemActual.cantidad + 1)};
@@ -196,7 +186,7 @@ const ThirdTable = ({
       precioUnitarioSOL = new Decimal(precioUnitarioUSD).times(moneda).toDecimalPlaces(2);
       updatedItem.precioVentaUnitarioSOL = precioUnitarioSOL;
     }    
-
+    
     const totalItemUSD = new Decimal(precioUnitarioUSD)
       .times(cantidad)
       .times(dctA)
@@ -212,6 +202,11 @@ const ThirdTable = ({
 
     updatedItem.subTotalItemUSD = totalItemUSD.dividedBy(1.18);
     updatedItem.subTotalItemSOL = totalItemSOL.dividedBy(1.18);
+
+    if (tipoProforma === 'EXPORTACION') {
+      updatedItem.subTotalItemUSD = totalItemUSD;
+      updatedItem.subTotalItemSOL = totalItemSOL;
+    }
 
     updatedItem.utilidad = updatedItem.subTotalItemUSD
       .dividedBy(cantidad)
@@ -275,19 +270,7 @@ const ThirdTable = ({
     console.log('monto - addtocart', precioItemActual);
     console.log('total - addtocart', total);
   }; 
-
-  const handleChange = (event) => {
-    const value = event.target.value.trim(); // Eliminar espacios en blanco al principio y al final
-    const parsedValue = parseInt(value, 10); // Intentar convertir el valor a un número entero
-    if (!isNaN(parsedValue) && parsedValue >= 1) {
-      // Si es un número válido y mayor o igual a 1, establecer el nuevo valor del contador
-      setTicketCount(parsedValue);
-    } else {
-      // Si el valor no es válido, establecer el valor predeterminado en 1
-      setTicketCount(1);
-    }
-  };
-
+    
   const handleKeyDown = (event, ref, noSale) => {
     if (event.key === 'Enter') {
       event.preventDefault();
@@ -796,7 +779,6 @@ const TableShop = ({
   monedaValue,
   setMonedaValue,
   isChecked,
-  handleCheckBox,
   calcularPrecioFinal,
   total,
   handlPrecioFinalChange,
@@ -932,7 +914,6 @@ const TableShop = ({
         setTicketCount={setTicketCount}
         tipoMoneda={tipoMoneda}
         isChecked={isChecked}
-        handleCheckBox={handleCheckBox}
         calcularPrecioFinal={calcularPrecioFinal}
         total={total}
         handlPrecioFinalChange={handlPrecioFinalChange}

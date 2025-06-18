@@ -46,7 +46,6 @@ export default function TD({
   setCodigoSeleccionado,
   handleItemClick,
   isChecked,
-  handleCheckBox,
   calcularPrecioFinal,
   total,
   handlPrecioFinalChange,
@@ -196,7 +195,6 @@ export default function TD({
             monedaValue={monedaValue}
             setMonedaValue={setMonedaValue}
             isChecked={isChecked}
-            handleCheckBox={handleCheckBox}
             calcularPrecioFinal={calcularPrecioFinal}
             total={total}
             handlPrecioFinalChange={handlPrecioFinalChange}

@@ -24,7 +24,6 @@ const TableDescripcionItems = ({
   monedaValue,
   setMonedaValue,
   isChecked ,
-  handleCheckBox,
   calcularPrecioFinal,
   total,
   handlPrecioFinalChange ,
@@ -65,8 +64,7 @@ const TableDescripcionItems = ({
         ticketCount = {ticketCount}
         setTicketCount = {setTicketCount}
         tipoMoneda = {tipoMoneda}
-        isChecked = {isChecked}
-        handleCheckBox = {handleCheckBox}
+        isChecked = {isChecked}        
         calcularPrecioFinal = {calcularPrecioFinal}
         total= {total}
         handlPrecioFinalChange = {handlPrecioFinalChange}

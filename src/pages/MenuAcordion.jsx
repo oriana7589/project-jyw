@@ -174,15 +174,6 @@ const TuComponente = () => {
     }
   };
 
-  const handleCheckBox = () => {
-    setIsChecked(!isChecked);
-    if (!isChecked) {
-      // Si el checkbox se marca, establecer los descuentos en cero
-      setDescuentoA(0);
-      setDescuentoB(0);
-    }
-  };
-
   useEffect(() => {
     if (selectedClient) {
       const diasSinComprar1 = 0; // Los productos sugeridos en este punto tienen 0 días sin comprar
@@ -467,18 +458,8 @@ const TuComponente = () => {
   const fetchData = (codigoInterno) => {
     getProductoSeleccionado(codigoInterno).then((detalleProducto) => {
       setDetalleProducto(detalleProducto);
-      const precioVenta = new Decimal(detalleProducto.precioVenta);
-      const impuesto = new Decimal(1.18);
-      const precioVentaSinIGV = precioVenta.dividedBy(impuesto);
-      const precio = Math.round(precioVentaSinIGV.times(100)) / 100;
-
       const precioUSD = new Decimal(detalleProducto.precioVenta || 0);
-      const precioSOL = precioUSD.times(moneda).toDecimalPlaces(2);
-      //const precio = precioVentaSinIGV.toDecimalPlaces(2);
-      setDescuentoA(0);
-      setDescuentoB(0);
-      setTicketCount(1);
-      setMonto(precio);
+      const precioSOL = precioUSD.times(moneda).toDecimalPlaces(2);      
       setMonedaType("");
       setPrecioItemActual({
         ...precioItemActual,
@@ -492,7 +473,24 @@ const TuComponente = () => {
         totalItemSOL: precioSOL,
         subTotalItemUSD: precioUSD.dividedBy(1.18).toDecimalPlaces(2),
         subTotalItemSOL: precioSOL.dividedBy(1.18).toDecimalPlaces(2),
-      })      
+      })
+      if (true) {
+        setPrecioItemActual({
+          ...precioItemActual,
+          codigoInterno: detalleProducto.codigoInterno,
+          cantidad: 1,
+          descuentoA: 0,
+          descuentoB: 0,
+          precioVentaUnitarioUSD: precioUSD.dividedBy(1.18).toDecimalPlaces(2),
+          precioVentaUnitarioSOL: precioSOL.dividedBy(1.18).toDecimalPlaces(2),
+          totalItemUSD: precioUSD.dividedBy(1.18).toDecimalPlaces(2),
+          totalItemSOL: precioSOL.dividedBy(1.18).toDecimalPlaces(2),
+          subTotalItemUSD: precioUSD.dividedBy(1.18).toDecimalPlaces(2),
+          subTotalItemSOL: precioSOL.dividedBy(1.18).toDecimalPlaces(2)          
+        })
+      }
+      
+      console.log('precioItemActual', precioItemActual)      
       precioVentaRef.current.focus()
     });
 
@@ -1812,8 +1810,7 @@ const TuComponente = () => {
             isChecked1={isChecked1}
             isChecked2={isChecked2}
             isChecked={isChecked}
-            handleCheckboxChange={handleCheckboxChange}
-            handleCheckBox={handleCheckBox}
+            handleCheckboxChange={handleCheckboxChange}            
             tabValue={tabValue}
             setTabValue={setTabValue}
             handleGoToTab1={handleGoToTab1}

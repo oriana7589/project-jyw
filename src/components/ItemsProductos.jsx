@@ -86,23 +86,7 @@ function ItemsProductos({
   const handleConfirmEdit = (numeroProforma) => {
     setDialogOpen(false);
     actualizarProforma(numeroProforma);
-  };
-
-  const calcularSubTotal = () => {
-    const totalNumero = total1
-      .toString()
-      .replace("S/", "")
-      .replace("$", "")
-      .trim();
-    const totalDecimal = new Decimal(totalNumero);
-    const subTotal = totalDecimal.dividedBy(1.18);
-
-    if (monedaValue === "SOLES") {
-      setTotalSubtotal("S/" + subTotal);
-    } else if (monedaValue === "DOLARES AMERICANOS") {
-      setTotalSubtotal("$" + subTotal);
-    }
-  };
+  }; 
 
   const calcularSubTotalProforma = () => {
     const totalNumero = total1
@@ -112,36 +96,11 @@ function ItemsProductos({
       .trim();
 
     const totalDecimal = new Decimal(totalNumero);
-    const subTotal = totalDecimal.dividedBy(1.18);
+    const subTotal = totalDecimal//.dividedBy(1.18); agregar estado que cambie esto con o sin igv
     setTotalSubtotal(
       monedaValue === "SOLES" ? "S/" + subTotal : "$" + subTotal
     );
-  };
-
-  const calcularTotalPrecioFinal = () => {
-    const total = cartItems.reduce((total, item) => {
-      let precioFinal = new Decimal(item.precioFinal);
-
-      if (monedaValue === "SOLES") {
-        if (item.monedaType !== "SOLES") {
-          precioFinal = precioFinal.times(moneda);
-        }
-      } else if (monedaValue === "DOLARES AMERICANOS") {
-        if (item.monedaType !== "DOLARES AMERICANOS") {
-          precioFinal = precioFinal.dividedBy(new Decimal(moneda));
-        }
-      }
-
-      total = total.plus(precioFinal);
-      return total;
-    }, new Decimal(0));
-
-    if (monedaValue === "SOLES") {
-      setTotal1("S/" + total);
-    } else if (monedaValue === "DOLARES AMERICANOS") {
-      setTotal1("$" + total);
-    }
-  };
+  }; 
 
   const calcularTotalProforma = () => {
     const total = cartItems.reduce((total, item) => {
@@ -152,33 +111,10 @@ function ItemsProductos({
     }, new Decimal(0));
 
     setTotal1(monedaValue === "SOLES" ? "S/" + total : "$" + total);
-  };
-
-  const calcularUtilidadCarrito = () => {
-    cartItems.forEach((item) => {
-      let precioVentaSinIGVDolares;
-      if (item.monedaType === "SOLES") {
-        precioVentaSinIGVDolares = new Decimal(
-          new Decimal(item.monto).dividedBy(moneda).dividedBy(item.ticketCount)
-        );
-      } else {
-        precioVentaSinIGVDolares = new Decimal(
-          new Decimal(item.monto).dividedBy(item.ticketCount)
-        );
-      }
-
-      const precioCompraSinIGVDolares = new Decimal(item.precioCompra);
-      const utilidad = precioVentaSinIGVDolares
-        .minus(precioCompraSinIGVDolares)
-        .dividedBy(precioCompraSinIGVDolares)
-        .toDecimalPlaces(2);
-      item.utilidad = utilidad;
-    });
-  };
+  }; 
 
   // Llamar a la función para calcular el total al renderizar el componente
-  useEffect(() => {
-    //calcularTotalPrecioFinal();
+  useEffect(() => {    
     calcularTotalProforma();
   }, [cartItems, monedaValue, moneda]);
 

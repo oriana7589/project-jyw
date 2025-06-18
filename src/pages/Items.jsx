@@ -102,7 +102,6 @@ const PestañaContenido = ({
   handleCheckboxChange,
   pdfData,
   isChecked,
-  handleCheckBox,
   setTabValue,
   handleGoToTab1,
   calcularPrecioFinal,
@@ -175,7 +174,6 @@ const PestañaContenido = ({
           setCodigoSeleccionado={setCodigoSeleccionado}
           handleItemClick={handleItemClick}
           isChecked={isChecked}
-          handleCheckBox={handleCheckBox}
           calcularPrecioFinal={calcularPrecioFinal}
           total={total}
           handlPrecioFinalChange={handlPrecioFinalChange}
@@ -334,7 +332,6 @@ const Items = ({
   handleCheckboxChange,
   pdfData,
   isChecked,
-  handleCheckBox,
   tabValue,
   setTabValue,
   handleGoToTab1,
@@ -516,8 +513,7 @@ const Items = ({
             isChecked2={isChecked2}
             handleCheckboxChange={handleCheckboxChange}
             pdfData={pdfData}
-            isChecked={isChecked}
-            handleCheckBox={handleCheckBox}
+            isChecked={isChecked}            
             setTabValue={setTabValue}
             handleGoToTab1={handleGoToTab1}
             calcularPrecioFinal={calcularPrecioFinal}
