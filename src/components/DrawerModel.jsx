@@ -117,10 +117,12 @@ export default function DrawerModel() {
   const [hoveredItem, setHoveredItem] = useState(null);
   const handleMouseEnter = (item) => setHoveredItem(item);
   const handleMouseLeave = () => setHoveredItem(null);
-  
+  const [openNacional, setOpenNacional] = useState(false);
+  const [openExportacion, setOpenExportacion] = useState(false);
+  const [hoveredSubItem, setHoveredSubItem] = useState(null);
+  const [subMenu, setSubMenu] = useState(null);
   const location = useLocation();
   const usuario = location.state?.usuario || JSON.parse(localStorage.getItem("usuario"));
-
 
   const [user, setUser] = useState({
     name: "Juan",
@@ -132,6 +134,28 @@ export default function DrawerModel() {
 
   const handleCloseDialog = () => {
     setDialogOpen(false);
+  };
+
+  const handleOpenSubMenu = (event) => {
+    setSubMenu(event.currentTarget);
+  };
+
+  const handleCloseSubMenu = () => {
+    setSubMenu(null);
+  };
+
+  const handleOpenNacional = () => {
+    //setOpenNacional(true);
+    //handleNuevaProforma();
+    setSubMenu(null);
+    setDialogOpen(true);
+  };
+
+  const handleOpenExportacion = () => {
+    setSubMenu(null);
+    //setOpenExportacion(true);
+    //handleNuevaProforma();
+    setDialogOpen(true);
   };
 
   const handleNuevaProforma = () => {
@@ -148,6 +172,7 @@ export default function DrawerModel() {
     function handleClickOutside(event) {
       if (drawerRef.current && !drawerRef.current.contains(event.target)) {
         setOpen(false);
+        setSubMenu(null);
       }
     }
     document.addEventListener("mousedown", handleClickOutside);
@@ -157,7 +182,13 @@ export default function DrawerModel() {
   }, [drawerRef]);
 
   const toggleDrawer = () => {
-    setOpen(!open);
+    setOpen((prev) => {
+      const newOpen = !prev;
+      if (!newOpen) {
+        setSubMenu(null);
+      }
+      return newOpen;
+    });
   };
 
   const reiniciarAplicacion = () => {
@@ -211,9 +242,20 @@ export default function DrawerModel() {
                 id: 1,
                 label: "Nueva Proforma",
                 icon: <ArticleIcon sx={{ color: "rgb(12,55,100)" }} />,
-                onClick: () => {
-                  handleOpenDialog();
-                },
+                submenu: [
+                  {
+                    id: 11,
+                    label: "Proforma Nacional",
+                    icon: <ArticleIcon sx={{ color: "rgb(12,55,100)", fontSize: 16 }} />,
+                    onClick: () => { handleOpenNacional(); }
+                  },
+                  {
+                    id: 12,
+                    label: "Proforma Exportación",
+                    icon: <ArticleIcon sx={{ color: "rgb(12,55,100)", fontSize: 16 }} />,
+                    onClick: () => { handleOpenExportacion(); }
+                  }
+                ]
               },
               {
                 id: 2,
@@ -244,19 +286,59 @@ export default function DrawerModel() {
                   }
                   onMouseEnter={() => handleMouseEnter(item.id)}
                   onMouseLeave={handleMouseLeave}
-                  onClick={() => setOpen(!open)}
+                  onClick={() => {
+                    if (item.submenu) {
+                      setSubMenu(subMenu === item.id ? null : item.id);
+                    } else {
+                      item.onClick && item.onClick();
+                    }
+                  }}
                 >
-                  <div style={iconStyle}>{item.icon}</div>
-                  <div
-                    style={textStyle(open)}
-                    onClick={(event) => {
-                      event.stopPropagation();
-                      item.onClick();
-                    }}
-                  >
-                    {item.label}
-                  </div>
+                  <div style={iconStyle} 
+                  onClick={(e) => { e.stopPropagation();
+                    setOpen(!open) }}>{item.icon}</div>
+                  {item.id === 1 ? (
+                    <div
+                      style={textStyle(open)}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setOpen(true);
+                        setSubMenu(subMenu === 1 ? null : 1);
+                      }}
+                    >
+                      {item.label}
+                    </div>
+                  ) : (
+                    <div style={textStyle(open)}>{item.label}</div>
+                  )}
+
                 </div>
+                {item.submenu && subMenu === item.id && (
+                  <div >
+                    {item.submenu.map((subItem, i) => (
+                      <React.Fragment key={subItem.id}>
+                        <Divider />
+                        <div
+                          style={{
+                            padding: "3px 60px", cursor: "pointer", color: "rgb(12,55,100)", fontSize: 14,
+                            backgroundColor: hoveredSubItem === subItem.id ? "rgba(12, 55, 100, 0.2)" : "rgb(237, 237, 237)"
+                          }}
+                          onClick={() => {
+                            setHoveredSubItem(null);
+                            subItem.onClick();
+                          }}
+                          onMouseEnter={() => setHoveredSubItem(subItem.id)}
+                          onMouseLeave={() => setHoveredSubItem(null)}
+                        >
+                          {subItem.icon}
+                          <span style={{ marginLeft: 8 }}>{subItem.label}</span>
+                        </div>
+
+                      </React.Fragment>
+                    ))}
+                  </div>
+
+                )}
                 {index < arr.length && <Divider />}
               </React.Fragment>
             ))}
@@ -268,8 +350,8 @@ export default function DrawerModel() {
             </Avatar>
             {open && (
               <Box ml={2}>
-                <Typography style={{color: "rgb(12,55,100)"}} variant="body1">{usuario?.rol}</Typography>
-                <Typography style={{color: "rgb(12,55,100)"}} variant="body1">{usuario?.nombres +" "+ usuario?.apellidos}</Typography>
+                <Typography style={{ color: "rgb(12,55,100)" }} variant="body1">{usuario?.rol}</Typography>
+                <Typography style={{ color: "rgb(12,55,100)" }} variant="body1">{usuario?.nombres + " " + usuario?.apellidos}</Typography>
               </Box>
             )}
           </UserInfoContainer>
