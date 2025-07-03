@@ -57,7 +57,8 @@ export default function CarritoCompras({
   selectedClient,
   numeroProforma,
   agencia,
-  setAgencia 
+  setAgencia,
+  tipoProforma
 }) {
  
   return (
@@ -135,6 +136,7 @@ export default function CarritoCompras({
             numeroProforma = {numeroProforma}
             totalFinal = {totalFinal}
             selectedClient = {selectedClient}
+            tipoProforma = {tipoProforma}
           />
         </div>
       </Container>

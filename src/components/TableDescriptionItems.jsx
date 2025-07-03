@@ -41,7 +41,8 @@ const TableDescripcionItems = ({
   setPrecioItemActual,
   precioVentaRef,
   handleIconButtonItemsClick ,
-  handleCancelEdit
+  handleCancelEdit,
+  tipoProforma
 }) => {
 
   return (
@@ -83,6 +84,7 @@ const TableDescripcionItems = ({
         precioVentaRef={precioVentaRef}
         handleIconButtonItemsClick = {handleIconButtonItemsClick}
         handleCancelEdit = {handleCancelEdit}
+        tipoProforma = {tipoProforma}
       />
       <div>
  

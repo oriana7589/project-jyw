@@ -50,6 +50,45 @@ const UserInfoContainer = styled("div")(({ theme, open }) => ({
   backgroundColor: "rgb(221, 222, 223)",
 }));
 
+const ProformaTypeContainer = styled("div")(({ theme, open }) => ({
+  position: "absolute",
+  bottom: 80, // Ajusta según la altura del UserInfoContainer
+  width: "100%",
+  padding: theme.spacing(open ? 2 : 1),
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",  
+  backgroundColor: "rgba(12, 55, 100, 0.1)" ,
+  borderTop: open ? "1px solid #ccc" : "none",
+  borderBottom: open ? "1px solid #ccc" : "none",  
+  transition: theme.transitions.create(["padding", "background-color"], {
+    duration: theme.transitions.duration.enteringScreen,
+  }),
+}));
+
+const SubMenuContainer = styled("div")(({ theme, expanded }) => ({
+  maxHeight: expanded ? "300px" : "0",
+  overflow: "hidden",
+  transition: theme.transitions.create(["max-height", "opacity"], {
+    easing: theme.transitions.easing.sharp,
+    duration: theme.transitions.duration.enteringScreen,
+  }),
+  opacity: expanded ? 1 : 0,
+}));
+
+const SubMenuItem = styled("div")(({ theme, hovered }) => ({
+  padding: "8px 60px",
+  cursor: "pointer",
+  color: "rgb(12,55,100)",
+  fontSize: 14,
+  backgroundColor: hovered ? "rgba(12, 55, 100, 0.2)" : "rgb(237, 237, 237)",
+  transition: theme.transitions.create(["background-color"], {
+    duration: theme.transitions.duration.short,
+  }),
+  display: "flex",
+  alignItems: "center",
+}));
+
 const closedMixin = (theme) => ({
   transition: theme.transitions.create("width", {
     easing: theme.transitions.easing.sharp,
@@ -117,8 +156,8 @@ export default function DrawerModel() {
   const [hoveredItem, setHoveredItem] = useState(null);
   const handleMouseEnter = (item) => setHoveredItem(item);
   const handleMouseLeave = () => setHoveredItem(null);
-  const [openNacional, setOpenNacional] = useState(false);
-  const [openExportacion, setOpenExportacion] = useState(false);
+  const [tipoProformaActual, setTipoProformaActual] = useState("NACIONAL");
+  const [tipoProformaTemporal, setTipoProformaTemporal] = useState(null);
   const [hoveredSubItem, setHoveredSubItem] = useState(null);
   const [subMenu, setSubMenu] = useState(null);
   const location = useLocation();
@@ -144,24 +183,26 @@ export default function DrawerModel() {
     setSubMenu(null);
   };
 
-  const handleOpenNacional = () => {
-    //setOpenNacional(true);
-    //handleNuevaProforma();
+  const handleOpenNacional = () => {    
     setSubMenu(null);
+    setTipoProformaTemporal('NACIONAL');
     setDialogOpen(true);
   };
 
   const handleOpenExportacion = () => {
     setSubMenu(null);
-    //setOpenExportacion(true);
-    //handleNuevaProforma();
+    setTipoProformaTemporal('EXPORTACION');
     setDialogOpen(true);
   };
 
   const handleNuevaProforma = () => {
+    if (tipoProformaTemporal) {
+      setTipoProformaActual(tipoProformaTemporal);
+    }
     setDialogOpen(false);
     reiniciarAplicacion();
     setOpen(false);
+    setTipoProformaTemporal(null);
   };
 
   React.useEffect(() => {
@@ -204,6 +245,26 @@ export default function DrawerModel() {
     window.open(url, "_blank", windowFeatures);
   };
 
+  const TIPOS_PROFORMA = {
+    NACIONAL: "Nacional",
+    EXPORTACION: "Exportación",    
+    // IMPORTACION: "Importación",
+  };
+
+  const TIPOS_PROFORMA_ABREV = {
+    NACIONAL: "NAC",
+    EXPORTACION: "EXP",
+    // IMPORTACION: "IMP",
+  };
+
+  const getTipoProformaAbrev = () => {
+    return TIPOS_PROFORMA_ABREV[tipoProformaActual] || "";
+  };
+
+  const getTipoProformaLabel = () => {
+    return TIPOS_PROFORMA[tipoProformaActual] || "";
+  };
+
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
@@ -233,7 +294,8 @@ export default function DrawerModel() {
               </>
             )}
           </DrawerHeader>
-          <Divider />
+          <Divider />          
+
           <div
             style={{ display: "flex", flexDirection: "column", width: "100%" }}
           >
@@ -314,14 +376,15 @@ export default function DrawerModel() {
 
                 </div>
                 {item.submenu && subMenu === item.id && (
-                  <div >
+                  <SubMenuContainer expanded={subMenu === item.id}>
                     {item.submenu.map((subItem, i) => (
                       <React.Fragment key={subItem.id}>
                         <Divider />
                         <div
                           style={{
                             padding: "3px 60px", cursor: "pointer", color: "rgb(12,55,100)", fontSize: 14,
-                            backgroundColor: hoveredSubItem === subItem.id ? "rgba(12, 55, 100, 0.2)" : "rgb(237, 237, 237)"
+                            backgroundColor: hoveredSubItem === subItem.id ? "rgba(12, 55, 100, 0.2)" : "rgb(237, 237, 237)",
+                            transition: "background-color 0.3s ease"
                           }}
                           onClick={() => {
                             setHoveredSubItem(null);
@@ -336,13 +399,34 @@ export default function DrawerModel() {
 
                       </React.Fragment>
                     ))}
-                  </div>
+                  </SubMenuContainer>
 
                 )}
                 {index < arr.length && <Divider />}
               </React.Fragment>
             ))}
           </div>
+
+          <ProformaTypeContainer open={open}>
+            {open ? (            
+            <Typography variant="body2" sx={{ color: 'rgb(12,55,100)', fontWeight: 'bold' }}>
+              Proforma {getTipoProformaLabel()}
+            </Typography>
+            ) : (
+              <Avatar 
+                sx={{ 
+                  bgcolor: 'rgb(12,55,100)', 
+                  width: 40, 
+                  height: 40,
+                  fontSize: '0.875rem',
+                  fontWeight: 'bold'
+                }}
+              >
+                {getTipoProformaAbrev()}
+              </Avatar>
+            )}
+          </ProformaTypeContainer>
+
           <UserInfoContainer open={open}>
             <Avatar sx={{ bgcolor: "rgb(12,55,100)" }}>
               {usuario.nombres.charAt(0)}
@@ -359,15 +443,15 @@ export default function DrawerModel() {
       </div>
 
       <Box component="main" sx={{ flexGrow: 1, marginTop: "0rem", padding: 0 }}>
-        {content === "MenuAcordion" && <MenuAcordion key={menuKey} />}
+        {content === "MenuAcordion" && <MenuAcordion key={menuKey} tipoProforma={tipoProformaActual} setTipoProforma={setTipoProformaActual} />}
       </Box>
 
       {/* Dialog para Actualizar menú acordion */}
       <Dialog open={dialogOpen} onClose={handleCloseDialog}>
         <DialogContent>
           <Typography variant="body1">
-            ¿Quieres crear una nueva proforma ? <br />
-            Una vez aceptado se perderán los datos existentes.
+            ¿Quieres crear una nueva proforma tipo {tipoProformaTemporal ? ` ${TIPOS_PROFORMA[tipoProformaTemporal]}` : ''}? <br />
+            Una vez aceptado, se perderán los datos existentes.
           </Typography>
         </DialogContent>
         <DialogActions>

@@ -50,7 +50,7 @@ import "react-toastify/dist/ReactToastify.css";
 import Decimal from "decimal.js";
 import imagenNoDisponible from "../image/imagen-no-disponible.jpeg";
 
-const TuComponente = () => {
+const TuComponente = ({tipoProforma, setTipoProforma}) => {
   const [expandedPanels, setExpandedPanels] = useState([1]);
   const [dialogOpen, setDialogOpen] = useState(false);
   const [toastOpen, setToastOpen] = useState(false);
@@ -461,20 +461,22 @@ const TuComponente = () => {
       const precioUSD = new Decimal(detalleProducto.precioVenta || 0);
       const precioSOL = precioUSD.times(moneda).toDecimalPlaces(2);      
       setMonedaType("");
-      setPrecioItemActual({
-        ...precioItemActual,
-        codigoInterno: detalleProducto.codigoInterno,
-        cantidad: 1,
-        descuentoA: 0,
-        descuentoB: 0,
-        precioVentaUnitarioUSD: precioUSD,
-        precioVentaUnitarioSOL: precioSOL,
-        totalItemUSD: precioUSD,
-        totalItemSOL: precioSOL,
-        subTotalItemUSD: precioUSD.dividedBy(1.18).toDecimalPlaces(2),
-        subTotalItemSOL: precioSOL.dividedBy(1.18).toDecimalPlaces(2),
-      })
-      if (true) {
+      if (tipoProforma === 'NACIONAL') {
+        setPrecioItemActual({
+          ...precioItemActual,
+          codigoInterno: detalleProducto.codigoInterno,
+          cantidad: 1,
+          descuentoA: 0,
+          descuentoB: 0,
+          precioVentaUnitarioUSD: precioUSD,
+          precioVentaUnitarioSOL: precioSOL,
+          totalItemUSD: precioUSD,
+          totalItemSOL: precioSOL,
+          subTotalItemUSD: precioUSD.dividedBy(1.18).toDecimalPlaces(2),
+          subTotalItemSOL: precioSOL.dividedBy(1.18).toDecimalPlaces(2),
+        })
+      }
+      if (tipoProforma === 'EXPORTACION') {
         setPrecioItemActual({
           ...precioItemActual,
           codigoInterno: detalleProducto.codigoInterno,
@@ -1004,13 +1006,14 @@ const TuComponente = () => {
         } else {
           return "SOL";
         }
-      };
+      };    
 
       const subTotal = subTotalDecimal.toDecimalPlaces(2);
       const incIGV = totalDecimal.minus(subTotalDecimal).toDecimalPlaces(2);
       const importeTotal = totalDecimal.toDecimalPlaces(2);
       const codCliente = selectedClient.codigoCliente;
-
+      const porIGV = tipoProforma === 'NACIONAL' ? new Decimal(0.18) : new Decimal(0);  
+      
       const estado = () => {
         if (isChecked1 === true && isChecked2 === false) {
           return "PFA";
@@ -1022,7 +1025,14 @@ const TuComponente = () => {
       const listaDetalle = cartItems.map((item, index) => {   
         const subTotalItem = monedaValue === "SOLES" ? item.subTotalItemSOL : item.subTotalItemUSD;
         const precioVentaUnitario = monedaValue === "SOLES" ? item.precioVentaUnitarioSOL : item.precioVentaUnitarioUSD;
-        const precioVentaUnitarioSinIGV = new Decimal(precioVentaUnitario).dividedBy(1.18).toDecimalPlaces(2);
+        let precioVentaUnitarioSinIGV = new Decimal(0);
+        if (tipoProforma === 'NACIONAL') {
+          precioVentaUnitarioSinIGV = new Decimal(precioVentaUnitario).dividedBy(1.18).toDecimalPlaces(2);
+        }
+        if (tipoProforma === 'EXPORTACION') {
+          precioVentaUnitarioSinIGV = new Decimal(precioVentaUnitario).toDecimalPlaces(2);
+        }
+        
         const totalItem = monedaValue === "SOLES" ? item.totalItemSOL : item.totalItemUSD;
         const precioVentaSinIGV = subTotalItem.dividedBy(item.cantidad).toDecimalPlaces(2);
         const precioCompraSinIGV = new Decimal(item.precioCompra);
@@ -1059,8 +1069,10 @@ const TuComponente = () => {
         estado,
         subTotal,
         incIGV,
+        porIGV,
         importeTotal,
-        codCliente
+        codCliente,
+        tipoProforma
       ).then((numeroProforma) => {
         setNumeroProforma(numeroProforma);
         handleBuscarProforma(numeroProforma);
@@ -1094,6 +1106,7 @@ const TuComponente = () => {
       const incIGV = totalDecimal.minus(subTotalDecimal).toDecimalPlaces(2);
       const importeTotal = totalDecimal.toDecimalPlaces(2);
       const codCliente = selectedClient.codigoCliente;
+      const porIGV = tipoProforma === 'NACIONAL' ? new Decimal(0.18) : new Decimal(0);      
 
       const estado = () => {
         if (isChecked1 === true && isChecked2 === false) {
@@ -1107,7 +1120,13 @@ const TuComponente = () => {
         const subTotalItem = monedaValue === "SOLES" ? item.subTotalItemSOL : item.subTotalItemUSD;
         const totalItem = monedaValue === "SOLES" ? item.totalItemSOL : item.totalItemUSD;
         const precioVentaUnitario = monedaValue === "SOLES" ? item.precioVentaUnitarioSOL : item.precioVentaUnitarioUSD;
-        const precioVentaUnitarioSinIGV = new Decimal(precioVentaUnitario).dividedBy(1.18).toDecimalPlaces(2);
+        let precioVentaUnitarioSinIGV = new Decimal(0);        
+        if (tipoProforma === 'NACIONAL') {
+          precioVentaUnitarioSinIGV = new Decimal(precioVentaUnitario).dividedBy(1.18).toDecimalPlaces(2);          
+        }
+        if (tipoProforma === 'EXPORTACION') {
+          precioVentaUnitarioSinIGV = new Decimal(precioVentaUnitario).toDecimalPlaces(2);          
+        }
         const precioVentaSinIGV = subTotalItem.dividedBy(item.cantidad).toDecimalPlaces(2);
         const precioCompraSinIGV = new Decimal(item.precioCompra);
         const totalItemConIGV = new Decimal(totalItem).toDecimalPlaces(2);
@@ -1144,8 +1163,10 @@ const TuComponente = () => {
         estado,
         subTotal,
         incIGV,
+        porIGV,
         importeTotal,
-        codCliente
+        codCliente,
+        tipoProforma
       );
       toast.success("Se ha actualizado la proforma con éxito");
     }
@@ -1234,8 +1255,7 @@ const TuComponente = () => {
       return nombreCompletoUsuario;
   }
 
-  const elegirVendedorPorUsuario = () => {
-    console.log('funcion')
+  const elegirVendedorPorUsuario = () => {    
     const nombreVendedorUsuario = vendedorUsuario();
     hallarVendedorPorNombre(nombreVendedorUsuario)
   }
@@ -1254,6 +1274,9 @@ const TuComponente = () => {
       getSeleccionarProformaCabecera(numeroProforma).then(
         (proformaSeleccionada) => {
           setProformaSeleccionada(proformaSeleccionada);
+          console.log('aun no seteo tipoproforma')
+          setTipoProforma(proformaSeleccionada.tipoProforma)
+          console.log('ya he seteado tipoproforma')
         }
       );
       setIsAddProformaVisible(false);
@@ -1262,7 +1285,7 @@ const TuComponente = () => {
   };
 
   useEffect(() => {
-    if (proformaSeleccionada) {
+    if (proformaSeleccionada) {      
       getSeleccionarProformaDetalle(numeroProforma).then((proformaDetalle) => {
         setProformaDetalle(proformaDetalle);
       });
@@ -1285,7 +1308,9 @@ const TuComponente = () => {
         correo: proformaSeleccionada.correoCliente,
         estado: proformaSeleccionada.estadoCliente,
       };
-
+      // console.log('proformaSeleccionada.tipoProforma', proformaSeleccionada.tipoProforma)
+      // setTipoProforma(proformaSeleccionada.tipoProforma)
+      // console.log('tipoProforma', tipoProforma)
       handleClientSelect(clienteProforma);
       //setSelectedClient(clienteProforma);
 
@@ -1352,16 +1377,16 @@ const TuComponente = () => {
       proformaDetalle.map((item) => {
         const totItemUSD = moneda_ === "SOLES" ? new Decimal(item.igvItem).dividedBy(moneda) : new Decimal(item.igvItem);
         const totItemSOL = moneda_ === "SOLES" ? new Decimal(item.igvItem) : new Decimal(item.igvItem).times(moneda);
-
-        const subTotItemUSD = totItemUSD.dividedBy(1.18);
-        const subTotItemSOL = totItemSOL.dividedBy(1.18);
+        const porIgv = tipoProforma === 'NACIONAL' ? 1.18 : 1
+        const subTotItemUSD = totItemUSD.dividedBy(porIgv);
+        const subTotItemSOL = totItemSOL.dividedBy(porIgv);
         
         const dctRealA = new Decimal(item.descuentoUno).dividedBy(100).neg().plus(1);
         const dctRealB = new Decimal(item.descuentoDos).dividedBy(100).neg().plus(1);
         const pvUnitarioUSD = totItemUSD.dividedBy(dctRealA).dividedBy(dctRealB).dividedBy(item.cantidad)
         const pvUnitarioSOL = totItemSOL.dividedBy(dctRealA).dividedBy(dctRealB).dividedBy(item.cantidad)
-
-        const utilidad = totItemUSD.dividedBy(1.18).dividedBy(item.cantidad).dividedBy(item.precioCompra).minus(1).toDecimalPlaces(2);
+        
+        const utilidad = totItemUSD.dividedBy(porIgv).dividedBy(item.cantidad).dividedBy(item.precioCompra).minus(1).toDecimalPlaces(2);
 
         const newItems = {
           product: item.descripcionArticulo,
@@ -1855,6 +1880,7 @@ const TuComponente = () => {
             precioVentaRef={precioVentaRef}
             handleIconButtonItemsClick = {handleIconButtonItemsClick}
             handleCancelEdit = {handleCancelEdit}
+            tipoProforma = {tipoProforma}
           />
         </Collapse>
       </Card>

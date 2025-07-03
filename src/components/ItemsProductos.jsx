@@ -45,7 +45,8 @@ function ItemsProductos({
   actualizarProforma,
   numeroProforma,
   totalFinal,
-  selectedClient
+  selectedClient,
+  tipoProforma
 }) {
   const [hoveredCard, setHoveredCard] = useState(null);
   const [base64, setBase64] = useState("");
@@ -96,10 +97,19 @@ function ItemsProductos({
       .trim();
 
     const totalDecimal = new Decimal(totalNumero);
-    const subTotal = totalDecimal//.dividedBy(1.18); agregar estado que cambie esto con o sin igv
-    setTotalSubtotal(
-      monedaValue === "SOLES" ? "S/" + subTotal : "$" + subTotal
-    );
+    if (tipoProforma === 'NACIONAL') {
+      const subTotal = totalDecimal.dividedBy(1.18);
+      setTotalSubtotal(
+        monedaValue === "SOLES" ? "S/" + subTotal : "$" + subTotal
+      );
+    }
+
+    if (tipoProforma === 'EXPORTACION') {
+      const subTotal = totalDecimal;
+      setTotalSubtotal(
+        monedaValue === "SOLES" ? "S/" + subTotal : "$" + subTotal
+      );
+    }    
   }; 
 
   const calcularTotalProforma = () => {

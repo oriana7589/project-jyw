@@ -144,7 +144,8 @@ const PestañaContenido = ({
   setPrecioItemActual,
   precioVentaRef,
   handleIconButtonItemsClick,
-  handleCancelEdit
+  handleCancelEdit,
+  tipoProforma
 }) => {
   switch (value) {
     case 0:
@@ -196,6 +197,7 @@ const PestañaContenido = ({
           precioVentaRef={precioVentaRef}
           handleIconButtonItemsClick = {handleIconButtonItemsClick}
           handleCancelEdit = {handleCancelEdit}
+          tipoProforma = {tipoProforma}
         />
       );
     case 1:
@@ -252,6 +254,7 @@ const PestañaContenido = ({
           numeroProforma = {numeroProforma}
           agencia = {agencia}
           setAgencia = {setAgencia}
+          tipoProforma = {tipoProforma}
         />
       );
     case 2:
@@ -376,7 +379,8 @@ const Items = ({
   setPrecioItemActual,
   precioVentaRef,
   handleIconButtonItemsClick,
-  handleCancelEdit
+  handleCancelEdit,
+  tipoProforma
 }) => {
   const handleChangeTab = (event, newValue) => {
     setTabValue(newValue);
@@ -556,6 +560,7 @@ const Items = ({
             precioVentaRef={precioVentaRef}
             handleIconButtonItemsClick = {handleIconButtonItemsClick}
             handleCancelEdit = {handleCancelEdit}
+            tipoProforma = {tipoProforma}
           />
         ) : !selectedClient ? (
           <div

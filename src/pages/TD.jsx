@@ -67,7 +67,8 @@ export default function TD({
   setPrecioItemActual,
   precioVentaRef,
   handleIconButtonItemsClick,
-  handleCancelEdit
+  handleCancelEdit,
+  tipoProforma
 }) {
   const [page, setPage] = useState(1);
   const [imagenArticulo, setImagenArticulo] = useState([]);
@@ -214,6 +215,7 @@ export default function TD({
             precioVentaRef={precioVentaRef}
             handleIconButtonItemsClick = {handleIconButtonItemsClick}
             handleCancelEdit = {handleCancelEdit}
+            tipoProforma = {tipoProforma}
           />
         </div>
       </Container>

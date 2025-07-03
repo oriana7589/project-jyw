@@ -476,8 +476,10 @@ export function postPGenerarProforma(
   estado,
   subTotal,
   incIGV,
+  porIGV,
   importeTotal,
-  codCliente
+  codCliente,
+  tipoProforma
 ) {
   const Proforma = axios
     .post(`${baseUrlProforma()}`, {
@@ -504,11 +506,12 @@ export function postPGenerarProforma(
       fechaVencimiento: fechaVencimiento,
       importeNeto: parseFloat(subTotal),
       importeDescuento: 0,
-      porIgv: 0.18,
+      porIgv: parseFloat(porIGV),
       importeIgv: parseFloat(incIGV),
       importeTotal: parseFloat(importeTotal),
       estado: estado(),
       observacion: observaciones,
+      tipoProforma: tipoProforma,
       listaDetalleProforma: listaDetalle,
     })
     .then((res) => {
@@ -531,8 +534,10 @@ export function putActualizarProforma(
   estado,
   subTotal,
   incIGV,
+  porIGV,
   importeTotal,
-  codCliente
+  codCliente,
+  tipoProforma
 ) {
   console.log("transporte", transporte);
   const Proforma = axios
@@ -561,11 +566,12 @@ export function putActualizarProforma(
       fechaVencimiento: fechaVencimiento,
       importeNeto: parseFloat(subTotal),
       importeDescuento: 0,
-      porIgv: 0.18,
+      porIgv: parseFloat(porIGV),
       importeIgv: parseFloat(incIGV),
       importeTotal: parseFloat(importeTotal),
       estado: estado(),
       observacion: observaciones,
+      tipoProforma: tipoProforma,
       listaDetalleProforma: listaDetalle,
     })
     .then((res) => {

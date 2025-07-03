@@ -112,17 +112,18 @@ const ThirdTable = ({
   setPrecioItemActual,
   moneda,
   precioVentaRef,
-  handleCancelEdit
+  handleCancelEdit,
+  tipoProforma
 }) => {  
   const currentData = historialPrecios;
   const cantidadRef = useRef(null);
   const descuentoARef = useRef(null);
   const descuentBRef = useRef(null);
-  const [tipoProforma, setTipoProforma] = useState("");
+  // const [tipoProforma, setTipoProforma] = useState("");
 
-  useEffect(()=> {
-    setTipoProforma('EXPORTACION')
-  }, []);
+  // useEffect(()=> {
+  //   setTipoProforma('EXPORTACION')
+  // }, []);
 
 
   const handleIncrement = () => {   
@@ -796,7 +797,8 @@ const TableShop = ({
   setPrecioItemActual,
   precioVentaRef,
   handleIconButtonItemsClick ,
-  handleCancelEdit
+  handleCancelEdit,
+  tipoProforma
 }) => {
   let razonSocial = "";
   let ruc = "";
@@ -929,6 +931,7 @@ const TableShop = ({
         setPrecioItemActual={setPrecioItemActual}
         precioVentaRef={precioVentaRef}
         handleCancelEdit = {handleCancelEdit}
+        tipoProforma = {tipoProforma}
       />
  
     </div>
