@@ -394,11 +394,25 @@ const TuComponente = ({tipoProforma, setTipoProforma}) => {
       
     });
 
+    if (!selectedClient) {
+      // Si no hay cliente seleccionado entonces se mostrará el toast
+      setToastOpen(true);
+      toast.warning(
+        "No se mostrará historial de precios ni produtos sugeridos hasta seleccionar a un cliente"
+      );
+    } else {
+      getHistorialPrecios(codigoInterno, selectedClient.codigoCliente).then(
+        (historialPrecios) => {
+          setHistorialPrecios(historialPrecios);
+        }
+      );
+    } 
+
     if (cartItems.length === 0) {
       setIsEditToCartVisible(false);
     } else {
       setIsEditToCartVisible(true);
-    }//CONDICION SIN SENTIDO
+    }
   };
 
   const handleItemsSelect = (productos) => {    
@@ -450,7 +464,7 @@ const TuComponente = ({tipoProforma, setTipoProforma}) => {
       toast.warning(
         "No se mostrará historial de precios ni produtos sugeridos hasta seleccionar a un cliente"
       );
-    }
+    }     
     setTabValue(0);
     setDatosDisponibles(true);
   };
