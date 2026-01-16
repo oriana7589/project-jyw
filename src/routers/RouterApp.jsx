@@ -4,6 +4,7 @@ import ConsultasPrecios from "../pages/ConsultasPrecios";
 import ListaTransportista from "../pages/SearchTransportista/ListaTransportista";
 import ListaClientes from "../pages/SearchCliente/ListaCientes";
 import DrawerModel from "../components/DrawerModel";
+import ListaProformas from "../pages/ListaProformas/ListaProformas";
 import { Login } from "@mui/icons-material";
 import SignInSide from "../pages/LogIn/SingInSide";
 
@@ -19,6 +20,7 @@ function RouterApp() {
       <Route path="/consultaPreciosYStock" element = {<ConsultasPrecios/>} ></Route>
       <Route path="/clientes" element = {<ListaClientes/>} ></Route>
       <Route path="/Transportista" element = {<ListaTransportista/>} ></Route>
+      <Route path="/listado-proformas" element = {<ListaProformas/>} ></Route>
     </Routes>
   );
 }

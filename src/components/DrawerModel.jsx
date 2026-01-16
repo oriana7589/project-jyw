@@ -18,7 +18,7 @@ import {
   Avatar,
 } from "@mui/material";
 import PersonIcon from "@mui/icons-material/Person";
-import { LocalShipping } from "@mui/icons-material";
+import { LocalShipping, ListAlt } from "@mui/icons-material";
 import {
   containerStyle,
   hoveredContainerStyle,
@@ -141,6 +141,7 @@ const Drawer = styled(MuiDrawer, {
 const url = "http://localhost:5173/consultaPreciosYStock"; //url para desarrollo
 const urlClientes = "http://localhost:5173/clientes"; //url para desarrollo
 const urlTransportista = "http://localhost:5173/transportista"; //url para desarrollo
+const urlListadoProformas = "http://localhost:5173/listado-proformas"; //url para desarrollo
 
 // const url = "http://10.10.0.25:9697/consultaPreciosYStock"; //url para produccion
 // const urlClientes = "http://10.10.0.25:9697/clientes"; //url para produccion
@@ -336,6 +337,12 @@ export default function DrawerModel() {
                 label: "Transportista",
                 icon: <LocalShipping sx={{ color: "rgb(12,55,100)" }} />,
                 onClick: () => handleOpenWindow(urlTransportista, 870, 715),
+              },
+              {
+                id: 5,
+                label: "Listado de Proformas",
+                icon: <ListAlt sx={{ color: "rgb(12,55,100)" }} />,
+                onClick: () => handleOpenWindow(urlListadoProformas, 1200, 800),
               },
             ].map((item, index, arr) => (
               <React.Fragment key={item.id}>

@@ -16,7 +16,7 @@ const baseUrlGeneral = () => {
 };
 
 const baseUrlProforma = () => {
-  return "http://10.10.0.25:9696/api/Proforma";
+  return "http://10.10.0.25:9695/api/Proforma";
 };
 
 const baseUrlAgenciaTransportista = () => {
@@ -677,4 +677,18 @@ export function getListaDeDistritos() {
     });
 
   return listaDistritos;
+}
+
+export async function getListaProformas(fecha) {
+  try {
+    const response = await axios.get(`${baseUrlProforma()}/lista?fecha=${fecha}`);
+    // El backend devuelve { message: string, data: ProformaListaResponseDTO[] }
+    return response.data.data || [];
+  } catch (error) {
+    const errorMessage =
+      (error.response && error.response?.data && error.response?.data.message) ||
+      (error.response && typeof error.response?.data === "string" && error.response?.data) ||
+      "Ocurrió un error al obtener las proformas";
+    throw new Error(errorMessage);
+  }
 }
