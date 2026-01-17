@@ -644,6 +644,9 @@ const TuComponente = ({tipoProforma, setTipoProforma}) => {
     precioItem
   ) => {   
 
+    // Reset editedItemIndex al agregar nuevo item
+    setEditedItemIndex(null);
+    
     const alreadyInCart = cartItems.some(
       (item) => item.codigoInterno === detalleProducto.codigoInterno
     );

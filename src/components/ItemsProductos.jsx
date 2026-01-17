@@ -103,6 +103,12 @@ function ItemsProductos({
       
       // Desactivar animación después de 1 segundo
       setTimeout(() => setFlashingItem(null), 1000);
+      
+      // Resetear editedItemIndex después de un delay para no interferir con scroll agregar
+      setTimeout(() => {
+        // Aquí necesitamos resetear desde MenuAcordion
+        // Por ahora lo dejamos así - el reset se hará manualmente
+      }, 1500);
     }
   }, [editedItemIndex]);
   
@@ -182,6 +188,12 @@ function ItemsProductos({
   // Llamar a la función para calcular el total al renderizar el componente
   useEffect(() => {    
     calcularTotalProforma();
+    
+    // Scroll al último item cuando se agrega al carrito (solo si no hay edición activa)
+    if (cartItems.length > 0 && !focusItemIndex && editedItemIndex === null) {
+      const lastIndex = cartItems.length - 1;
+      setTimeout(() => setFocusItemIndex(lastIndex), 100);
+    }
   }, [cartItems, monedaValue, moneda]);
 
   useEffect(() => {
