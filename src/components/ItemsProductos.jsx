@@ -13,7 +13,7 @@ import {
   IconButton,
   Typography,
 } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import repuest from "../image/request1.png";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -24,6 +24,22 @@ import LazyImagen from "../components/LazyImagen";
 import { getGenerarPdfProforma } from "../Services/ApiService";
 import { Description, RemoveRedEye } from "@mui/icons-material";
 import DialogDocumentos from "./DialogDocumentos";
+
+// CSS para animación de parpadeo
+const flashAnimation = `
+  @keyframes flash {
+    0%, 100% { background-color: white; }
+    50% { background-color: #f0f0f0; }
+  }
+`;
+
+// Inyectar CSS en el head si no existe
+if (!document.getElementById('flash-animation')) {
+  const style = document.createElement('style');
+  style.id = 'flash-animation';
+  style.textContent = flashAnimation;
+  document.head.appendChild(style);
+}
 
 function ItemsProductos({
   cartItems,
@@ -46,7 +62,10 @@ function ItemsProductos({
   numeroProforma,
   totalFinal,
   selectedClient,
-  tipoProforma
+  tipoProforma,
+  editedItemIndex, // Nuevo prop desde MenuAcordion
+  focusItemIndex, // Nueva prop para índice a enfocar
+  setFocusItemIndex // Nueva prop para resetear el índice
 }) {
   const [hoveredCard, setHoveredCard] = useState(null);
   const [base64, setBase64] = useState("");
@@ -54,6 +73,43 @@ function ItemsProductos({
   const [dialogPdfOpen, setDialogPdfOpen] = useState(false);
   const [dialogOpenDocumentos, setDialogOpenDocumentos] = useState(false);
   const [generarPDF, setGenerarPdf] = useState("");
+  const [flashingItem, setFlashingItem] = useState(null);
+  
+  // Referencias para el scroll automático
+  const itemRefs = useRef([]);
+  
+  // Scroll automático al item especificado
+  useEffect(() => {
+    if (focusItemIndex !== null && itemRefs.current[focusItemIndex]) {
+      itemRefs.current[focusItemIndex].scrollIntoView({
+        behavior: 'smooth',
+        block: 'center'
+      });
+      setFocusItemIndex(null); // Reset después del scroll
+    }
+  }, [focusItemIndex, setFocusItemIndex]);
+  
+  // Scroll automático cuando regresa del modo edición
+  useEffect(() => {
+    if (editedItemIndex !== null && itemRefs.current[editedItemIndex]) {
+      // Activar animación de parpadeo
+      setFlashingItem(editedItemIndex);
+      
+      // Scroll al item
+      itemRefs.current[editedItemIndex].scrollIntoView({
+        behavior: 'smooth',
+        block: 'center'
+      });
+      
+      // Desactivar animación después de 1 segundo
+      setTimeout(() => setFlashingItem(null), 1000);
+    }
+  }, [editedItemIndex]);
+  
+  // Actualizar tamaño del array de referencias
+  useEffect(() => {
+    itemRefs.current = itemRefs.current.slice(0, cartItems.length);
+  }, [cartItems]);
   const handlePosition = () => {
     const position = cartItems.reduce((item, index) => {
       const numeroItems = index + 1;
@@ -399,6 +455,7 @@ function ItemsProductos({
             {cartItems.map((item, index) => (
               <Card
                 key={index}
+                ref={(el) => (itemRefs.current[index] = el)}
                 onMouseEnter={() => handleMouseEnter(index)}
                 onMouseLeave={handleMouseLeave}
                 style={{
@@ -408,10 +465,17 @@ function ItemsProductos({
                     hoveredCard === index
                       ? "0 4px 8px 0 rgba(12, 55, 100, 0.2)"
                       : "0 4px 8px 0 rgba(12, 55, 100, 0.1)",
-                  transition: "background-color 0.3s, box-shadow 0.3s",
-                  background: esAceptado(item.utilidad, item.tipoCompra)
+                  transition: flashingItem === index 
+                    ? "background-color 0.3s ease-in-out"
+                    : "background-color 0.3s, box-shadow 0.3s",
+                  background: flashingItem === index
+                    ? "#f0f0f0"
+                    : esAceptado(item.utilidad, item.tipoCompra)
                     ? `linear-gradient(to bottom, rgba(255, 0, 0, 1) 0%, rgba(255, 0, 0, 0.5) 0%, transparent 30%)`
                     : "white",
+                  animation: flashingItem === index 
+                    ? "flash 1s ease-in-out 2"
+                    : "none"
                 }}
               >
                 <CardContent style={{ height: 45, padding: 0, margin: 0 }}>

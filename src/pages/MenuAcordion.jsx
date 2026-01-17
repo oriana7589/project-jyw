@@ -158,6 +158,7 @@ const TuComponente = ({tipoProforma, setTipoProforma}) => {
     activo: false,
     itemEditado: -1
   });
+  const [editedItemIndex, setEditedItemIndex] = useState(null);
 
   const codigoRef = useRef(null);
   const descripcionRef = useRef(null);
@@ -732,6 +733,7 @@ const TuComponente = ({tipoProforma, setTipoProforma}) => {
       setCartItems(updatedCartItems);
       setToastOpen(true);
       toast.success("El artículo se ha editado con éxito");
+      setEditedItemIndex(modoEdicionItem.itemEditado); // Guardar índice editado
       setTabValue(1);
       setIsAddToCartVisible(true);
       setIsEditToCartVisible(false);
@@ -1895,6 +1897,7 @@ const TuComponente = ({tipoProforma, setTipoProforma}) => {
             handleIconButtonItemsClick = {handleIconButtonItemsClick}
             handleCancelEdit = {handleCancelEdit}
             tipoProforma = {tipoProforma}
+            editedItemIndex = {editedItemIndex}
           />
         </Collapse>
       </Card>

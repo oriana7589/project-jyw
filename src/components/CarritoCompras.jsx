@@ -58,8 +58,10 @@ export default function CarritoCompras({
   numeroProforma,
   agencia,
   setAgencia,
-  tipoProforma
+  tipoProforma,
+  editedItemIndex
 }) {
+  const [focusItemIndex, setFocusItemIndex] = useState(null);
  
   return (
     <React.Fragment>
@@ -137,6 +139,9 @@ export default function CarritoCompras({
             totalFinal = {totalFinal}
             selectedClient = {selectedClient}
             tipoProforma = {tipoProforma}
+            editedItemIndex = {editedItemIndex}
+            focusItemIndex = {focusItemIndex}
+            setFocusItemIndex = {setFocusItemIndex}
           />
         </div>
       </Container>

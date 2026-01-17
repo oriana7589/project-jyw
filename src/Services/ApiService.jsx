@@ -16,7 +16,7 @@ const baseUrlGeneral = () => {
 };
 
 const baseUrlProforma = () => {
-  return "http://10.10.0.25:9695/api/Proforma";
+  return "http://10.10.0.25:9696/api/Proforma";
 };
 
 const baseUrlAgenciaTransportista = () => {

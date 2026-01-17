@@ -31,15 +31,17 @@ const TableComponent = ({ isLoading, setIsLoading, clientes, onClientSelect, ite
     // Crear referencias para las filas visibles
     const rowRefs = useRef([]);
 
-    useEffect(() => {
-      // Hacer scroll automático cuando highlightedRow cambie
-      if (highlightedRow !== null && rowRefs.current[highlightedRow]) {
-        rowRefs.current[highlightedRow].scrollIntoView({
-          behavior: "smooth",
-          block: "center", // Asegura que la fila quede centrada
-        });
-      }
-    }, [highlightedRow]);
+    // SCROLL AUTOMÁTICO - Esta interacción será eliminada porque confunde al usuario
+    // cuando navegan con flechas pero el mouse está en otra posición
+    // useEffect(() => {
+    //   // Hacer scroll automático cuando highlightedRow cambie
+    //   if (highlightedRow !== null && rowRefs.current[highlightedRow]) {
+    //     rowRefs.current[highlightedRow].scrollIntoView({
+    //       behavior: "smooth",
+    //       block: "center", // Asegura que la fila quede centrada
+    //     });
+    //   }
+    // }, [highlightedRow]);
 
   useEffect(() => {
     const handleKeyDown = (event) => {
@@ -97,7 +99,7 @@ const TableComponent = ({ isLoading, setIsLoading, clientes, onClientSelect, ite
               <TableHead>
                 <TableRow>
                   <TableCell style={{ textAlign: "left", backgroundColor: "rgb(255, 168, 0)", fontSize: "1rem", fontWeight: "bold" }}>Orden</TableCell>
-                  <TableCell style={{ textAlign: "left", backgroundColor: "rgb(255, 168, 0)", fontSize: "1rem", fontWeight: "bold" }}>Tipo de Doc.</TableCell>
+                  <TableCell style={{ textAlign: "left", backgroundColor: "rgb(255, 168, 0)", fontSize: "1rem", fontWeight: "bold" }}>TD</TableCell>
                   <TableCell style={{ textAlign: "left", backgroundColor: "rgb(255, 168, 0)", fontSize: "1rem", fontWeight: "bold" }}>Documento</TableCell>
                   <TableCell style={{ textAlign: "left", backgroundColor: "rgb(255, 168, 0)", fontSize: "1rem", fontWeight: "bold" }}>Razon Social</TableCell>
                   <TableCell style={{ textAlign: "left", backgroundColor: "rgb(255, 168, 0)", fontSize: "1rem", fontWeight: "bold" }}>Direccion</TableCell>

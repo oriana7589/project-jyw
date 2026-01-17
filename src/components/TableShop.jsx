@@ -796,7 +796,7 @@ const TableShop = ({
   precioItemActual,
   setPrecioItemActual,
   precioVentaRef,
-  handleIconButtonItemsClick ,
+  handleIconButtonItemsClick,
   handleCancelEdit,
   tipoProforma
 }) => {
