@@ -29,7 +29,7 @@ import DialogDocumentos from "./DialogDocumentos";
 const flashAnimation = `
   @keyframes flash {
     0%, 100% { background-color: white; }
-    50% { background-color: #f0f0f0; }
+    50% { background-color: #d0d0d0; }
   }
 `;
 
@@ -101,8 +101,8 @@ function ItemsProductos({
         block: 'center'
       });
       
-      // Desactivar animación después de 1 segundo
-      setTimeout(() => setFlashingItem(null), 1000);
+      // Desactivar animación después de 4 segundos (2s * 2 repeticiones)
+      setTimeout(() => setFlashingItem(null), 4000);
       
       // Resetear editedItemIndex después de un delay para no interferir con scroll agregar
       setTimeout(() => {
@@ -481,12 +481,12 @@ function ItemsProductos({
                     ? "background-color 0.3s ease-in-out"
                     : "background-color 0.3s, box-shadow 0.3s",
                   background: flashingItem === index
-                    ? "#f0f0f0"
+                    ? "#d0d0d0"
                     : esAceptado(item.utilidad, item.tipoCompra)
                     ? `linear-gradient(to bottom, rgba(255, 0, 0, 1) 0%, rgba(255, 0, 0, 0.5) 0%, transparent 30%)`
                     : "white",
                   animation: flashingItem === index 
-                    ? "flash 1s ease-in-out 2"
+                    ? "flash 2s ease-in-out 2"
                     : "none"
                 }}
               >
