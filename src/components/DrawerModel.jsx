@@ -18,7 +18,7 @@ import {
   Avatar,
 } from "@mui/material";
 import PersonIcon from "@mui/icons-material/Person";
-import { LocalShipping, ListAlt } from "@mui/icons-material";
+import { LocalShipping, ListAlt, Assessment } from "@mui/icons-material";
 import {
   containerStyle,
   hoveredContainerStyle,
@@ -142,11 +142,15 @@ const Drawer = styled(MuiDrawer, {
 // const urlClientes = "http://localhost:5173/clientes"; //url para desarrollo
 // const urlTransportista = "http://localhost:5173/transportista"; //url para desarrollo
 // const urlListadoProformas = "http://localhost:5173/listado-proformas"; //url para desarrollo
+// const urlVentasDiarias = "http://localhost:5173/reportes/ventas-diarias"; //url para produccion
+//const urlListaPreciosStock = "http://localhost:5173/reportes/lista-precios-stock"; //url para produccion
 
 const url = "http://10.10.0.25:9697/consultaPreciosYStock"; //url para produccion
 const urlClientes = "http://10.10.0.25:9697/clientes"; //url para produccion
 const urlTransportista = "http://10.10.0.25:9697/transportista"; //url para produccion
 const urlListadoProformas = "http://10.10.0.25:9697/listado-proformas"; //url para produccion
+const urlVentasDiarias = "http://10.10.0.25:9697/reportes/ventas-diarias"; //url para produccion
+const urlListaPreciosStock = "http://10.10.0.25:9697/reportes/lista-precios-stock"; //url para produccion
 
 export default function DrawerModel() {
   const theme = useTheme();
@@ -345,7 +349,32 @@ export default function DrawerModel() {
                 icon: <ListAlt sx={{ color: "rgb(12,55,100)" }} />,
                 onClick: () => handleOpenWindow(urlListadoProformas, 1200, 800),
               },
-            ].map((item, index, arr) => (
+              {
+                id: 6,
+                label: "Reportes",
+                icon: <Assessment sx={{ color: "rgb(12,55,100)" }} />,
+                submenu: [
+                  {
+                    id: 61,
+                    label: "Ventas Diarias",
+                    icon: <Assessment sx={{ color: "rgb(12,55,100)", fontSize: 16 }} />,
+                    onClick: () => { window.open(urlVentasDiarias, '_blank'); }
+                  },
+                  {
+                    id: 62,
+                    label: "Lista Precios Stock",
+                    icon: <Assessment sx={{ color: "rgb(12,55,100)", fontSize: 16 }} />,
+                    onClick: () => { window.open(urlListaPreciosStock, '_blank'); }
+                  }
+                ]
+              },
+            ].filter(item => {
+              // Filtrar item Reportes si no es Admin
+              if (item.id === 6 && usuario?.rol !== "Admin") {
+                return false;
+              }
+              return true;
+            }).map((item, index, arr) => (
               <React.Fragment key={item.id}>
                 <div
                   key={item.id}
@@ -367,13 +396,13 @@ export default function DrawerModel() {
                   <div style={iconStyle} 
                   onClick={(e) => { e.stopPropagation();
                     setOpen(!open) }}>{item.icon}</div>
-                  {item.id === 1 ? (
+                  {item.id === 1 || item.id === 6 ? (
                     <div
                       style={textStyle(open)}
                       onClick={(e) => {
                         e.stopPropagation();
                         setOpen(true);
-                        setSubMenu(subMenu === 1 ? null : 1);
+                        setSubMenu(subMenu === item.id ? null : item.id);
                       }}
                     >
                       {item.label}
