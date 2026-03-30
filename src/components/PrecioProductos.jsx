@@ -154,7 +154,7 @@ function PrecioProductos({
               }}
             >
               <strong>DIRECCIÓN: </strong>
-              {direccion.substring(0,40)}
+              {direccion?.substring(0,40) || ""}
             </Typography>
           </>
         )}
