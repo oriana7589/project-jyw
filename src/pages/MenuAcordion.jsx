@@ -699,6 +699,19 @@ const TuComponente = ({tipoProforma, setTipoProforma}) => {
     // );
     const alreadyInCartIndex = modoEdicionItem.itemEditado;
     if (alreadyInCartIndex !== -1) {
+      // Validación: verificar si el nuevo producto ya existe en OTRA posición del carrito
+      const productoYaExisteEnOtraPosicion = cartItems.some(
+        (item, index) => 
+          item.codigoInterno === detalleProducto.codigoInterno && 
+          index !== alreadyInCartIndex
+      );
+      
+      if (productoYaExisteEnOtraPosicion) {
+        setToastOpen(true);
+        toast.error("Este artículo ya se encuentra en el carrito");
+        return;
+      }
+      
       // Si el producto ya está en el carrito, actualiza sus detalles
       const updatedCartItems = [...cartItems];
       const monedaType = monedaValue;

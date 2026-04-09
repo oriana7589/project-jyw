@@ -156,7 +156,7 @@ export function getRankingClientes() {
 
 export function getUltimosDocumentosCliente(codCliente) {
   const listaDocumentos = axios
-    .get(`${baseUrlDocumento()}/${codCliente}`)
+    .get(`${baseUrlDocumento()}/ultimos/${codCliente}`)
     .then((res) => {
       return res.data;
     });
