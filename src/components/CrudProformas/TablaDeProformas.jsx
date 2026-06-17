@@ -28,7 +28,7 @@ const cellStyle = {
 const StyledTableHead = styled(TableHead)({
   backgroundColor: 'rgb(12, 55, 100)',
   '& th': {
-    color: 'black',
+    color: 'white',
     fontWeight: 'bold',
     fontSize: '0.875rem',
     textTransform: 'uppercase'
@@ -36,38 +36,38 @@ const StyledTableHead = styled(TableHead)({
 });
 
 const FacturadaRow = styled(TableRow)({
-  backgroundColor: 'rgba(76, 175, 80, 0.1)',
+  backgroundColor: 'rgba(76, 175, 80, 0.35)',
   height: '3rem',
   '& td': {
     height: '3rem',
     verticalAlign: 'top'
   },
   '&:hover': {
-    backgroundColor: 'rgba(76, 175, 80, 0.2)'
+    backgroundColor: 'rgba(76, 175, 80, 0.5)'
   }
 });
 
 const PorFacturarRow = styled(TableRow)({
-  backgroundColor: 'rgba(255, 193, 7, 0.1)', // Amarillo claro para por facturar
+  backgroundColor: 'rgba(255, 193, 7, 0.35)', // Amarillo para por facturar
   height: '3rem',
   '& td': {
     height: '3rem',
     verticalAlign: 'top'
   },
   '&:hover': {
-    backgroundColor: 'rgba(255, 193, 7, 0.2)'
+    backgroundColor: 'rgba(255, 193, 7, 0.5)'
   }
 });
 
 const AnuladaRow = styled(TableRow)({
-  backgroundColor: 'rgba(244, 67, 54, 0.1)', // Rojo claro para anuladas
+  backgroundColor: 'rgba(244, 67, 54, 0.35)', // Rojo para anuladas
   height: '3rem',
   '& td': {
     height: '3rem',
     verticalAlign: 'top'
   },
   '&:hover': {
-    backgroundColor: 'rgba(244, 67, 54, 0.2)'
+    backgroundColor: 'rgba(244, 67, 54, 0.5)'
   }
 });
 
