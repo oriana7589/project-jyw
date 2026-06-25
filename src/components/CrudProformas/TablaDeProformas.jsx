@@ -36,38 +36,38 @@ const StyledTableHead = styled(TableHead)({
 });
 
 const FacturadaRow = styled(TableRow)({
-  backgroundColor: 'rgba(76, 175, 80, 0.35)',
+  backgroundColor: 'rgba(76, 175, 80, 0.4)',
   height: '3rem',
   '& td': {
     height: '3rem',
     verticalAlign: 'top'
   },
   '&:hover': {
-    backgroundColor: 'rgba(76, 175, 80, 0.5)'
+    backgroundColor: 'rgba(76, 175, 80, 0.6)'
   }
 });
 
 const PorFacturarRow = styled(TableRow)({
-  backgroundColor: 'rgba(255, 193, 7, 0.35)', // Amarillo para por facturar
+  backgroundColor: 'rgba(255, 193, 7, 0.4)', // Amarillo para por facturar
   height: '3rem',
   '& td': {
     height: '3rem',
     verticalAlign: 'top'
   },
   '&:hover': {
-    backgroundColor: 'rgba(255, 193, 7, 0.5)'
+    backgroundColor: 'rgba(255, 193, 7, 0.6)'
   }
 });
 
 const AnuladaRow = styled(TableRow)({
-  backgroundColor: 'rgba(244, 67, 54, 0.35)', // Rojo para anuladas
+  backgroundColor: 'rgba(244, 67, 54, 0.4)', // Rojo para anuladas
   height: '3rem',
   '& td': {
     height: '3rem',
     verticalAlign: 'top'
   },
   '&:hover': {
-    backgroundColor: 'rgba(244, 67, 54, 0.5)'
+    backgroundColor: 'rgba(244, 67, 54, 0.6)'
   }
 });
 
