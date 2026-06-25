@@ -658,6 +658,19 @@ const TuComponente = ({tipoProforma, setTipoProforma}) => {
     setToastOpen(true);
     toast.success("Artículo agregado al carrito con éxito");
     const monedaType = monedaValue;
+
+    // Saneo de seguridad: si algún campo numérico llegó vacío/null, se reemplaza por 0
+    const descuentoASaneado = precioItemActual.descuentoA === "" || precioItemActual.descuentoA == null ? 0 : precioItemActual.descuentoA;
+    const descuentoBSaneado = precioItemActual.descuentoB === "" || precioItemActual.descuentoB == null ? 0 : precioItemActual.descuentoB;
+    const cantidadSaneada = precioItemActual.cantidad === "" || precioItemActual.cantidad == null ? 0 : precioItemActual.cantidad;
+
+    if (
+      precioItemActual.descuentoA === "" || precioItemActual.descuentoA == null ||
+      precioItemActual.descuentoB === "" || precioItemActual.descuentoB == null ||
+      precioItemActual.cantidad === "" || precioItemActual.cantidad == null
+    ) {
+      toast.warning("Se detectó un campo vacío y se completó automáticamente con 0 antes de guardar.");
+    }
     
     const newItem = {
       product: detalleProducto.descripcionArticulo,
@@ -673,8 +686,8 @@ const TuComponente = ({tipoProforma, setTipoProforma}) => {
       codigoAlmacen: detalleProducto.codigoAlmacen,
       precioVentaUnitarioUSD: precioItemActual.precioVentaUnitarioUSD,
       precioVentaUnitarioSOL: precioItemActual.precioVentaUnitarioSOL,
-      descuentoA: precioItemActual.descuentoA,
-      descuentoB: precioItemActual.descuentoB,
+      descuentoA: descuentoASaneado,
+      descuentoB: descuentoBSaneado,
       monto: precioItemActual.subTotalItemUSD,
       subTotalItemUSD: precioItemActual.subTotalItemUSD,
       subTotalItemSOL: precioItemActual.subTotalItemSOL,
@@ -682,8 +695,8 @@ const TuComponente = ({tipoProforma, setTipoProforma}) => {
       precioFinal: precioItemActual.totalItemUSD,
       totalItemUSD: precioItemActual.totalItemUSD,
       totalItemSOL: precioItemActual.totalItemSOL,
-      ticketCount: precioItemActual.cantidad,
-      cantidad: precioItemActual.cantidad,
+      ticketCount: cantidadSaneada,
+      cantidad: cantidadSaneada,
       utilidad: precioItemActual.utilidad,
     };
     setCartItems([...cartItems, newItem]);
@@ -718,6 +731,20 @@ const TuComponente = ({tipoProforma, setTipoProforma}) => {
       const subTotalItem = new Decimal(
         new Decimal(precioFinal) / new Decimal(1.18)
       ).toDecimalPlaces(2);
+
+      // Saneo de seguridad: si algún campo numérico llegó vacío/null, se reemplaza por 0
+      const descuentoASaneado = precioItemActual.descuentoA === "" || precioItemActual.descuentoA == null ? 0 : precioItemActual.descuentoA;
+      const descuentoBSaneado = precioItemActual.descuentoB === "" || precioItemActual.descuentoB == null ? 0 : precioItemActual.descuentoB;
+      const cantidadSaneada = precioItemActual.cantidad === "" || precioItemActual.cantidad == null ? 0 : precioItemActual.cantidad;
+
+      if (
+        precioItemActual.descuentoA === "" || precioItemActual.descuentoA == null ||
+        precioItemActual.descuentoB === "" || precioItemActual.descuentoB == null ||
+        precioItemActual.cantidad === "" || precioItemActual.cantidad == null
+      ) {
+        toast.warning("Se detectó un campo vacío y se completó automáticamente con 0 antes de guardar.");
+      }
+
       updatedCartItems[alreadyInCartIndex] = {
         ...updatedCartItems[alreadyInCartIndex],
         product: detalleProducto.descripcionArticulo,
@@ -733,8 +760,8 @@ const TuComponente = ({tipoProforma, setTipoProforma}) => {
         codigoAlmacen: detalleProducto.codigoAlmacen,
         precioVentaUnitarioUSD: precioItemActual.precioVentaUnitarioUSD,
         precioVentaUnitarioSOL: precioItemActual.precioVentaUnitarioSOL,
-        descuentoA: precioItemActual.descuentoA,
-        descuentoB: precioItemActual.descuentoB,        
+        descuentoA: descuentoASaneado,
+        descuentoB: descuentoBSaneado,        
         monto: precioItemActual.subTotalItemUSD,
         subTotalItemUSD: precioItemActual.subTotalItemUSD,
         subTotalItemSOL: precioItemActual.subTotalItemSOL,
@@ -743,7 +770,7 @@ const TuComponente = ({tipoProforma, setTipoProforma}) => {
         totalItemUSD: precioItemActual.totalItemUSD,
         totalItemSOL: precioItemActual.totalItemSOL,
         utilidad: precioItemActual.utilidad,
-        cantidad: precioItemActual.cantidad,        
+        cantidad: cantidadSaneada,        
       };     
 
       setCartItems(updatedCartItems);
