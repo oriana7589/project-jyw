@@ -12,7 +12,7 @@ const baseUrlDocumento = () => {
 };
 
 const baseUrlGeneral = () => {
-  return "http://10.10.0.25:9695/api/General";
+  return "http://10.10.0.25:9696/api/General";
 };
 
 const baseUrlProforma = () => {
@@ -32,19 +32,19 @@ const baseUrlAutenticar = () => {
 };
 
 const baseUrlLinea = () => {
-  return "http://10.10.0.25:9695/api/Linea";
+  return "http://10.10.0.25:9696/api/Linea";
 };
 
 const baseUrlMarca = () => {
-  return "http://10.10.0.25:9695/api/Marca";
+  return "http://10.10.0.25:9696/api/Marca";
 };
 
 const baseUrlArticulo = () => {
-  return "http://10.10.0.25:9695/api/Articulo";
+  return "http://10.10.0.25:9696/api/Articulo";
 };
 
 const baseUrlArticuloMarca = () => {
-  return "http://10.10.0.25:9695/api/ArticuloMarca";
+  return "http://10.10.0.25:9696/api/ArticuloMarca";
 };
 
 

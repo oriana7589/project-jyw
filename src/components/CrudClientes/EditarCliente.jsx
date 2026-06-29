@@ -9,6 +9,48 @@ import ActionSaveBotton from "../../Util/ActionSaveBotton";
 import { styleBox, styleSelect, textStyles } from "../../Styles/MenuStyles";
 Decimal.set({ precision: 10 });
 
+const CORREO_DEFAULT = "comprobantes@jywrepuestos.com";
+const REGEX_CORREO = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+// Filtra el valor para que solo queden dígitos enteros (sin signo, sin decimales),
+// igual criterio que filtroDecimales pero sin punto decimal.
+const filtroSoloDigitos = (valor) => {
+  if (valor === "") return "";
+  const regex = /^\d+$/;
+  return regex.test(valor) ? valor : undefined;
+};
+
+// Teclas de navegación/edición que SIEMPRE deben dejarse pasar en campos numéricos,
+// para no bloquear mover el puntero, seleccionar texto, copiar/pegar, etc.
+const TECLAS_NAVEGACION = [
+  "Backspace",
+  "Delete",
+  "ArrowLeft",
+  "ArrowRight",
+  "ArrowUp",
+  "ArrowDown",
+  "Home",
+  "End",
+  "Tab",
+];
+
+const handleKeyDownSoloDigitos = (e) => {
+  if (TECLAS_NAVEGACION.includes(e.key)) return;
+  // Permite combinaciones con Ctrl/Cmd (copiar, pegar, seleccionar todo, etc.)
+  if (e.ctrlKey || e.metaKey) return;
+  if (!/^[0-9]$/.test(e.key)) {
+    e.preventDefault();
+  }
+};
+
+// Máximo de dígitos del número de documento según el tipo seleccionado.
+// DNI = 8, RUC = 11, cualquier otro caso (incluido sin tipo seleccionado) = 15.
+const maxDigitosDocumento = (tipoDoc) => {
+  if (tipoDoc === "DNI") return 8;
+  if (tipoDoc === "RUC") return 11;
+  return 15;
+};
+
 function EditarCliente({
     selectCliente,
     listaDistritos,
@@ -35,6 +77,16 @@ function EditarCliente({
   const [tipoClienteSeleccionado, setTipoClienteSeleccionado] = useState("");
   const [tipoConsumidorSeleccionado, setTipoConsumidorSeleccionado] = useState("");
 
+  // Errores de validación por campo, para resaltar visualmente y para el mensaje agrupado
+  const [errores, setErrores] = useState({});
+  // Campos que el usuario ya tocó (escribió o quitó el foco); evita mostrar errores
+  // en rojo antes de que el usuario haya interactuado con el campo
+  const [camposTocados, setCamposTocados] = useState({});
+
+  const marcarTocado = (campo) => {
+    setCamposTocados((prev) => (prev[campo] ? prev : { ...prev, [campo]: true }));
+  };
+
   //Combos de ubicacion
   const [paises, setPaises] = useState([]);
   const [departamentos, setDepartamentos] = useState([]);
@@ -44,6 +96,8 @@ function EditarCliente({
   const [departamentoSeleccionado, setDepartamentoSeleccionado] = useState(null);
   const [provinciaSeleccionada, setProvinciaSeleccionada] = useState(null);
   const [distritoSeleccionado, setDistritoSeleccionado] = useState(null);
+
+  const esEdicion = Boolean(selectCliente && selectCliente.codigoCliente);
 
   useEffect(() => {
     setPaises(listaDistritos);
@@ -80,26 +134,39 @@ function EditarCliente({
   }, [provinciaSeleccionada]);
 
   useEffect(() => {
-    setTipoDocumentoSeleccionado(selectCliente.tipoDocumento || "");
-    setDocumentoIdentidad(selectCliente.numDocumento || "");
-    setEstadoSeleccionado(selectCliente.estado || "");
-    setRazonSocial(selectCliente.razonSocial || "");
-    setTipoClienteSeleccionado(selectCliente.tipoClienteProveedor || "");
-    setTipoConsumidorSeleccionado(selectCliente.tipoConsumidor || "");
-    setDniRepresentante(selectCliente.dniRepresentanteLegal || "");
-    setRepresentante(selectCliente.representanteLegal || "");
-    setDireccion(selectCliente.direccion || "");
-    setCorreo(selectCliente.correo || "");
-    setTelefono1(selectCliente.telefono1 || "");
-    setTelefono2(selectCliente.telefono2 || "");
-    setCelular(selectCliente.celular || "");
-    if (selectCliente && selectCliente.codigoVendedor) {
-      const vendedorSeleccionado = vendedores.find(
-        (vendedor) => vendedor.codigoVendedor === selectCliente.codigoVendedor
-      );
-      setVendedor(vendedorSeleccionado || null); // Asigna null si no lo encuentra
+    setTipoDocumentoSeleccionado((selectCliente.tipoDocumento || "").trim());
+    setDocumentoIdentidad((selectCliente.numDocumento || "").trim());
+    setEstadoSeleccionado((selectCliente.estado || "").trim());
+    setRazonSocial((selectCliente.razonSocial || "").trim());
+    setTipoClienteSeleccionado(
+      selectCliente.tipoClienteProveedor != null
+        ? selectCliente.tipoClienteProveedor.toString().trim()
+        : ""
+    );
+    setTipoConsumidorSeleccionado((selectCliente.tipoConsumidor || "").trim());
+    setDniRepresentante((selectCliente.dniRepresentanteLegal || "").trim());
+    setRepresentante((selectCliente.representanteLegal || "").trim());
+    setDireccion((selectCliente.direccion || "").trim());
+    setCorreo((selectCliente.correo || "").trim());
+    setTelefono1((selectCliente.telefono1 || "").trim());
+    setTelefono2((selectCliente.telefono2 || "").trim());
+    setCelular((selectCliente.celular || "").trim());
+    setErrores({});
+    setCamposTocados({});
+
+    if (selectCliente && selectCliente.codigoCliente) {
+      // Edición: respeta el vendedor ya asignado al cliente
+      if (selectCliente.codigoVendedor) {
+        const vendedorSeleccionado = vendedores.find(
+          (vendedor) => vendedor.codigoVendedor === selectCliente.codigoVendedor
+        );
+        setVendedor(vendedorSeleccionado || null);
+      } else {
+        setVendedor(null);
+      }
     } else {
-      setVendedor(null); // Limpia el estado si no hay código de vendedor
+      // Creación: preselecciona al usuario actual si su rol es Vendedor, sino OFICINA
+      setVendedor(elegirVendedorInicial());
     }
   }, [selectCliente]);
 
@@ -153,9 +220,160 @@ function EditarCliente({
     } else {
       setDistritos([]);
     }
-  }, [provinciaSeleccionada, selectCliente]);  
+  }, [provinciaSeleccionada, selectCliente]);
+
+  // ---- Vendedor por usuario logueado (mismo criterio que MenuAcordion: match exacto por nombre completo) ----
+  const obtenerUsuarioSesion = () => {
+    try {
+      return JSON.parse(localStorage.getItem("usuario"));
+    } catch {
+      return null;
+    }
+  };
+
+  const hallarVendedorPorNombre = (nombreVendedor) => {
+    const encontrado = vendedores.find(
+      (v) => v.nombreVendedor === nombreVendedor
+    );
+    if (encontrado) return encontrado;
+    return vendedores.find((v) => v.nombreVendedor === "OFICINA") || null;
+  };
+
+  const elegirVendedorInicial = () => {
+    const usuario = obtenerUsuarioSesion();
+    const rol = (usuario?.rol || "").toLowerCase();
+
+    // Solo se intenta autoasignar el vendedor si el usuario tiene rol de Vendedor.
+    // Cualquier otro rol (Admin, Oficina, etc.) cae directo a OFICINA, sin buscar coincidencia de nombre,
+    // para no asignar por error un vendedor real a un usuario que no lo es.
+    if (rol !== "vendedor") {
+      return vendedores.find((v) => v.nombreVendedor === "OFICINA") || null;
+    }
+
+    const nombreCompleto = (
+      (usuario?.nombres || "").trim() + " " + (usuario?.apellidos || "").trim()
+    ).toUpperCase();
+
+    return hallarVendedorPorNombre(nombreCompleto);
+  };
+
+  // ---- Validaciones ----
+  const soloDigitos = (valor) => /^\d+$/.test(valor);
+
+  const validarRazonSocial = (valor) => {
+    if (!valor || !valor.trim()) return "La razón social es obligatoria.";
+    return null;
+  };
+
+  const validarDireccion = (valor) => {
+    if (!valor || !valor.trim()) return "La dirección es obligatoria.";
+    return null;
+  };
+
+  const validarDocumentoIdentidad = (valor, tipoDoc) => {
+    const numDoc = (valor || "").trim();
+    if (!numDoc) return "El número de documento es obligatorio.";
+    if (tipoDoc === "RUC") {
+      if (!/^[12]\d{10}$/.test(numDoc)) {
+        return "El RUC debe tener 11 dígitos y comenzar con 1 o 2.";
+      }
+    } else if (tipoDoc === "DNI") {
+      if (!/^\d{8}$/.test(numDoc)) {
+        return "El DNI debe tener exactamente 8 dígitos.";
+      }
+    } else {
+      // Sin tipo seleccionado o cualquier otro tipo: solo numérico, máximo 15 dígitos
+      if (!soloDigitos(numDoc) || numDoc.length > 15) {
+        return "El documento debe ser numérico y tener máximo 15 dígitos.";
+      }
+    }
+    return null;
+  };
+
+  const validarCorreo = (valor) => {
+    if (valor && valor.trim() && !REGEX_CORREO.test(valor.trim())) {
+      return "El correo no tiene un formato válido.";
+    }
+    return null;
+  };
+
+  const validarTelefono = (valor) => {
+    if (valor && valor.trim()) {
+      if (!soloDigitos(valor.trim()) || valor.trim().length > 9) {
+        return "Máximo 9 dígitos, solo números.";
+      }
+    }
+    return null;
+  };
+
+  // Recalcula los errores en vivo, cada vez que cambia algún campo validado.
+  // No reemplaza la validación de handleSubmit; ambas usan las mismas reglas.
+  useEffect(() => {
+    setErrores({
+      razonSocial: validarRazonSocial(razonSocial),
+      direccion: validarDireccion(direccion),
+      documentoIdentidad: validarDocumentoIdentidad(documentoIdentidad, tipoDocumentoSeleccionado),
+      correo: validarCorreo(correo),
+      telefono1: validarTelefono(telefono1),
+      telefono2: validarTelefono(telefono2),
+      celular: validarTelefono(celular),
+    });
+  }, [
+    razonSocial,
+    direccion,
+    documentoIdentidad,
+    tipoDocumentoSeleccionado,
+    correo,
+    telefono1,
+    telefono2,
+    celular,
+  ]);
+
+  // Error visible solo si el campo ya fue tocado por el usuario (evita ruido en formulario nuevo/vacío)
+  const errorVisible = (campo) => (camposTocados[campo] ? errores[campo] : null);
+
+  const validarFormulario = () => {
+    const nuevosErrores = {
+      razonSocial: validarRazonSocial(razonSocial),
+      direccion: validarDireccion(direccion),
+      documentoIdentidad: validarDocumentoIdentidad(documentoIdentidad, tipoDocumentoSeleccionado),
+      correo: validarCorreo(correo),
+      telefono1: validarTelefono(telefono1),
+      telefono2: validarTelefono(telefono2),
+      celular: validarTelefono(celular),
+    };
+
+    // Al intentar guardar, se marcan todos los campos como tocados para que cualquier
+    // error pendiente se muestre en rojo, no solo los que el usuario ya había editado
+    setCamposTocados({
+      razonSocial: true,
+      direccion: true,
+      documentoIdentidad: true,
+      correo: true,
+      telefono1: true,
+      telefono2: true,
+      celular: true,
+    });
+
+    // Solo se conservan las claves con error real para el conteo y el toast
+    const erroresFiltrados = Object.fromEntries(
+      Object.entries(nuevosErrores).filter(([, valor]) => valor)
+    );
+
+    setErrores(nuevosErrores);
+    return erroresFiltrados;
+  };
 
   const handleSubmit = async (event) => {
+    const nuevosErrores = validarFormulario();
+    if (Object.keys(nuevosErrores).length > 0) {
+      const listaMensajes = Object.values(nuevosErrores).join(" \n");
+      toast.error(`Revise los siguientes campos:\n${listaMensajes}`);
+      return;
+    }
+
+    const correoFinal = correo && correo.trim() ? correo.trim() : CORREO_DEFAULT;
+
     const clienteData = {
       codigoCliente: selectCliente.codigoCliente,
       tipoDocumento: tipoDocumentoSeleccionado || selectCliente.tipoDocumento,
@@ -180,25 +398,14 @@ function EditarCliente({
         : null,
       codigoProvincia: provinciaSeleccionada ? provinciaSeleccionada[0] : null,
       codigoDistrito: distritoSeleccionado ? distritoSeleccionado.codigo : null,
-      correo: correo || selectCliente.correo,
+      correo: correoFinal,
       telefono1: telefono1 || selectCliente.telefono1,
       telefono2: telefono2 || selectCliente.telefono2,
       celular: celular || selectCliente.celular,
       codigoVendedor: vendedor ? vendedor.codigoVendedor : null,
+      // Solo se envía al crear; en edición se conserva la fecha original del registro existente
+      ...(esEdicion ? {} : { fechaRegistro: new Date().toISOString() }),
     };
-    if (tipoDocumentoSeleccionado === "RUC") {
-      if (!/^[12]\d{10}$/.test(clienteData.numDocumento.trim())) {
-        //corregir
-        toast.error("El RUC debe tener 11 dígitos y comenzar con 1 o 2.");
-        return;
-      }
-    } else if (tipoDocumentoSeleccionado === "DNI") {
-      // Validar que el DNI tenga 8 dígitos
-      if (!/^\d{8}$/.test(clienteData.numDocumento)) {
-        toast.error("El DNI debe tener exactamente 8 dígitos.");
-        return;
-      }
-    }
 
     try {
       if (selectCliente.codigoCliente == null) {
@@ -214,7 +421,11 @@ function EditarCliente({
   };
 
   const handleTipoDocumentoChange = (event) => {
-    setTipoDocumentoSeleccionado(event.target.value);
+    const nuevoTipo = event.target.value;
+    setTipoDocumentoSeleccionado(nuevoTipo);
+    // Si el documento ya escrito excede el máximo del nuevo tipo, se recorta de inmediato
+    // (ej.: se escribieron 15 dígitos sin tipo seleccionado y luego se elige DNI)
+    setDocumentoIdentidad((prev) => prev.slice(0, maxDigitosDocumento(nuevoTipo)));
   };
 
   const handleEstadoChange = (event) => {
@@ -321,21 +532,16 @@ function EditarCliente({
                       value={documentoIdentidad}
                       fullWidth
                       autoComplete="off"
+                      error={Boolean(errorVisible("documentoIdentidad"))}
+                      helperText={errorVisible("documentoIdentidad") || ""}
                       onChange={(e) => {
-                        const value = e.target.value.trim();
-                        if (/^\d*$/.test(value)) {
-                          setDocumentoIdentidad(value);
+                        const valor = filtroSoloDigitos(e.target.value);
+                        if (valor !== undefined && valor.length <= maxDigitosDocumento(tipoDocumentoSeleccionado)) {
+                          setDocumentoIdentidad(valor);
+                          marcarTocado("documentoIdentidad");
                         }
                       }}
-                      onKeyDown={(e) => {
-                        if (
-                          !/^[0-9]$/.test(e.key) &&
-                          e.key !== "Backspace" &&
-                          e.key !== "Delete"
-                        ) {
-                          e.preventDefault();
-                        }
-                      }}
+                      onKeyDown={handleKeyDownSoloDigitos}
                       style={{
                         height: 35,
                       }}
@@ -372,7 +578,12 @@ function EditarCliente({
                       value={razonSocial}
                       fullWidth
                       autoComplete="off"
-                      onChange={(e) => setRazonSocial(e.target.value)}
+                      error={Boolean(errorVisible("razonSocial"))}
+                      helperText={errorVisible("razonSocial") || ""}
+                      onChange={(e) => {
+                        setRazonSocial(e.target.value);
+                        marcarTocado("razonSocial");
+                      }}
                       style={{
                         height: 35,
                         backgroundColor: "rgb(255,255,255)",
@@ -433,20 +644,12 @@ function EditarCliente({
                       fullWidth
                       autoComplete="off"
                       onChange={(e) => {
-                        const value = e.target.value;
-                        if (/^\d*$/.test(value)) {
-                          setDniRepresentante(value);
+                        const valor = filtroSoloDigitos(e.target.value);
+                        if (valor !== undefined) {
+                          setDniRepresentante(valor);
                         }
                       }}
-                      onKeyDown={(e) => {
-                        if (
-                          !/^[0-9]$/.test(e.key) &&
-                          e.key !== "Backspace" &&
-                          e.key !== "Delete"
-                        ) {
-                          e.preventDefault();
-                        }
-                      }}
+                      onKeyDown={handleKeyDownSoloDigitos}
                       style={{
                         height: 35
                       }}
@@ -498,7 +701,12 @@ function EditarCliente({
                       value={direccion}
                       fullWidth
                       autoComplete="off"
-                      onChange={(e) => setDireccion(e.target.value)}
+                      error={Boolean(errorVisible("direccion"))}
+                      helperText={errorVisible("direccion") || ""}
+                      onChange={(e) => {
+                        setDireccion(e.target.value);
+                        marcarTocado("direccion");
+                      }}
                       style={{
                         height: 35,
                         backgroundColor: "rgb(255,255,255)",
@@ -633,7 +841,13 @@ function EditarCliente({
                       value={correo}
                       fullWidth
                       autoComplete="off"
-                      onChange={(e) => setCorreo(e.target.value)}
+                      placeholder={CORREO_DEFAULT}
+                      error={Boolean(errorVisible("correo"))}
+                      helperText={errorVisible("correo") || ""}
+                      onChange={(e) => {
+                        setCorreo(e.target.value);
+                        marcarTocado("correo");
+                      }}
                       style={{
                         height: 35,
                         backgroundColor: "rgb(255,255,255)",
@@ -685,21 +899,16 @@ function EditarCliente({
                       value={telefono1}
                       fullWidth
                       autoComplete="off"
+                      error={Boolean(errorVisible("telefono1"))}
+                      helperText={errorVisible("telefono1") || ""}
                       onChange={(e) => {
-                        const value = e.target.value;
-                        if (/^\d*$/.test(value)) {
-                          setTelefono1(value);
+                        const valor = filtroSoloDigitos(e.target.value);
+                        if (valor !== undefined && valor.length <= 9) {
+                          setTelefono1(valor);
+                          marcarTocado("telefono1");
                         }
                       }}
-                      onKeyDown={(e) => {
-                        if (
-                          !/^[0-9]$/.test(e.key) &&
-                          e.key !== "Backspace" &&
-                          e.key !== "Delete"
-                        ) {
-                          e.preventDefault();
-                        }
-                      }}
+                      onKeyDown={handleKeyDownSoloDigitos}
                       style={{
                         height: 35,
                         backgroundColor: "rgb(255,255,255)",
@@ -724,21 +933,16 @@ function EditarCliente({
                       value={telefono2}
                       fullWidth
                       autoComplete="off"
+                      error={Boolean(errorVisible("telefono2"))}
+                      helperText={errorVisible("telefono2") || ""}
                       onChange={(e) => {
-                        const value = e.target.value;
-                        if (/^\d*$/.test(value)) {
-                          setTelefono2(value);
+                        const valor = filtroSoloDigitos(e.target.value);
+                        if (valor !== undefined && valor.length <= 9) {
+                          setTelefono2(valor);
+                          marcarTocado("telefono2");
                         }
                       }}
-                      onKeyDown={(e) => {
-                        if (
-                          !/^[0-9]$/.test(e.key) &&
-                          e.key !== "Backspace" &&
-                          e.key !== "Delete"
-                        ) {
-                          e.preventDefault();
-                        }
-                      }}
+                      onKeyDown={handleKeyDownSoloDigitos}
                       style={{
                         height: 35,
                         backgroundColor: "rgb(255,255,255)",
@@ -763,21 +967,16 @@ function EditarCliente({
                       value={celular}
                       fullWidth
                       autoComplete="off"
+                      error={Boolean(errorVisible("celular"))}
+                      helperText={errorVisible("celular") || ""}
                       onChange={(e) => {
-                        const value = e.target.value;
-                        if (/^\d*$/.test(value)) {
-                          setCelular(value);
+                        const valor = filtroSoloDigitos(e.target.value);
+                        if (valor !== undefined && valor.length <= 9) {
+                          setCelular(valor);
+                          marcarTocado("celular");
                         }
                       }}
-                      onKeyDown={(e) => {
-                        if (
-                          !/^[0-9]$/.test(e.key) &&
-                          e.key !== "Backspace" &&
-                          e.key !== "Delete"
-                        ) {
-                          e.preventDefault();
-                        }
-                      }}
+                      onKeyDown={handleKeyDownSoloDigitos}
                       style={{
                         height: 35,
                         backgroundColor: "rgb(255,255,255)",
