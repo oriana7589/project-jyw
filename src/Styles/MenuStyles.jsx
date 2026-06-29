@@ -38,6 +38,11 @@ export const tableCellStyle = {
   fontWeight: "bold",
 };
 
+export const compactBodyCellStyle = {
+  paddingTop: 4,
+  paddingBottom: 4,
+};
+
 export const styleBox = {
   height: "35px",
   backgroundColor: "rgb(255,255,255)",

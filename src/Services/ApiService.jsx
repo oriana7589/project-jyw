@@ -12,7 +12,7 @@ const baseUrlDocumento = () => {
 };
 
 const baseUrlGeneral = () => {
-  return "http://10.10.0.25:9696/api/General";
+  return "http://10.10.0.25:9695/api/General";
 };
 
 const baseUrlProforma = () => {
@@ -29,6 +29,22 @@ const baseUrlTransportista = () => {
 
 const baseUrlAutenticar = () => {
   return "http://10.10.0.25:9696/api/Autenticacion";
+};
+
+const baseUrlLinea = () => {
+  return "http://10.10.0.25:9695/api/Linea";
+};
+
+const baseUrlMarca = () => {
+  return "http://10.10.0.25:9695/api/Marca";
+};
+
+const baseUrlArticulo = () => {
+  return "http://10.10.0.25:9695/api/Articulo";
+};
+
+const baseUrlArticuloMarca = () => {
+  return "http://10.10.0.25:9695/api/ArticuloMarca";
 };
 
 
@@ -689,6 +705,158 @@ export async function getListaProformas(fecha) {
       (error.response && error.response?.data && error.response?.data.message) ||
       (error.response && typeof error.response?.data === "string" && error.response?.data) ||
       "Ocurrió un error al obtener las proformas";
+    throw new Error(errorMessage);
+  }
+}
+
+/// ===================== Mantenimiento de Artículos =====================
+
+// Países (vive en General, patrón legacy: retorna lista directa)
+export function getPaises() {
+  return axios.get(`${baseUrlGeneral()}/Paises`).then((res) => res.data);
+}
+
+// ---- Líneas ----
+export function getLineas() {
+  return axios.get(`${baseUrlLinea()}`).then((res) => res.data.data || []);
+}
+
+export function getLinea(codLinea) {
+  return axios.get(`${baseUrlLinea()}/${codLinea}`).then((res) => res.data.data);
+}
+
+export async function postCrearLinea(data) {
+  try {
+    const response = await axios.post(`${baseUrlLinea()}`, data);
+    return response.data.data;
+  } catch (error) {
+    const errorMessage =
+      (error.response && error.response.data && error.response.data.message) ||
+      "Ocurrió un error al crear la línea";
+    throw new Error(errorMessage);
+  }
+}
+
+export async function putModificarLinea(codLinea, data) {
+  try {
+    const response = await axios.put(`${baseUrlLinea()}/${codLinea}`, data);
+    return response.data.data;
+  } catch (error) {
+    const errorMessage =
+      (error.response && error.response.data && error.response.data.message) ||
+      "Ocurrió un error al modificar la línea";
+    throw new Error(errorMessage);
+  }
+}
+
+// ---- Marcas ----
+export function getMarcas() {
+  return axios.get(`${baseUrlMarca()}`).then((res) => res.data.data || []);
+}
+
+export function getMarca(codMarca) {
+  return axios.get(`${baseUrlMarca()}/${codMarca}`).then((res) => res.data.data);
+}
+
+export async function postCrearMarca(data) {
+  try {
+    const response = await axios.post(`${baseUrlMarca()}`, data);
+    return response.data.data;
+  } catch (error) {
+    const errorMessage =
+      (error.response && error.response.data && error.response.data.message) ||
+      "Ocurrió un error al crear la marca";
+    throw new Error(errorMessage);
+  }
+}
+
+export async function putModificarMarca(codMarca, data) {
+  try {
+    const response = await axios.put(`${baseUrlMarca()}/${codMarca}`, data);
+    return response.data.data;
+  } catch (error) {
+    const errorMessage =
+      (error.response && error.response.data && error.response.data.message) ||
+      "Ocurrió un error al modificar la marca";
+    throw new Error(errorMessage);
+  }
+}
+
+// ---- Artículos ----
+export function getArticulos(criterio) {
+  const query = criterio ? `?criterio=${encodeURIComponent(criterio)}` : "";
+  return axios.get(`${baseUrlArticulo()}${query}`).then((res) => res.data.data || []);
+}
+
+export function getArticulo(codLinea, codArticulo) {
+  return axios
+    .get(`${baseUrlArticulo()}/${codLinea}/${codArticulo}`)
+    .then((res) => res.data.data);
+}
+
+export async function postCrearArticulo(data) {
+  try {
+    const response = await axios.post(`${baseUrlArticulo()}`, data);
+    return response.data.data;
+  } catch (error) {
+    const errorMessage =
+      (error.response && error.response.data && error.response.data.message) ||
+      "Ocurrió un error al crear el artículo";
+    throw new Error(errorMessage);
+  }
+}
+
+export async function putModificarArticulo(codLinea, codArticulo, data) {
+  try {
+    const response = await axios.put(`${baseUrlArticulo()}/${codLinea}/${codArticulo}`, data);
+    return response.data.data;
+  } catch (error) {
+    const errorMessage =
+      (error.response && error.response.data && error.response.data.message) ||
+      "Ocurrió un error al modificar el artículo";
+    throw new Error(errorMessage);
+  }
+}
+
+// ---- Artículos-Marca (Productos LOC) ----
+export function getArticulosMarca(criterio) {
+  const query = criterio ? `?criterio=${encodeURIComponent(criterio)}` : "";
+  return axios.get(`${baseUrlArticuloMarca()}${query}`).then((res) => res.data.data || []);
+}
+
+// Marcas asociadas a un artículo exacto (cod_linea + cod_articulo) - flujo maestro-detalle
+export function getArticulosMarcaPorArticulo(codLinea, codArticulo) {
+  return axios
+    .get(`${baseUrlArticuloMarca()}/PorArticulo?codLinea=${encodeURIComponent(codLinea)}&codArticulo=${encodeURIComponent(codArticulo)}`)
+    .then((res) => res.data.data || []);
+}
+
+export function getArticuloMarca(codInterno) {
+  return axios
+    .get(`${baseUrlArticuloMarca()}/${codInterno}`)
+    .then((res) => res.data.data);
+}
+
+export async function postCrearArticuloMarca(data) {
+  try {
+    const response = await axios.post(`${baseUrlArticuloMarca()}`, data);
+    return response.data.data;
+  } catch (error) {
+    const errorMessage =
+      (error.response && error.response.data && error.response.data.message) ||
+      "Ocurrió un error al crear el producto";
+    throw new Error(errorMessage);
+  }
+}
+
+export async function putModificarArticuloMarca(codInterno, data) {
+  try {
+    const response = await axios.put(`${baseUrlArticuloMarca()}/${codInterno}`, data);
+    return response.data.data;
+  } catch (error) {
+    const errorMessage =
+      (error.response && error.response.data && error.response.data.message) ||
+      "Ocurrió un error al modificar el producto";
     throw new Error(errorMessage);
   }
 }

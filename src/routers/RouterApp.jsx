@@ -7,6 +7,7 @@ import DrawerModel from "../components/DrawerModel";
 import ListaProformas from "../pages/ListaProformas/ListaProformas";
 import VentasDiarias from "../pages/Reportes/VentasDiarias";
 import ListaPreciosStock from "../pages/Reportes/ListaPreciosStock";
+import MantenimientoArticulos from "../pages/MantenimientoArticulos/MantenimientoArticulos";
 import { Login } from "@mui/icons-material";
 import SignInSide from "../pages/LogIn/SingInSide";
 
@@ -25,6 +26,7 @@ function RouterApp() {
       <Route path="/listado-proformas" element = {<ListaProformas/>} ></Route>
       <Route path="/reportes/ventas-diarias" element = {<VentasDiarias/>} ></Route>
       <Route path="/reportes/lista-precios-stock" element = {<ListaPreciosStock/>} ></Route>
+      <Route path="/mantenimiento-articulos" element = {<MantenimientoArticulos/>} ></Route>
     </Routes>
   );
 }

@@ -9,6 +9,7 @@ import Logo from "../image/logo.png";
 import LogoCom from "../image/logoCompleto.png";
 import MenuAcordion from "../pages/MenuAcordion";
 import ArticleIcon from "@mui/icons-material/Article";
+import Inventory2Icon from "@mui/icons-material/Inventory2";
 import {
   Dialog,
   DialogActions,
@@ -142,8 +143,9 @@ const Drawer = styled(MuiDrawer, {
 // const urlClientes = "http://localhost:5173/clientes"; //url para desarrollo
 // const urlTransportista = "http://localhost:5173/transportista"; //url para desarrollo
 // const urlListadoProformas = "http://localhost:5173/listado-proformas"; //url para desarrollo
-// const urlVentasDiarias = "http://localhost:5173/reportes/ventas-diarias"; //url para produccion
-//const urlListaPreciosStock = "http://localhost:5173/reportes/lista-precios-stock"; //url para produccion
+// const urlVentasDiarias = "http://localhost:5173/reportes/ventas-diarias"; //url para desarrollo
+//const urlListaPreciosStock = "http://localhost:5173/reportes/lista-precios-stock"; //url para desarrollo
+ const urlMantenimientoArticulos = "http://localhost:5173/mantenimiento-articulos"; //url para desarrollo
 
 const url = "http://10.10.0.25:9697/consultaPreciosYStock"; //url para produccion
 const urlClientes = "http://10.10.0.25:9697/clientes"; //url para produccion
@@ -151,6 +153,7 @@ const urlTransportista = "http://10.10.0.25:9697/transportista"; //url para prod
 const urlListadoProformas = "http://10.10.0.25:9697/listado-proformas"; //url para produccion
 const urlVentasDiarias = "http://10.10.0.25:9697/reportes/ventas-diarias"; //url para produccion
 const urlListaPreciosStock = "http://10.10.0.25:9697/reportes/lista-precios-stock"; //url para produccion
+//const urlMantenimientoArticulos = "http://10.10.0.25:9697/mantenimiento-articulos"; //url para produccion
 
 export default function DrawerModel() {
   const theme = useTheme();
@@ -368,9 +371,19 @@ export default function DrawerModel() {
                   }
                 ]
               },
+              {
+                id: 7,
+                label: "Artículo",
+                icon: <Inventory2Icon sx={{ color: "rgb(12,55,100)" }} />,
+                onClick: () => handleOpenWindow(urlMantenimientoArticulos, 1200, 800),
+              },
             ].filter(item => {
               // Filtrar item Reportes si no es Admin
               if (item.id === 6 && usuario?.rol !== "Admin") {
+                return false;
+              }
+              // Filtrar Mantenimiento Artículos: visible solo para Admin y Vendedor
+              if (item.id === 7 && usuario?.rol !== "Admin" && usuario?.rol !== "Vendedor") {
                 return false;
               }
               return true;
@@ -388,14 +401,27 @@ export default function DrawerModel() {
                   onClick={() => {
                     if (item.submenu) {
                       setSubMenu(subMenu === item.id ? null : item.id);
+                    } else if (item.id === 7) {
+                      // Mantenimiento Artículos: con el menú colapsado, el clic solo lo despliega
+                      if (!open) {
+                        setOpen(true);
+                      } else {
+                        item.onClick && item.onClick();
+                      }
                     } else {
                       item.onClick && item.onClick();
                     }
                   }}
                 >
                   <div style={iconStyle} 
-                  onClick={(e) => { e.stopPropagation();
-                    setOpen(!open) }}>{item.icon}</div>
+                  onClick={(e) => { 
+                    e.stopPropagation();
+                    if (item.id === 7 && !open) {
+                      setOpen(true);
+                    } else {
+                      setOpen(!open);
+                    }
+                  }}>{item.icon}</div>
                   {item.id === 1 || item.id === 6 ? (
                     <div
                       style={textStyle(open)}
