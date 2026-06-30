@@ -66,8 +66,11 @@ function EditarCliente({
   const [vendedor, setVendedor] = useState("");
   const [dniRepresentante, setDniRepresentante] = useState("");
   const [telefono1, setTelefono1] = useState("");
+  const [contacto1, setContacto1] = useState("");
   const [telefono2, setTelefono2] = useState("");
+  const [contacto2, setContacto2] = useState("");
   const [celular, setCelular] = useState("");
+  const [observaciones, setObservaciones] = useState("");
   const [correo, setCorreo] = useState("");
   const [tipoDocumento, setTipoDocumento] = useState("");
   const [razonSocial, setRazonSocial] = useState("");
@@ -76,6 +79,7 @@ function EditarCliente({
   const [estadoSeleccionado, setEstadoSeleccionado] = useState("");
   const [tipoClienteSeleccionado, setTipoClienteSeleccionado] = useState("");
   const [tipoConsumidorSeleccionado, setTipoConsumidorSeleccionado] = useState("");
+  const [canalAdquisicion, setCanalAdquisicion] = useState("TIENDA");
 
   // Errores de validación por campo, para resaltar visualmente y para el mensaje agrupado
   const [errores, setErrores] = useState({});
@@ -144,13 +148,17 @@ function EditarCliente({
         : ""
     );
     setTipoConsumidorSeleccionado((selectCliente.tipoConsumidor || "").trim());
+    setCanalAdquisicion((selectCliente.canalAdquisicion || "TIENDA").trim() || "TIENDA");
     setDniRepresentante((selectCliente.dniRepresentanteLegal || "").trim());
     setRepresentante((selectCliente.representanteLegal || "").trim());
     setDireccion((selectCliente.direccion || "").trim());
     setCorreo((selectCliente.correo || "").trim());
     setTelefono1((selectCliente.telefono1 || "").trim());
+    setContacto1((selectCliente.contacto1 || "").trim());
     setTelefono2((selectCliente.telefono2 || "").trim());
+    setContacto2((selectCliente.contacto2 || "").trim());
     setCelular((selectCliente.celular || "").trim());
+    setObservaciones((selectCliente.observaciones || "").trim());
     setErrores({});
     setCamposTocados({});
 
@@ -388,6 +396,7 @@ function EditarCliente({
           : null,
       tipoConsumidor:
         tipoConsumidorSeleccionado || selectCliente.tipoConsumidor,
+      canalAdquisicion: canalAdquisicion || selectCliente.canalAdquisicion || "TIENDA",
       dniRepresentanteLegal:
         dniRepresentante || selectCliente.dniRepresentanteLegal,
       representanteLegal: representante || selectCliente.representanteLegal,
@@ -400,8 +409,11 @@ function EditarCliente({
       codigoDistrito: distritoSeleccionado ? distritoSeleccionado.codigo : null,
       correo: correoFinal,
       telefono1: telefono1 || selectCliente.telefono1,
+      contacto1: contacto1 || selectCliente.contacto1,
       telefono2: telefono2 || selectCliente.telefono2,
+      contacto2: contacto2 || selectCliente.contacto2,
       celular: celular || selectCliente.celular,
+      observaciones: observaciones || selectCliente.observaciones,
       codigoVendedor: vendedor ? vendedor.codigoVendedor : null,
       // Solo se envía al crear; en edición se conserva la fecha original del registro existente
       ...(esEdicion ? {} : { fechaRegistro: new Date().toISOString() }),
@@ -438,6 +450,10 @@ function EditarCliente({
 
   const handleTipoConsumidorChange = (event) => {
     setTipoConsumidorSeleccionado(event.target.value);
+  };
+
+  const handleCanalAdquisicionChange = (event) => {
+    setCanalAdquisicion(event.target.value);
   };
 
 
@@ -504,7 +520,7 @@ function EditarCliente({
               >
                 {/* Primer bloque de información */}
                 <div style={{ display: "flex", marginTop: 0, height:"100%" }}>
-                <div style={{ flex: "1 1 30%" }}>
+                <div style={{ flex: "1 1 22%" }}>
                     <Typography style={{ fontWeight: "bold", width: 100 }}>
                       Tipo Doc
                     </Typography>
@@ -524,7 +540,7 @@ function EditarCliente({
                       ))}
                     </Select>
                   </div>
-                  <div style={{ flex: "1 1 30%",paddingLeft:10 }}>
+                  <div style={{ flex: "1 1 22%",paddingLeft:10 }}>
                     <Typography style={{ fontWeight: "bold" }}>
                       Num.Doc.Iden.
                     </Typography>
@@ -551,7 +567,7 @@ function EditarCliente({
                       }}
                     />
                   </div>
-                  <div style={{ flex: "1 1 30%",paddingLeft:10 }}>
+                  <div style={{ flex: "1 1 22%",paddingLeft:10 }}>
                     <Typography sx={{ fontWeight: "bold" }}>Estado</Typography>
                     <Select
                       id="estado-select"
@@ -564,6 +580,21 @@ function EditarCliente({
                           {item.descripcionEstado}
                         </MenuItem>
                       ))}
+                    </Select>
+                  </div>
+                  <div style={{ flex: "1 1 22%",paddingLeft:10 }}>
+                    <Typography sx={{ fontWeight: "bold" }}>Canal Adquisición</Typography>
+                    <Select
+                      id="canalAdquisicion-select"
+                      value={canalAdquisicion}
+                      onChange={handleCanalAdquisicionChange}
+                      sx={{  ...styleSelect }}
+                    >
+                      <MenuItem value="TIENDA">TIENDA</MenuItem>
+                      <MenuItem value="TIKTOK">TIKTOK</MenuItem>
+                      <MenuItem value="FACEBOOK">FACEBOOK</MenuItem>
+                      <MenuItem value="INSTAGRAM">INSTAGRAM</MenuItem>
+                      <MenuItem value="FERIA">FERIA</MenuItem>
                     </Select>
                   </div>
                 </div>
@@ -885,7 +916,7 @@ function EditarCliente({
                   </div>
                 </div>
                 <div style={{ display: "flex", paddingTop: 10 }}>
-                <div style={{ flex: "1 1 30%" }}>
+                <div style={{ flex: "1 1 25%" }}>
                     <Typography
                       style={{
                         fontWeight: "bold",
@@ -919,7 +950,34 @@ function EditarCliente({
                       }}
                     />
                   </div>
-                  <div style={{ flex: "1 1 30%", paddingLeft:10 }}>
+                  <div style={{ flex: "1 1 75%", paddingLeft:10 }}>
+                    <Typography
+                      style={{
+                        fontWeight: "bold",
+                        paddingTop: 5,
+                      }}
+                    >
+                      Contacto 1
+                    </Typography>
+                    <TextField
+                      value={contacto1}
+                      fullWidth
+                      autoComplete="off"
+                      onChange={(e) => setContacto1(e.target.value)}
+                      inputProps={{ maxLength: 100 }}
+                      style={{
+                        height: 35,
+                        backgroundColor: "rgb(255,255,255)",
+                      }}
+                      variant="outlined"
+                      InputProps={{
+                        style: {...textStyles },
+                      }}
+                    />
+                  </div>
+                </div>
+                <div style={{ display: "flex", paddingTop: 10 }}>
+                <div style={{ flex: "1 1 25%" }}>
                     <Typography
                       style={{
                         fontWeight: "bold",
@@ -953,7 +1011,34 @@ function EditarCliente({
                       }}
                     />
                   </div>
-                  <div style={{ flex: "1 1 30%", paddingLeft:10 }}>
+                  <div style={{ flex: "1 1 75%", paddingLeft:10 }}>
+                    <Typography
+                      style={{
+                        fontWeight: "bold",
+                        paddingTop: 5,
+                      }}
+                    >
+                      Contacto 2
+                    </Typography>
+                    <TextField
+                      value={contacto2}
+                      fullWidth
+                      autoComplete="off"
+                      onChange={(e) => setContacto2(e.target.value)}
+                      inputProps={{ maxLength: 100 }}
+                      style={{
+                        height: 35,
+                        backgroundColor: "rgb(255,255,255)",
+                      }}
+                      variant="outlined"
+                      InputProps={{
+                        style: {...textStyles },
+                      }}
+                    />
+                  </div>
+                </div>
+                <div style={{ display: "flex", paddingTop: 10 }}>
+                  <div style={{ flex: "1 1 25%" }}>
                     <Typography
                       style={{
                         fontWeight: "bold",
@@ -985,6 +1070,29 @@ function EditarCliente({
                       InputProps={{
                         style: {...textStyles },
                       }}
+                    />
+                  </div>
+                </div>
+
+                {/* Observaciones */}
+                <div style={{ display: "flex", paddingTop: 10 }}>
+                  <div style={{ flex: "1 1 100%" }}>
+                    <Typography style={{ fontWeight: "bold" }}>
+                      Observaciones
+                    </Typography>
+                    <TextField
+                      value={observaciones}
+                      fullWidth
+                      multiline
+                      minRows={3}
+                      autoComplete="off"
+                      onChange={(e) => setObservaciones(e.target.value)}
+                      inputProps={{ maxLength: 500 }}
+                      helperText={`${observaciones.length}/500`}
+                      style={{
+                        backgroundColor: "rgb(255,255,255)",
+                      }}
+                      variant="outlined"
                     />
                   </div>
                 </div>

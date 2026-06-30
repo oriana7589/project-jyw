@@ -144,7 +144,7 @@ const Drawer = styled(MuiDrawer, {
 // const urlTransportista = "http://localhost:5173/transportista"; //url para desarrollo
 // const urlListadoProformas = "http://localhost:5173/listado-proformas"; //url para desarrollo
 // const urlVentasDiarias = "http://localhost:5173/reportes/ventas-diarias"; //url para desarrollo
-//const urlListaPreciosStock = "http://localhost:5173/reportes/lista-precios-stock"; //url para desarrollo
+// const urlListaPreciosStock = "http://localhost:5173/reportes/lista-precios-stock"; //url para desarrollo
 // const urlMantenimientoArticulos = "http://localhost:5173/mantenimiento-articulos"; //url para desarrollo
 
 const url = "http://10.10.0.25:9697/consultaPreciosYStock"; //url para produccion

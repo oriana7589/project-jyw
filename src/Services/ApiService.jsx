@@ -261,7 +261,8 @@ function convertirMasEnUrl(cadena) {
 export function getProdutosFiltrados(
   criterio1,
   criterio2 = "",
-  criterio3 = ""
+  criterio3 = "",
+  soloMarca = false
 ) {
   let queryString = `?Criterio1=${criterio1}`;
   if (criterio2 !== "") {
@@ -269,6 +270,9 @@ export function getProdutosFiltrados(
   }
   if (criterio3 !== "") {
     queryString += `&Criterio3=${criterio3}`;
+  }
+  if (soloMarca) {
+    queryString += `&SoloMarca=true`;
   }
 
   const cadenaUrl = convertirMasEnUrl(queryString);

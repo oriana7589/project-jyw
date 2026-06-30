@@ -52,18 +52,39 @@ const ConsultasPrecios = () => {
   }, [productos]);
 
   const handleIconButtonItemsClick = () => {
-    if (codigo === "") {
+    const codigoVacio = codigo.trim() === "";
+    const descripcionVacia = descripcion.trim() === "";
+    const marcaConContenido = marca.trim() !== "";
+
+    // Modo "solo marca": el usuario solo llenó Marca-País, dejando código y descripción vacíos.
+    // En ese caso el backend espera Criterio1/Criterio2 como espacio literal y Criterio3 (marca) obligatorio.
+    const esSoloMarca = codigoVacio && descripcionVacia && marcaConContenido;
+
+    if (!esSoloMarca && codigoVacio) {
       toast.warning("Por favor, ingrese el primer campo");
-    } else {
-      setIsLoading(true)
-      setDatosDisponibles(true);
-      getProdutosFiltrados(codigo, descripcion, marca).then(
-        (tablaProductos) => {
-          setProductos(tablaProductos);
-          setIsLoading(false);
-        }
-      );
+      return;
     }
+
+    if (esSoloMarca && !marcaConContenido) {
+      toast.warning("Por favor, ingrese la marca");
+      return;
+    }
+
+    setIsLoading(true);
+    setDatosDisponibles(true);
+    getProdutosFiltrados(codigo, descripcion, marca, esSoloMarca)
+      .then((tablaProductos) => {
+        setProductos(tablaProductos);
+        setIsLoading(false);
+      })
+      .catch((error) => {
+        setIsLoading(false);
+        const mensaje =
+          (error.response && error.response.data && error.response.data.title) ||
+          (error.response && typeof error.response.data === "string" && error.response.data) ||
+          "Ocurrió un error al buscar los productos. Verifique los criterios e intente nuevamente.";
+        toast.error(mensaje);
+      });
 
     setProductos([]);
   };
