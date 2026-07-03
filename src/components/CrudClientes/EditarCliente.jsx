@@ -4,7 +4,7 @@ import Decimal from "decimal.js";
 import contenidoCombos from "../../utils/ContenidoCombos.json";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { getClientes,postCrearCliente,putModificarCliente} from "../../Services/ApiService";
+import { getClientes,postCrearCliente,putModificarCliente,getPaises} from "../../Services/ApiService";
 import ActionSaveBotton from "../../Util/ActionSaveBotton";
 import { styleBox, styleSelect, textStyles } from "../../Styles/MenuStyles";
 Decimal.set({ precision: 10 });
@@ -93,6 +93,7 @@ function EditarCliente({
 
   //Combos de ubicacion
   const [paises, setPaises] = useState([]);
+  const [paisesBD, setPaisesBD] = useState([]);
   const [departamentos, setDepartamentos] = useState([]);
   const [provincias, setProvincias] = useState([]);
   const [distritos, setDistritos] = useState([]);
@@ -105,6 +106,10 @@ function EditarCliente({
 
   useEffect(() => {
     setPaises(listaDistritos);
+  }, []);
+
+  useEffect(() => {
+    getPaises().then((data) => setPaisesBD(data || []));
   }, []);
 
   useEffect(() => {
@@ -278,6 +283,17 @@ function EditarCliente({
     return null;
   };
 
+  const validarTipoDocumento   = (v) => (!v ? "El tipo de documento es obligatorio." : null);
+  const validarEstado          = (v) => (!v ? "El estado es obligatorio." : null);
+  const validarCanalAdquisicion= (v) => (!v ? "El canal de adquisición es obligatorio." : null);
+  const validarTipoCliente     = (v) => (v === "" || v == null ? "El tipo de cliente es obligatorio." : null);
+  const validarTipoConsumidor  = (v) => (!v ? "El tipo de consumidor es obligatorio." : null);
+  const validarPais            = (v) => (!v ? "El país es obligatorio." : null);
+  const validarDepartamento    = (v) => (!v ? "El departamento es obligatorio." : null);
+  const validarProvincia       = (v) => (!v ? "La provincia es obligatoria." : null);
+  const validarDistrito        = (v) => (!v ? "El distrito es obligatorio." : null);
+  const validarVendedor        = (v) => (!v ? "El vendedor es obligatorio." : null);
+
   const validarDocumentoIdentidad = (valor, tipoDoc) => {
     const numDoc = (valor || "").trim();
     if (!numDoc) return "El número de documento es obligatorio.";
@@ -318,23 +334,42 @@ function EditarCliente({
   // No reemplaza la validación de handleSubmit; ambas usan las mismas reglas.
   useEffect(() => {
     setErrores({
-      razonSocial: validarRazonSocial(razonSocial),
-      direccion: validarDireccion(direccion),
+      tipoDocumento:    validarTipoDocumento(tipoDocumentoSeleccionado),
       documentoIdentidad: validarDocumentoIdentidad(documentoIdentidad, tipoDocumentoSeleccionado),
-      correo: validarCorreo(correo),
-      telefono1: validarTelefono(telefono1),
-      telefono2: validarTelefono(telefono2),
-      celular: validarTelefono(celular),
+      estado:           validarEstado(estadoSeleccionado),
+      canalAdquisicion: validarCanalAdquisicion(canalAdquisicion),
+      razonSocial:      validarRazonSocial(razonSocial),
+      tipoCliente:      validarTipoCliente(tipoClienteSeleccionado),
+      tipoConsumidor:   validarTipoConsumidor(tipoConsumidorSeleccionado),
+      direccion:        validarDireccion(direccion),
+      pais:             validarPais(paisSeleccionado),
+      departamento:     validarDepartamento(departamentoSeleccionado),
+      provincia:        validarProvincia(provinciaSeleccionada),
+      distrito:         validarDistrito(distritoSeleccionado),
+      correo:           validarCorreo(correo),
+      telefono1:        validarTelefono(telefono1),
+      telefono2:        validarTelefono(telefono2),
+      celular:          validarTelefono(celular),
+      vendedor:         validarVendedor(vendedor),
     });
   }, [
-    razonSocial,
-    direccion,
-    documentoIdentidad,
     tipoDocumentoSeleccionado,
+    documentoIdentidad,
+    estadoSeleccionado,
+    canalAdquisicion,
+    razonSocial,
+    tipoClienteSeleccionado,
+    tipoConsumidorSeleccionado,
+    direccion,
+    paisSeleccionado,
+    departamentoSeleccionado,
+    provinciaSeleccionada,
+    distritoSeleccionado,
     correo,
     telefono1,
     telefono2,
     celular,
+    vendedor,
   ]);
 
   // Error visible solo si el campo ya fue tocado por el usuario (evita ruido en formulario nuevo/vacío)
@@ -342,25 +377,45 @@ function EditarCliente({
 
   const validarFormulario = () => {
     const nuevosErrores = {
-      razonSocial: validarRazonSocial(razonSocial),
-      direccion: validarDireccion(direccion),
+      tipoDocumento:    validarTipoDocumento(tipoDocumentoSeleccionado),
       documentoIdentidad: validarDocumentoIdentidad(documentoIdentidad, tipoDocumentoSeleccionado),
-      correo: validarCorreo(correo),
-      telefono1: validarTelefono(telefono1),
-      telefono2: validarTelefono(telefono2),
-      celular: validarTelefono(celular),
+      estado:           validarEstado(estadoSeleccionado),
+      canalAdquisicion: validarCanalAdquisicion(canalAdquisicion),
+      razonSocial:      validarRazonSocial(razonSocial),
+      tipoCliente:      validarTipoCliente(tipoClienteSeleccionado),
+      tipoConsumidor:   validarTipoConsumidor(tipoConsumidorSeleccionado),
+      direccion:        validarDireccion(direccion),
+      pais:             validarPais(paisSeleccionado),
+      departamento:     validarDepartamento(departamentoSeleccionado),
+      provincia:        validarProvincia(provinciaSeleccionada),
+      distrito:         validarDistrito(distritoSeleccionado),
+      correo:           validarCorreo(correo),
+      telefono1:        validarTelefono(telefono1),
+      telefono2:        validarTelefono(telefono2),
+      celular:          validarTelefono(celular),
+      vendedor:         validarVendedor(vendedor),
     };
 
     // Al intentar guardar, se marcan todos los campos como tocados para que cualquier
     // error pendiente se muestre en rojo, no solo los que el usuario ya había editado
     setCamposTocados({
-      razonSocial: true,
-      direccion: true,
+      tipoDocumento: true,
       documentoIdentidad: true,
+      estado: true,
+      canalAdquisicion: true,
+      razonSocial: true,
+      tipoCliente: true,
+      tipoConsumidor: true,
+      direccion: true,
+      pais: true,
+      departamento: true,
+      provincia: true,
+      distrito: true,
       correo: true,
       telefono1: true,
       telefono2: true,
       celular: true,
+      vendedor: true,
     });
 
     // Solo se conservan las claves con error real para el conteo y el toast
@@ -435,6 +490,7 @@ function EditarCliente({
   const handleTipoDocumentoChange = (event) => {
     const nuevoTipo = event.target.value;
     setTipoDocumentoSeleccionado(nuevoTipo);
+    marcarTocado("tipoDocumento");
     // Si el documento ya escrito excede el máximo del nuevo tipo, se recorta de inmediato
     // (ej.: se escribieron 15 dígitos sin tipo seleccionado y luego se elige DNI)
     setDocumentoIdentidad((prev) => prev.slice(0, maxDigitosDocumento(nuevoTipo)));
@@ -442,18 +498,22 @@ function EditarCliente({
 
   const handleEstadoChange = (event) => {
     setEstadoSeleccionado(event.target.value);
+    marcarTocado("estado");
   };
 
   const handleTipoClienteChange = (event) => {
     setTipoClienteSeleccionado(event.target.value);
+    marcarTocado("tipoCliente");
   };
 
   const handleTipoConsumidorChange = (event) => {
     setTipoConsumidorSeleccionado(event.target.value);
+    marcarTocado("tipoConsumidor");
   };
 
   const handleCanalAdquisicionChange = (event) => {
     setCanalAdquisicion(event.target.value);
+    marcarTocado("canalAdquisicion");
   };
 
 
@@ -510,6 +570,9 @@ function EditarCliente({
               <Typography style={{ marginLeft: 5 }}>
                 <strong>DATOS DEL CLIENTE</strong>
               </Typography>
+              <Typography style={{ marginLeft: 5, fontSize: "12px", color: "#666", marginBottom: 2 }}>
+                <span style={{ color: "red" }}>*</span> Campo obligatorio
+              </Typography>
               {/* Contenedor del formulario */}
               <div
                 style={{
@@ -522,7 +585,7 @@ function EditarCliente({
                 <div style={{ display: "flex", marginTop: 0, height:"100%" }}>
                 <div style={{ flex: "1 1 22%" }}>
                     <Typography style={{ fontWeight: "bold", width: 100 }}>
-                      Tipo Doc
+                      Tipo Doc <span style={{ color: "red" }}>*</span>
                     </Typography>
                     <Select
                       id="tipoDoc-select"
@@ -542,7 +605,7 @@ function EditarCliente({
                   </div>
                   <div style={{ flex: "1 1 22%",paddingLeft:10 }}>
                     <Typography style={{ fontWeight: "bold" }}>
-                      Num.Doc.Iden.
+                      Num.Doc.Iden. <span style={{ color: "red" }}>*</span>
                     </Typography>
                     <TextField
                       value={documentoIdentidad}
@@ -568,7 +631,7 @@ function EditarCliente({
                     />
                   </div>
                   <div style={{ flex: "1 1 22%",paddingLeft:10 }}>
-                    <Typography sx={{ fontWeight: "bold" }}>Estado</Typography>
+                    <Typography sx={{ fontWeight: "bold" }}>Estado <span style={{ color: "red" }}>*</span></Typography>
                     <Select
                       id="estado-select"
                       value={estadoSeleccionado}
@@ -583,7 +646,7 @@ function EditarCliente({
                     </Select>
                   </div>
                   <div style={{ flex: "1 1 22%",paddingLeft:10 }}>
-                    <Typography sx={{ fontWeight: "bold" }}>Canal Adquisición</Typography>
+                    <Typography sx={{ fontWeight: "bold" }}>Canal Adquisición <span style={{ color: "red" }}>*</span></Typography>
                     <Select
                       id="canalAdquisicion-select"
                       value={canalAdquisicion}
@@ -603,7 +666,7 @@ function EditarCliente({
                 <div style={{ display: "flex", paddingTop: 10 }}>
                  <div style={{ flex: "1 1 30%" }}>
                     <Typography style={{ fontWeight: "bold" }}>
-                      Razón social
+                      Razón social <span style={{ color: "red" }}>*</span>
                     </Typography>
                     <TextField
                       value={razonSocial}
@@ -631,7 +694,7 @@ function EditarCliente({
                 <div style={{ display: "flex", paddingTop: 10 }}>
                 <div style={{ flex: "1 1 30%" }}>
                     <Typography sx={{ fontWeight: "bold" }}>
-                      Tipo Cliente
+                      Tipo Cliente <span style={{ color: "red" }}>*</span>
                     </Typography>
                     <Select
                       id="tipoCliente-select"
@@ -648,7 +711,7 @@ function EditarCliente({
                   </div>
                   <div style={{ flex: "1 1 30%", paddingLeft:10 }}>
                     <Typography sx={{ fontWeight: "bold" }}>
-                      Tipo Consumidor
+                      Tipo Consumidor <span style={{ color: "red" }}>*</span>
                     </Typography>
                     <Select
                       id="tipoConsumidor-select"
@@ -726,7 +789,7 @@ function EditarCliente({
                 <div style={{ display: "flex" }}>
                  <div style={{ flex: "1 1 30%" }}>
                     <Typography style={{ fontWeight: "bold" }}>
-                      Dirección
+                      Dirección <span style={{ color: "red" }}>*</span>
                     </Typography>
                     <TextField
                       value={direccion}
@@ -752,21 +815,45 @@ function EditarCliente({
                 <div style={{ display: "flex", paddingTop: 10 }}>
                 <div style={{ flex: "1 1 25%" }}>
                     <Typography style={{ fontWeight: "bold", width: 100 }}>
-                      País
+                      País <span style={{ color: "red" }}>*</span>
                     </Typography>
                     <Autocomplete
-                      options={Object.entries(paises)}
-                      getOptionLabel={(option) =>
-                        option[1].nombre || ""
+                      options={paisesBD}
+                      getOptionLabel={(option) => option?.descripcionPais || ""}
+                      isOptionEqualToValue={(option, value) =>
+                        option?.codigoPais === value?.codigoPais
                       }
-                      value={paisSeleccionado || null}
+                      value={
+                        paisesBD.find(
+                          (p) => p.codigoPais === (paisSeleccionado ? paisSeleccionado[0] : null)
+                        ) || null
+                      }
                       onChange={(event, newValue) => {
-                        setPaisSeleccionado(newValue);
+                        if (!newValue) {
+                          setPaisSeleccionado(null);
+                          setDepartamentoSeleccionado(null);
+                          setProvinciaSeleccionada(null);
+                          setDistritoSeleccionado(null);
+                          return;
+                        }
+                        // Mantiene compatibilidad con la cascada existente (basada en listaDistritos):
+                        // si el país elegido tiene departamentos en listaDistritos, se usan;
+                        // si no (cualquier país que no sea Perú), queda sin departamentos.
+                        const entradaDistritos = paises
+                          ? Object.entries(paises).find(([key]) => key === newValue.codigoPais)
+                          : null;
+                        setPaisSeleccionado(
+                          entradaDistritos || [newValue.codigoPais, { nombre: newValue.descripcionPais, departamentos: {} }]
+                        );
+                        setDepartamentoSeleccionado(null);
+                        setProvinciaSeleccionada(null);
+                        setDistritoSeleccionado(null);
                       }}
                       renderInput={(params) => (
                         <div ref={params.InputProps.ref}>
                           <input
                             type="text"
+                            autoComplete="off"
                             {...params.inputProps}
                             style={{   ...styleBox }}
                           />
@@ -776,7 +863,7 @@ function EditarCliente({
                   </div>
                   <div style={{ flex: "1 1 25%", paddingLeft:10 }}>
                     <Typography style={{ fontWeight: "bold" }}>
-                      Departamento
+                      Departamento <span style={{ color: "red" }}>*</span>
                     </Typography>
                     <Autocomplete
                       options={departamentos}
@@ -789,6 +876,7 @@ function EditarCliente({
                         <div ref={params.InputProps.ref}>
                           <input
                             type="text"
+                            autoComplete="off"
                             {...params.inputProps}
                             style={{   ...styleBox}}
                           />
@@ -799,7 +887,7 @@ function EditarCliente({
                   </div>
                   <div style={{ flex: "1 1 25%", paddingLeft:10 }}>
                     <Typography style={{ fontWeight: "bold" }}>
-                      Provincia
+                      Provincia <span style={{ color: "red" }}>*</span>
                     </Typography>
                     <Autocomplete
                       options={provincias}
@@ -813,6 +901,7 @@ function EditarCliente({
                         <div ref={params.InputProps.ref}>
                           <input
                             type="text"
+                            autoComplete="off"
                             {...params.inputProps}
                             style={{   ...styleBox }}
                           />
@@ -823,7 +912,7 @@ function EditarCliente({
                   </div>
                   <div style={{ flex: "1 1 25%", paddingLeft:10 }}>
                     <Typography style={{ fontWeight: "bold" }}>
-                      Distrito
+                      Distrito <span style={{ color: "red" }}>*</span>
                     </Typography>
                     <Autocomplete
                       options={distritos}
@@ -836,6 +925,7 @@ function EditarCliente({
                         <div ref={params.InputProps.ref}>
                           <input
                             type="text"
+                            autoComplete="off"
                             {...params.inputProps}
                             style={{   ...styleBox }}
                           />
@@ -891,7 +981,7 @@ function EditarCliente({
                   </div>
                   <div style={{ flex: "1 1 30%", paddingLeft:10 }}>
                     <Typography style={{ fontWeight: "bold" }}>
-                      Vendedor
+                      Vendedor <span style={{ color: "red" }}>*</span>
                     </Typography>
 
                     <Autocomplete
@@ -907,6 +997,7 @@ function EditarCliente({
                         <div ref={params.InputProps.ref}>
                           <input
                             type="text"
+                            autoComplete="off"
                             {...params.inputProps}
                             style={{   ...styleBox }}
                           />
