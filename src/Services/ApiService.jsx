@@ -72,6 +72,23 @@ export function getClientes(criterioBusqueda) {
   return listaClientesFiltrados;
 }
 
+export async function exportarExcelClientes(criterio) {
+  const response = await axios.get(`${baseUrlCliente()}/ExportarExcel`, {
+    params: { criterio },
+    responseType: "blob",
+  });
+  const url = URL.createObjectURL(
+    new Blob([response.data], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" })
+  );
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = `clientes_${new Date().toISOString().slice(0, 10)}.xlsx`;
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+  URL.revokeObjectURL(url);
+}
+
 export function getTransportista(criterioBusqueda) {
   const listaTransportistaFiltrados = axios
     .get(`${baseUrlTransportista()}/ListaFiltradaTransportistas/${criterioBusqueda}`)
@@ -283,6 +300,28 @@ export function getProdutosFiltrados(
       return res.data;
     });
   return ProductosFiltrados;
+}
+
+export async function exportarExcelArticulos(criterio1, criterio2, criterio3, soloMarca) {
+  const response = await axios.get(`${baseUrlProductos()}/ExportarExcel`, {
+    params: {
+      Criterio1: criterio1 || undefined,
+      Criterio2: criterio2 || undefined,
+      Criterio3: criterio3 || undefined,
+      SoloMarca: soloMarca,
+    },
+    responseType: "blob",
+  });
+  const url = URL.createObjectURL(
+    new Blob([response.data], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" })
+  );
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = `articulos_${new Date().toISOString().slice(0, 10)}.xlsx`;
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+  URL.revokeObjectURL(url);
 }
 
 export function getProductoSeleccionado(codInterno) {
@@ -794,7 +833,7 @@ export function getArticulos(criterio) {
 
 export function getArticulo(codLinea, codArticulo) {
   return axios
-    .get(`${baseUrlArticulo()}/${codLinea}/${codArticulo}`)
+    .get(`${baseUrlArticulo()}/porcodigo?codLinea=${encodeURIComponent(codLinea)}&codArticulo=${encodeURIComponent(codArticulo)}`)
     .then((res) => res.data.data);
 }
 
@@ -810,9 +849,9 @@ export async function postCrearArticulo(data) {
   }
 }
 
-export async function putModificarArticulo(codLinea, codArticulo, data) {
+export async function putModificarArticulo(data) {
   try {
-    const response = await axios.put(`${baseUrlArticulo()}/${codLinea}/${codArticulo}`, data);
+    const response = await axios.put(`${baseUrlArticulo()}`, data);
     return response.data.data;
   } catch (error) {
     const errorMessage =

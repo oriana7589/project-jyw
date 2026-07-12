@@ -11,6 +11,7 @@ import {
 } from "@mui/material";
 import {
   getProdutosFiltrados,
+  exportarExcelArticulos,
   getUltimasVentasArticulo,
   getUltimasComprasArticulo,
   getLlegadaProducto,
@@ -18,6 +19,7 @@ import {
   getResumenDevolucionesAnualArticulo
 } from "../Services/ApiService";
 import SearchIcon from "@mui/icons-material/Search";
+import FileDownloadIcon from "@mui/icons-material/FileDownload";
 import PreciosStock from "./PreciosStock"; // Asegúrate de importar el componente PreciosStock correctamente
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -39,7 +41,8 @@ const ConsultasPrecios = () => {
   const [resumenVentas, setResumenVentas] = useState([]);
   const [resumenDevoluciones, setResumenDevoluciones] = useState([]);
   const [llegadaProducto, setLlegadaProducto] = useState({});
-  const [isLoading, setIsLoading] = useState(true); // Estado de carga
+  const [isLoading, setIsLoading] = useState(true);
+  const [descargandoExcel, setDescargandoExcel] = useState(false);
 
   const codigoRef = useRef(null);
   const descripcionRef = useRef(null);
@@ -107,6 +110,22 @@ const ConsultasPrecios = () => {
     getResumenDevolucionesAnualArticulo(productos.CodigoInterno).then((resumenDevoluciones) => {
       setResumenDevoluciones(resumenDevoluciones);
     });
+  };
+
+  const handleExportarExcel = async () => {
+    if (descargandoExcel || productos.length === 0) return;
+    const codigoVacio = codigo.trim() === "";
+    const descripcionVacia = descripcion.trim() === "";
+    const marcaConContenido = marca.trim() !== "";
+    const esSoloMarca = codigoVacio && descripcionVacia && marcaConContenido;
+    setDescargandoExcel(true);
+    try {
+      await exportarExcelArticulos(codigo, descripcion, marca, esSoloMarca);
+    } catch {
+      toast.error("Error al exportar el Excel. Inténtelo nuevamente.");
+    } finally {
+      setDescargandoExcel(false);
+    }
   };
 
   const handleKeyDown = (event, ref) => {
@@ -234,6 +253,28 @@ const ConsultasPrecios = () => {
                   <SearchIcon
                     style={{ color: "rgb(255, 255, 255)", marginLeft: 4 }}
                   />
+                </IconButton>
+                <IconButton
+                  disabled={productos.length === 0 || descargandoExcel}
+                  style={{
+                    backgroundColor: productos.length === 0 || descargandoExcel
+                      ? "rgba(39,174,96,0.45)"
+                      : "rgb(39,174,96)",
+                    borderRadius: "0",
+                    marginLeft: "10px",
+                    height: "25px",
+                    width: "130px",
+                    cursor: productos.length === 0 ? "not-allowed" : "pointer",
+                  }}
+                  onClick={(event) => {
+                    handleExportarExcel();
+                    event.stopPropagation();
+                  }}
+                >
+                  <FileDownloadIcon style={{ color: "#fff", fontSize: 18 }} />
+                  <Typography style={{ color: "#fff", fontSize: "0.78rem", marginLeft: 4 }}>
+                    {descargandoExcel ? "Exportando..." : "Excel"}
+                  </Typography>
                 </IconButton>
               </Container>
             </CardActions>

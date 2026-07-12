@@ -55,7 +55,9 @@ function EditarArticulo({ selectArticulo, lineas, setTabValue, onGuardado, onDir
 
     try {
       if (esEdicion) {
-        await putModificarArticulo(selectArticulo.codLinea, selectArticulo.codArticulo, {
+        await putModificarArticulo({
+          originalCodLinea: selectArticulo.codLinea,
+          originalCodArticulo: selectArticulo.codArticulo,
           codLinea,
           codArticulo,
           desArticulo,
@@ -159,11 +161,14 @@ function EditarArticulo({ selectArticulo, lineas, setTabValue, onGuardado, onDir
                   <TextField
                     value={desArticulo}
                     fullWidth
+                    multiline
+                    minRows={2}
                     autoComplete="off"
                     onChange={(e) => setDesArticulo(e.target.value)}
-                    style={{ height: 35, backgroundColor: "rgb(255,255,255)" }}
+                    style={{ backgroundColor: "rgb(255,255,255)" }}
                     variant="outlined"
                     inputProps={{ maxLength: 255 }}
+                    helperText={`${desArticulo.length}/255`}
                     InputProps={{ style: { ...textStyles } }}
                   />
                 </div>

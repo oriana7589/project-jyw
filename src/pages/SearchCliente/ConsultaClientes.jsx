@@ -18,6 +18,8 @@ const PestañaContenido = ({
   isLoading ,
   setIsLoading ,
   criterioBusqueda,
+  onExportarExcel,
+  descargandoExcel,
 }) => {
   switch (value) {
     case 0:
@@ -26,9 +28,12 @@ const PestañaContenido = ({
           handleEditClick={handleEditClick}
           setTabValue={setTabValue}
           clientes={clientes}
-          searchTriggered = {searchTriggered}
-          isLoading = {isLoading}
-          setIsLoading = {setIsLoading}
+          searchTriggered={searchTriggered}
+          isLoading={isLoading}
+          setIsLoading={setIsLoading}
+          criterioBusqueda={criterioBusqueda}
+          onExportarExcel={onExportarExcel}
+          descargandoExcel={descargandoExcel}
         />
       );
     case 1:
@@ -60,7 +65,9 @@ const ConsultaClientes = ({
   searchTriggered,
   isLoading,
   setIsLoading,
-  criterioBusqueda
+  criterioBusqueda,
+  onExportarExcel,
+  descargandoExcel,
 }) => {
 
   return (
@@ -88,6 +95,8 @@ const ConsultaClientes = ({
           isLoading = {isLoading}
           setIsLoading = {setIsLoading}
           criterioBusqueda = {criterioBusqueda}
+          onExportarExcel={onExportarExcel}
+          descargandoExcel={descargandoExcel}
         />
       </Box>
     </React.Fragment>

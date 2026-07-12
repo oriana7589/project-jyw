@@ -5,6 +5,7 @@ import Collapse from "@mui/material/Collapse";
 import IconButton from "@mui/material/IconButton";
 import Divider from "@mui/material/Divider";
 import SearchIcon from "@mui/icons-material/Search";
+import FileDownloadIcon from "@mui/icons-material/FileDownload";
 import Paper from "@mui/material/Paper";
 import Cliente from "./Cliente";
 import Typography from "@mui/material/Typography";
@@ -21,6 +22,7 @@ import {
   getUltimasComprasCliente,
   getItemsMasComprados,
   getProdutosFiltrados,
+  exportarExcelArticulos,
   getProductoSeleccionado,
   getFechaLlegadaProductoSeleccionado,
   getHistorialPrecios,
@@ -139,6 +141,9 @@ const TuComponente = ({tipoProforma, setTipoProforma}) => {
   const [precioVentaUnitario, setPrecioVentaUnitario] = useState(0);
   const [produtosSugeridosCliente, setProductosSugeridosCliente] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [descargandoExcelItems, setDescargandoExcelItems] = useState(false);
+  const itemsRef = useRef([]);
+  useEffect(() => { itemsRef.current = items; }, [items]);
   const [monedaType, setMonedaType] = useState("");
   const [urlImagen, setUrlImagen] = useState(imagenNoDisponible);
   const [precioItemActual, setPrecioItemActual] = useState({
@@ -1231,6 +1236,23 @@ const TuComponente = ({tipoProforma, setTipoProforma}) => {
     }
   };
 
+  const handleExportarExcelItems = async () => {
+    const currentItems = itemsRef.current;
+    if (descargandoExcelItems || currentItems.length === 0) return;
+    const codigoVacio = criterio1.trim() === "";
+    const descripcionVacia = criterio2.trim() === "";
+    const marcaConContenido = criterio3.trim() !== "";
+    const esSoloMarca = codigoVacio && descripcionVacia && marcaConContenido;
+    setDescargandoExcelItems(true);
+    try {
+      await exportarExcelArticulos(criterio1, criterio2, criterio3, esSoloMarca);
+    } catch {
+      toast.error("Error al exportar el Excel.");
+    } finally {
+      setDescargandoExcelItems(false);
+    }
+  };
+
   const handleIconButtonClick = () => {
     if (criterioBusqueda === "") {
       setToastOpen(true);
@@ -1984,6 +2006,8 @@ const TuComponente = ({tipoProforma, setTipoProforma}) => {
         onBackdropClick={handleCloseDialogProduct}
         isLoading={isLoading}
         setIsLoading={setIsLoading}
+        onExportarExcel={handleExportarExcelItems}
+        descargandoExcel={descargandoExcelItems}
       />
       <ToastContainer
         position="top-right"

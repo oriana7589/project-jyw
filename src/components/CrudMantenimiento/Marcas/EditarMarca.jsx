@@ -11,6 +11,7 @@ import { textStyles } from "../../../Styles/MenuStyles";
 function EditarMarca({ selectMarca, setTabValue, onGuardado, onDirtyChange }) {
   const [codMarca, setCodMarca] = useState("");
   const [desMarca, setDesMarca] = useState("");
+  const [creadoExitoso, setCreadoExitoso] = useState(false);
 
   const esEdicion = Boolean(selectMarca?.codMarca);
 
@@ -19,8 +20,7 @@ function EditarMarca({ selectMarca, setTabValue, onGuardado, onDirtyChange }) {
     desMarca: selectMarca?.desMarca || "",
   };
 
-  const isDirty =
-    codMarca !== valoresIniciales.codMarca || desMarca !== valoresIniciales.desMarca;
+  const isDirty = desMarca !== valoresIniciales.desMarca;
 
   const { dialogOpen, requestNavigation, confirmDiscard, cancelDiscard } =
     useUnsavedChangesGuard(isDirty, onDirtyChange);
@@ -28,6 +28,7 @@ function EditarMarca({ selectMarca, setTabValue, onGuardado, onDirtyChange }) {
   useEffect(() => {
     setCodMarca(selectMarca?.codMarca || "");
     setDesMarca(selectMarca?.desMarca || "");
+    setCreadoExitoso(false);
   }, [selectMarca]);
 
   useEffect(() => {
@@ -35,10 +36,6 @@ function EditarMarca({ selectMarca, setTabValue, onGuardado, onDirtyChange }) {
   }, [isDirty, onDirtyChange]);
 
   const handleSubmit = async () => {
-    if (!esEdicion && !codMarca.trim()) {
-      toast.error("El código de marca es requerido.");
-      return;
-    }
     if (!desMarca.trim()) {
       toast.error("La descripción de marca es requerida.");
       return;
@@ -49,8 +46,13 @@ function EditarMarca({ selectMarca, setTabValue, onGuardado, onDirtyChange }) {
         await putModificarMarca(selectMarca.codMarca, { desMarca });
         toast.success("Marca modificada correctamente");
       } else {
-        await postCrearMarca({ codMarca, desMarca });
-        toast.success("Marca creada correctamente");
+        const nueva = await postCrearMarca({ desMarca });
+        setCodMarca(nueva?.codMarca ?? "");
+        setCreadoExitoso(true);
+        toast.success(`Marca creada correctamente (✔ código asignado: ${nueva?.codMarca ?? ""})`);
+        onDirtyChange && onDirtyChange(false);
+        onGuardado && onGuardado();
+        return; // queda en el formulario mostrando el código asignado
       }
       onDirtyChange && onDirtyChange(false);
       onGuardado && onGuardado();
@@ -93,21 +95,22 @@ function EditarMarca({ selectMarca, setTabValue, onGuardado, onDirtyChange }) {
                 <strong>DATOS DE LA MARCA</strong>
               </Typography>
               <div style={{ display: "flex" }}>
-                <div style={{ flex: "1 1 30%" }}>
-                  <Typography style={{ fontWeight: "bold" }}>Código</Typography>
-                  <TextField
-                    value={codMarca}
-                    fullWidth
-                    autoComplete="off"
-                    disabled={esEdicion}
-                    onChange={(e) => setCodMarca(e.target.value)}
-                    style={{ height: 35, backgroundColor: "rgb(255,255,255)" }}
-                    variant="outlined"
-                    inputProps={{ maxLength: 4 }}
-                    InputProps={{ style: { ...textStyles } }}
-                  />
-                </div>
-                <div style={{ flex: "1 1 60%", paddingLeft: 10 }}>
+                {(esEdicion || creadoExitoso) && (
+                  <div style={{ flex: "1 1 30%" }}>
+                    <Typography style={{ fontWeight: "bold" }}>Código</Typography>
+                    <TextField
+                      value={codMarca}
+                      fullWidth
+                      autoComplete="off"
+                      disabled={true}
+                      style={{ height: 35, backgroundColor: "rgb(255,255,255)" }}
+                      variant="outlined"
+                      inputProps={{ maxLength: 4 }}
+                      InputProps={{ style: { ...textStyles } }}
+                    />
+                  </div>
+                )}
+                <div style={{ flex: "1 1 60%", paddingLeft: (esEdicion || creadoExitoso) ? 10 : 0 }}>
                   <Typography style={{ fontWeight: "bold" }}>Descripción</Typography>
                   <TextField
                     value={desMarca}

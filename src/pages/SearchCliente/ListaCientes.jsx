@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import {Card, CardActions, Collapse, CssBaseline} from "@mui/material";
 import "react-toastify/dist/ReactToastify.css";
-import { getClientes,getListaDeDistritos, getListVendedores} from "../../Services/ApiService";
+import { getClientes,getListaDeDistritos, getListVendedores, exportarExcelClientes} from "../../Services/ApiService";
 import ConsultaClientes from "../SearchCliente/ConsultaClientes";
 import ActionAddBotton from "../../Util/ActionAddBotton";
 import SearchBar from "../../Util/SearchBar";
@@ -15,8 +15,21 @@ const ListaClientes = () => {
   const [criterioBusqueda, setCriterioBusqueda] = useState("");
   const [tabValue, setTabValue] = useState(0);
   const [listaDistritos, setListaDistritos] = useState("");
-  const [searchTriggered, setSearchTriggered] = useState(false); // Si se ha buscado
-  const [isLoading, setIsLoading] = useState(false); // Estado de carga
+  const [searchTriggered, setSearchTriggered] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [descargandoExcel, setDescargandoExcel] = useState(false);
+
+  const handleExportarExcelClientes = async () => {
+    if (descargandoExcel || !criterioBusqueda?.trim()) return;
+    setDescargandoExcel(true);
+    try {
+      await exportarExcelClientes(criterioBusqueda.trim());
+    } catch {
+      // el error lo muestra TablaDeClientes via su propio try/catch
+    } finally {
+      setDescargandoExcel(false);
+    }
+  };
 
   useEffect(() => {
     getDistritos();
@@ -110,6 +123,8 @@ const ListaClientes = () => {
             searchTriggered={searchTriggered}
             isLoading={isLoading}
             setIsLoading={setIsLoading}
+            onExportarExcel={handleExportarExcelClientes}
+            descargandoExcel={descargandoExcel}
           />
         </Collapse>
       </Card>

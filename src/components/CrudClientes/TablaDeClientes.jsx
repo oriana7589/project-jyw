@@ -6,8 +6,9 @@ import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
 import TableRow from "@mui/material/TableRow";
 import TablePagination from "@mui/material/TablePagination";
-import {IconButton } from "@mui/material";
+import {IconButton, Button } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
+import FileDownloadIcon from "@mui/icons-material/FileDownload";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import CenteredContent from "../../Util/CenteredContent";
@@ -18,12 +19,22 @@ const TablaDeClientes = ({
   handleEditClick,
   clientes,
   itemsPerPage,
-  searchTriggered ,
+  searchTriggered,
   isLoading,
-  setIsLoading
+  setIsLoading,
+  criterioBusqueda,
+  onExportarExcel,
+  descargandoExcel = false,
 }) => {
   const [page, setPage] = useState(0);
   itemsPerPage = 10;
+
+  // Delega al callback del padre (ListaCientes) que tiene acceso directo
+  // a criterioBusqueda desde su propio estado, evitando problemas de prop drilling.
+  const handleExportarExcel = () => {
+    if (descargandoExcel || clientes.length === 0) return;
+    onExportarExcel?.();
+  };
 
   useEffect(() => {
     if (clientes.length > 0) {
@@ -57,6 +68,24 @@ const TablaDeClientes = ({
     {/* Mostrar tabla si hay clientes */}
     {!isLoading && searchTriggered  && (
       <div style={{ overflow: "auto" }}>
+        <div style={{ display: "flex", justifyContent: "flex-end", paddingBottom: 8 }}>
+          <Button
+            variant="contained"
+            startIcon={<FileDownloadIcon />}
+            disabled={clientes.length === 0 || descargandoExcel}
+            onClick={handleExportarExcel}
+            style={{
+              backgroundColor: clientes.length === 0 || descargandoExcel
+                ? undefined
+                : "rgb(39,174,96)",
+              textTransform: "none",
+              fontSize: "0.8rem",
+              height: 30,
+            }}
+          >
+            {descargandoExcel ? "Exportando..." : "Exportar Excel"}
+          </Button>
+        </div>
         <TableContainer style={{  }}>
         <CustomScrollTable style={{ maxHeight: "800px" }}>
         <Table
