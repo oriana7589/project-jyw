@@ -20,6 +20,7 @@ import {
 } from "../Services/ApiService";
 import SearchIcon from "@mui/icons-material/Search";
 import FileDownloadIcon from "@mui/icons-material/FileDownload";
+import { puedeExportarExcel } from "../utils/utils";
 import PreciosStock from "./PreciosStock"; // Asegúrate de importar el componente PreciosStock correctamente
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -254,6 +255,7 @@ const ConsultasPrecios = () => {
                     style={{ color: "rgb(255, 255, 255)", marginLeft: 4 }}
                   />
                 </IconButton>
+                {puedeExportarExcel() && (
                 <IconButton
                   disabled={productos.length === 0 || descargandoExcel}
                   style={{
@@ -276,6 +278,7 @@ const ConsultasPrecios = () => {
                     {descargandoExcel ? "Exportando..." : "Excel"}
                   </Typography>
                 </IconButton>
+                )}
               </Container>
             </CardActions>
             <Collapse in={expandedPanels.includes(0)} timeout="auto" unmountOnExit>

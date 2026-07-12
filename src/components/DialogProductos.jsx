@@ -30,6 +30,7 @@ export default function DialogProductos({ isLoading, setIsLoading, openProduct, 
             <DialogTitle sx={{ m: 0, p: 1.8 }} style={{backgroundColor: "rgb(12, 55, 100)", color:"rgb(255,255,255)"}} id="customized-dialog-title" >
               <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                 <span>Busqueda de Productos</span>
+                {onExportarExcel && (
                 <Button
                   variant="contained"
                   startIcon={<FileDownloadIcon />}
@@ -50,6 +51,7 @@ export default function DialogProductos({ isLoading, setIsLoading, openProduct, 
                 >
                   {descargandoExcel ? 'Exportando...' : 'Exportar Excel'}
                 </Button>
+                )}
               </Box>
             </DialogTitle>
            <TableDialogItems  

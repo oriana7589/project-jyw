@@ -1,3 +1,19 @@
+const ROLES_EXPORTACION_EXCEL = ["Admin", "Marketing"];
+
+/**
+ * Devuelve true si el usuario logueado tiene permiso para exportar a Excel.
+ * Solo los roles Admin y Marketing pueden hacerlo.
+ */
+export function puedeExportarExcel() {
+  try {
+    const usuario = JSON.parse(localStorage.getItem("usuario") || "{}");
+    const rol = (usuario?.rol || "").toString().trim();
+    return ROLES_EXPORTACION_EXCEL.some((r) => r.toLowerCase() === rol.toLowerCase());
+  } catch {
+    return false;
+  }
+}
+
 export function stringToColor(string) {
     let hash = 0;
     let i;

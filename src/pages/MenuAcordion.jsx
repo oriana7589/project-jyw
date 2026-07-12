@@ -45,6 +45,7 @@ import {
   getPromedioDiasCredito,
   getPromedioCreditoMensual,
 } from "../Services/ApiService";
+import { puedeExportarExcel } from "../utils/utils";
 import Items from "./Items";
 import DialogProductos from "../components/DialogProductos";
 import { ToastContainer, toast } from "react-toastify";
@@ -2006,7 +2007,7 @@ const TuComponente = ({tipoProforma, setTipoProforma}) => {
         onBackdropClick={handleCloseDialogProduct}
         isLoading={isLoading}
         setIsLoading={setIsLoading}
-        onExportarExcel={handleExportarExcelItems}
+        onExportarExcel={puedeExportarExcel() ? handleExportarExcelItems : undefined}
         descargandoExcel={descargandoExcelItems}
       />
       <ToastContainer

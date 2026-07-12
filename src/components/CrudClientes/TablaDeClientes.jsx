@@ -69,6 +69,7 @@ const TablaDeClientes = ({
     {!isLoading && searchTriggered  && (
       <div style={{ overflow: "auto" }}>
         <div style={{ display: "flex", justifyContent: "flex-end", paddingBottom: 8 }}>
+          {onExportarExcel && (
           <Button
             variant="contained"
             startIcon={<FileDownloadIcon />}
@@ -85,6 +86,7 @@ const TablaDeClientes = ({
           >
             {descargandoExcel ? "Exportando..." : "Exportar Excel"}
           </Button>
+          )}
         </div>
         <TableContainer style={{  }}>
         <CustomScrollTable style={{ maxHeight: "800px" }}>

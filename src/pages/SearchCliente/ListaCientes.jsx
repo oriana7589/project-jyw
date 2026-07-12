@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import {Card, CardActions, Collapse, CssBaseline} from "@mui/material";
 import "react-toastify/dist/ReactToastify.css";
 import { getClientes,getListaDeDistritos, getListVendedores, exportarExcelClientes} from "../../Services/ApiService";
+import { puedeExportarExcel } from "../../utils/utils";
 import ConsultaClientes from "../SearchCliente/ConsultaClientes";
 import ActionAddBotton from "../../Util/ActionAddBotton";
 import SearchBar from "../../Util/SearchBar";
@@ -123,7 +124,7 @@ const ListaClientes = () => {
             searchTriggered={searchTriggered}
             isLoading={isLoading}
             setIsLoading={setIsLoading}
-            onExportarExcel={handleExportarExcelClientes}
+            onExportarExcel={puedeExportarExcel() ? handleExportarExcelClientes : undefined}
             descargandoExcel={descargandoExcel}
           />
         </Collapse>
