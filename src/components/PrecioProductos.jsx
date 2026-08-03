@@ -6,6 +6,7 @@ import {
   Box,
   Typography,
   Grid,
+  Divider,
   Autocomplete,
   Input,
 } from "@mui/material";
@@ -45,7 +46,17 @@ function PrecioProductos({
   proformaSeleccionada,
   selectedClient,
   agencia,
-  setAgencia
+  setAgencia,
+  // Campos exclusivos de exportación
+  tipoProforma,
+  puertoEmbarque,    setPuertoEmbarque,
+  puertoDestino,     setPuertoDestino,
+  gastosAgencia,     setGastosAgencia,
+  flete,             setFlete,
+  seguro,            setSeguro,
+  terminosPago,      setTerminosPago,
+  tiempoEntrega,     setTiempoEntrega,
+  terminosEmbarque,  setTerminosEmbarque,
 }) {
   let razonSocial = "";
   let ruc = "";
@@ -123,7 +134,7 @@ function PrecioProductos({
  console.log("proforma selec", proformaSeleccionada);
  
   return (
-    <div style={{ width: "100%", paddingTop: 10 }}>
+    <div style={{ width: "100%", paddingTop: 10, overflowY: "auto", maxHeight: "calc(100vh - 7rem)", paddingRight: 6 }}>
       <Grid container spacing={2}>
         {selectedClient && (
           <>
@@ -391,57 +402,135 @@ function PrecioProductos({
         inputProps={{ maxLength: 255 }}
       />
 
-      <table
-        style={{ marginTop: 20, justifyContent: "flex-end", width: "100%" }}
-      >
-        <tbody>
-          <tr>
-            <td style={{ textAlign: "right" }}>
-              <Typography fontSize={25}>Sub. total:</Typography>
-            </td>
-            <td style={{ textAlign: "end", width: "150px" }}>
-              <Typography fontSize={25}>{subTotalFinal}</Typography>
-            </td>
-          </tr>
-          <tr>
-            <td style={{ textAlign: "right" }}>
-              <Typography fontSize={25}>Total IGV 18%:</Typography>
-            </td>
-            <td style={{ textAlign: "end", width: "150px" }}>
-              <Typography fontSize={25}>{calculoIGV}</Typography>
-            </td>
-          </tr>
-          <tr>
-            <td style={{ textAlign: "right", color: "rgb(255,168,0)" }}>
-              <Typography fontSize={30} fontWeight="bold">
-                Importe Total:
+      {/* ======= DATOS EXCLUSIVOS DE EXPORTACIÓN ======= */}
+      {tipoProforma === 'EXPORTACION' && (
+        <>
+          <Typography style={{
+            fontWeight: "bold", marginTop: 16, marginBottom: 8,
+            color: "rgb(12,55,100)", borderBottom: "2px solid rgb(12,55,100)",
+            paddingBottom: 3, fontSize: 13, letterSpacing: 0.5
+          }}>
+            DATOS DE EXPORTACIÓN
+          </Typography>
+
+          {/* Puertos */}
+          <Grid container spacing={1} style={{ marginBottom: 6 }}>
+            <Grid item xs={6}>
+              <Typography style={{ fontWeight: "bold", fontSize: 12, marginBottom: 2 }}>Puerto de Embarque</Typography>
+              <TextField value={puertoEmbarque} onChange={e => setPuertoEmbarque(e.target.value)}
+                fullWidth variant="outlined" size="small"
+                disabled={proformaSeleccionada.estado === 'FAC'}
+                inputProps={{ maxLength: 100 }} placeholder="Ej: CALLAO, PERU" />
+            </Grid>
+            <Grid item xs={6}>
+              <Typography style={{ fontWeight: "bold", fontSize: 12, marginBottom: 2 }}>Puerto de Destino</Typography>
+              <TextField value={puertoDestino} onChange={e => setPuertoDestino(e.target.value)}
+                fullWidth variant="outlined" size="small"
+                disabled={proformaSeleccionada.estado === 'FAC'}
+                inputProps={{ maxLength: 100 }} placeholder="Ej: GUAYAQUIL, ECUADOR" />
+            </Grid>
+          </Grid>
+
+          {/* Costos USD */}
+          <Grid container spacing={1} style={{ marginBottom: 6 }}>
+            <Grid item xs={4}>
+              <Typography style={{ fontWeight: "bold", fontSize: 12, marginBottom: 2 }}>
+                Gastos Agencia/Puerto
+                <span style={{ fontWeight: "normal", color: "#888", marginLeft: 4 }}>USD</span>
               </Typography>
-            </td>
-            <td
-              style={{
-                color: "rgb(255,168,0)",
-                textAlign: "end",
-                width: "150px",
-              }}
-            >
-              <Typography fontSize={30} fontWeight="bold">
-                {totalFinal}
+              <TextField value={gastosAgencia} onChange={e => setGastosAgencia(e.target.value)}
+                fullWidth variant="outlined" size="small" type="number"
+                disabled={proformaSeleccionada.estado === 'FAC'}
+                inputProps={{ min: 0, step: 0.01 }} />
+            </Grid>
+            <Grid item xs={4}>
+              <Typography style={{ fontWeight: "bold", fontSize: 12, marginBottom: 2 }}>
+                Flete
+                <span style={{ fontWeight: "normal", color: "#888", marginLeft: 4 }}>USD</span>
               </Typography>
-            </td>
-          </tr>
-          <tr>
-            <td style={{ textAlign: "right" }}>
-              <Typography fontSize={25}>
-                Total en {monedaValue === "SOLES" ? "DÓLARES" : "SOLES"} (T/C{" "}
-                {moneda}):
+              <TextField value={flete} onChange={e => setFlete(e.target.value)}
+                fullWidth variant="outlined" size="small" type="number"
+                disabled={proformaSeleccionada.estado === 'FAC'}
+                inputProps={{ min: 0, step: 0.01 }} />
+            </Grid>
+            <Grid item xs={4}>
+              <Typography style={{ fontWeight: "bold", fontSize: 12, marginBottom: 2 }}>
+                Seguro
+                <span style={{ fontWeight: "normal", color: "#888", marginLeft: 4 }}>USD</span>
               </Typography>
-            </td>
-            <td style={{ textAlign: "end", width: "150px" }}>
-              <Typography fontSize={25}> {totalConvertido}</Typography>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+              <TextField value={seguro} onChange={e => setSeguro(e.target.value)}
+                fullWidth variant="outlined" size="small" type="number"
+                disabled={proformaSeleccionada.estado === 'FAC'}
+                inputProps={{ min: 0, step: 0.01 }} />
+            </Grid>
+          </Grid>
+
+          {/* Términos de Pago */}
+          <Grid container spacing={1} style={{ marginBottom: 6 }}>
+            <Grid item xs={12}>
+              <Typography style={{ fontWeight: "bold", fontSize: 12, marginBottom: 2 }}>
+                Términos de Pago
+                <span style={{ fontWeight: "normal", color: "#888", marginLeft: 4 }}>Terms of Payment</span>
+              </Typography>
+              <TextField value={terminosPago} onChange={e => setTerminosPago(e.target.value)}
+                fullWidth variant="outlined" size="small" multiline rows={2}
+                disabled={proformaSeleccionada.estado === 'FAC'}
+                inputProps={{ maxLength: 255 }}
+                placeholder="50% payment as deposit, 50% balance upon arrival of the goods at destination port." />
+            </Grid>
+          </Grid>
+
+          {/* Tiempo de Entrega + Términos de Embarque */}
+          <Grid container spacing={1}>
+            <Grid item xs={6}>
+              <Typography style={{ fontWeight: "bold", fontSize: 12, marginBottom: 2 }}>
+                Tiempo de Entrega
+                <span style={{ fontWeight: "normal", color: "#888", marginLeft: 4 }}>Delivery Time</span>
+              </Typography>
+              <TextField value={tiempoEntrega} onChange={e => setTiempoEntrega(e.target.value)}
+                fullWidth variant="outlined" size="small"
+                disabled={proformaSeleccionada.estado === 'FAC'}
+                inputProps={{ maxLength: 100 }}
+                placeholder="5 - 20 days after receiving the deposit" />
+            </Grid>
+            <Grid item xs={6}>
+              <Typography style={{ fontWeight: "bold", fontSize: 12, marginBottom: 2 }}>
+                Términos de Embarque
+                <span style={{ fontWeight: "normal", color: "#888", marginLeft: 4 }}>Terms of Shipment</span>
+              </Typography>
+              <TextField value={terminosEmbarque} onChange={e => setTerminosEmbarque(e.target.value)}
+                fullWidth variant="outlined" size="small"
+                disabled={proformaSeleccionada.estado === 'FAC'}
+                inputProps={{ maxLength: 100 }}
+                placeholder="CIF Puerto Guayaquil, Ecuador" />
+            </Grid>
+          </Grid>
+        </>
+      )}
+
+      <Box sx={{ mt: 2.5, border: "1px solid #e0e0e0", borderRadius: 1.5, overflow: "hidden" }}>
+        <Box sx={{ display: "flex", justifyContent: "space-between", px: 2, py: 1.2, bgcolor: "#fafafa" }}>
+          <Typography sx={{ fontSize: 13, fontWeight: "bold", color: "#444" }}>Sub total</Typography>
+          <Typography sx={{ fontSize: 13, fontWeight: "bold" }}>{subTotalFinal}</Typography>
+        </Box>
+        <Divider />
+        <Box sx={{ display: "flex", justifyContent: "space-between", px: 2, py: 1.2, bgcolor: "#fafafa" }}>
+          <Typography sx={{ fontSize: 13, fontWeight: "bold", color: "#444" }}>IGV (18%)</Typography>
+          <Typography sx={{ fontSize: 13, fontWeight: "bold" }}>{calculoIGV}</Typography>
+        </Box>
+        <Divider sx={{ borderColor: "#bbb" }} />
+        <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", px: 2, py: 1.8, bgcolor: "rgba(255,168,0,0.07)" }}>
+          <Typography sx={{ fontSize: 20, fontWeight: "bold", color: "rgb(255,168,0)" }}>Importe Total</Typography>
+          <Typography sx={{ fontSize: 20, fontWeight: "bold", color: "rgb(255,168,0)" }}>{totalFinal}</Typography>
+        </Box>
+        <Divider sx={{ borderColor: "#bbb" }} />
+        <Box sx={{ display: "flex", justifyContent: "space-between", px: 2, py: 1, bgcolor: "#f5f5f5" }}>
+          <Typography sx={{ fontSize: 12, fontWeight: "bold", color: "#888" }}>
+            Equiv. en {monedaValue === "SOLES" ? "DÓLARES" : "SOLES"} (T/C {moneda})
+          </Typography>
+          <Typography sx={{ fontSize: 12, fontWeight: "bold", color: "#888" }}>{totalConvertido}</Typography>
+        </Box>
+      </Box>
     </div>
   );
 }

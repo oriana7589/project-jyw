@@ -129,6 +129,15 @@ const TuComponente = ({tipoProforma, setTipoProforma}) => {
   const [fechaE, setFechaE] = React.useState("");
   const [fechaV, setFechaV] = React.useState("");
   const [observaciones, setObservaciones] = React.useState("");
+  // Campos de exportación
+  const [puertoEmbarque,   setPuertoEmbarque]   = React.useState("");
+  const [puertoDestino,    setPuertoDestino]     = React.useState("");
+  const [gastosAgencia,    setGastosAgencia]     = React.useState(0);
+  const [flete,            setFlete]             = React.useState(0);
+  const [seguro,           setSeguro]            = React.useState(0);
+  const [terminosPago,     setTerminosPago]      = React.useState("");
+  const [tiempoEntrega,    setTiempoEntrega]     = React.useState("");
+  const [terminosEmbarque, setTerminosEmbarque]  = React.useState("");
   const [isChecked1, setIsChecked1] = useState(false);
   const [isChecked2, setIsChecked2] = useState(true);
   const [isChecked, setIsChecked] = useState(false);
@@ -1137,7 +1146,15 @@ const TuComponente = ({tipoProforma, setTipoProforma}) => {
         porIGV,
         importeTotal,
         codCliente,
-        tipoProforma
+        tipoProforma,
+        puertoEmbarque,
+        puertoDestino,
+        parseFloat(gastosAgencia) || 0,
+        parseFloat(flete)         || 0,
+        parseFloat(seguro)        || 0,
+        terminosPago,
+        tiempoEntrega,
+        terminosEmbarque
       ).then((numeroProforma) => {
         setNumeroProforma(numeroProforma);
         handleBuscarProforma(numeroProforma);
@@ -1231,7 +1248,15 @@ const TuComponente = ({tipoProforma, setTipoProforma}) => {
         porIGV,
         importeTotal,
         codCliente,
-        tipoProforma
+        tipoProforma,
+        puertoEmbarque,
+        puertoDestino,
+        parseFloat(gastosAgencia) || 0,
+        parseFloat(flete)         || 0,
+        parseFloat(seguro)        || 0,
+        terminosPago,
+        tiempoEntrega,
+        terminosEmbarque
       );
       toast.success("Se ha actualizado la proforma con éxito");
     }
@@ -1454,6 +1479,15 @@ const TuComponente = ({tipoProforma, setTipoProforma}) => {
           ? ""
           : proformaSeleccionada.observacion.toString()
       );
+      // Campos de exportación (solo aplica si tipo EXPORTACION, el resto llega null/0)
+      setPuertoEmbarque(proformaSeleccionada.puertoEmbarque || "");
+      setPuertoDestino(proformaSeleccionada.puertoDestino || "");
+      setGastosAgencia(proformaSeleccionada.gastosAgencia ?? 0);
+      setFlete(proformaSeleccionada.flete ?? 0);
+      setSeguro(proformaSeleccionada.seguro ?? 0);
+      setTerminosPago(proformaSeleccionada.terminosPago || "");
+      setTiempoEntrega(proformaSeleccionada.tiempoEntrega || "");
+      setTerminosEmbarque(proformaSeleccionada.terminosEmbarque || "");
       formateFecha(proformaSeleccionada.fechaVencimiento);
       setMonedaValue(moneda_);
       setFormaPagos(
@@ -1987,6 +2021,14 @@ const TuComponente = ({tipoProforma, setTipoProforma}) => {
             handleCancelEdit = {handleCancelEdit}
             tipoProforma = {tipoProforma}
             editedItemIndex = {editedItemIndex}
+            puertoEmbarque={puertoEmbarque}       setPuertoEmbarque={setPuertoEmbarque}
+            puertoDestino={puertoDestino}         setPuertoDestino={setPuertoDestino}
+            gastosAgencia={gastosAgencia}         setGastosAgencia={setGastosAgencia}
+            flete={flete}                         setFlete={setFlete}
+            seguro={seguro}                       setSeguro={setSeguro}
+            terminosPago={terminosPago}           setTerminosPago={setTerminosPago}
+            tiempoEntrega={tiempoEntrega}         setTiempoEntrega={setTiempoEntrega}
+            terminosEmbarque={terminosEmbarque}   setTerminosEmbarque={setTerminosEmbarque}
           />
         </Collapse>
       </Card>

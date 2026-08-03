@@ -59,6 +59,15 @@ export default function CarritoCompras({
   agencia,
   setAgencia,
   tipoProforma,
+  // Props exportación
+  puertoEmbarque,    setPuertoEmbarque,
+  puertoDestino,     setPuertoDestino,
+  gastosAgencia,     setGastosAgencia,
+  flete,             setFlete,
+  seguro,            setSeguro,
+  terminosPago,      setTerminosPago,
+  tiempoEntrega,     setTiempoEntrega,
+  terminosEmbarque,  setTerminosEmbarque,
   editedItemIndex
 }) {
   const [focusItemIndex, setFocusItemIndex] = useState(null);
@@ -76,7 +85,7 @@ export default function CarritoCompras({
           height: "calc(100vh - 6.1rem)",
         }}
       >
-        <div style={{ flex: 0.4, height: "100%" }}>
+        <div style={{ flex: tipoProforma === 'EXPORTACION' ? 0.48 : 0.4, height: "100%" }}>
           <PrecioProductos
             cartItems={cartItems}
             vendedores={vendedores}
@@ -111,9 +120,18 @@ export default function CarritoCompras({
             selectedClient = {selectedClient}
             agencia = {agencia}
             setAgencia = {setAgencia}
+            tipoProforma={tipoProforma}
+            puertoEmbarque={puertoEmbarque}       setPuertoEmbarque={setPuertoEmbarque}
+            puertoDestino={puertoDestino}         setPuertoDestino={setPuertoDestino}
+            gastosAgencia={gastosAgencia}         setGastosAgencia={setGastosAgencia}
+            flete={flete}                         setFlete={setFlete}
+            seguro={seguro}                       setSeguro={setSeguro}
+            terminosPago={terminosPago}           setTerminosPago={setTerminosPago}
+            tiempoEntrega={tiempoEntrega}         setTiempoEntrega={setTiempoEntrega}
+            terminosEmbarque={terminosEmbarque}   setTerminosEmbarque={setTerminosEmbarque}
           />
         </div>
-        <div style={{ flex: 0.6, height: "100%", paddingLeft: "5vw", }}>
+        <div style={{ flex: tipoProforma === 'EXPORTACION' ? 0.52 : 0.6, height: "100%", paddingLeft: "1rem" }}>
           <ItemsProductos
             cartItems={cartItems}
             monedaValue={monedaValue}

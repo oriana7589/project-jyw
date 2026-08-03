@@ -538,7 +538,16 @@ export function postPGenerarProforma(
   porIGV,
   importeTotal,
   codCliente,
-  tipoProforma
+  tipoProforma,
+  // Campos exclusivos de exportación
+  puertoEmbarque    = "",
+  puertoDestino     = "",
+  gastosAgencia     = 0,
+  flete             = 0,
+  seguro            = 0,
+  terminosPago      = "",
+  tiempoEntrega     = "",
+  terminosEmbarque  = ""
 ) {
   const Proforma = axios
     .post(`${baseUrlProforma()}`, {
@@ -572,6 +581,15 @@ export function postPGenerarProforma(
       observacion: observaciones,
       tipoProforma: tipoProforma,
       listaDetalleProforma: listaDetalle,
+      // Exportación
+      puertoEmbarque,
+      puertoDestino,
+      gastosAgencia: parseFloat(gastosAgencia) || 0,
+      flete:         parseFloat(flete)         || 0,
+      seguro:        parseFloat(seguro)        || 0,
+      terminosPago,
+      tiempoEntrega,
+      terminosEmbarque,
     })
     .then((res) => {
       return res.data;
@@ -596,7 +614,16 @@ export function putActualizarProforma(
   porIGV,
   importeTotal,
   codCliente,
-  tipoProforma
+  tipoProforma,
+  // Campos exclusivos de exportación
+  puertoEmbarque    = "",
+  puertoDestino     = "",
+  gastosAgencia     = 0,
+  flete             = 0,
+  seguro            = 0,
+  terminosPago      = "",
+  tiempoEntrega     = "",
+  terminosEmbarque  = ""
 ) {
   console.log("transporte", transporte);
   const Proforma = axios
@@ -632,6 +659,15 @@ export function putActualizarProforma(
       observacion: observaciones,
       tipoProforma: tipoProforma,
       listaDetalleProforma: listaDetalle,
+      // Exportación
+      puertoEmbarque,
+      puertoDestino,
+      gastosAgencia: parseFloat(gastosAgencia) || 0,
+      flete:         parseFloat(flete)         || 0,
+      seguro:        parseFloat(seguro)        || 0,
+      terminosPago,
+      tiempoEntrega,
+      terminosEmbarque,
     })
     .then((res) => {
       return res.data;

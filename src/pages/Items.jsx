@@ -146,7 +146,15 @@ const PestañaContenido = ({
   handleIconButtonItemsClick,
   handleCancelEdit,
   tipoProforma,
-  editedItemIndex
+  editedItemIndex,
+  puertoEmbarque,    setPuertoEmbarque,
+  puertoDestino,     setPuertoDestino,
+  gastosAgencia,     setGastosAgencia,
+  flete,             setFlete,
+  seguro,            setSeguro,
+  terminosPago,      setTerminosPago,
+  tiempoEntrega,     setTiempoEntrega,
+  terminosEmbarque,  setTerminosEmbarque,
 }) => {
   switch (value) {
     case 0:
@@ -257,6 +265,14 @@ const PestañaContenido = ({
           setAgencia = {setAgencia}
           tipoProforma = {tipoProforma}
           editedItemIndex = {editedItemIndex}
+          puertoEmbarque={puertoEmbarque}       setPuertoEmbarque={setPuertoEmbarque}
+          puertoDestino={puertoDestino}         setPuertoDestino={setPuertoDestino}
+          gastosAgencia={gastosAgencia}         setGastosAgencia={setGastosAgencia}
+          flete={flete}                         setFlete={setFlete}
+          seguro={seguro}                       setSeguro={setSeguro}
+          terminosPago={terminosPago}           setTerminosPago={setTerminosPago}
+          tiempoEntrega={tiempoEntrega}         setTiempoEntrega={setTiempoEntrega}
+          terminosEmbarque={terminosEmbarque}   setTerminosEmbarque={setTerminosEmbarque}
         />
       );
     case 2:
@@ -383,7 +399,15 @@ const Items = ({
   handleIconButtonItemsClick,
   handleCancelEdit,
   tipoProforma,
-  editedItemIndex
+  editedItemIndex,
+  puertoEmbarque,    setPuertoEmbarque,
+  puertoDestino,     setPuertoDestino,
+  gastosAgencia,     setGastosAgencia,
+  flete,             setFlete,
+  seguro,            setSeguro,
+  terminosPago,      setTerminosPago,
+  tiempoEntrega,     setTiempoEntrega,
+  terminosEmbarque,  setTerminosEmbarque,
 }) => {
   const handleChangeTab = (event, newValue) => {
     setTabValue(newValue);
@@ -565,6 +589,14 @@ const Items = ({
             handleCancelEdit = {handleCancelEdit}
             tipoProforma = {tipoProforma}
             editedItemIndex = {editedItemIndex}
+            puertoEmbarque={puertoEmbarque}       setPuertoEmbarque={setPuertoEmbarque}
+            puertoDestino={puertoDestino}         setPuertoDestino={setPuertoDestino}
+            gastosAgencia={gastosAgencia}         setGastosAgencia={setGastosAgencia}
+            flete={flete}                         setFlete={setFlete}
+            seguro={seguro}                       setSeguro={setSeguro}
+            terminosPago={terminosPago}           setTerminosPago={setTerminosPago}
+            tiempoEntrega={tiempoEntrega}         setTiempoEntrega={setTiempoEntrega}
+            terminosEmbarque={terminosEmbarque}   setTerminosEmbarque={setTerminosEmbarque}
           />
         ) : !selectedClient ? (
           <div
