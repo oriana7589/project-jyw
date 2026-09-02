@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Card, CardActions, Box } from "@mui/material";
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer, toast } from "react-toastify";
 import SearchBar from "../../Util/SearchBar";
 import TablaCuentasInactivas from "../../components/Reactivacion/TablaCuentasInactivas";
 import FooterReactivacion from "../../components/Reactivacion/FooterReactivacion";
@@ -19,6 +21,7 @@ const Reactivacion = () => {
       })
       .catch((error) => {
         console.error("Error al obtener cuentas inactivas:", error);
+        toast.error(error.message || "No se pudo cargar la lista de cuentas inactivas");
         setCuentas([]);
       })
       .finally(() => {
@@ -96,6 +99,16 @@ const Reactivacion = () => {
 
         <FooterReactivacion contactados={contactadosCount} total={cuentas.length} />
       </Card>
+
+      <ToastContainer
+        position="top-center"
+        autoClose={4000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        pauseOnHover
+        theme="light"
+      />
     </div>
   );
 };

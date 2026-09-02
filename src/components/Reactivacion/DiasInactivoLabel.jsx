@@ -9,6 +9,14 @@ const getColor = (dias) => {
 };
 
 const DiasInactivoLabel = ({ dias }) => {
+  if (dias === null || dias === undefined) {
+    return (
+      <Typography component="span" sx={{ color: "text.secondary", fontSize: "0.85rem", fontStyle: "italic" }}>
+        Sin datos
+      </Typography>
+    );
+  }
+
   const texto = dias >= 180 ? "180+ días" : `${dias} días`;
 
   return (

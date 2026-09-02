@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { TableRow, TableCell, Typography, Box } from "@mui/material";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import { toast } from "react-toastify";
 import BadgeSegmento from "./BadgeSegmento";
 import DiasInactivoLabel from "./DiasInactivoLabel";
 import DetalleUltimasCompras from "./DetalleUltimasCompras";
@@ -20,12 +21,18 @@ const FilaCuentaInactiva = ({ cuenta, onContactado }) => {
 
   const handleConfirmar = () => {
     setCargando(true);
-    registrarLlamada(cuenta.codCliente).then((res) => {
-      setCargando(false);
-      setAccionEstado("contactado");
-      setFechaContacto(res.fechaContacto);
-      onContactado && onContactado(cuenta.id, res.fechaContacto);
-    });
+    registrarLlamada(cuenta.codCliente)
+      .then((res) => {
+        setCargando(false);
+        setAccionEstado("contactado");
+        setFechaContacto(res.fechaContacto);
+        onContactado && onContactado(cuenta.id, res.fechaContacto);
+      })
+      .catch((error) => {
+        setCargando(false);
+        setAccionEstado("default");
+        toast.error(error.message || "No se pudo registrar la llamada");
+      });
   };
 
   return (
@@ -48,7 +55,10 @@ const FilaCuentaInactiva = ({ cuenta, onContactado }) => {
         </TableCell>
 
         <TableCell sx={{ verticalAlign: "top", padding: "12px 8px", fontSize: "0.9rem" }}>
-          ${cuenta.comprasUltimos3Meses.toLocaleString("es-PE")}
+          ${Number(cuenta.comprasUltimos3Meses || 0).toLocaleString("es-PE", {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2,
+          })}
         </TableCell>
 
         <TableCell sx={{ verticalAlign: "top", padding: "12px 8px" }}>

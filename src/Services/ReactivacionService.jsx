@@ -1,187 +1,94 @@
 import axios from "axios";
 
-// TODO: reemplazar por la URL real del backend cuando la API de Reactivación esté lista
 const baseUrlReactivacion = () => {
-  return "http://10.10.0.25:9696/api/Reactivacion";
+  return "http://10.10.0.25:9695/api/ReactivacionClientes";
 };
 
 // ============================================================
-// MOCK DATA - Reemplazar las funciones de abajo por llamadas
-// axios reales cuando el backend esté disponible. La forma de
-// los datos ya está pensada para calzar con la respuesta real.
+// Mapeo de la respuesta real del backend hacia la forma que
+// usan los componentes de la tabla.
 // ============================================================
 
-const SEGMENTOS = {
-  SUPER_VIP: "SUPER VIP",
-  CLIENTE_PRINCIPAL: "CLIENTE PRINCIPAL",
-  CHAMPIONS: "CHAMPIONS",
-  POTENCIAL: "POTENCIAL",
-  EN_RIESGO: "EN RIESGO",
-};
+function mapProductosTop(productosTop = []) {
+  return productosTop.map((p) => ({
+    codigo: p.cod_articulo,
+    descripcion: p.des_marca ? `${p.des_articulo} (${p.des_marca})` : p.des_articulo,
+    cantidad: p.qty,
+  }));
+}
 
-const MOCK_CUENTAS_INACTIVAS = [
-  {
-    id: 1,
-    codCliente: "CLI-001",
-    razonSocial: "TRANSPORTES NORTE SAC",
-    segmento: SEGMENTOS.SUPER_VIP,
-    comprasUltimos3Meses: 1250,
-    diasInactivo: 145,
-    cantidadUltimasCompras: 3,
-    contactado: false,
-    fechaContacto: null,
-    ultimasCompras: [
-      { codigo: "20392751-DFG", descripcion: "TAPA COMBUST.C/LLAVE/CADENA (80MM) FH12/FM12/FH16 (1189577)(8152630)", cantidad: 16 },
-      { codigo: "8127152-DFG", descripcion: "BOLSA AIRE POST B58 C/BASE TIPO 8 (365431)", cantidad: 14 },
-      { codigo: "22223804-DFG", descripcion: "FILTRO SECADOR AIRE FMX-FH(21412848) 23260134 K09683750", cantidad: 13 },
-    ],
-  },
-  {
-    id: 2,
-    codCliente: "CLI-002",
-    razonSocial: "EMPRESA MINERA LOS ANDES",
-    segmento: SEGMENTOS.CLIENTE_PRINCIPAL,
-    comprasUltimos3Meses: 3400,
-    diasInactivo: 92,
-    cantidadUltimasCompras: 2,
-    contactado: false,
-    fechaContacto: null,
-    ultimasCompras: [
-      { codigo: "10234567-ABC", descripcion: "FILTRO DE ACEITE MOTOR SERIE 400", cantidad: 8 },
-      { codigo: "10234568-ABC", descripcion: "FILTRO DE COMBUSTIBLE SERIE 400", cantidad: 6 },
-    ],
-  },
-  {
-    id: 3,
-    codCliente: "CLI-003",
-    razonSocial: "CONSTRUCTORA LIMA SA",
-    segmento: SEGMENTOS.SUPER_VIP,
-    comprasUltimos3Meses: 850,
-    diasInactivo: 110,
-    cantidadUltimasCompras: 2,
-    contactado: false,
-    fechaContacto: null,
-    ultimasCompras: [
-      { codigo: "30987654-XYZ", descripcion: "KIT DE FRENOS DELANTEROS", cantidad: 4 },
-      { codigo: "30987655-XYZ", descripcion: "PASTILLAS DE FRENO TRASERAS", cantidad: 10 },
-    ],
-  },
-  {
-    id: 4,
-    codCliente: "CLI-004",
-    razonSocial: "GRUPO LOGÍSTICO DEL SUR",
-    segmento: SEGMENTOS.CLIENTE_PRINCIPAL,
-    comprasUltimos3Meses: 5120,
-    diasInactivo: 185,
-    cantidadUltimasCompras: 3,
-    contactado: false,
-    fechaContacto: null,
-    ultimasCompras: [
-      { codigo: "40112233-LMN", descripcion: "AMORTIGUADOR TRASERO IZQUIERDO", cantidad: 5 },
-      { codigo: "40112234-LMN", descripcion: "AMORTIGUADOR TRASERO DERECHO", cantidad: 5 },
-      { codigo: "40112235-LMN", descripcion: "RESORTE DE SUSPENSIÓN", cantidad: 3 },
-    ],
-  },
-  {
-    id: 5,
-    codCliente: "CLI-005",
-    razonSocial: "TRANSPORTE RÁPIDO EIRL",
-    segmento: SEGMENTOS.CHAMPIONS,
-    comprasUltimos3Meses: 7800,
-    diasInactivo: 67,
-    cantidadUltimasCompras: 2,
-    contactado: false,
-    fechaContacto: null,
-    ultimasCompras: [
-      { codigo: "50556677-OPQ", descripcion: "NEUMÁTICO 295/80R22.5", cantidad: 12 },
-      { codigo: "50556678-OPQ", descripcion: "VÁLVULA DE AIRE PARA NEUMÁTICO", cantidad: 20 },
-    ],
-  },
-  {
-    id: 6,
-    codCliente: "CLI-006",
-    razonSocial: "INVERSIONES VIAL SA",
-    segmento: SEGMENTOS.POTENCIAL,
-    comprasUltimos3Meses: 420,
-    diasInactivo: 200,
-    cantidadUltimasCompras: 1,
-    contactado: false,
-    fechaContacto: null,
-    ultimasCompras: [
-      { codigo: "60778899-RST", descripcion: "BATERÍA 12V 150AH", cantidad: 2 },
-    ],
-  },
-  {
-    id: 7,
-    codCliente: "CLI-007",
-    razonSocial: "DISTRIBUIDORA CENTRAL PERÚ",
-    segmento: SEGMENTOS.EN_RIESGO,
-    comprasUltimos3Meses: 980,
-    diasInactivo: 155,
-    cantidadUltimasCompras: 2,
-    contactado: false,
-    fechaContacto: null,
-    ultimasCompras: [
-      { codigo: "70990011-UVW", descripcion: "CORREA DE DISTRIBUCIÓN", cantidad: 6 },
-      { codigo: "70990012-UVW", descripcion: "TENSOR DE CORREA", cantidad: 6 },
-    ],
-  },
-  {
-    id: 8,
-    codCliente: "CLI-008",
-    razonSocial: "MINERA ANDINA CORPORACIÓN",
-    segmento: SEGMENTOS.CHAMPIONS,
-    comprasUltimos3Meses: 12400,
-    diasInactivo: 78,
-    cantidadUltimasCompras: 3,
-    contactado: false,
-    fechaContacto: null,
-    ultimasCompras: [
-      { codigo: "80001122-HIJ", descripcion: "MANGUERA HIDRÁULICA ALTA PRESIÓN", cantidad: 15 },
-      { codigo: "80001123-HIJ", descripcion: "ACOPLE RÁPIDO HIDRÁULICO", cantidad: 20 },
-      { codigo: "80001124-HIJ", descripcion: "ACEITE HIDRÁULICO ISO 68 (BALDE 5GL)", cantidad: 9 },
-    ],
-  },
-];
+function formatearFecha(fechaISO) {
+  if (!fechaISO) return null;
+  return new Date(fechaISO).toLocaleDateString("es-PE");
+}
 
-const simularDelay = (data, ms = 500) =>
-  new Promise((resolve) => setTimeout(() => resolve(data), ms));
+function mapCuenta(item) {
+  return {
+    id: item.clientId,
+    codCliente: item.clientId,
+    razonSocial: item.razonSocial,
+    vendedor: item.vendedor,
+    segmento: item.segmentoHace3Meses,
+    segmentoActual: item.segmentoActual,
+    comprasUltimos3Meses: item.comprasTresMeses,
+    diasInactivo: item.diasInactivo, // puede venir null
+    cantidadUltimasCompras: (item.productosTop || []).length,
+    ultimasCompras: mapProductosTop(item.productosTop),
+    contactado: !!item.contacted,
+    fechaContacto: formatearFecha(item.contactedAt),
+  };
+}
 
 /**
- * Obtiene la lista de cuentas inactivas, opcionalmente filtradas por
- * RUC o Razón Social.
- *
- * TODO: reemplazar por:
- *   return axios.get(`${baseUrlReactivacion()}/CuentasInactivas`, { params: { criterio } })
- *     .then((res) => res.data);
+ * Obtiene la lista de cuentas inactivas. El backend no soporta
+ * filtro por parámetro (GET sin params), así que el filtro por
+ * RUC/Razón se aplica en el cliente sobre la lista completa.
  */
-export function getCuentasInactivas(criterio = "") {
+export async function getCuentasInactivas(criterio = "") {
+  const response = await axios.get(`${baseUrlReactivacion()}`);
+  const lista = (response.data && response.data.data) || [];
+  const cuentas = lista.map(mapCuenta);
+
   const criterioNormalizado = criterio.trim().toLowerCase();
+  if (!criterioNormalizado) {
+    return cuentas;
+  }
 
-  const resultado = !criterioNormalizado
-    ? MOCK_CUENTAS_INACTIVAS
-    : MOCK_CUENTAS_INACTIVAS.filter(
-        (c) =>
-          c.razonSocial.toLowerCase().includes(criterioNormalizado) ||
-          c.codCliente.toLowerCase().includes(criterioNormalizado)
-      );
-
-  return simularDelay(resultado);
+  return cuentas.filter(
+    (c) =>
+      c.razonSocial.toLowerCase().includes(criterioNormalizado) ||
+      String(c.codCliente).toLowerCase().includes(criterioNormalizado)
+  );
 }
 
 /**
- * Registra que se realizó la llamada de reactivación a un cliente.
- * Devuelve la fecha de contacto para reflejarla en la UI.
- *
- * TODO: reemplazar por:
- *   return axios.post(`${baseUrlReactivacion()}/RegistrarLlamada`, { codCliente })
- *     .then((res) => res.data);
+ * Registra la llamada de reactivación a un cliente.
+ * PUT /api/ReactivacionClientes/{clientId}/Contacto (sin body).
  */
-export function registrarLlamada(codCliente) {
-  const fechaContacto = new Date().toLocaleDateString("es-PE");
-  return simularDelay({ codCliente, contactado: true, fechaContacto }, 400);
+export async function registrarLlamada(clientId) {
+  try {
+    const response = await axios.put(`${baseUrlReactivacion()}/${clientId}/Contacto`);
+    const body = response.data;
+
+    if (!body || !body.success) {
+      throw new Error((body && body.message) || "No se pudo registrar la llamada");
+    }
+
+    return {
+      codCliente: body.data.clientId,
+      contactado: true,
+      fechaContacto: formatearFecha(body.data.contactedAt) || new Date().toLocaleDateString("es-PE"),
+    };
+  } catch (error) {
+    const errorMessage =
+      (error.response && error.response.data && error.response.data.message) ||
+      error.message ||
+      "No se pudo registrar la llamada";
+    throw new Error(errorMessage);
+  }
 }
 
-export function getTotalCuentasInactivas() {
-  return simularDelay(MOCK_CUENTAS_INACTIVAS.length, 0);
+export async function getTotalCuentasInactivas() {
+  const lista = await getCuentasInactivas();
+  return lista.length;
 }

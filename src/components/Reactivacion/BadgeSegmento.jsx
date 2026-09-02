@@ -1,30 +1,54 @@
 import React from "react";
 import { Chip } from "@mui/material";
 
-// Colores por segmento, siguiendo la paleta usada en el resto del sistema
-const SEGMENTO_STYLES = {
-  "SUPER VIP": { backgroundColor: "rgb(255, 214, 110)", color: "rgb(110, 76, 0)" },
-  "CLIENTE PRINCIPAL": { backgroundColor: "rgb(209, 228, 255)", color: "rgb(12, 55, 100)" },
-  CHAMPIONS: { backgroundColor: "rgb(198, 239, 206)", color: "rgb(30, 110, 50)" },
-  POTENCIAL: { backgroundColor: "rgb(226, 214, 245)", color: "rgb(90, 50, 140)" },
-  "EN RIESGO": { backgroundColor: "rgb(255, 214, 214)", color: "rgb(160, 30, 30)" },
-};
+// El backend real usa nombres de segmento tipo RFM (Core Customers,
+// Champions, Dormant Customers OR Lost, At Risk, Potential, etc.)
+// que no siempre coinciden exactamente con un catálogo fijo, así que
+// coloreamos por coincidencia parcial de palabras clave.
+const REGLAS_COLOR = [
+  { test: /champion/i, style: { backgroundColor: "rgb(198, 239, 206)", color: "rgb(30, 110, 50)" } },
+  { test: /(lost|dormant|hibernat)/i, style: { backgroundColor: "rgb(255, 214, 214)", color: "rgb(160, 30, 30)" } },
+  { test: /risk/i, style: { backgroundColor: "rgb(255, 214, 214)", color: "rgb(160, 30, 30)" } },
+  { test: /(potential|promising|new)/i, style: { backgroundColor: "rgb(226, 214, 245)", color: "rgb(90, 50, 140)" } },
+  { test: /(vip|super)/i, style: { backgroundColor: "rgb(255, 214, 110)", color: "rgb(110, 76, 0)" } },
+  { test: /(core|loyal|principal)/i, style: { backgroundColor: "rgb(209, 228, 255)", color: "rgb(12, 55, 100)" } },
+];
 
 const DEFAULT_STYLE = { backgroundColor: "rgb(230, 230, 230)", color: "rgb(80, 80, 80)" };
 
+function getEstiloSegmento(segmento) {
+  if (!segmento) return DEFAULT_STYLE;
+  const regla = REGLAS_COLOR.find((r) => r.test.test(segmento));
+  return regla ? regla.style : DEFAULT_STYLE;
+}
+
 const BadgeSegmento = ({ segmento }) => {
-  const style = SEGMENTO_STYLES[segmento] || DEFAULT_STYLE;
+  if (!segmento) {
+    return (
+      <Chip
+        label="Sin datos"
+        size="small"
+        sx={{ ...DEFAULT_STYLE, fontSize: "0.7rem", borderRadius: "4px", height: "22px" }}
+      />
+    );
+  }
 
   return (
     <Chip
       label={segmento}
       size="small"
       sx={{
-        ...style,
+        ...getEstiloSegmento(segmento),
         fontWeight: "bold",
         fontSize: "0.7rem",
         borderRadius: "4px",
         height: "22px",
+        maxWidth: "160px",
+        "& .MuiChip-label": {
+          whiteSpace: "normal",
+          lineHeight: 1.2,
+          padding: "4px 8px",
+        },
       }}
     />
   );
