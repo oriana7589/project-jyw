@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { Card, CardActions, Box } from "@mui/material";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer, toast } from "react-toastify";
@@ -9,44 +9,76 @@ import { getCuentasInactivas } from "../../Services/ReactivacionService";
 
 const Reactivacion = () => {
   const [criterio, setCriterio] = useState("");
-  const [cuentas, setCuentas] = useState([]);
+  const [criterioAplicado, setCriterioAplicado] = useState("");
+  const [cuentasCompletas, setCuentasCompletas] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [searchTriggered, setSearchTriggered] = useState(false);
 
-  const cargarCuentas = (criterioBusqueda = "") => {
+  // Usuario logeado (se comparte vía localStorage entre la app principal
+  // y esta ventana emergente, ya que son el mismo origen).
+  const usuario = JSON.parse(localStorage.getItem("usuario") || "null");
+  const rol = (usuario?.rol || "").trim().toUpperCase();
+  const nombreCompletoUsuario = `${usuario?.nombres || ""} ${usuario?.apellidos || ""}`
+    .trim()
+    .toUpperCase();
+
+  // Admin ve todas las cuentas. Vendedor solo ve las cuentas asignadas
+  // a su propio nombre (campo "vendedor" que devuelve el backend).
+  const filtrarPorRol = (lista) => {
+    if (rol === "ADMIN") {
+      return lista;
+    }
+    if (rol === "VENDEDOR") {
+      return lista.filter(
+        (c) => (c.vendedor || "").trim().toUpperCase() === nombreCompletoUsuario
+      );
+    }
+    return lista;
+  };
+
+  // Carga única: se trae la lista completa (ya filtrada por rol) al abrir
+  // la ventana. El buscador de RUC/Razón filtra en memoria a partir de acá,
+  // sin volver a llamar a la API.
+  useEffect(() => {
     setIsLoading(true);
-    getCuentasInactivas(criterioBusqueda)
+    getCuentasInactivas()
       .then((data) => {
-        setCuentas(data || []);
+        setCuentasCompletas(filtrarPorRol(data || []));
       })
       .catch((error) => {
         console.error("Error al obtener cuentas inactivas:", error);
         toast.error(error.message || "No se pudo cargar la lista de cuentas inactivas");
-        setCuentas([]);
+        setCuentasCompletas([]);
       })
       .finally(() => {
         setIsLoading(false);
-        setSearchTriggered(true);
       });
-  };
-
-  // Carga inicial: la ventana se abre ya con la lista completa,
-  // igual que se ve en las capturas de referencia.
-  useEffect(() => {
-    cargarCuentas();
   }, []);
 
   const handleBuscar = () => {
-    cargarCuentas(criterio);
+    setCriterioAplicado(criterio);
+    setSearchTriggered(true);
   };
 
+  const cuentasFiltradas = useMemo(() => {
+    const texto = criterioAplicado.trim().toLowerCase();
+    if (!texto) {
+      return cuentasCompletas;
+    }
+    return cuentasCompletas.filter(
+      (c) =>
+        c.razonSocial.toLowerCase().includes(texto) ||
+        String(c.codCliente).toLowerCase().includes(texto)
+    );
+  }, [cuentasCompletas, criterioAplicado]);
+
   const handleContactado = (id, fechaContacto) => {
-    setCuentas((prev) =>
+    setCuentasCompletas((prev) =>
       prev.map((c) => (c.id === id ? { ...c, contactado: true, fechaContacto } : c))
     );
   };
 
-  const contactadosCount = cuentas.filter((c) => c.contactado).length;
+  const contactadosCount = cuentasCompletas.filter((c) => c.contactado).length;
 
   return (
     <div
@@ -90,14 +122,14 @@ const Reactivacion = () => {
 
         <Box sx={{ flex: 1, minHeight: 0, overflow: "hidden" }}>
           <TablaCuentasInactivas
-            cuentas={cuentas}
+            cuentas={cuentasFiltradas}
             isLoading={isLoading}
             searchTriggered={searchTriggered}
             onContactado={handleContactado}
           />
         </Box>
 
-        <FooterReactivacion contactados={contactadosCount} total={cuentas.length} />
+        <FooterReactivacion contactados={contactadosCount} total={cuentasCompletas.length} />
       </Card>
 
       <ToastContainer

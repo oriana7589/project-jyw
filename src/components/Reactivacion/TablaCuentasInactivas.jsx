@@ -8,8 +8,8 @@ import TableRow from "@mui/material/TableRow";
 import { styled } from "@mui/material/styles";
 import FilaCuentaInactiva from "./FilaCuentaInactiva";
 import LoadingIndicator from "../../Util/LoadingIndicator";
-import CenteredContent from "../../Util/CenteredContent";
-import { Typography } from "@mui/material";
+import NoResults from "../../Util/NoResults";
+import ResultImage from "../../image/result.png";
 import CustomScrollTable from "../CustomScrollTable";
 
 const StyledTableHead = styled(TableHead)({
@@ -30,11 +30,11 @@ const TablaCuentasInactivas = ({ cuentas, isLoading, searchTriggered, onContacta
 
   if (searchTriggered && cuentas.length === 0) {
     return (
-      <CenteredContent>
-        <Typography variant="h6" color="text.secondary">
-          No se encontraron cuentas inactivas para ese criterio
-        </Typography>
-      </CenteredContent>
+      <NoResults
+        imageSrc={ResultImage}
+        message="No se encontraron cuentas inactivas para ese criterio"
+        style={{ height: "100%" }}
+      />
     );
   }
 

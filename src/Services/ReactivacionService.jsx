@@ -40,25 +40,16 @@ function mapCuenta(item) {
 }
 
 /**
- * Obtiene la lista de cuentas inactivas. El backend no soporta
- * filtro por parámetro (GET sin params), así que el filtro por
- * RUC/Razón se aplica en el cliente sobre la lista completa.
+ * Obtiene la lista completa de cuentas inactivas. El backend no
+ * soporta filtro por parámetro (GET sin params) ni lo necesita:
+ * el buscador de RUC/Razón filtra en memoria dentro de la página
+ * (ver src/pages/Reactivacion/reactivacion.jsx), sin volver a
+ * llamar a esta API por cada búsqueda.
  */
-export async function getCuentasInactivas(criterio = "") {
+export async function getCuentasInactivas() {
   const response = await axios.get(`${baseUrlReactivacion()}`);
   const lista = (response.data && response.data.data) || [];
-  const cuentas = lista.map(mapCuenta);
-
-  const criterioNormalizado = criterio.trim().toLowerCase();
-  if (!criterioNormalizado) {
-    return cuentas;
-  }
-
-  return cuentas.filter(
-    (c) =>
-      c.razonSocial.toLowerCase().includes(criterioNormalizado) ||
-      String(c.codCliente).toLowerCase().includes(criterioNormalizado)
-  );
+  return lista.map(mapCuenta);
 }
 
 /**

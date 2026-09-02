@@ -1,6 +1,6 @@
 import React from "react";
 import { Typography } from "@mui/material";
-const NoResults = ({ imageSrc, message, style = {}, imageStyle = {}, textStyle = {} }) => {
+const NoResults = ({ imageSrc, icon, message, style = {}, imageStyle = {}, textStyle = {} }) => {
   return (
     <div
       style={{
@@ -13,16 +13,20 @@ const NoResults = ({ imageSrc, message, style = {}, imageStyle = {}, textStyle =
         ...style,
       }}
     >
-      <img
-        src={imageSrc}
-        alt="No Results"
-        style={{
-          width: 180,
-          height: 160,
-          opacity: 0.7,
-          ...imageStyle, 
-        }}
-      />
+      {icon ? (
+        icon
+      ) : (
+        <img
+          src={imageSrc}
+          alt="No Results"
+          style={{
+            width: 180,
+            height: 160,
+            opacity: 0.7,
+            ...imageStyle, 
+          }}
+        />
+      )}
       <Typography
         style={{
           color: "rgb(12, 55, 100)",
