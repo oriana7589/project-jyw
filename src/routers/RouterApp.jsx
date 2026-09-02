@@ -10,6 +10,7 @@ import ListaPreciosStock from "../pages/Reportes/ListaPreciosStock";
 import MantenimientoArticulos from "../pages/MantenimientoArticulos/MantenimientoArticulos";
 import { Login } from "@mui/icons-material";
 import SignInSide from "../pages/LogIn/SingInSide";
+import Reactivacion from "../pages/Reactivacion/reactivacion";
 
 function RouterApp() {
 
@@ -27,6 +28,7 @@ function RouterApp() {
       <Route path="/reportes/ventas-diarias" element = {<VentasDiarias/>} ></Route>
       <Route path="/reportes/lista-precios-stock" element = {<ListaPreciosStock/>} ></Route>
       <Route path="/mantenimiento-articulos" element = {<MantenimientoArticulos/>} ></Route>
+      <Route path="/reactivacion" element = {<Reactivacion/>} ></Route>
     </Routes>
   );
 }

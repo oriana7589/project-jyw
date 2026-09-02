@@ -10,6 +10,7 @@ import LogoCom from "../image/logoCompleto.png";
 import MenuAcordion from "../pages/MenuAcordion";
 import ArticleIcon from "@mui/icons-material/Article";
 import Inventory2Icon from "@mui/icons-material/Inventory2";
+import PhoneCallbackIcon from "@mui/icons-material/PhoneCallback";
 import {
   Dialog,
   DialogActions,
@@ -146,6 +147,7 @@ const Drawer = styled(MuiDrawer, {
 // const urlVentasDiarias = "http://localhost:5173/reportes/ventas-diarias"; //url para desarrollo
 // const urlListaPreciosStock = "http://localhost:5173/reportes/lista-precios-stock"; //url para desarrollo
 // const urlMantenimientoArticulos = "http://localhost:5173/mantenimiento-articulos"; //url para desarrollo
+ const urlReactivacion = "http://localhost:5173/reactivacion"; //url para desarrollo
 
 const url = "http://10.10.0.25:9697/consultaPreciosYStock"; //url para produccion
 const urlClientes = "http://10.10.0.25:9697/clientes"; //url para produccion
@@ -154,6 +156,8 @@ const urlListadoProformas = "http://10.10.0.25:9697/listado-proformas"; //url pa
 const urlVentasDiarias = "http://10.10.0.25:9697/reportes/ventas-diarias"; //url para produccion
 const urlListaPreciosStock = "http://10.10.0.25:9697/reportes/lista-precios-stock"; //url para produccion
 const urlMantenimientoArticulos = "http://10.10.0.25:9697/mantenimiento-articulos"; //url para produccion
+//const urlReactivacion = "http://10.10.0.25:9697/reactivacion"; //url para produccion
+
 
 export default function DrawerModel() {
   const theme = useTheme();
@@ -376,6 +380,12 @@ export default function DrawerModel() {
                 label: "Artículo",
                 icon: <Inventory2Icon sx={{ color: "rgb(12,55,100)" }} />,
                 onClick: () => handleOpenWindow(urlMantenimientoArticulos, 1200, 800),
+              },
+              {
+                id: 8,
+                label: "Reactivación",
+                icon: <PhoneCallbackIcon sx={{ color: "rgb(12,55,100)" }} />,
+                onClick: () => handleOpenWindow(urlReactivacion, 1200, 800),
               },
             ].filter(item => {
               // Filtrar item Reportes si no es Admin
