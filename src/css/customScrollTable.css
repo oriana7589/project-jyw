@@ -6,13 +6,13 @@
   }
   
   .custom-scroll-table::-webkit-scrollbar {
-    width: 10px; /* Ancho del scrollbar */
-    height: 5px; /* Altura del scrollbar horizontal */
+    width: 6px; /* Ancho del scrollbar, más delgado */
+    height: 6px; /* Altura del scrollbar horizontal */
   }
   
   .custom-scroll-table::-webkit-scrollbar-thumb {
     background: #888; /* Color del thumb */
-    border-radius: 10px; /* Redondear el thumb */
+    border-radius: 999px; /* Thumb totalmente redondeado */
   }
   
   .custom-scroll-table::-webkit-scrollbar-thumb:hover {
@@ -20,5 +20,6 @@
   }
   
   .custom-scroll-table::-webkit-scrollbar-track {
-    background: #f1f1f1; /* Color del fondo del scrollbar */
+    background: transparent; /* Track sin fondo, más minimalista */
+    margin: 4px 0;
   }

@@ -25,17 +25,17 @@ const BotonAccionLlamada = ({
             display: "inline-flex",
             alignItems: "center",
             gap: "6px",
-            backgroundColor: "rgb(214, 245, 219)",
-            color: "rgb(30, 110, 50)",
+            backgroundColor: "rgb(176, 233, 185)",
+            color: "rgb(46, 129, 67)",
             borderRadius: "999px",
-            padding: "6px 14px",
+            padding: "2.5px 14px",
           }}
         >
           <CheckIcon sx={{ fontSize: "1rem" }} />
           <Typography sx={{ fontSize: "0.85rem", fontWeight: "bold" }}>Contactado</Typography>
         </Box>
         {fechaContacto && (
-          <Typography sx={{ fontSize: "0.75rem", color: "text.secondary", paddingLeft: "4px" }}>
+          <Typography sx={{ fontSize: "0.7rem", color: "text.secondary", paddingLeft: "4px" }}>
             {fechaContacto}
           </Typography>
         )}

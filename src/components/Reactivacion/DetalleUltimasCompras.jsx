@@ -43,8 +43,8 @@ const DetalleUltimasCompras = ({ open, ultimasCompras = [], colSpan }) => {
                     border: "1px solid rgba(0,0,0,0.08)",
                   }}
                 >
-                  <Typography sx={{ fontSize: "0.85rem" }}>
-                    <Typography component="span" sx={{ fontWeight: "bold", marginRight: "8px" }}>
+                  <Typography sx={{ fontSize: "0.75rem" }}>
+                    <Typography component="span" sx={{ fontWeight: "bold", fontSize: "0.75rem", marginRight: "8px" }}>
                       {item.codigo}
                     </Typography>
                     {item.descripcion}
