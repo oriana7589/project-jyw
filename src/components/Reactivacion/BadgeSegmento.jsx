@@ -22,6 +22,14 @@ function getEstiloSegmento(segmento) {
   return regla ? regla.style : DEFAULT_STYLE;
 }
 
+// El backend a veces manda variantes combinadas como
+// "Dormant Customers OR Lost"; en el badge solo mostramos la
+// primera parte ("Dormant Customers") para que quede corto.
+function getLabelCorto(segmento) {
+  if (!segmento) return "Sin datos";
+  return segmento.split(/\s+OR\s+/i)[0].trim();
+}
+
 const BadgeSegmento = ({ segmento }) => {
   if (!segmento) {
     return (
@@ -35,7 +43,7 @@ const BadgeSegmento = ({ segmento }) => {
 
   return (
     <Chip
-      label={segmento}
+      label={getLabelCorto(segmento)}
       size="small"
       sx={{
         ...getEstiloSegmento(segmento),

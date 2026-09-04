@@ -4,7 +4,6 @@ import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import { toast } from "react-toastify";
 import BadgeSegmento from "./BadgeSegmento";
-import DiasInactivoLabel from "./DiasInactivoLabel";
 import DetalleUltimasCompras from "./DetalleUltimasCompras";
 import BotonAccionLlamada from "./BotonAccionLlamada";
 import { registrarLlamada } from "../../Services/ReactivacionService";
@@ -62,7 +61,7 @@ const FilaCuentaInactiva = ({ cuenta, onContactado }) => {
         </TableCell>
 
         <TableCell sx={{ verticalAlign: "top", padding: "12px 8px" }}>
-          <DiasInactivoLabel dias={cuenta.diasInactivo} />
+          <BadgeSegmento segmento={cuenta.segmentoActual} />
         </TableCell>
 
         <TableCell sx={{ verticalAlign: "top", padding: "12px 8px" }}>
