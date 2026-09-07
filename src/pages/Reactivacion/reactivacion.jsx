@@ -68,6 +68,7 @@ const Reactivacion = () => {
     return cuentasCompletas.filter(
       (c) =>
         c.razonSocial.toLowerCase().includes(texto) ||
+        (c.ruc || "").toLowerCase().includes(texto) ||
         String(c.codCliente).toLowerCase().includes(texto)
     );
   }, [cuentasCompletas, criterioAplicado]);

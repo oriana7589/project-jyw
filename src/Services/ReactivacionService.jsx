@@ -26,6 +26,7 @@ function mapCuenta(item) {
   return {
     id: item.clientId,
     codCliente: item.clientId,
+    ruc: (item.ruc || "").trim(),
     razonSocial: item.razonSocial,
     vendedor: item.vendedor,
     segmento: item.segmentoHace3Meses,

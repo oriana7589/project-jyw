@@ -46,7 +46,7 @@ const FilaCuentaInactiva = ({ cuenta, onContactado }) => {
       >
         <TableCell sx={{ verticalAlign: "top", padding: "12px 8px" }}>
           <Typography sx={{ fontWeight: "bold", fontSize: "0.9rem" }}>{cuenta.razonSocial}</Typography>
-          <Typography sx={{ fontSize: "0.75rem", color: "text.secondary" }}>{cuenta.codCliente}</Typography>
+          <Typography sx={{ fontSize: "0.75rem", color: "text.secondary" }}>{cuenta.ruc}</Typography>
         </TableCell>
 
         <TableCell sx={{ verticalAlign: "top", padding: "12px 8px" }}>

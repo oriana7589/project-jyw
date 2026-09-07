@@ -52,7 +52,7 @@ const TablaCuentasInactivas = ({ cuentas, isLoading, searchTriggered, onContacta
           </colgroup>
           <StyledTableHead>
             <TableRow>
-              <TableCell>Cliente e ID</TableCell>
+              <TableCell>Cliente / Ruc o razón</TableCell>
               <TableCell>Segmento hace 3 meses</TableCell>
               <TableCell>Compras 3 meses</TableCell>
               <TableCell>Segmento hoy</TableCell>
