@@ -61,7 +61,9 @@ const PestañaContenido = ({
   letrasPendientes,
   totalPendiente,
   promedioDias,
-  promedioCredito
+  promedioCredito,
+  cliente,
+  onAptoCreditoChange
 }) => {
   switch (value) {
     case 0:
@@ -97,6 +99,8 @@ const PestañaContenido = ({
           itemsComprados={itemsComprados}
           promedioDias={promedioDias}
           promedioCredito={promedioCredito}
+          cliente={cliente}
+          onAptoCreditoChange={onAptoCreditoChange}
           isLoading={isLoading}
         />
       );
@@ -123,6 +127,7 @@ const Cliente = ({
   ultimasCompras,
   itemsComprados,
   onValidarButtonClick,
+  onAptoCreditoChange,
   onCambiarFechaGrafica,
   hayDatosDisponibles,
   handleBuscarProforma,
@@ -352,6 +357,8 @@ const Cliente = ({
             totalPendiente = {totalPendiente}
             promedioDias={promedioDias}
             promedioCredito={promedioCredito}
+            cliente={cliente}
+            onAptoCreditoChange={onAptoCreditoChange}
             promedioCompra={promedioCompra}
             promedioItems={promedioItems}
             ultimasCompras={ultimasCompras}

@@ -72,6 +72,29 @@ export function getClientes(criterioBusqueda) {
   return listaClientesFiltrados;
 }
 
+/**
+ * Habilita/deshabilita la aptitud de credito de un cliente (rol COBRANZAS).
+ * payload: { codCliente, aptoCredito, usuario, observacion }
+ * Devuelve el objeto data del ApiResponseDTO del backend.
+ */
+export async function putAptoCredito(payload) {
+  try {
+    const response = await axios.put(`${baseUrlCliente()}/AptoCredito`, payload);
+    const body = response.data;
+    if (!body || !body.success) {
+      throw new Error((body && body.message) || "No se pudo actualizar el estado de credito");
+    }
+    return body.data;
+  } catch (error) {
+    const errorMessage =
+      (error.response && error.response.data && error.response.data.message) ||
+      (error.response && typeof error.response.data === "string" && error.response.data) ||
+      error.message ||
+      "No se pudo actualizar el estado de credito";
+    throw new Error(errorMessage);
+  }
+}
+
 export async function exportarExcelClientes(criterio) {
   const response = await axios.get(`${baseUrlCliente()}/ExportarExcel`, {
     params: { criterio },

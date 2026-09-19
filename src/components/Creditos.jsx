@@ -2,7 +2,7 @@ import { Card, CardContent, Typography } from "@mui/material";
 import React, { useState } from "react";
 import DetalleCredito from "./DetalleCredito";
 
-function Creditos({ promedioDias, promedioCredito }) {
+function Creditos({ promedioDias, promedioCredito, cliente, onAptoCreditoChange }) {
   return (
     <div style={{ padding: 5 }}>
       <Card sx={{ borderRadius: 0, boxShadow: 2, padding: 2,height: "calc(100vh - 15.1rem)"}}>
@@ -21,6 +21,8 @@ function Creditos({ promedioDias, promedioCredito }) {
           <DetalleCredito
             promedioDias={promedioDias}
             promedioCredito={promedioCredito}
+            cliente={cliente}
+            onAptoCreditoChange={onAptoCreditoChange}
           />
         </CardContent>
       </Card>

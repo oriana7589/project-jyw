@@ -180,6 +180,59 @@ const TuComponente = ({tipoProforma, setTipoProforma}) => {
   const marcaRef = useRef(null);
   const precioVentaRef = useRef(null);
 
+  // --- Control de credito (apto_credito) ---
+  // Codigos de forma de pago que implican credito.
+  const CODIGOS_CREDITO = ["CRE", "LET"];
+
+  // Regla de negocio (misma que valida el backend en ProformaService):
+  // apto_credito = true y estado distinto de MOR.
+  const clientePuedeCredito =
+    !!selectedClient &&
+    selectedClient.aptoCredito === true &&
+    (selectedClient.estado || "").trim() !== "MOR";
+
+  // Lista de formas de pago que se le muestra al vendedor. Si el cliente no esta
+  // autorizado, CRE y LET no aparecen. Esto es solo UX: el control real esta en el backend.
+  const formaPagoDisponible = React.useMemo(() => {
+    if (clientePuedeCredito) return formaPago;
+
+    // Excepcion: al editar una proforma ya guardada con credito se conserva su
+    // opcion actual para no romper el Select ni perder el valor en pantalla.
+    const formaPagoActualProforma = (proformaSeleccionada?.codigoFormaPago || "").trim();
+
+    return formaPago.filter((f) => {
+      const codigo = (f.codigoFormaPago || "").trim();
+      return (
+        !CODIGOS_CREDITO.includes(codigo) || codigo === formaPagoActualProforma
+      );
+    });
+  }, [formaPago, clientePuedeCredito, proformaSeleccionada]);
+
+  // Si el cliente seleccionado no puede credito y la forma de pago elegida era
+  // CRE/LET, se regresa a contado para no mandar una proforma que el backend va a rechazar.
+  useEffect(() => {
+    if (clientePuedeCredito) return;
+    if (!formaPago || formaPago.length === 0) return;
+
+    const codigoActual = (formaPagos?.codigoFormaPago || "").trim();
+    if (!CODIGOS_CREDITO.includes(codigoActual)) return;
+
+    const contado =
+      formaPago.find((f) => (f.codigoFormaPago || "").trim() === "CON") || formaPago[0];
+
+    if (contado) {
+      setFormaPagos(contado);
+      setCantidad(0);
+      setDias("");
+    }
+  }, [clientePuedeCredito, formaPago, formaPagos]);
+
+  // Refresca el cliente en memoria despues de que Cobranzas cambia su aptitud,
+  // para que el filtro de forma de pago reaccione sin recargar la pantalla.
+  const handleAptoCreditoChange = (datosAptoCredito) => {
+    setSelectedClient((prev) => (prev ? { ...prev, ...datosAptoCredito } : prev));
+  };
+
   const handleCheckboxChange = (checkboxNumber) => {
     if (checkboxNumber === 1) {
       setIsChecked1(true);
@@ -1758,6 +1811,7 @@ const TuComponente = ({tipoProforma, setTipoProforma}) => {
             ultimasCompras={ultimasCompras}
             itemsComprados={itemsComprados}
             onValidarButtonClick={handleValidarButtonClick}
+            onAptoCreditoChange={handleAptoCreditoChange}
             onCambiarFechaGrafica={onCambiarFechaGrafica}
             hayDatosDisponibles={hayDatosDisponibles}
             handleBuscarProforma={handleBuscarProforma}
@@ -1937,7 +1991,7 @@ const TuComponente = ({tipoProforma, setTipoProforma}) => {
             tipoMoneda={tipoMoneda}
             transportistas={transportistas}
             moneda={moneda}
-            formaPago={formaPago}
+            formaPago={formaPagoDisponible}
             ticketCount={ticketCount}
             setTicketCount={setTicketCount}
             monedaValue={monedaValue}

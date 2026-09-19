@@ -12,6 +12,8 @@ export default function CreditosYCobranzas({
   totalPendiente,
   promedioDias,
   promedioCredito,
+  cliente,
+  onAptoCreditoChange,
   isLoading
 }) {
   return (
@@ -37,7 +39,9 @@ export default function CreditosYCobranzas({
         <div style={{ flex: 1 }}>
           <Creditos 
             promedioDias={promedioDias}
-            promedioCredito={promedioCredito} />
+            promedioCredito={promedioCredito}
+            cliente={cliente}
+            onAptoCreditoChange={onAptoCreditoChange} />
         </div>
       </Container>
     </React.Fragment>

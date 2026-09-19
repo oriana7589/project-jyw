@@ -158,6 +158,11 @@ const urlListaPreciosStock = "http://10.10.0.25:9697/reportes/lista-precios-stoc
 const urlMantenimientoArticulos = "http://10.10.0.25:9697/mantenimiento-articulos"; //url para produccion
 //const urlReactivacion = "http://10.10.0.25:9697/reactivacion"; //url para produccion
 
+// Reactivacion de clientes: modulo terminado pero aun NO liberado a produccion.
+// Poner en true para que reaparezca en el menu lateral (y descomentar arriba la
+// urlReactivacion de produccion).
+const MOSTRAR_REACTIVACION = false;
+
 
 export default function DrawerModel() {
   const theme = useTheme();
@@ -388,6 +393,10 @@ export default function DrawerModel() {
                 onClick: () => handleOpenWindow(urlReactivacion, 1200, 800),
               },
             ].filter(item => {
+              // Reactivacion: oculto hasta que se libere el modulo
+              if (item.id === 8 && !MOSTRAR_REACTIVACION) {
+                return false;
+              }
               // Filtrar item Reportes si no es Admin
               if (item.id === 6 && usuario?.rol !== "Admin") {
                 return false;

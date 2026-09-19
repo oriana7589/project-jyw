@@ -18,22 +18,25 @@ const Reactivacion = () => {
   // y esta ventana emergente, ya que son el mismo origen).
   const usuario = JSON.parse(localStorage.getItem("usuario") || "null");
   const rol = (usuario?.rol || "").trim().toUpperCase();
-  const nombreCompletoUsuario = `${usuario?.nombres || ""} ${usuario?.apellidos || ""}`
-    .trim()
-    .toUpperCase();
+  // Mismo armado que hace MenuAcordion en vendedorUsuario() para preseleccionar al
+  // vendedor de la proforma: se recorta cada parte por separado, asi el padding que
+  // trae la BD no deja espacios internos al concatenar nombres + apellidos.
+  const nombreCompletoUsuario = (
+    (usuario?.nombres || "").trim() +
+    " " +
+    (usuario?.apellidos || "").trim()
+  ).toUpperCase();
 
-  // Admin ve todas las cuentas. Vendedor solo ve las cuentas asignadas
-  // a su propio nombre (campo "vendedor" que devuelve el backend).
+  // Admin ve todas las cuentas. Cualquier otro rol ve solo las cuentas asignadas
+  // a su propio nombre (campo "vendedor" que devuelve el backend). El default es
+  // restrictivo a proposito: antes los roles no contemplados caian en "ver todo".
   const filtrarPorRol = (lista) => {
     if (rol === "ADMIN") {
       return lista;
     }
-    if (rol === "VENDEDOR") {
-      return lista.filter(
-        (c) => (c.vendedor || "").trim().toUpperCase() === nombreCompletoUsuario
-      );
-    }
-    return lista;
+    return lista.filter(
+      (c) => (c.vendedor || "").trim().toUpperCase() === nombreCompletoUsuario
+    );
   };
 
   // Carga única: se trae la lista completa (ya filtrada por rol) al abrir
