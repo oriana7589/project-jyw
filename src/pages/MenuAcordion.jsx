@@ -1208,11 +1208,19 @@ const TuComponente = ({tipoProforma, setTipoProforma}) => {
         terminosPago,
         tiempoEntrega,
         terminosEmbarque
-      ).then((numeroProforma) => {
-        setNumeroProforma(numeroProforma);
-        handleBuscarProforma(numeroProforma);
-      });
-      toast.success("Se ha guardado la proforma con éxito");
+      )
+        .then((numeroProforma) => {
+          setNumeroProforma(numeroProforma);
+          handleBuscarProforma(numeroProforma);
+          toast.success("Se ha guardado la proforma con éxito");
+        })
+        .catch((error) => {
+          const mensaje =
+            (error.response && error.response.data && error.response.data.message) ||
+            (error.response && typeof error.response.data === "string" && error.response.data) ||
+            "No se pudo guardar la proforma";
+          toast.error(mensaje);
+        });
     }
   };
 
@@ -1310,8 +1318,17 @@ const TuComponente = ({tipoProforma, setTipoProforma}) => {
         terminosPago,
         tiempoEntrega,
         terminosEmbarque
-      );
-      toast.success("Se ha actualizado la proforma con éxito");
+      )
+        .then(() => {
+          toast.success("Se ha actualizado la proforma con éxito");
+        })
+        .catch((error) => {
+          const mensaje =
+            (error.response && error.response.data && error.response.data.message) ||
+            (error.response && typeof error.response.data === "string" && error.response.data) ||
+            "No se pudo actualizar la proforma";
+          toast.error(mensaje);
+        });
     }
   };
 
@@ -1408,6 +1425,42 @@ const TuComponente = ({tipoProforma, setTipoProforma}) => {
     setDias(formattedDate);
   };
 
+  // Al editar una proforma existente, el cliente que trae la cabecera de la proforma
+  // no incluye aptoCredito (no viaja en esos campos). Sin este refresco el cliente se
+  // ve como "no apto" aunque si lo sea, y el selector de forma de pago se bloquea o se
+  // resetea solo a CONTADO. Se hace un fetch por numero de documento (mismo criterio
+  // que usa el buscador de arriba) para completar esos campos, y selectedClient +
+  // formaPagos se actualizan juntos en el mismo callback para que React los aplique
+  // en el mismo render: asi clientePuedeCredito nunca queda desfasado de formaPagos.
+  const cargarClienteYFormaPagoDeProforma = async (clienteBase, proforma, listaFormaPago) => {
+    let clienteCompleto = clienteBase;
+
+    try {
+      const candidatos = await getClientes(clienteBase.numDocumento);
+      const real = (candidatos || []).find(
+        (c) => c.codigoCliente === clienteBase.codigoCliente
+      );
+      if (real) {
+        clienteCompleto = { ...clienteBase, ...real };
+      }
+    } catch (error) {
+      console.error("No se pudo refrescar los datos del cliente de la proforma:", error);
+      // Se sigue con clienteBase: sin aptoCredito, el selector queda restringido a
+      // contado. Es el default seguro ante un error de red.
+    }
+
+    handleClientSelect(clienteCompleto);
+
+    const formaPagoProforma =
+      proforma.codigoFormaPago === "CON"
+        ? listaFormaPago[0]
+        : proforma.codigoFormaPago === "CRE"
+        ? listaFormaPago[1]
+        : listaFormaPago[2];
+
+    setFormaPagos(formaPagoProforma);
+  };
+
   const hallarVendedorPorCodigo = (codigoVendedor) => {
     const vendedor = vendedores.find(
       (v) => v.codigoVendedor === codigoVendedor
@@ -1494,7 +1547,7 @@ const TuComponente = ({tipoProforma, setTipoProforma}) => {
       // console.log('proformaSeleccionada.tipoProforma', proformaSeleccionada.tipoProforma)
       // setTipoProforma(proformaSeleccionada.tipoProforma)
       // console.log('tipoProforma', tipoProforma)
-      handleClientSelect(clienteProforma);
+      cargarClienteYFormaPagoDeProforma(clienteProforma, proformaSeleccionada, formaPago);
       //setSelectedClient(clienteProforma);
 
       setDatosDisponibles(true);
@@ -1543,13 +1596,8 @@ const TuComponente = ({tipoProforma, setTipoProforma}) => {
       setTerminosEmbarque(proformaSeleccionada.terminosEmbarque || "");
       formateFecha(proformaSeleccionada.fechaVencimiento);
       setMonedaValue(moneda_);
-      setFormaPagos(
-        proformaSeleccionada.codigoFormaPago === "CON"
-          ? formaPago[0]
-          : proformaSeleccionada.codigoFormaPago === "CRE"
-          ? formaPago[1]
-          : formaPago[2]
-      );
+      // formaPagos se setea dentro de cargarClienteYFormaPagoDeProforma(), en el mismo
+      // callback que selectedClient, para que ambos lleguen juntos al mismo render.
 
       setCantidad(
         proformaSeleccionada.diasCredito === null

@@ -180,6 +180,10 @@ export default function DrawerModel() {
   const [subMenu, setSubMenu] = useState(null);
   const location = useLocation();
   const usuario = location.state?.usuario || JSON.parse(localStorage.getItem("usuario"));
+  // Normalizado para no depender de como quedo guardado el nombre del rol en BD
+  // ("Admin", "ADMIN", etc.) - mismo criterio que utils.jsx, reactivacion.jsx y
+  // DetalleCredito.jsx.
+  const rolUsuario = (usuario?.rol || "").toString().trim().toUpperCase();
 
   const [user, setUser] = useState({
     name: "Juan",
@@ -398,11 +402,11 @@ export default function DrawerModel() {
                 return false;
               }
               // Filtrar item Reportes si no es Admin
-              if (item.id === 6 && usuario?.rol !== "Admin") {
+              if (item.id === 6 && rolUsuario !== "ADMIN") {
                 return false;
               }
               // Filtrar Mantenimiento Artículos: visible solo para Admin y Vendedor
-              if (item.id === 7 && usuario?.rol !== "Admin" && usuario?.rol !== "Vendedor") {
+              if (item.id === 7 && rolUsuario !== "ADMIN" && rolUsuario !== "VENDEDOR") {
                 return false;
               }
               return true;
