@@ -71,4 +71,9 @@ const TablaCuentasInactivas = ({ cuentas, isLoading, searchTriggered, onContacta
   );
 };
 
-export default TablaCuentasInactivas;
+// Memoizado: sin esto, cada tecla escrita en el buscador (estado "criterio" en
+// Reactivacion.jsx) re-renderiza las 500+ filas de la tabla aunque la lista
+// mostrada no cambie, porque el filtrado solo se aplica al hacer clic en "Buscar".
+// Con React.memo, mientras "cuentas" (y las demas props) mantengan la misma
+// referencia, este componente no vuelve a renderizar con cada letra.
+export default React.memo(TablaCuentasInactivas);

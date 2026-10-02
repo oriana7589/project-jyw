@@ -115,4 +115,9 @@ const FilaCuentaInactiva = ({ cuenta, onContactado }) => {
   );
 };
 
-export default FilaCuentaInactiva;
+// Memoizado: cuando se marca "Contactado", Reactivacion.jsx genera un nuevo
+// array (map sobre cuentasCompletas), lo que hace que TablaCuentasInactivas se
+// vuelva a renderizar. Pero el .map() solo crea un objeto "cuenta" nuevo para la
+// fila que cambio -- las otras 499 conservan su misma referencia -- asi que con
+// React.memo (comparacion superficial por defecto) solo esa fila se re-renderiza.
+export default React.memo(FilaCuentaInactiva);

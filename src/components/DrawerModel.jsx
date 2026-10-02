@@ -147,7 +147,6 @@ const Drawer = styled(MuiDrawer, {
 // const urlVentasDiarias = "http://localhost:5173/reportes/ventas-diarias"; //url para desarrollo
 // const urlListaPreciosStock = "http://localhost:5173/reportes/lista-precios-stock"; //url para desarrollo
 // const urlMantenimientoArticulos = "http://localhost:5173/mantenimiento-articulos"; //url para desarrollo
- const urlReactivacion = "http://localhost:5173/reactivacion"; //url para desarrollo
 
 const url = "http://10.10.0.25:9697/consultaPreciosYStock"; //url para produccion
 const urlClientes = "http://10.10.0.25:9697/clientes"; //url para produccion
@@ -156,12 +155,14 @@ const urlListadoProformas = "http://10.10.0.25:9697/listado-proformas"; //url pa
 const urlVentasDiarias = "http://10.10.0.25:9697/reportes/ventas-diarias"; //url para produccion
 const urlListaPreciosStock = "http://10.10.0.25:9697/reportes/lista-precios-stock"; //url para produccion
 const urlMantenimientoArticulos = "http://10.10.0.25:9697/mantenimiento-articulos"; //url para produccion
-//const urlReactivacion = "http://10.10.0.25:9697/reactivacion"; //url para produccion
+const urlReactivacionProd = "http://10.10.0.25:9697/reactivacion"; //url para produccion
 
-// Reactivacion de clientes: modulo terminado pero aun NO liberado a produccion.
-// Poner en true para que reaparezca en el menu lateral (y descomentar arriba la
-// urlReactivacion de produccion).
-const MOSTRAR_REACTIVACION = false;
+// La misma Reactivación sirve para ambos entornos: en build de produccion
+// (import.meta.env.PROD) usa el servidor de produccion; en dev, localhost.
+const urlReactivacion = import.meta.env.PROD ? urlReactivacionProd : "http://localhost:5173/reactivacion";
+
+// Reactivacion de clientes: ya reviso en desarrollo, lista para produccion.
+const MOSTRAR_REACTIVACION = true;
 
 
 export default function DrawerModel() {

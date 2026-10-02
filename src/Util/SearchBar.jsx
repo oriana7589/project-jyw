@@ -40,6 +40,12 @@ const SearchBar = ({
           autoComplete="off"
           value={inputValue}
           onChange={(e) => onInputChange && onInputChange(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              e.preventDefault();
+              onSearchClick && onSearchClick();
+            }
+          }}
           onClick={(event) => {
             event.stopPropagation(); // Evita la propagación del evento al acordeón
           }}

@@ -6,12 +6,12 @@ import { Chip } from "@mui/material";
 // que no siempre coinciden exactamente con un catálogo fijo, así que
 // coloreamos por coincidencia parcial de palabras clave.
 const REGLAS_COLOR = [
-  { test: /champion/i, style: { backgroundColor: "rgb(198, 239, 206)", color: "rgb(30, 110, 50)" } },
-  { test: /(lost|dormant|hibernat)/i, style: { backgroundColor: "rgb(255, 214, 214)", color: "rgb(160, 30, 30)" } },
-  { test: /risk/i, style: { backgroundColor: "rgb(255, 214, 214)", color: "rgb(160, 30, 30)" } },
-  { test: /(potential|promising|new)/i, style: { backgroundColor: "rgb(226, 214, 245)", color: "rgb(90, 50, 140)" } },
+  { test: /campeon/i, style: { backgroundColor: "rgb(198, 239, 206)", color: "rgb(30, 110, 50)" } },
+  { test: /(perdido|dormido|hibernando)/i, style: { backgroundColor: "rgb(255, 214, 214)", color: "rgb(160, 30, 30)" } },
+  { test: /riesgo/i, style: { backgroundColor: "rgb(255, 214, 214)", color: "rgb(160, 30, 30)" } },
+  { test: /(potencial|prometedor|proyecto|nuevo)/i, style: { backgroundColor: "rgb(226, 214, 245)", color: "rgb(90, 50, 140)" } },
   { test: /(vip|super)/i, style: { backgroundColor: "rgb(255, 214, 110)", color: "rgb(110, 76, 0)" } },
-  { test: /(core|loyal|principal)/i, style: { backgroundColor: "rgb(209, 228, 255)", color: "rgb(12, 55, 100)" } },
+  { test: /(base|leal|principal)/i, style: { backgroundColor: "rgb(209, 228, 255)", color: "rgb(12, 55, 100)" } },
 ];
 
 const DEFAULT_STYLE = { backgroundColor: "rgb(230, 230, 230)", color: "rgb(80, 80, 80)" };

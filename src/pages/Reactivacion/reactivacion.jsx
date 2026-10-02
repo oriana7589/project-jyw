@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect, useMemo, useCallback } from "react";
 import { Card, CardActions, Box } from "@mui/material";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer, toast } from "react-toastify";
@@ -76,11 +76,11 @@ const Reactivacion = () => {
     );
   }, [cuentasCompletas, criterioAplicado]);
 
-  const handleContactado = (id, fechaContacto) => {
+  const handleContactado = useCallback((id, fechaContacto) => {
     setCuentasCompletas((prev) =>
       prev.map((c) => (c.id === id ? { ...c, contactado: true, fechaContacto } : c))
     );
-  };
+  }, []);
 
   const contactadosCount = cuentasCompletas.filter((c) => c.contactado).length;
 
